@@ -1,24 +1,14 @@
-// 問題データを検証し、件数とエラーを表示する。エラーがあれば終了コード1。
-// 使い方: npm run validate [-- path]   （既定は public/questions.json）
+// 問題データを試験ごとに検証し、件数とエラーを表示する。エラーがあれば終了コード1。
+// 使い方: npm run validate   （public/questions/<試験>.json をすべて検証する。先に npm run merge）
 import { readFileSync } from "node:fs";
-import { basename, dirname, join } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { EXAMS } from "../src/exams.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const DEFAULT_PATH = join(ROOT, "public", "questions.json");
 
-const EXPECTED_SOURCES = { practice: 35, mock1: 15, mock2: 15, mock3: 15, original: 20 };
-const DOMAINS = {
-  1: ["Prompting and Task Execution", 14],
-  2: ["Output Evaluation and Validation", 21],
-  3: ["Product and Model Selection", 12],
-  4: ["Workflow Integration and Solution Design", 16],
-  5: ["Configuration and Knowledge Management", 12],
-  6: ["Governance, Risk, and Responsible Use", 15],
-  7: ["Troubleshooting and Optimization", 10],
-};
 const LANGS = ["en", "ja"];
-const FIELDS = ["id", "source", "source_url", "source_number", "domain", "type", "question", "choices", "answer", "explanation"];
+const FIELDS = ["id", "exam", "source", "source_url", "source_number", "domain", "type", "question", "choices", "answer", "explanation"];
 // 解説中の選択肢記号：(B) / (B, C) / **B**
 const REF = /\(([A-D](?:, [A-D])*)\)|\*\*([A-D])\*\*/g;
 
@@ -31,18 +21,21 @@ function refs(text) {
 const blank = (v) => typeof v !== "string" || v.trim() === "";
 
 /** 1問分のエラーメッセージの配列を返す */
-export function checkQuestion(q) {
+export function checkQuestion(q, exam) {
   const errors = [];
   for (const f of FIELDS) if (!(f in q)) errors.push(`${f} がない`);
   if (errors.length) return errors;
 
-  if (!(q.source in EXPECTED_SOURCES)) errors.push(`source が不正: ${q.source}`);
+  const { domains, expectedSources } = EXAMS[exam];
+  if (q.exam !== exam) errors.push(`exam が ${exam} でない: ${q.exam}`);
+  if (!(q.source in expectedSources)) errors.push(`source が不正: ${q.source}`);
   if (q.source === "original") {
     if (q.source_url !== null || q.source_number !== null) errors.push("original なのに source_url / source_number が null でない");
   } else if (!q.source_url || !Number.isInteger(q.source_number)) {
     errors.push("source_url / source_number がない");
   }
-  if (!(q.domain in DOMAINS) || !Number.isInteger(q.domain)) errors.push(`domain が 1〜7 でない: ${q.domain}`);
+  const ids = Object.keys(domains);
+  if (!(q.domain in domains) || !Number.isInteger(q.domain)) errors.push(`domain が 1〜${ids.length} でない: ${q.domain}`);
 
   const keys = q.choices.map((c) => c.key);
   if (keys.length !== 4 || new Set(keys).size !== 4) errors.push(`choices の key が4つの異なる値でない: ${JSON.stringify(keys)}`);
@@ -77,47 +70,161 @@ export function checkQuestion(q) {
   return errors;
 }
 
-/** 全体を検証して { errors, bySource, byDomain, byType } を返す */
-export function validate(questions) {
+/** based_on のエラーを [id, メッセージ] の配列で返す。参照先は同じ試験の original 以外で、同じドメインであること */
+function checkBasedOn(questions, exam) {
+  const errors = [];
+  const byId = Object.fromEntries(questions.map((q) => [q.id, q]));
+  const required = Boolean(EXAMS[exam].originalRules);
+  for (const q of questions) {
+    if (!required || q.source !== "original") {
+      if ("based_on" in q) errors.push([q.id, "based_on はこの試験の original 以外に付けない"]);
+      continue;
+    }
+    if (!("based_on" in q)) errors.push([q.id, "based_on がない（新規なら null）"]);
+    else if (q.based_on !== null) {
+      const base = byId[q.based_on];
+      if (!base) errors.push([q.id, `based_on の参照先がこの試験にない: ${q.based_on}`]);
+      else if (base.source === "original") errors.push([q.id, `based_on の参照先が original: ${q.based_on}`]);
+      else if (base.domain !== q.domain) errors.push([q.id, `based_on の参照先とドメインが違う: ${q.based_on}（${base.domain}）`]);
+    }
+  }
+  return errors;
+}
+
+/**
+ * オリジナル問題が作成ルールに合っているかを調べる（警告。エラーにはしない）。
+ * 戻り値: { warnings: [id, メッセージ][], stats } または ルールのない試験では null
+ */
+export function checkOriginalRules(questions, exam) {
+  const rules = EXAMS[exam].originalRules;
+  if (!rules) return null;
+  const base = questions.filter((q) => rules.baseSources.includes(q.source));
+  const originals = questions.filter((q) => q.source === "original");
+  if (base.length === 0 || originals.length === 0) return { warnings: [], stats: null };
+
+  const baseAvg = base.reduce((n, q) => n + q.question.en.length, 0) / base.length;
+  const warnings = [];
+  const positions = { A: 0, B: 0, C: 0, D: 0 };
+  let correctLongest = 0;
+  for (const q of originals) {
+    const ratio = q.question.en.length / baseAvg;
+    if (ratio < rules.lengthRatio[0] || ratio > rules.lengthRatio[1]) {
+      warnings.push([q.id, `問題文の長さが基準外: ${q.question.en.length}字（${ratio.toFixed(2)}倍）`]);
+    }
+    const len = (c) => c.en.length;
+    const lengths = q.choices.map(len);
+    const diff = (Math.max(...lengths) - Math.min(...lengths)) / Math.max(...lengths);
+    if (diff > rules.maxChoiceDiff) warnings.push([q.id, `選択肢の長さの差が大きい: ${(diff * 100).toFixed(1)}%`]);
+    const correct = q.choices.filter((c) => q.answer.includes(c.key)).map(len);
+    const wrong = q.choices.filter((c) => !q.answer.includes(c.key)).map(len);
+    if (Math.max(...correct) > Math.max(...wrong)) correctLongest += 1;
+    for (const k of q.answer) if (k in positions) positions[k] += 1;
+  }
+
+  const longestShare = correctLongest / originals.length;
+  if (longestShare > rules.maxCorrectLongest) {
+    warnings.push(["-", `正解が単独で最長の選択肢になっている問題が多い: ${correctLongest}/${originals.length}`]);
+  }
+  const slots = Object.values(positions).reduce((a, b) => a + b, 0);
+  for (const [k, n] of Object.entries(positions)) {
+    const share = n / slots;
+    if (share < rules.positionShare[0] || share > rules.positionShare[1]) {
+      warnings.push(["-", `正解位置 ${k} の割合が基準外: ${(share * 100).toFixed(1)}%`]);
+    }
+  }
+  return { warnings, stats: { baseAvg, count: originals.length, correctLongest, positions } };
+}
+
+/** 1つの試験の問題を検証して { errors, warnings, originalStats, total, bySource, byDomain, byType } を返す */
+export function validate(questions, exam) {
+  const { expectedSources } = EXAMS[exam];
   const errors = [];
   const total = questions.length;
-  const expectedTotal = Object.values(EXPECTED_SOURCES).reduce((a, b) => a + b, 0);
+  const expectedTotal = Object.values(expectedSources).reduce((a, b) => a + b, 0);
   if (total !== expectedTotal) errors.push(["-", `合計が ${expectedTotal} 問でない: ${total}`]);
 
   const idCount = {};
   for (const q of questions) idCount[q.id] = (idCount[q.id] ?? 0) + 1;
   for (const [id, n] of Object.entries(idCount)) if (n > 1) errors.push([id, `ID が ${n} 回重複`]);
-  for (const q of questions) for (const msg of checkQuestion(q)) errors.push([q.id ?? "?", msg]);
+  for (const q of questions) for (const msg of checkQuestion(q, exam)) errors.push([q.id ?? "?", msg]);
 
   const count = (key) => questions.reduce((acc, q) => ({ ...acc, [q[key]]: (acc[q[key]] ?? 0) + 1 }), {});
   const bySource = count("source");
-  for (const [src, expected] of Object.entries(EXPECTED_SOURCES)) {
+  for (const [src, expected] of Object.entries(expectedSources)) {
     if ((bySource[src] ?? 0) !== expected) errors.push(["-", `${src} が ${expected} 問でない: ${bySource[src] ?? 0}`]);
   }
-  return { errors, total, bySource, byDomain: count("domain"), byType: count("type") };
+  errors.push(...checkBasedOn(questions, exam));
+  const original = checkOriginalRules(questions, exam);
+  return {
+    errors,
+    warnings: original?.warnings ?? [],
+    originalStats: original?.stats ?? null,
+    total,
+    bySource,
+    byDomain: count("domain"),
+    byType: count("type"),
+  };
+}
+
+/** 試験をまたいだ ID の重複を [id, メッセージ] の配列で返す */
+export function crossExamDuplicates(byExam) {
+  const owner = {};
+  const errors = [];
+  for (const [exam, questions] of Object.entries(byExam)) {
+    for (const q of new Set(questions.map((x) => x.id))) {
+      if (owner[q] && owner[q] !== exam) errors.push([q, `ID が ${owner[q]} と ${exam} で重複`]);
+      owner[q] ??= exam;
+    }
+  }
+  return errors;
+}
+
+function report(exam, { errors, warnings, originalStats, total, bySource, byDomain, byType }) {
+  const { code, domains, expectedSources } = EXAMS[exam];
+  console.log(`## ${code}（public/${EXAMS[exam].file}）\n`);
+  console.log(`合計: ${total} 問\n`);
+  console.log("| 出典 | 件数 | 期待値 |\n|---|---|---|");
+  for (const [src, expected] of Object.entries(expectedSources)) console.log(`| ${src} | ${bySource[src] ?? 0} | ${expected} |`);
+
+  console.log("\n| ドメイン | 件数 | 比率 | 配点比率 | 差 |\n|---|---|---|---|---|");
+  for (const [d, { en, weight }] of Object.entries(domains)) {
+    const n = byDomain[d] ?? 0;
+    const ratio = total ? (n / total) * 100 : 0;
+    const diff = (ratio - weight).toFixed(1);
+    console.log(`| ${d} ${en} | ${n} | ${ratio.toFixed(1)}% | ${weight}% | ${diff >= 0 ? "+" : ""}${diff}pt |`);
+  }
+  console.log(`\nsingle: ${byType.single ?? 0} / multiple: ${byType.multiple ?? 0}`);
+  console.log(`\nエラー: ${errors.length} 件`);
+  for (const [id, msg] of errors) console.log(`- ${id}: ${msg}`);
+  if (originalStats) {
+    const { baseAvg, count, correctLongest, positions } = originalStats;
+    console.log(`\n### オリジナル問題（${count}問）の作成ルール`);
+    console.log(`- 問題文の長さの基準（${EXAMS[exam].originalRules.baseSources.join(" / ")} の平均）: ${baseAvg.toFixed(1)}字`);
+    console.log(`- 正解が単独で最長の選択肢: ${correctLongest}/${count}`);
+    console.log(`- 正解位置: ${Object.entries(positions).map(([k, n]) => `${k} ${n}`).join(" / ")}`);
+    console.log(`\n警告: ${warnings.length} 件`);
+    for (const [id, msg] of warnings) console.log(`- ${id}: ${msg}`);
+  }
+  console.log("");
 }
 
 function main() {
-  const path = process.argv[2] ?? DEFAULT_PATH;
-  const { errors, total, bySource, byDomain, byType } = validate(JSON.parse(readFileSync(path, "utf-8")));
-
-  console.log(`## 検証結果: ${basename(path)}\n`);
-  console.log(`合計: ${total} 問\n`);
-  console.log("| 出典 | 件数 | 期待値 |\n|---|---|---|");
-  for (const [src, expected] of Object.entries(EXPECTED_SOURCES)) console.log(`| ${src} | ${bySource[src] ?? 0} | ${expected} |`);
-
-  console.log("\n| ドメイン | 件数 | 比率 | 配点比率 | 差 |\n|---|---|---|---|---|");
-  for (const [d, [name, weight]] of Object.entries(DOMAINS)) {
-    const n = byDomain[d] ?? 0;
-    const ratio = total ? (n / total) * 100 : 0;
-    const diff = Math.round(ratio - weight);
-    console.log(`| ${d} ${name} | ${n} | ${Math.round(ratio)}% | ${weight}% | ${diff >= 0 ? "+" : ""}${diff}pt |`);
+  const byExam = Object.fromEntries(
+    Object.entries(EXAMS).map(([exam, def]) => [exam, JSON.parse(readFileSync(join(ROOT, "public", def.file), "utf-8"))]),
+  );
+  let errorCount = 0;
+  for (const [exam, questions] of Object.entries(byExam)) {
+    const result = validate(questions, exam);
+    report(exam, result);
+    errorCount += result.errors.length;
   }
-  console.log(`\nsingle: ${byType.single ?? 0} / multiple: ${byType.multiple ?? 0}`);
+  const dup = crossExamDuplicates(byExam);
+  console.log(`## 試験をまたいだ ID の重複: ${dup.length} 件`);
+  for (const [id, msg] of dup) console.log(`- ${id}: ${msg}`);
+  errorCount += dup.length;
 
-  console.log(`\nエラー: ${errors.length} 件`);
-  for (const [id, msg] of errors) console.log(`- ${id}: ${msg}`);
-  process.exit(errors.length ? 1 : 0);
+  console.log(`\nエラー合計: ${errorCount} 件`);
+  process.exit(errorCount ? 1 : 0);
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) main();

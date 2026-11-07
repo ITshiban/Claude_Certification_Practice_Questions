@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 import {
-  dropUnknownSession, exportFileName, exportText, initialData, load, parseData, save, SCHEMA_VERSION, STORAGE_KEY,
+  dropUnknownSession, exportFileName, exportText, initialData, initialExamData, load, parseData, resetAll, resetExam,
+  save, SCHEMA_VERSION, STORAGE_KEY,
 } from "../src/storage.js";
 
 // localStorage の代わり
@@ -18,10 +19,10 @@ const throwingStorage = {
   setItem() { throw new Error("QuotaExceededError"); },
 };
 
-function sampleData() {
+// CCAO-F の記録（v1 のときの settings から lang を除いた形）
+function ccaoRecord() {
   return {
-    ...initialData(),
-    settings: { lang: "en", count: 20, mode: "incorrect", domains: [2, 6], sources: ["mock"] },
+    settings: { count: 20, mode: "incorrect", domains: [2, 6], sources: ["mock"] },
     statuses: { Q001: "correct", Q002: "incorrect", Q003: "unanswered" },
     history: [
       { questionId: "Q001", selected: ["A"], correct: true, answeredAt: "2026-10-19T01:00:00.000Z" },
@@ -36,6 +37,25 @@ function sampleData() {
   };
 }
 
+function ccdvRecord() {
+  return {
+    settings: { count: 5, mode: "random", domains: [1, 8], sources: ["original_hard", "original_new"] },
+    statuses: { DV001: "correct" },
+    history: [{ questionId: "DV001", selected: ["B"], correct: true, answeredAt: "2026-11-07T01:00:00.000Z" }],
+    currentSession: null,
+  };
+}
+
+function sampleData() {
+  return { schemaVersion: 2, lang: "en", currentExam: "ccdv-f", exams: { "ccao-f": ccaoRecord(), "ccdv-f": ccdvRecord() } };
+}
+
+// v1（CCAO-F 専用だったころ）の保存データ・エクスポートファイル
+function v1Data() {
+  const { settings, ...rest } = ccaoRecord();
+  return { schemaVersion: 1, settings: { lang: "en", ...settings }, ...rest };
+}
+
 describe("保存と読み込み", () => {
   test("保存 → 読み込みで内容が一致する", () => {
     const storage = memoryStorage();
@@ -43,8 +63,11 @@ describe("保存と読み込み", () => {
     expect(load(storage)).toEqual({ data: sampleData(), warning: null });
   });
 
-  test("保存データがなければ初期状態（注意なし）", () => {
-    expect(load(memoryStorage())).toEqual({ data: initialData(), warning: null });
+  test("保存データがなければ初期状態（注意なし）。試験はまだ選んでいない", () => {
+    const r = load(memoryStorage());
+    expect(r).toEqual({ data: initialData(), warning: null });
+    expect(r.data.currentExam).toBeNull();
+    expect(Object.keys(r.data.exams)).toEqual(["ccao-f", "ccdv-f"]);
   });
 
   test("JSON として壊れていれば初期状態で起動し、注意を出す", () => {
@@ -53,7 +76,8 @@ describe("保存と読み込み", () => {
   });
 
   test("形式が不正（項目の型が違う）なら初期状態で起動し、注意を出す", () => {
-    const broken = { ...sampleData(), history: "oops" };
+    const broken = sampleData();
+    broken.exams["ccao-f"].history = "oops";
     expect(load(memoryStorage({ [STORAGE_KEY]: JSON.stringify(broken) })).warning).toBe("corrupt");
   });
 
@@ -68,6 +92,40 @@ describe("保存と読み込み", () => {
     expect(save(sampleData(), throwingStorage)).toBe(false);
     expect(save(sampleData(), undefined)).toBe(false);
   });
+
+  test("定義にある試験の記録がなければ初期値で補う", () => {
+    const d = sampleData();
+    delete d.exams["ccdv-f"];
+    expect(parseData(JSON.stringify(d)).data.exams["ccdv-f"]).toEqual(initialExamData("ccdv-f"));
+  });
+});
+
+describe("v1 → v2 の変換", () => {
+  test("キーは v1 のときのまま", () => {
+    expect(STORAGE_KEY).toBe("ccaof-quiz:v1");
+  });
+
+  test("v1 の保存データは CCAO-F の記録として引き継ぐ", () => {
+    const r = load(memoryStorage({ [STORAGE_KEY]: JSON.stringify(v1Data()) }));
+    expect(r.warning).toBeNull();
+    expect(r.data).toEqual({
+      schemaVersion: 2,
+      lang: "en",
+      currentExam: "ccao-f",
+      exams: { "ccao-f": ccaoRecord(), "ccdv-f": initialExamData("ccdv-f") },
+    });
+  });
+
+  test("v1 形式のエクスポートファイルもインポートできる", () => {
+    const r = parseData(JSON.stringify(v1Data(), null, 2));
+    expect(r.data.exams["ccao-f"]).toEqual(ccaoRecord());
+    expect(r.data.schemaVersion).toBe(2);
+  });
+
+  test("v1 として不正なデータは読み込まない", () => {
+    expect(parseData(JSON.stringify({ ...v1Data(), statuses: { Q001: "maybe" } }))).toEqual({ error: "invalid" });
+    expect(parseData(JSON.stringify({ ...v1Data(), settings: { ...v1Data().settings, lang: "fr" } }))).toEqual({ error: "invalid" });
+  });
 });
 
 describe("インポートの形式チェック", () => {
@@ -75,37 +133,64 @@ describe("インポートの形式チェック", () => {
     expect(parseData(exportText(sampleData()))).toEqual({ data: sampleData() });
   });
 
+  const withCcao = (patch) => {
+    const d = sampleData();
+    d.exams["ccao-f"] = { ...d.exams["ccao-f"], ...patch };
+    return JSON.stringify(d);
+  };
+  const ccaoSettings = (patch) => withCcao({ settings: { ...ccaoRecord().settings, ...patch } });
+
   test.each([
     ["JSON でない", "hello", "corrupt"],
     ["配列", "[]", "invalid"],
     ["schemaVersion なし", JSON.stringify({ ...sampleData(), schemaVersion: undefined }), "invalid"],
     ["新しいバージョン", JSON.stringify({ ...sampleData(), schemaVersion: 99 }), "newer"],
-    ["不正な言語", JSON.stringify({ ...sampleData(), settings: { ...sampleData().settings, lang: "fr" } }), "invalid"],
-    ["不正な出題数", JSON.stringify({ ...sampleData(), settings: { ...sampleData().settings, count: 7 } }), "invalid"],
-    ["不正なステータス", JSON.stringify({ ...sampleData(), statuses: { Q001: "maybe" } }), "invalid"],
-    ["履歴の項目が不足", JSON.stringify({ ...sampleData(), history: [{ questionId: "Q001" }] }), "invalid"],
-    ["クールの index が範囲外", JSON.stringify({ ...sampleData(), currentSession: { ...sampleData().currentSession, index: 5 } }), "invalid"],
-    ["クールの回答が出題順と食い違う", JSON.stringify({
-      ...sampleData(),
-      currentSession: { ...sampleData().currentSession, answers: [{ questionId: "Q020", selected: ["A"], correct: true }] },
+    ["不正な言語", JSON.stringify({ ...sampleData(), lang: "fr" }), "invalid"],
+    ["未知の試験を選んでいる", JSON.stringify({ ...sampleData(), currentExam: "xxx" }), "invalid"],
+    ["不正な出題数", ccaoSettings({ count: 7 }), "invalid"],
+    ["試験にないドメイン", ccaoSettings({ domains: [8] }), "invalid"],
+    ["試験にない出典グループ", ccaoSettings({ sources: ["original_new"] }), "invalid"],
+    ["不正なステータス", withCcao({ statuses: { Q001: "maybe" } }), "invalid"],
+    ["履歴の項目が不足", withCcao({ history: [{ questionId: "Q001" }] }), "invalid"],
+    ["クールの index が範囲外", withCcao({ currentSession: { ...ccaoRecord().currentSession, index: 5 } }), "invalid"],
+    ["クールの回答が出題順と食い違う", withCcao({
+      currentSession: { ...ccaoRecord().currentSession, answers: [{ questionId: "Q020", selected: ["A"], correct: true }] },
     }), "invalid"],
   ])("%s は読み込まない", (_, text, error) => {
     expect(parseData(text)).toEqual({ error });
   });
 
-  test("進行中のクールがない（null）データも読み込める", () => {
-    expect(parseData(JSON.stringify({ ...sampleData(), currentSession: null })).data.currentSession).toBeNull();
+  test("CCDV-F では original を難化版・新規に分けた出典グループを使える", () => {
+    expect(parseData(JSON.stringify(sampleData())).data.exams["ccdv-f"].settings.sources).toEqual(["original_hard", "original_new"]);
+  });
+});
+
+describe("リセット", () => {
+  test("試験ごとのリセットは、ほかの試験の記録と出題設定を消さない", () => {
+    const d = resetExam(sampleData(), "ccao-f");
+    expect(d.exams["ccao-f"]).toEqual({ ...initialExamData("ccao-f"), settings: ccaoRecord().settings });
+    expect(d.exams["ccdv-f"]).toEqual(ccdvRecord());
+    expect(d.lang).toBe("en");
+    expect(d.currentExam).toBe("ccdv-f");
+  });
+
+  test("すべての記録のリセットは、全試験の記録を消して出題設定は残す", () => {
+    const d = resetAll(sampleData());
+    expect(d.exams["ccao-f"]).toEqual({ ...initialExamData("ccao-f"), settings: ccaoRecord().settings });
+    expect(d.exams["ccdv-f"]).toEqual({ ...initialExamData("ccdv-f"), settings: ccdvRecord().settings });
   });
 });
 
 describe("その他", () => {
   test("エクスポートのファイル名に日付が入る", () => {
-    expect(exportFileName(new Date(2026, 9, 5))).toBe("ccaof-quiz-backup-2026-10-05.json");
+    expect(exportFileName(new Date(2026, 9, 5))).toBe("claude-cert-quiz-backup-2026-10-05.json");
   });
 
-  test("問題データにない問題を含むクールは破棄する", () => {
+  test("問題データにない問題を含むクールは破棄する（その試験だけ）", () => {
     const d = sampleData();
-    expect(dropUnknownSession(d, new Set(["Q010", "Q020"]))).toBe(d);
-    expect(dropUnknownSession(d, new Set(["Q010"])).currentSession).toBeNull();
+    expect(dropUnknownSession(d, "ccao-f", new Set(["Q010", "Q020"]))).toBe(d);
+    const dropped = dropUnknownSession(d, "ccao-f", new Set(["Q010"]));
+    expect(dropped.exams["ccao-f"].currentSession).toBeNull();
+    expect(dropped.exams["ccdv-f"]).toBe(d.exams["ccdv-f"]);
   });
 });

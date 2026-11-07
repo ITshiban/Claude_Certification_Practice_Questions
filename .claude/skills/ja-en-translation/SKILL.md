@@ -42,6 +42,91 @@ Haiku, Sonnet, Opus, Claude Code, API, temperature
 | output | 出力 |
 | domain（試験の） | ドメイン |
 
+### CCDV-F で使う用語（開発者向け）
+英語のまま使う：Messages API、Message Batches API、Batches API、Files API、Claude Agent SDK、Claude Managed Agents、Claude Code、Skill / Skills、MCP、SDK、Webhook、JSON、XML、CI、および API のフィールド名・パラメータ名・値（stop_reason、max_tokens、tool_use、tool_result、tool_use_id、is_error、custom_id、cache_control、usage、input_tokens、effort、budget_tokens、"end_turn" など）、ファイル名・コマンド（CLAUDE.md、CLAUDE.local.md、.mcp.json、.claude/skills、.claude/agents、/clear、-p、--output-format など）
+
+| 英語 | 日本語 |
+|---|---|
+| tool use | ツール使用 |
+| tool result | ツールの結果（フィールドを指すときは tool_result） |
+| tool call / call a tool | ツール呼び出し / ツールを呼び出す |
+| parallel tool use | 並列のツール呼び出し |
+| tool description | ツールの説明 |
+| agent loop / agentic loop | エージェントループ |
+| subagent | サブエージェント |
+| delegate / delegation | 委任する / 委任 |
+| handoff | 引き継ぎ |
+| orchestration | オーケストレーション |
+| deterministic / non-determinism | 決定的な / 非決定性 |
+| workflow（agent と対比） | ワークフロー |
+| hook | フック（イベント名は PreToolUse などそのまま） |
+| slash command | スラッシュコマンド |
+| print mode / headless | print モード / ヘッドレス |
+| plan mode | プランモード |
+| scope（MCP の local / project / user） | ローカルスコープ / プロジェクトスコープ / ユーザースコープ |
+| prompt caching / cache breakpoint | プロンプトキャッシュ / ブレークポイント |
+| prefix | プレフィックス |
+| cache hit / cache read | キャッシュヒット / キャッシュの読み取り |
+| batch processing | バッチ処理 |
+| streaming | ストリーミング |
+| delta / partial JSON | デルタ / 部分的な JSON |
+| stop reason | 停止理由 |
+| time to first token | 最初のトークンまでの時間 |
+| latency | レイテンシ |
+| rate limit | レート制限 |
+| exponential backoff / jitter | 指数バックオフ / ジッター |
+| retry | 再試行 |
+| idempotency / idempotency key | 冪等性 / 冪等キー |
+| queue / worker | キュー / ワーカー |
+| context engineering | コンテキストエンジニアリング |
+| context bloat / drift | コンテキストの肥大化 / ドリフト |
+| compaction | 圧縮（コンパクション） |
+| context editing | context editing（機能名のまま） |
+| extended thinking / adaptive thinking | 拡張思考（extended thinking）/ adaptive thinking |
+| few-shot / zero-shot | Few-shot / Zero-shot |
+| structured output | 構造化出力 |
+| schema / strict tool use | スキーマ / strict tool use |
+| citations | 引用（citations） |
+| token counting | トークンカウント |
+| vision / image block | 画像入力 / 画像ブロック |
+| evaluation / eval / held-out set | 評価 / 評価セット / ホールドアウトセット |
+| regression suite | 回帰テストのスイート |
+| trace | トレース |
+| retrieval layer | 検索層 |
+| prompt injection | プロンプトインジェクション（文脈が明らかなら「インジェクション」） |
+| jailbreak | ジェイルブレイク |
+| untrusted input / content | 信頼できない入力 / コンテンツ |
+| least privilege | 最小権限 |
+| guardrail | ガードレール |
+| allowlist | 許可リスト |
+| escape / sanitize | エスケープする / サニタイズする |
+| secrets manager | シークレットマネージャー |
+| rotate (a key) | （キーを）ローテーションする |
+| workspace | ワークスペース |
+| model version pinning / snapshot / alias | モデルのバージョンの固定 / スナップショット / エイリアス |
+| deprecation / retirement | 非推奨化 / 提供終了 |
+| self-host | セルフホストする |
+| sandbox | サンドボックス |
+
+### 試験のドメイン名（src/exams.js と同じ）
+| 試験 | 英語 | 日本語 |
+|---|---|---|
+| CCAO-F | Prompting and Task Execution | プロンプトとタスク実行 |
+| CCAO-F | Output Evaluation and Validation | 出力の評価と検証 |
+| CCAO-F | Product and Model Selection | 製品とモデルの選択 |
+| CCAO-F | Workflow Integration and Solution Design | ワークフロー統合とソリューション設計 |
+| CCAO-F | Configuration and Knowledge Management | 設定とナレッジ管理 |
+| CCAO-F | Governance, Risk, and Responsible Use | ガバナンス、リスク、責任ある利用 |
+| CCAO-F | Troubleshooting and Optimization | トラブルシューティングと最適化 |
+| CCDV-F | Agents and Workflows | エージェントとワークフロー |
+| CCDV-F | Applications and Integration | アプリケーションと統合 |
+| CCDV-F | Claude Code | Claude Code |
+| CCDV-F | Eval, Testing, and Debugging | 評価、テスト、デバッグ |
+| CCDV-F | Model Selection and Optimization | モデルの選択と最適化 |
+| CCDV-F | Prompt and Context Engineering | プロンプト・コンテキストエンジニアリング |
+| CCDV-F | Security and Safety | セキュリティと安全性 |
+| CCDV-F | Tools and MCPs | ツールと MCP |
+
 ## 新しい用語が出たとき
 - 上の表にない専門用語は、訳語案を提示してから使う
 - 採用した訳語はこの用語集に追記する

@@ -2,8 +2,7 @@
 
 const TEXT = {
   // 共通
-  app_title: { ja: "CCA-F 練習問題", en: "CCA-F Practice" },
-  app_subtitle: { ja: "Claude Certified Associate – Foundations", en: "Claude Certified Associate – Foundations" },
+  app_title: { ja: "Claude 認定試験 練習問題", en: "Claude Certification Practice" },
   language: { ja: "言語", en: "Language" },
   page_home: { ja: "ホーム", en: "Home" },
   page_list: { ja: "問題一覧", en: "Questions" },
@@ -21,6 +20,8 @@ const TEXT = {
   status: { ja: "ステータス", en: "Status" },
   question: { ja: "問題", en: "Question" },
   source_original: { ja: "オリジナル", en: "Original" },
+  source_original_hard: { ja: "オリジナル（難化版）", en: "Original (harder)" },
+  source_original_new: { ja: "オリジナル（新規）", en: "Original (new)" },
   source_link: { ja: "{name} 第{num}問", en: "{name}, Q{num}" },
   source_practice: { ja: "Practice questions", en: "Practice questions" },
   source_mock: { ja: "Mock exam", en: "Mock exam" },
@@ -31,6 +32,24 @@ const TEXT = {
   status_incorrect: { ja: "回答済み不正解", en: "Answered incorrectly" },
   status_unanswered: { ja: "未回答", en: "Unanswered" },
   back_home: { ja: "ホームに戻る", en: "Back to home" },
+
+  // 試験の選択・切り替え
+  exam_switch: { ja: "試験を切り替え", en: "Switch exam" },
+  select_title: { ja: "試験を選んでください", en: "Choose an exam" },
+  exam_choose: { ja: "この試験で学習する", en: "Study this exam" },
+  exam_last: { ja: "前回の試験", en: "Last used" },
+  exam_questions: { ja: "{n} 問", en: "{n} questions" },
+  exam_questions_unknown: { ja: "問題数を取得できませんでした", en: "Question count unavailable" },
+  exam_no_questions: { ja: "問題はまだありません", en: "No questions yet" },
+  exam_progress: { ja: "正解 {c} 問 / 回答済み {a} 問", en: "{c} correct / {a} answered" },
+  exam_in_progress: { ja: "進行中のクールがあります", en: "Quiz in progress" },
+  switch_confirm: {
+    ja: "{code} に進行中のクールがあります（{i} / {n} 問）。試験を切り替える前に、このクールをどうしますか？",
+    en: "You have a {code} quiz in progress ({i} of {n}). What should happen to it before you switch?",
+  },
+  switch_keep: { ja: "残して切り替える", en: "Keep it and switch" },
+  switch_discard: { ja: "破棄して切り替える", en: "Discard it and switch" },
+  empty_exam: { ja: "この試験の問題はまだありません。", en: "There are no questions for this exam yet." },
 
   // ホーム
   count: { ja: "出題数", en: "Number of questions" },
@@ -102,12 +121,18 @@ const TEXT = {
   export: { ja: "エクスポート", en: "Export" },
   import: { ja: "インポート", en: "Import" },
   reset_title: { ja: "学習記録のリセット", en: "Reset learning records" },
-  reset_warning: { ja: "回答履歴・すべてのステータス・進行中のクールを削除します。元に戻せません。", en: "This deletes all answer history, statuses, and any quiz in progress. This cannot be undone." },
-  reset_button: { ja: "リセットする", en: "Reset" },
-  reset_confirm: { ja: "本当に削除しますか？", en: "Delete everything?" },
+  reset_warning: {
+    ja: "回答履歴・ステータス・進行中のクールを削除します。出題設定は残ります。元に戻せません。",
+    en: "This deletes answer history, statuses, and any quiz in progress. Quiz settings are kept. This cannot be undone.",
+  },
+  reset_exam_button: { ja: "{code} の記録だけリセット", en: "Reset {code} records only" },
+  reset_all_button: { ja: "すべての試験の記録をリセット", en: "Reset records for all exams" },
+  reset_exam_confirm: { ja: "{code} の記録を本当に削除しますか？ほかの試験の記録は残ります。", en: "Delete your {code} records? Records for other exams are kept." },
+  reset_all_confirm: { ja: "すべての試験の記録を本当に削除しますか？", en: "Delete your records for all exams?" },
   reset_yes: { ja: "削除する", en: "Delete" },
   cancel: { ja: "キャンセル", en: "Cancel" },
-  reset_done: { ja: "学習記録をリセットしました。", en: "Learning records have been reset." },
+  reset_exam_done: { ja: "{code} の学習記録をリセットしました。", en: "Your {code} records have been reset." },
+  reset_all_done: { ja: "すべての試験の学習記録をリセットしました。", en: "Records for all exams have been reset." },
 
   // 保存
   storage_unavailable: {

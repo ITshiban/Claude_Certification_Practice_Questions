@@ -1,16 +1,5 @@
 // 出題・採点・集計（React に依存しない純粋な関数）
 
-export const DOMAINS = {
-  1: "Prompting and Task Execution",
-  2: "Output Evaluation and Validation",
-  3: "Product and Model Selection",
-  4: "Workflow Integration and Solution Design",
-  5: "Configuration and Knowledge Management",
-  6: "Governance, Risk, and Responsible Use",
-  7: "Troubleshooting and Optimization",
-};
-export const DOMAIN_IDS = Object.keys(DOMAINS).map(Number);
-export const SOURCE_GROUPS = ["practice", "mock", "original"];
 export const STATUSES = ["correct", "incorrect", "unanswered"];
 export const MODES = ["random", "unanswered", "incorrect"];
 export const COUNTS = [5, 10, 20];
@@ -18,9 +7,16 @@ export const COUNTS = [5, 10, 20];
 // 解説中の選択肢記号：(B) / (B, C) / **B**
 const REF = /\(([A-D](?:, [A-D])*)\)|\*\*([A-D])\*\*/g;
 
-/** mock1〜3 をまとめて "mock" として扱う */
+/**
+ * 出典の絞り込み用のグループを返す。mock1〜3 はまとめて "mock"。
+ * based_on を持つ original（CCDV-F）は、難化版を "original_hard"、新規を "original_new" に分ける
+ */
 export function sourceGroup(question) {
-  return question.source.startsWith("mock") ? "mock" : question.source;
+  if (question.source.startsWith("mock")) return "mock";
+  if (question.source === "original" && "based_on" in question) {
+    return question.based_on ? "original_hard" : "original_new";
+  }
+  return question.source;
 }
 
 /** ドメイン・出典グループで絞り込む。null は絞り込みなし */
@@ -96,10 +92,10 @@ export function createSession(picked, rng = Math.random) {
   };
 }
 
-/** 回答履歴の全回答を母数に、ドメインごとの { correct, total } を返す */
-export function domainAccuracy(history, questions) {
+/** 回答履歴の全回答を母数に、ドメインごと（domainIds の各番号）の { correct, total } を返す */
+export function domainAccuracy(history, questions, domainIds) {
   const domainOf = Object.fromEntries(questions.map((q) => [q.id, q.domain]));
-  const result = Object.fromEntries(DOMAIN_IDS.map((d) => [d, { correct: 0, total: 0 }]));
+  const result = Object.fromEntries(domainIds.map((d) => [d, { correct: 0, total: 0 }]));
   for (const row of history) {
     const d = domainOf[row.questionId];
     if (d === undefined) continue;
@@ -113,4 +109,11 @@ export function statusCounts(questions, statuses) {
   const counts = Object.fromEntries(STATUSES.map((s) => [s, 0]));
   for (const q of questions) counts[statusOf(statuses, q.id)] += 1;
   return counts;
+}
+
+/** 試験選択画面の進捗。問題データを読み込まずに、ステータスだけから数える */
+export function progressOf(statuses) {
+  const values = Object.values(statuses);
+  const correct = values.filter((s) => s === "correct").length;
+  return { correct, answered: correct + values.filter((s) => s === "incorrect").length };
 }

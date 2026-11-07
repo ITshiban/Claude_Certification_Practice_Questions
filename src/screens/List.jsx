@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { t } from "../i18n.js";
-import { DOMAIN_IDS, filterQuestions, SOURCE_GROUPS, STATUSES, statusOf } from "../quiz.js";
+import { domainIds, EXAMS } from "../exams.js";
+import { filterQuestions, STATUSES, statusOf } from "../quiz.js";
 import { CheckGroup, domainLabel, RichText, sourceGroupLabel, SourceLabel, StatusSelect } from "../components.jsx";
 
-export default function List({ lang, questions, statuses, onSetStatus }) {
+export default function List({ lang, exam, questions, statuses, onSetStatus }) {
   // 一覧の絞り込みは画面内だけで持つ（保存しない）
   const [fStatus, setFStatus] = useState(STATUSES);
-  const [fDomain, setFDomain] = useState(DOMAIN_IDS);
-  const [fSource, setFSource] = useState(SOURCE_GROUPS);
+  const [fDomain, setFDomain] = useState(() => domainIds(exam));
+  const [fSource, setFSource] = useState(EXAMS[exam].sourceGroups);
 
   const rows = filterQuestions(questions, fDomain, fSource).filter((q) => fStatus.includes(statusOf(statuses, q.id)));
 
@@ -16,9 +17,9 @@ export default function List({ lang, questions, statuses, onSetStatus }) {
       <h2>{t("list_title", lang)}</h2>
       <CheckGroup legend={t("filter_status", lang)} options={STATUSES} selected={fStatus} onChange={setFStatus}
         format={(s) => t(`status_${s}`, lang)} inline />
-      <CheckGroup legend={t("filter_domain", lang)} options={DOMAIN_IDS} selected={fDomain} onChange={setFDomain}
-        format={domainLabel} />
-      <CheckGroup legend={t("filter_source", lang)} options={SOURCE_GROUPS} selected={fSource} onChange={setFSource}
+      <CheckGroup legend={t("filter_domain", lang)} options={domainIds(exam)} selected={fDomain} onChange={setFDomain}
+        format={(d) => domainLabel(exam, d, lang)} />
+      <CheckGroup legend={t("filter_source", lang)} options={EXAMS[exam].sourceGroups} selected={fSource} onChange={setFSource}
         format={(g) => sourceGroupLabel(g, lang)} inline />
 
       <p className="hint">{t("list_count", lang, { n: rows.length })}</p>

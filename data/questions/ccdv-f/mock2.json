@@ -1,0 +1,617 @@
+[
+  {
+    "id": "DV051",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 1,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A service sends the same 8,000-token system prompt on every request and cost is dominated by input tokens. What is the first change to evaluate?",
+      "ja": "あるサービスはすべてのリクエストで同じ8,000トークンのシステムプロンプトを送っており、コストの大部分は入力トークンが占めています。最初に検討すべき変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Rewriting the system prompt to be shorter",
+        "ja": "システムプロンプトを短く書き直す"
+      },
+      {
+        "key": "B",
+        "en": "Switching to a cheaper model",
+        "ja": "より安いモデルに切り替える"
+      },
+      {
+        "key": "C",
+        "en": "Caching the stable prefix so it is not reprocessed on every call",
+        "ja": "安定したプレフィックスをキャッシュし、呼び出しのたびに処理し直されないようにする"
+      },
+      {
+        "key": "D",
+        "en": "Reducing the number of requests",
+        "ja": "リクエストの数を減らす"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "A large unchanging prefix repeated per call is what caching addresses, without losing any instruction. Shortening (A) sacrifices capability, a cheaper model (B) trades quality, and fewer requests (D) changes the product",
+      "ja": "呼び出しごとに繰り返される、大きく変化しないプレフィックスこそキャッシュが対処するもので、指示を1つも失いません。短くすると能力が犠牲になり (A)、安いモデルは品質と引き換えになり (B)、リクエストを減らすと製品が変わってしまいます (D)。"
+    }
+  },
+  {
+    "id": "DV052",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 2,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "An endpoint must return within 500 ms but the model needs longer for a good answer. What is the appropriate pattern?",
+      "ja": "あるエンドポイントは500ミリ秒以内に応答しなければなりませんが、良い答えを出すにはモデルにもっと時間が必要です。適切なパターンはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Return an acknowledgement immediately and deliver the result through a callback or poll",
+        "ja": "すぐに受付の応答を返し、結果はコールバックかポーリングで届ける"
+      },
+      {
+        "key": "B",
+        "en": "Truncate the model's output",
+        "ja": "モデルの出力を切り詰める"
+      },
+      {
+        "key": "C",
+        "en": "Use the smallest model regardless of quality",
+        "ja": "品質に関係なく、最も小さいモデルを使う"
+      },
+      {
+        "key": "D",
+        "en": "Increase the timeout on the client",
+        "ja": "クライアントのタイムアウトを延ばす"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Decoupling acceptance from completion satisfies the latency contract without degrading the answer. Truncation (B) and a minimal model (C) sacrifice the result, and the timeout (D) is the stated constraint",
+      "ja": "受付と完了を切り離すと、答えの質を落とさずにレイテンシの約束を守れます。切り詰め (B) や最小のモデル (C) は結果を犠牲にし、タイムアウト (D) は設問で示された制約そのものです。"
+    }
+  },
+  {
+    "id": "DV053",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 3,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "What does a stop reason indicating the maximum token limit tell you?",
+      "ja": "最大トークン数に達したことを示す停止理由は、何を意味しますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The input was too long",
+        "ja": "入力が長すぎた"
+      },
+      {
+        "key": "B",
+        "en": "The request was malformed",
+        "ja": "リクエストの形式が不正だった"
+      },
+      {
+        "key": "C",
+        "en": "The model refused the request",
+        "ja": "モデルがリクエストを拒否した"
+      },
+      {
+        "key": "D",
+        "en": "The output was cut off before the model finished",
+        "ja": "モデルが出力を終える前に、出力が途中で打ち切られた"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "That stop reason reports that generation hit the output ceiling. An oversized input (A) fails before generation, and neither a malformed request (B) nor a refusal (C) produces this reason",
+      "ja": "その停止理由は、生成が出力の上限に達したことを示します。入力が大きすぎる場合は生成の前に失敗し (A)、不正な形式のリクエスト (B) も拒否 (C) も、この停止理由にはなりません。"
+    }
+  },
+  {
+    "id": "DV054",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 4,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A tool result returns 50,000 tokens of JSON, most of it unused. What is the right fix?",
+      "ja": "あるツールの結果が50,000トークンの JSON を返しますが、その大部分は使われていません。正しい修正はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Raise the model's context limit",
+        "ja": "モデルのコンテキストの上限を引き上げる"
+      },
+      {
+        "key": "B",
+        "en": "Change the tool to return only the fields the task needs",
+        "ja": "タスクに必要なフィールドだけを返すようにツールを変更する"
+      },
+      {
+        "key": "C",
+        "en": "Summarise the JSON with a second model call",
+        "ja": "2回目のモデル呼び出しで JSON を要約する"
+      },
+      {
+        "key": "D",
+        "en": "Call the tool less frequently",
+        "ja": "ツールを呼び出す頻度を減らす"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Tools should return what the task requires, which preserves context for reasoning. A larger window (A) delays the problem, a second call (C) adds cost and failure surface, and calling less often (D) does not change the payload",
+      "ja": "ツールはタスクに必要なものを返すべきで、そうすれば推論のためのコンテキストが残ります。大きなウィンドウは問題を先送りするだけで (A)、2回目の呼び出しはコストと失敗の要因を増やし (C)、呼び出しを減らしても返る量は変わりません (D)。"
+    }
+  },
+  {
+    "id": "DV055",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 5,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "Which condition warrants a retry with backoff rather than surfacing an error?",
+      "ja": "エラーを表示するのではなく、バックオフ付きで再試行すべきなのはどの状況ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The request contained an invalid parameter",
+        "ja": "リクエストに無効なパラメータが含まれていた"
+      },
+      {
+        "key": "B",
+        "en": "The service returned a rate limit or a transient server error",
+        "ja": "サービスがレート制限、または一時的なサーバーエラーを返した"
+      },
+      {
+        "key": "C",
+        "en": "The model returned an answer you disagree with",
+        "ja": "モデルが、あなたの考えと違う答えを返した"
+      },
+      {
+        "key": "D",
+        "en": "The response exceeded the expected length",
+        "ja": "応答が想定より長かった"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Rate limits and transient server errors are the recoverable class. An invalid parameter (A) will fail identically, and disagreement (C) or length (D) are not transport failures",
+      "ja": "レート制限と一時的なサーバーエラーは、回復できる種類のエラーです。無効なパラメータ (A) は何度やっても同じように失敗し、答えへの不同意 (C) や長さ (D) は通信の失敗ではありません。"
+    }
+  },
+  {
+    "id": "DV056",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 6,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A workload runs nightly over 50,000 records with no interactive requirement. Which choice reduces cost most?",
+      "ja": "ある処理は毎晩50,000件のレコードに対して実行され、対話的な応答は求められていません。コストを最も下げる選択はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Streaming each request",
+        "ja": "各リクエストをストリーミングする"
+      },
+      {
+        "key": "B",
+        "en": "Using the largest model for accuracy",
+        "ja": "精度のために最大のモデルを使う"
+      },
+      {
+        "key": "C",
+        "en": "Increasing concurrency against the standard endpoint",
+        "ja": "標準のエンドポイントへの同時実行数を増やす"
+      },
+      {
+        "key": "D",
+        "en": "Submitting the work as a batch",
+        "ja": "処理をバッチとして送信する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Large, uniform, latency-tolerant work is exactly the batch case, and it is materially cheaper. Streaming (A) serves interactive use, the largest model (B) raises cost, and concurrency (C) does not change unit price",
+      "ja": "大量で均一で、遅延を許容できる処理は、まさにバッチの用途であり、コストが大幅に下がります。ストリーミングは対話的な用途のためのもので (A)、最大のモデルはコストを上げ (B)、同時実行数を増やしても単価は変わりません (C)。"
+    }
+  },
+  {
+    "id": "DV057",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 7,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Accuracy on a simple extraction task is identical between a small and a large model. What should be deployed?",
+      "ja": "単純な抽出タスクで、小さいモデルと大きいモデルの精度が同じでした。どちらをデプロイすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The small model, since it meets the requirement at lower cost",
+        "ja": "小さいモデル。要件を満たしたうえでコストが低いため"
+      },
+      {
+        "key": "B",
+        "en": "The large model, in case inputs change",
+        "ja": "大きいモデル。入力が変わる場合に備えるため"
+      },
+      {
+        "key": "C",
+        "en": "Both, alternating between them",
+        "ja": "両方を交互に使う"
+      },
+      {
+        "key": "D",
+        "en": "The newest model available",
+        "ja": "利用できる最新のモデル"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Where the requirement is met, the cheaper option is correct, and changing inputs are handled by re-evaluating. Insurance against hypothetical change (B), alternation (C), and recency (D) all spend without benefit",
+      "ja": "要件を満たしているなら安い選択肢が正解であり、入力が変わったときは再評価で対応します。仮定の変化への保険 (B)、交互に使うこと (C)、新しさ (D) は、いずれも利点なしに費用をかけるだけです。"
+    }
+  },
+  {
+    "id": "DV058",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 8,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A task requires the model to plan across many interacting constraints and revise as it goes. What does this argue for?",
+      "ja": "あるタスクでは、互いに影響し合う多くの制約をふまえて計画を立て、進めながら修正していく必要があります。これは何を選ぶ根拠になりますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The smallest model, to keep cost down",
+        "ja": "コストを抑えるため、最も小さいモデル"
+      },
+      {
+        "key": "B",
+        "en": "Splitting the task across several small models",
+        "ja": "タスクを複数の小さいモデルに分割すること"
+      },
+      {
+        "key": "C",
+        "en": "A more capable model, since the work is reasoning-heavy",
+        "ja": "推論の比重が大きい作業なので、より高性能なモデル"
+      },
+      {
+        "key": "D",
+        "en": "A longer prompt with the same model",
+        "ja": "同じモデルでのより長いプロンプト"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Multi-step reasoning under interacting constraints is where capability differences show. A small model (A) and splitting (B) both fragment the reasoning, and prompt length (D) does not add capability",
+      "ja": "相互に影響する制約のもとでの多段階の推論こそ、能力の差が表れる領域です。小さいモデル (A) も分割 (B) も推論を細切れにし、プロンプトの長さ (D) で能力は上がりません。"
+    }
+  },
+  {
+    "id": "DV059",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 9,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "An agent is given ten tools, three of which overlap in purpose. What is the likely consequence?",
+      "ja": "あるエージェントに10個のツールを与えたところ、そのうち3つは目的が重なっています。起こりうる結果はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Faster execution, since more options are available",
+        "ja": "選択肢が多いので実行が速くなる"
+      },
+      {
+        "key": "B",
+        "en": "Lower token cost",
+        "ja": "トークンのコストが下がる"
+      },
+      {
+        "key": "C",
+        "en": "Better error handling",
+        "ja": "エラー処理が良くなる"
+      },
+      {
+        "key": "D",
+        "en": "More frequent wrong tool selection",
+        "ja": "間違ったツールを選ぶことが増える"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Overlapping tools make selection ambiguous, which is where agents go wrong. Overlap does not improve speed (A), reduce cost (B), or help error handling (C)",
+      "ja": "ツールが重なっていると選択があいまいになり、そこでエージェントは間違えます。重なりによって速度が上がることも (A)、コストが下がることも (B)、エラー処理が良くなることもありません (C)。"
+    }
+  },
+  {
+    "id": "DV060",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 10,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "What should terminate an agent loop?",
+      "ja": "エージェントループは何によって終了させるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A fixed wall-clock timeout only",
+        "ja": "固定の実時間のタイムアウトだけ"
+      },
+      {
+        "key": "B",
+        "en": "The model deciding it is finished",
+        "ja": "モデルが完了したと判断すること"
+      },
+      {
+        "key": "C",
+        "en": "An explicit success condition, with a step ceiling as a backstop",
+        "ja": "明示的な成功条件。安全策としてステップ数の上限も設ける"
+      },
+      {
+        "key": "D",
+        "en": "Running out of context",
+        "ja": "コンテキストを使い切ること"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "A defined success condition ends the loop correctly, and the ceiling bounds the failure case. A timeout alone (A) does not recognize success, the model's own judgment (B) is not a guarantee, and exhausting context (D) is a failure rather than a termination",
+      "ja": "定義された成功条件でループを正しく終え、上限で失敗時の範囲を限定します。タイムアウトだけでは成功を認識できず (A)、モデル自身の判断は保証になりません (B)。コンテキストを使い切るのは終了ではなく失敗です (D)。"
+    }
+  },
+  {
+    "id": "DV061",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 11,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "Where should a stable instruction that must apply to every turn be placed?",
+      "ja": "すべてのターンに適用しなければならない安定した指示は、どこに置くべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "At the end of the latest user message",
+        "ja": "最新のユーザーメッセージの最後"
+      },
+      {
+        "key": "B",
+        "en": "In the system prompt",
+        "ja": "システムプロンプト"
+      },
+      {
+        "key": "C",
+        "en": "Repeated in each user message",
+        "ja": "各ユーザーメッセージで繰り返す"
+      },
+      {
+        "key": "D",
+        "en": "In a tool description",
+        "ja": "ツールの説明"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "The system prompt is designed for persistent framing across the exchange. Placing it in user turns (A, C) mixes configuration with input, and tool descriptions (D) govern tool selection",
+      "ja": "システムプロンプトは、やり取り全体にわたって継続する前提を置くために設計されています。ユーザーのターンに置くと (A, C) 設定と入力が混ざり、ツールの説明 (D) はツールの選択を左右するものです。"
+    }
+  },
+  {
+    "id": "DV062",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 12,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "Which change most improves output that is correct but inconsistently formatted?",
+      "ja": "内容は正しいものの形式がそろわない出力を、最も改善する変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Providing an example of the exact output required",
+        "ja": "求める出力そのものの例を示す"
+      },
+      {
+        "key": "B",
+        "en": "Raising the temperature",
+        "ja": "temperature を上げる"
+      },
+      {
+        "key": "C",
+        "en": "Asking for the output to be neat",
+        "ja": "きれいに出力するよう頼む"
+      },
+      {
+        "key": "D",
+        "en": "Using a larger model",
+        "ja": "より大きなモデルを使う"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "An example defines the target unambiguously, which is what formatting consistency needs. Higher temperature (B) increases variance, a vague adjective (C) does not specify, and a larger model (D) does not know your format",
+      "ja": "例は目標をあいまいさなく定義し、それこそが形式をそろえるために必要なものです。temperature を上げるとばらつきが増え (B)、あいまいな形容詞では仕様にならず (C)、大きいモデルでもあなたの形式を知っているわけではありません (D)。"
+    }
+  },
+  {
+    "id": "DV063",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 13,
+    "domain": 8,
+    "type": "single",
+    "question": {
+      "en": "What is the most important property of a tool description?",
+      "ja": "ツールの説明で最も重要な性質はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It states what the tool does, when to use it, and what each parameter means",
+        "ja": "ツールが何をするか、いつ使うか、各パラメータが何を意味するかを示している"
+      },
+      {
+        "key": "B",
+        "en": "It is short",
+        "ja": "短い"
+      },
+      {
+        "key": "C",
+        "en": "It lists the implementation language",
+        "ja": "実装言語が書かれている"
+      },
+      {
+        "key": "D",
+        "en": "It matches the function name exactly",
+        "ja": "関数名と完全に一致している"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "The description is the model's only basis for choosing and calling the tool correctly. Brevity (B) is secondary to clarity, and implementation detail (C) and naming (D) do not guide selection",
+      "ja": "説明は、モデルがツールを正しく選んで呼び出すための唯一の根拠です。短さ (B) は明確さより二の次で、実装の詳細 (C) や名前 (D) は選択の手がかりになりません。"
+    }
+  },
+  {
+    "id": "DV064",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 14,
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "Content retrieved from an external site contains instructions aimed at the model. What is the correct defense?",
+      "ja": "外部のサイトから取得したコンテンツに、モデルに向けた指示が含まれています。正しい防御策はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Instruct the model in the system prompt to ignore such content",
+        "ja": "そうしたコンテンツを無視するよう、システムプロンプトでモデルに指示する"
+      },
+      {
+        "key": "B",
+        "en": "Treat retrieved content as untrusted data and bound the model's permissions outside the prompt",
+        "ja": "取得したコンテンツを信頼できないデータとして扱い、モデルの権限をプロンプトの外で制限する"
+      },
+      {
+        "key": "C",
+        "en": "Scan for known injection phrases and block them",
+        "ja": "既知のインジェクションの文言をスキャンしてブロックする"
+      },
+      {
+        "key": "D",
+        "en": "Use a model with a larger context window",
+        "ja": "より大きなコンテキストウィンドウを持つモデルを使う"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "The durable control is that the model cannot exceed its granted permissions regardless of what the content says. Prompt instructions (A) and phrase filters (C) are bypassable, and context size (D) is irrelevant",
+      "ja": "持続的な制御とは、コンテンツに何が書かれていても、モデルが与えられた権限を超えられないようにすることです。プロンプトの指示 (A) や文言のフィルタ (C) はすり抜けられ、コンテキストの大きさ (D) は関係ありません。"
+    }
+  },
+  {
+    "id": "DV065",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-2.html",
+    "source_number": 15,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "A prompt change improved results on the five examples you tested. What should happen before it reaches production?",
+      "ja": "プロンプトの変更が、テストした5つの例で結果を改善しました。本番に出す前に何をすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Ship it, since all five improved",
+        "ja": "5つすべてが改善したのでリリースする"
+      },
+      {
+        "key": "B",
+        "en": "Ask the model to compare the two prompts",
+        "ja": "2つのプロンプトを比較するようモデルに頼む"
+      },
+      {
+        "key": "C",
+        "en": "Evaluate it against a held-out set that reflects real inputs, on defined criteria",
+        "ja": "実際の入力を反映したホールドアウトセットで、定義した基準に沿って評価する"
+      },
+      {
+        "key": "D",
+        "en": "Ship it to a small percentage of traffic and watch error rates",
+        "ja": "トラフィックの一部にだけリリースし、エラー率を見守る"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Five hand-picked cases cannot separate a real gain from noise, which is what an evaluation set settles. Self-comparison (B) is not measurement, and shipping first (A, D) makes users the test",
+      "ja": "手で選んだ5つのケースでは、本当の改善とノイズを区別できず、それを判断するのが評価セットです。自己比較は測定ではなく (B)、先にリリースすると (A, D) ユーザーをテストにすることになります。"
+    }
+  }
+]

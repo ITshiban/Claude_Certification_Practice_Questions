@@ -4,14 +4,23 @@ Third-party notices / 第三者の著作物について
 This app includes practice questions from CLAUDE-CERTIFICATIONS by Amey Thakur.
 本アプリには、Amey Thakur 氏の CLAUDE-CERTIFICATIONS に含まれる練習問題が含まれています。
 
-Source / 出典: https://github.com/Amey-Thakur/CLAUDE-CERTIFICATIONS (associate-foundations)
+Source / 出典: https://github.com/Amey-Thakur/CLAUDE-CERTIFICATIONS
 
 Included material / 含まれるもの:
-- data/questions/practice.json (Q001-Q035): practice-questions.md, questions 1-35
-- data/questions/mock1.json (Q036-Q050): mock-exam-1.md, questions 1-15
-- data/questions/mock2.json (Q051-Q065): mock-exam-2.md, questions 1-15
-- data/questions/mock3.json (Q066-Q080): mock-exam-3.md, questions 1-15
-- public/questions.json (the merged file served by the app / アプリが読み込む結合済みファイル)
+
+[CCAO-F] associate-foundations
+- data/questions/ccao-f/practice.json (Q001-Q035): practice-questions.md, questions 1-35
+- data/questions/ccao-f/mock1.json (Q036-Q050): mock-exam-1.md, questions 1-15
+- data/questions/ccao-f/mock2.json (Q051-Q065): mock-exam-2.md, questions 1-15
+- data/questions/ccao-f/mock3.json (Q066-Q080): mock-exam-3.md, questions 1-15
+- public/questions/ccao-f.json (the merged file served by the app / アプリが読み込む結合済みファイル)
+
+[CCDV-F] developer-foundations
+- data/questions/ccdv-f/practice.json (DV001-DV035): practice-questions.md, questions 1-35
+- data/questions/ccdv-f/mock1.json (DV036-DV050): mock-exam-1.md, questions 1-15
+- data/questions/ccdv-f/mock2.json (DV051-DV065): mock-exam-2.md, questions 1-15
+- data/questions/ccdv-f/mock3.json (DV066-DV080): mock-exam-3.md, questions 1-15
+- public/questions/ccdv-f.json (the merged file served by the app / アプリが読み込む結合済みファイル)
 
 Modifications / 変更点:
 - Japanese translations were added. The English question text, choices, and answers are unchanged.
@@ -20,8 +29,12 @@ Modifications / 変更点:
   "[Supplement]" / "【補足】".
   模擬試験の一部の問題に、誤答の説明を補足として追加しました（"[Supplement]" / "【補足】" と表示）。
 
-Questions Q081-Q100 (data/questions/original.json) are original to this app.
-Q081〜Q100（data/questions/original.json）は本アプリ独自の問題です。
+Original questions / 本アプリ独自の問題:
+- Q081-Q100 (data/questions/ccao-f/original.json)
+- DV081-DV120 (data/questions/ccdv-f/original.json). DV081-DV100 are new questions written for this app
+  on the same topics as the source questions recorded in their "based_on" field; their text is not taken
+  from the source.
+  DV081〜DV100 は、based_on に記録した元の問題と同じ論点で本アプリ用に新しく書いた問題で、本文は出典から取っていません。
 
 This app is an unofficial practice tool and is not affiliated with Anthropic.
 本アプリは非公式の練習用アプリであり、Anthropic とは関係ありません。

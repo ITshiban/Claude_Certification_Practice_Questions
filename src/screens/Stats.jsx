@@ -1,11 +1,12 @@
 import { t } from "../i18n.js";
+import { domainIds } from "../exams.js";
 import { domainAccuracy, statusCounts } from "../quiz.js";
 import { domainLabel } from "../components.jsx";
 
 const percent = (c, n) => (n ? `${Math.round((c / n) * 100)}%` : "-");
 
-export default function Stats({ lang, questions, statuses, history }) {
-  const acc = domainAccuracy(history, questions);
+export default function Stats({ lang, exam, questions, statuses, history }) {
+  const acc = domainAccuracy(history, questions, domainIds(exam));
   const rows = Object.entries(acc);
   const sum = rows.reduce((s, [, v]) => ({ correct: s.correct + v.correct, total: s.total + v.total }), { correct: 0, total: 0 });
   const counts = statusCounts(questions, statuses);
@@ -31,7 +32,7 @@ export default function Stats({ lang, questions, statuses, history }) {
             <tbody>
               {rows.map(([d, v]) => (
                 <tr key={d}>
-                  <td>{domainLabel(d)}</td>
+                  <td>{domainLabel(exam, d, lang)}</td>
                   <td className="num">{v.total}</td>
                   <td className="num">{v.correct}</td>
                   <td className="num">{percent(v.correct, v.total)}</td>

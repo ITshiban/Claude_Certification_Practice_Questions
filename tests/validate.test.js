@@ -1,12 +1,14 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, test } from "vitest";
-import { validate } from "../scripts/validate-questions.mjs";
+import { crossExamDuplicates, validate } from "../scripts/validate-questions.mjs";
 
-const load = () => JSON.parse(readFileSync("public/questions.json", "utf-8"));
+const load = (exam = "ccao-f") => JSON.parse(readFileSync(`public/questions/${exam}.json`, "utf-8"));
+const byId = (d, id) => d.find((q) => q.id === id);
+const messagesOf = (list) => list.map(([id, msg]) => `${id}: ${msg}`);
 
 describe("問題データの検証", () => {
-  test("現在の問題データはエラーなし", () => {
-    expect(validate(load()).errors).toEqual([]);
+  test.each(["ccao-f", "ccdv-f"])("現在の問題データはエラーなし（%s）", (exam) => {
+    expect(validate(load(exam), exam).errors).toEqual([]);
   });
 
   test("壊れたデータのエラーを検出する", () => {
@@ -18,8 +20,8 @@ describe("問題データの検証", () => {
     d[5].domain = 8; // domain が範囲外
     d[1].explanation.ja = d[1].explanation.ja.replace("(A)", ""); // 記号が英日で不一致
     d[40].explanation.ja = d[40].explanation.ja.replace("【補足】", ""); // 補足の片側欠落
-    const messages = validate(d).errors.map(([id, msg]) => `${id}: ${msg}`);
-    expect(messages).toEqual(expect.arrayContaining([
+    d[6].exam = "ccdv-f"; // exam がフォルダと違う
+    expect(messagesOf(validate(d, "ccao-f").errors)).toEqual(expect.arrayContaining([
       "Q001: answer が choices にない: [\"E\"]",
       "Q003: ID が 2 回重複",
       "Q004: type=multiple なのに answer が 1 個",
@@ -27,6 +29,88 @@ describe("問題データの検証", () => {
       "Q006: domain が 1〜7 でない: 8",
       expect.stringMatching(/^Q003: 解説の選択肢記号が英日で一致しない/),
       "Q041: 補足（[Supplement] / 【補足】）が英日の片方にしかない",
+      "Q007: exam が ccao-f でない: ccdv-f",
     ]));
+  });
+
+  test("CCDV-F ではドメイン 8 まで使える", () => {
+    const d = load("ccdv-f");
+    byId(d, "DV001").domain = 9;
+    expect(messagesOf(validate(d, "ccdv-f").errors)).toContain("DV001: domain が 1〜8 でない: 9");
+  });
+
+  test("出典別の件数は試験ごとの期待値で確かめる", () => {
+    const d = load("ccdv-f").filter((q) => q.id !== "DV120");
+    expect(messagesOf(validate(d, "ccdv-f").errors)).toEqual(expect.arrayContaining([
+      "-: 合計が 120 問でない: 119",
+      "-: original が 40 問でない: 39",
+    ]));
+  });
+});
+
+describe("based_on の検証", () => {
+  test("参照先がない・original を参照・ドメインが違う・欠落を検出する", () => {
+    const d = load("ccdv-f");
+    byId(d, "DV081").based_on = "Q001"; // 他の試験の問題
+    byId(d, "DV082").based_on = "DV101"; // original を参照
+    byId(d, "DV083").based_on = "DV005"; // ドメインが違う（DV005 は 1、DV083 は 2）
+    delete byId(d, "DV101").based_on; // 新規でも null が必要
+    expect(messagesOf(validate(d, "ccdv-f").errors)).toEqual(expect.arrayContaining([
+      "DV081: based_on の参照先がこの試験にない: Q001",
+      "DV082: based_on の参照先が original: DV101",
+      "DV083: based_on の参照先とドメインが違う: DV005（1）",
+      "DV101: based_on がない（新規なら null）",
+    ]));
+  });
+
+  test("original 以外や CCAO-F の問題には based_on を付けない", () => {
+    const dv = load("ccdv-f");
+    byId(dv, "DV001").based_on = null;
+    const ao = load();
+    byId(ao, "Q081").based_on = null;
+    expect(messagesOf(validate(dv, "ccdv-f").errors)).toContain("DV001: based_on はこの試験の original 以外に付けない");
+    expect(messagesOf(validate(ao, "ccao-f").errors)).toContain("Q081: based_on はこの試験の original 以外に付けない");
+  });
+});
+
+describe("オリジナル問題の作成ルール（警告）", () => {
+  test("現在の CCDV-F のオリジナル問題は警告なし", () => {
+    const r = validate(load("ccdv-f"), "ccdv-f");
+    expect(r.warnings).toEqual([]);
+    expect(r.originalStats.count).toBe(40);
+  });
+
+  test("長さ・選択肢の差・正解が最長・正解位置の偏りを警告し、エラーにはしない", () => {
+    const d = load("ccdv-f");
+    const originals = d.filter((q) => q.source === "original");
+    const q = byId(d, "DV101");
+    q.question.en = "Too short?";
+    q.choices.find((c) => q.answer.includes(c.key)).en += " with a much longer and more careful explanation than any other choice";
+    for (const o of originals) o.answer = o.type === "multiple" ? ["A", "B"] : ["A"];
+    const r = validate(d, "ccdv-f");
+    expect(r.errors.filter(([id]) => id === "DV101")).toEqual([]);
+    expect(messagesOf(r.warnings)).toEqual(expect.arrayContaining([
+      expect.stringMatching(/^DV101: 問題文の長さが基準外/),
+      expect.stringMatching(/^DV101: 選択肢の長さの差が大きい/),
+      expect.stringMatching(/^-: 正解位置 A の割合が基準外/),
+    ]));
+  });
+
+  test("ルールのない試験（CCAO-F）では調べない", () => {
+    const r = validate(load(), "ccao-f");
+    expect(r.warnings).toEqual([]);
+    expect(r.originalStats).toBeNull();
+  });
+});
+
+describe("試験をまたいだ検証", () => {
+  test("現在のデータでは ID が試験をまたいで重複しない", () => {
+    expect(crossExamDuplicates({ "ccao-f": load(), "ccdv-f": load("ccdv-f") })).toEqual([]);
+  });
+
+  test("同じ ID が別の試験にあれば検出する", () => {
+    const dv = load("ccdv-f");
+    dv[0].id = "Q001";
+    expect(messagesOf(crossExamDuplicates({ "ccao-f": load(), "ccdv-f": dv }))).toEqual(["Q001: ID が ccao-f と ccdv-f で重複"]);
   });
 });
