@@ -1,8 +1,8 @@
 import { t } from "../i18n.js";
 import { displayLabels, formatKeys, relabel, statusOf } from "../quiz.js";
-import { QuestionMeta, RichText, StatusSelect } from "../components.jsx";
+import { QuestionMeta, RichText, ScenarioBox, StatusSelect } from "../components.jsx";
 
-export default function Result({ lang, session, byId, statuses, onSetStatus, onHome }) {
+export default function Result({ lang, session, byId, scenarioById, statuses, onSetStatus, onHome }) {
   const n = session.answers.length;
   const c = session.answers.filter((a) => a.correct).length;
   const p = n ? Math.round((c / n) * 100) : 0;
@@ -26,6 +26,7 @@ export default function Result({ lang, session, byId, statuses, onSetStatus, onH
                 <span className="summary-text">{i + 1}. {q.question[lang]}</span>
               </summary>
               <QuestionMeta question={q} lang={lang} />
+              <ScenarioBox scenario={scenarioById[q.scenario_id]} lang={lang} open={false} />
               <div className="question"><RichText text={q.question[lang]} /></div>
               <ol className="choice-list">
                 {order.map((k) => (

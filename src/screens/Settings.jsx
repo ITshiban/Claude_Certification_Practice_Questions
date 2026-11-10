@@ -1,17 +1,22 @@
 import { useRef, useState } from "react";
 import { t } from "../i18n.js";
+import { EXAMS } from "../exams.js";
 import { exportFileName, exportText, parseData } from "../storage.js";
 
-export default function Settings({ lang, data, onSetLang, onReset, onImport }) {
-  const [confirming, setConfirming] = useState(false);
+const sum = (data, f) => Object.values(data.exams).reduce((n, e) => n + f(e), 0);
+
+export default function Settings({ lang, exam, data, onSetLang, onResetExam, onResetAll, onImport }) {
+  const [confirming, setConfirming] = useState(null); // リセットの確認待ち "exam" | "all"
+  const code = EXAMS[exam].code;
   const [pending, setPending] = useState(null); // インポート確認待ち { file, data }
   const [message, setMessage] = useState(null); // { kind: "info" | "warn", text }
   const fileInput = useRef(null);
 
   function reset() {
-    onReset();
-    setConfirming(false);
-    setMessage({ kind: "info", text: t("reset_done", lang) });
+    if (confirming === "exam") onResetExam();
+    else onResetAll();
+    setMessage({ kind: "info", text: t(`reset_${confirming}_done`, lang, { code }) });
+    setConfirming(null);
   }
 
   function exportRecords() {
@@ -82,8 +87,8 @@ export default function Settings({ lang, data, onSetLang, onReset, onImport }) {
           <div className="confirm">
             <p><strong>{t("import_confirm", lang, {
               file: pending.file,
-              h: pending.data.history.length,
-              s: Object.keys(pending.data.statuses).length,
+              h: sum(pending.data, (e) => e.history.length),
+              s: sum(pending.data, (e) => Object.keys(e.statuses).length),
             })}</strong></p>
             <div className="row">
               <button type="button" className="danger" onClick={confirmImport}>{t("import_yes", lang)}</button>
@@ -97,15 +102,19 @@ export default function Settings({ lang, data, onSetLang, onReset, onImport }) {
         <legend>{t("reset_title", lang)}</legend>
         <p>{t("reset_warning", lang)}</p>
         {!confirming ? (
-          <button type="button" className="danger" onClick={() => { setMessage(null); setConfirming(true); }}>
-            {t("reset_button", lang)}
-          </button>
+          <div className="row">
+            {["exam", "all"].map((target) => (
+              <button key={target} type="button" className="danger" onClick={() => { setMessage(null); setConfirming(target); }}>
+                {t(`reset_${target}_button`, lang, { code })}
+              </button>
+            ))}
+          </div>
         ) : (
           <div className="confirm">
-            <p><strong>{t("reset_confirm", lang)}</strong></p>
+            <p><strong>{t(`reset_${confirming}_confirm`, lang, { code })}</strong></p>
             <div className="row">
               <button type="button" className="danger" onClick={reset}>{t("reset_yes", lang)}</button>
-              <button type="button" className="secondary" onClick={() => setConfirming(false)}>{t("cancel", lang)}</button>
+              <button type="button" className="secondary" onClick={() => setConfirming(null)}>{t("cancel", lang)}</button>
             </div>
           </div>
         )}

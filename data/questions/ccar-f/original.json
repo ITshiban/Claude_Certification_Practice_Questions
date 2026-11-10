@@ -1,0 +1,1728 @@
+[
+  {
+    "id": "AF081",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS01",
+    "based_on": "AF001",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "You are an AI engineer reviewing the support agent's loop. It stops when the assistant's text contains phrases like \"Is there anything else\", or after 8 iterations. Some refunds stop halfway because the model wrote a polite closing line while still intending to call process_refund, and complex disputes are cut off at iteration 8 while still making progress. How should the loop decide whether to continue?",
+      "ja": "あなたは、サポートエージェントのループをレビューしている AI エンジニアです。このループは、アシスタントのテキストに「ほかに何かございますか」のような文言が含まれたとき、または8回反復したときに止まります。モデルが process_refund を呼ぶつもりのまま丁寧な締めの一文を書いたために返金が途中で止まることがあり、複雑な争いの案件は、進展しているのに8回目で打ち切られます。ループは続けるかどうかをどう判断すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Continue while stop_reason is \"tool_use\" and end on \"end_turn\", keeping a generous iteration cap only as a safety net that escalates",
+        "ja": "stop_reason が \"tool_use\" の間は続け、\"end_turn\" で終える。余裕のある反復回数の上限は、エスカレーションする安全策としてだけ残す"
+      },
+      {
+        "key": "B",
+        "en": "Keep the phrase check but add more closing phrases to it, and raise the cap to 20 iterations so that complex disputes have room to finish",
+        "ja": "文言のチェックは残して締めの文言を増やし、複雑な争いの案件が終わるだけの余地を持たせるため、上限を20回に上げる"
+      },
+      {
+        "key": "C",
+        "en": "Stop as soon as a response contains any assistant text, since text means the model has decided to talk to the customer rather than act",
+        "ja": "テキストが含まれていればモデルは行動ではなく顧客と話すことを選んだということなので、アシスタントのテキストが出た時点で止める"
+      },
+      {
+        "key": "D",
+        "en": "Lower the cap to 5 iterations and call escalate_to_human whenever it is reached, since a shorter loop limits cost and hands off sooner",
+        "ja": "ループを短くすればコストが抑えられ、早く引き継げるので、上限を5回に下げ、上限に達したら escalate_to_human を呼ぶ"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "The agentic loop is driven by stop_reason: continue while it is \"tool_use\", executing the tool and returning its result, and end on \"end_turn\"; a cap can remain as a backstop that escalates, but not as the main stopping rule (A). The exam guide names parsing natural-language signals, using arbitrary iteration caps as the primary stop, and treating assistant text as a completion signal as anti-patterns. More phrases and a higher cap (B) keep both of the current defects. Stopping on any text (C) ends turns where the model writes a sentence and also requests a tool. A lower cap (D) makes the cut-off of legitimate long disputes worse.",
+      "ja": "エージェントループは stop_reason で動かします。\"tool_use\" の間はツールを実行して結果を返しながら続け、\"end_turn\" で終えます。上限はエスカレーションする安全策として残せますが、主な停止のルールにはしません (A)。試験ガイドは、自然言語のシグナルを解析すること、恣意的な反復回数の上限を主な停止の仕組みにすること、アシスタントのテキストを完了のしるしとみなすことを、避けるべきパターンとしています。文言を増やして上限を上げても (B)、今の2つの欠陥はどちらも残ります。テキストが出たら止める方法 (C) では、モデルが文を書きつつツールも要求したターンで終わってしまいます。上限を下げると (D)、正当な長い案件の打ち切りがさらに悪化します。"
+    }
+  },
+  {
+    "id": "AF082",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS03",
+    "based_on": "AF003",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "In the research system, the analysis subagent passes findings to the synthesis subagent as one prose paragraph per document, with its source URLs listed at the end. Final reports often cite a real source for a claim that came from a different document, although every claim and every source is individually correct. Which change addresses the cause?",
+      "ja": "リサーチシステムでは、分析のサブエージェントが統合のサブエージェントに、文書ごとに1段落の文章で調査結果を渡し、その文書の出典 URL は段落の最後にまとめて並べています。各主張も各出典も単独では正しいのに、最終レポートでは、別の文書から来た主張に実在する出典が引用されていることがよくあります。原因に対処する変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Tell the synthesis subagent in its prompt to double-check that each citation matches its claim before it writes the final report",
+        "ja": "最終レポートを書く前に、各引用が主張と合っているかを見直すよう、統合のサブエージェントにプロンプトで伝える"
+      },
+      {
+        "key": "B",
+        "en": "Run the synthesis subagent twice and keep only the citations that both runs attach to the same claim when the report is written",
+        "ja": "統合のサブエージェントを2回実行し、レポートを書くときは、両方の実行で同じ主張に付いた引用だけを残す"
+      },
+      {
+        "key": "C",
+        "en": "Have the report subagent search the web again for every claim and cite the source that the search engine ranks first for it",
+        "ja": "レポートのサブエージェントに主張ごとに Web を検索し直させ、検索エンジンで最上位に出た出典を引用させる"
+      },
+      {
+        "key": "D",
+        "en": "Pass findings as structured records that keep each claim together with its source URL, document name, and location in the text",
+        "ja": "各主張を、その出典 URL、文書名、本文中の位置と一緒に保持する構造化されたレコードとして調査結果を渡す"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "The link between a claim and its source is lost at the handoff, because prose with URLs listed at the end does not say which source supports which claim; structured records that separate content from metadata and keep each claim with its source preserve that link (D). An instruction to double-check (A) cannot recover a mapping that the input no longer contains. Agreement between two runs (B) shows consistency, not correctness. Searching again (C) attaches whatever ranks first rather than the document the claim came from, and adds cost.",
+      "ja": "主張と出典の結び付きは引き継ぎで失われています。URL を最後にまとめた文章では、どの出典がどの主張を裏付けるのかがわからないからです。内容とメタデータを分け、各主張をその出典と一緒に保持する構造化されたレコードにすれば、結び付きが保たれます (D)。見直すよう指示しても (A)、入力にもう含まれていない対応関係は取り戻せません。2回の実行での一致 (B) は一貫性を示すだけで、正しさは示しません。検索し直すと (C)、主張の元になった文書ではなく、たまたま上位に出たものが付けられ、コストも増えます。"
+    }
+  },
+  {
+    "id": "AF083",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AF011",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "You are the technical lead for an invoice-intake service. Every invoice goes through the same steps in order: OCR, field extraction with Claude, a total check against the purchase order, and posting to the ERP, and each output can be checked automatically. A teammate proposes one autonomous agent with all four steps as tools, saying it adapts better to unusual invoices. What should you recommend?",
+      "ja": "あなたは請求書の受付サービスの技術リードです。どの請求書も、OCR、Claude による項目の抽出、発注書との合計の照合、ERP への登録という同じステップを同じ順で通り、各ステップの出力は自動で確認できます。チームメイトは、エージェントのほうが普通でない請求書にうまく対応できるとして、4つのステップすべてをツールとして持つ1つの自律型エージェントにすることを提案しています。何を勧めるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Adopt the agent, since its ability to choose the next step will handle unusual invoices that the fixed sequence would otherwise reject",
+        "ja": "次のステップを選べるエージェントなら、固定の手順では弾かれてしまう普通でない請求書にも対応できるので、エージェントを採用する"
+      },
+      {
+        "key": "B",
+        "en": "Adopt the agent but cap it at four steps, so that it follows roughly the same path while keeping the ability to adapt when it must",
+        "ja": "エージェントを採用しつつ4ステップを上限にして、必要なときに対応を変える力を残しながら、ほぼ同じ経路をたどらせる"
+      },
+      {
+        "key": "C",
+        "en": "Keep a fixed pipeline that calls Claude only for field extraction, and send invoices that fail a check to a separate review path",
+        "ja": "Claude は項目の抽出にだけ使う固定のパイプラインを維持し、チェックに通らない請求書は別のレビューの経路に回す"
+      },
+      {
+        "key": "D",
+        "en": "Combine all four steps into one long prompt for Claude, so that the model sees the whole process at once and catches problems early",
+        "ja": "モデルが全体の流れを一度に見て早めに問題に気づけるよう、4つのステップをすべて1つの長いプロンプトにまとめる"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "When the steps and their order are known in advance and each output is checkable, a fixed pipeline (prompt chaining) is cheaper, testable step by step, and easier to debug, and invoices that fail a check can go to a review path instead of an improvised route (C). An agent choosing steps at runtime (A) adds nondeterminism to a path that never varies. Capping the agent (B) keeps the nondeterminism and adds an arbitrary limit. A single prompt (D) removes the checkpoints between steps that make failures visible.",
+      "ja": "ステップとその順序が事前にわかっていて各出力を確認できるなら、固定のパイプライン（プロンプトチェーン）のほうが安く、ステップごとにテストでき、デバッグもしやすくなります。チェックに通らない請求書は、場当たり的な経路ではなくレビューの経路に回せます (C)。実行時にステップを選ぶエージェント (A) は、決して変わらない経路に非決定性を持ち込みます。エージェントに上限を設けても (B)、非決定性は残ったまま恣意的な制限が加わるだけです。1つのプロンプト (D) では、失敗を見えるようにするステップ間のチェックポイントがなくなります。"
+    }
+  },
+  {
+    "id": "AF084",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AF012",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A team is designing an assistant that answers questions about a customer's account. One proposal uses four subagents: account lookup, plan check, recent invoices, and answer writing. Each lookup returns a few hundred tokens, the four results are always needed together, and the answer depends on how they relate. Which assessment of this proposal is most accurate?",
+      "ja": "あるチームが、顧客のアカウントについての質問に答えるアシスタントを設計しています。ある案では、アカウントの検索、プランの確認、最近の請求書、回答の作成という4つのサブエージェントを使います。各検索が返すのは数百トークンほどで、4つの結果は常にまとめて必要になり、回答はそれらの関係によって決まります。この案の評価として最も正確なものはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It is a good design, because each subagent can run a smaller model and the four lookups finish sooner when they run in parallel",
+        "ja": "良い設計である。各サブエージェントは小さいモデルで動かせ、4つの検索は並列に実行すれば早く終わるから"
+      },
+      {
+        "key": "B",
+        "en": "It is a good design, because splitting the work across more agents makes each part easier to test and lowers the risk of failure",
+        "ja": "良い設計である。作業を多くのエージェントに分けると、各部分をテストしやすくなり、失敗のリスクも下がるから"
+      },
+      {
+        "key": "C",
+        "en": "It is a poor design only because four subagents use more tokens; the same split would be fine with a cheaper model for each part",
+        "ja": "悪い設計だが、理由は4つのサブエージェントがトークンを多く使うことだけである。各部分に安いモデルを使えば同じ分け方で問題ない"
+      },
+      {
+        "key": "D",
+        "en": "It is a poor fit, because the results are small and must be reasoned about together, so isolating them only adds extra handoffs",
+        "ja": "向いていない。結果は小さく、まとめて推論する必要があるので、別々に分離しても引き継ぎが増えるだけだから"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Subagents exist to isolate context when separate lines of work would pollute each other; here the results are small and the answer depends on combining them, so isolation adds handoffs without preventing any contamination (D). Smaller models and parallel lookups (A) do not justify subagents, and lookups can run in parallel as plain tool calls. More agents (B) add handoffs that can fail rather than lowering risk. Token cost (C) is real but is not the core problem, so a cheaper model would not make the split a good fit.",
+      "ja": "サブエージェントは、別々の作業の流れが互いを汚してしまうときにコンテキストを分離するためにあります。ここでは結果が小さく、回答はそれらを組み合わせて決まるので、分離しても混ざり合いを防ぐことにはならず、引き継ぎが増えるだけです (D)。小さいモデルや並列の検索 (A) は、サブエージェントを使う理由になりません。検索は普通のツール呼び出しとしても並列に実行できます。エージェントを増やすと (B)、リスクは下がらず、失敗しうる引き継ぎが増えます。トークンのコスト (C) は実際の問題ですが核心ではないので、安いモデルにしても分け方が適切になるわけではありません。"
+    }
+  },
+  {
+    "id": "AF085",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AF015",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "You are an architect reviewing an agent that reconciles payments. Most items are confirmed by comparing the bank record with the ledger entry. For about 4% of items the bank record lacks a reference, so the agent infers the invoice from the amount and date alone and marks it as paid. Auditors object to this step. What should the agent do with these items?",
+      "ja": "あなたは、入金の照合を行うエージェントをレビューしているアーキテクトです。ほとんどの項目は、銀行の記録と元帳を比べて確認できます。約4%の項目では銀行の記録に参照番号がないため、エージェントは金額と日付だけから請求書を推測し、支払済みにしています。監査担当者は、このステップに異議を唱えています。エージェントはこれらの項目をどう扱うべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Mark them as paid when the inferred match has the same amount and a date within three days, since that rule held in most past cases",
+        "ja": "過去のほとんどのケースで当てはまったルールなので、推測した照合先の金額が同じで日付が3日以内なら支払済みにする"
+      },
+      {
+        "key": "B",
+        "en": "Present each inferred match for a person to confirm before it is written to the ledger, and keep the item open until then",
+        "ja": "推測した照合先は元帳に書き込む前に人に確認してもらい、確認されるまで項目は未処理のままにする"
+      },
+      {
+        "key": "C",
+        "en": "Ask the model for a confidence score on each inferred match, and mark the item as paid automatically when the score is above 0.9",
+        "ja": "推測した照合ごとにモデルに確信度を出させ、スコアが0.9を超えたら自動的に支払済みにする"
+      },
+      {
+        "key": "D",
+        "en": "Run the inference twice and mark the item as paid only when both runs pick the same invoice, logging the result for the monthly audit",
+        "ja": "推測を2回実行して両方が同じ請求書を選んだときだけ支払済みにし、その結果を月次の監査のためにログに残す"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "A result the agent cannot verify is exactly where a person should decide before anything is acted on, especially when the action writes to a financial record (B). A rule that held in most past cases (A) is a reasonable heuristic in general, but it still writes unverified matches to the ledger, which is what the auditors object to. A self-reported confidence score (C) is not evidence that a match is correct. Two runs agreeing (D) shows consistency, not truth.",
+      "ja": "エージェントが検証できない結果こそ、何かを実行する前に人が判断すべき箇所です。特に、その操作が財務の記録に書き込むものならなおさらです (B)。過去のほとんどのケースで当てはまったルール (A) は一般的には妥当な目安ですが、検証されていない照合を元帳に書き込むことに変わりはなく、まさに監査担当者が問題にしている点です。自己申告の確信度 (C) は照合が正しい証拠になりません。2回の実行の一致 (D) は一貫性を示すだけで、真実を示しません。"
+    }
+  },
+  {
+    "id": "AF086",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AF017",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A contract-review agent calls six tools and sometimes produces a wrong risk rating. After a complaint, the team can see only the final rating and the total tokens used, and rerunning the contract by hand often gives a different result. The team wants to find out why a specific run went wrong. What should be added to the system?",
+      "ja": "ある契約書レビューのエージェントは6つのツールを呼び出し、ときどき間違ったリスク評価を出します。苦情が来ても、チームに見えるのは最終的な評価と使ったトークンの合計だけで、同じ契約書を手で再実行すると、違う結果になることがよくあります。チームは、特定の実行がなぜ間違ったのかを突き止めたいと考えています。システムに何を加えるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Pin the temperature at zero, so that rerunning the contract reproduces the original run and engineers can watch where it went wrong",
+        "ja": "temperature を0に固定し、契約書を再実行すれば元の実行が再現され、どこで間違ったかをエンジニアが見られるようにする"
+      },
+      {
+        "key": "B",
+        "en": "Record each step's inputs, tool calls with arguments and results, and outputs as a trace kept with the final rating",
+        "ja": "各ステップの入力、引数と結果を含むツール呼び出し、出力をトレースとして記録し、最終的な評価と一緒に保管する"
+      },
+      {
+        "key": "C",
+        "en": "Ask the agent to write a short account of its reasoning at the end of each run, and store it next to the rating for later review",
+        "ja": "各実行の最後にエージェントが推論の短い説明を書くよう求め、あとで確認できるよう評価の隣に保存する"
+      },
+      {
+        "key": "D",
+        "en": "Log the token count and latency of every tool call, so that engineers can see which step used the most resources in a failed run",
+        "ja": "ツール呼び出しごとのトークン数とレイテンシを記録し、失敗した実行でどのステップが最も多くのリソースを使ったかがわかるようにする"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "A per-step trace of inputs, tool calls, results, and outputs lets engineers reconstruct the specific run that went wrong instead of trying to reproduce it (B). Temperature zero (A) does not make outputs fully deterministic, so a rerun may still differ from the original. A summary the agent writes afterwards (C) is its own account, not a record of what the tools actually returned. Token counts and latency (D) show cost and speed, not where the reasoning diverged.",
+      "ja": "入力、ツール呼び出し、結果、出力をステップごとに記録したトレースがあれば、間違った実行を再現しようとしなくても、その実行そのものを再構成できます (B)。temperature 0 (A) でも出力は完全には決定的にならないので、再実行しても元の結果と違うことがあります。エージェントがあとで書く説明 (C) は本人の申告であって、ツールが実際に返したものの記録ではありません。トークン数とレイテンシ (D) はコストと速さを示すだけで、推論がどこで食い違ったかは示しません。"
+    }
+  },
+  {
+    "id": "AF087",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AF066",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "You are an AI engineer investigating a code-migration agent. In one run it called the expensive get_dependency_graph tool 14 times with identical arguments, although the repository did not change. To save tokens, the harness keeps only the last three turns of history, and the result is stored nowhere else. What does this behavior indicate?",
+      "ja": "あなたは、コード移行のエージェントを調べている AI エンジニアです。ある実行で、エージェントは高コストの get_dependency_graph ツールを、リポジトリが変わっていないのに同一の引数で14回呼び出しました。ハーネスはトークンを節約するために直近3ターン分の履歴しか残しておらず、結果はほかのどこにも保存されていません。この振る舞いは何を示していますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The agent loses the earlier result because of how state is kept, so the result should be stored where later steps can reuse it",
+        "ja": "状態の保持のしかたのせいでエージェントが以前の結果を失っているので、結果を後のステップが再利用できる場所に保存すべきである"
+      },
+      {
+        "key": "B",
+        "en": "The tool returns inconsistent results, so the agent keeps calling it until two calls agree, which should be fixed inside the tool",
+        "ja": "ツールが一貫しない結果を返すので、エージェントは2回の呼び出しが一致するまで呼び続けており、ツールの側で直すべきである"
+      },
+      {
+        "key": "C",
+        "en": "The model is not capable enough to remember tool results, so the agent should move to the largest model with a bigger window",
+        "ja": "モデルの能力が足りずツールの結果を覚えられないので、より大きなウィンドウを持つ最大のモデルに移すべきである"
+      },
+      {
+        "key": "D",
+        "en": "The agent is retrying a transient failure as designed, so the calls are healthy and only the retry count needs to be lowered",
+        "ja": "エージェントは設計どおり一時的な失敗を再試行しているので、呼び出しは健全であり、再試行の回数を減らすだけでよい"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Trimming history to three turns drops the earlier result, and nothing else keeps it, so the agent has no way to reuse it and calls the tool again; this is a state-design problem, fixed by storing the result where later steps can reach it (A). Nothing suggests inconsistent results (B), since the arguments and repository were identical. A larger model or window (C) does not help when the harness itself discards the result. The calls are not failing, so this is not retry behavior (D).",
+      "ja": "履歴を3ターンに切り詰めると以前の結果が消え、ほかにそれを保持するものもないため、エージェントは結果を再利用できずにツールを呼び直します。これは状態の設計の問題で、後のステップが参照できる場所に結果を保存すれば解決します (A)。引数もリポジトリも同じなので、結果が一貫しないこと (B) を示すものは何もありません。ハーネス自体が結果を捨てているので、大きなモデルやウィンドウ (C) は役に立ちません。呼び出しは失敗していないので、再試行の振る舞い (D) でもありません。"
+    }
+  },
+  {
+    "id": "AF088",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AF068",
+    "domain": 1,
+    "type": "multiple",
+    "question": {
+      "en": "A retail company plans an agent that adjusts product prices on its website based on competitor data. A wrong change is visible to customers immediately and can trigger orders at the wrong price before anyone notices it. The team accepts that it cannot guarantee every pricing decision will be correct. Which two design measures most reduce the cost of a wrong decision? (Choose two.)",
+      "ja": "ある小売企業が、競合のデータをもとに自社サイトの商品価格を調整するエージェントを計画しています。間違った変更はすぐに顧客の目に触れ、誰かが気づく前に間違った価格での注文を生みかねません。チームは、すべての価格の判断が正しいとは保証できないことを受け入れています。間違った判断のコストを最も小さくする設計上の対策はどれですか。（2つ選べ）"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Stage each price change so it can be rolled back in one step, keeping the previous price with every change the agent makes",
+        "ja": "各価格の変更を1回の操作で元に戻せるように段階を踏んで反映し、エージェントが行うすべての変更に以前の価格を残しておく"
+      },
+      {
+        "key": "B",
+        "en": "Use the most capable model available for pricing, so that the chance of a wrong price change becomes as small as it can get",
+        "ja": "間違った価格の変更が起きる可能性をできる限り小さくするため、価格の判断には利用できる最も高性能なモデルを使う"
+      },
+      {
+        "key": "C",
+        "en": "Require a person to approve changes above a set percentage before they go live, and apply smaller changes automatically",
+        "ja": "一定の割合を超える変更は反映する前に人の承認を必須にし、それより小さい変更は自動で反映する"
+      },
+      {
+        "key": "D",
+        "en": "Add a detailed pricing policy to the system prompt and ask the agent to state its reasoning before every change it makes",
+        "ja": "システムプロンプトに詳しい価格ポリシーを加え、変更のたびに理由を述べるようエージェントに求める"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": {
+      "en": "The question is about the cost of a wrong decision, not its likelihood. Making each change reversible in one step (A) and gating large changes behind human approval (C) both bound the damage when the agent is wrong. A more capable model (B) lowers the chance of an error but leaves its cost unchanged. A policy in the prompt with stated reasoning (D) is guidance to the model, not a control on what reaches customers.",
+      "ja": "問われているのは、間違った判断が起きる可能性ではなく、そのコストです。各変更を1回の操作で元に戻せるようにすること (A) と、大きな変更を人の承認の関門の後ろに置くこと (C) は、どちらもエージェントが間違えたときの被害を限定します。より高性能なモデル (B) は誤りの可能性を下げても、そのコストは変えません。プロンプトのポリシーと理由の説明 (D) はモデルへの指針であって、顧客に届くものを制御する仕組みではありません。"
+    }
+  },
+  {
+    "id": "AF089",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS01",
+    "based_on": "AF002",
+    "domain": 2,
+    "type": "multiple",
+    "question": {
+      "en": "You are the developer responsible for the support agent's refund flow. Company policy allows the agent to refund up to $150 per order, and larger refunds must be approved by a human. The system prompt states this limit, but an audit found three refunds of $300 to $600 issued by the agent last month. Which two changes enforce the policy? (Choose two.)",
+      "ja": "あなたは、サポートエージェントの返金フローを担当する開発者です。会社のポリシーでは、エージェントは注文ごとに150ドルまで返金でき、それより大きい返金には人の承認が必要です。システムプロンプトにはこの上限が書かれていますが、監査で、先月エージェントが300〜600ドルの返金を3件行っていたことがわかりました。ポリシーを強制する変更はどれですか。（2つ選べ）"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Repeat the $150 limit at the start and end of the system prompt in capital letters, and add an example of a refused refund",
+        "ja": "150ドルの上限をシステムプロンプトの最初と最後に大文字で繰り返し、断った返金の例を加える"
+      },
+      {
+        "key": "B",
+        "en": "Have process_refund reject amounts over $150 with a non-retryable structured error that says the case needs approval",
+        "ja": "process_refund が150ドルを超える金額を、承認が必要であることを伝える再試行不可の構造化されたエラーで拒否するようにする"
+      },
+      {
+        "key": "C",
+        "en": "Add a hook that intercepts process_refund calls above $150 and routes them to escalate_to_human instead of running them",
+        "ja": "150ドルを超える process_refund の呼び出しを横取りし、実行せずに escalate_to_human に回すフックを加える"
+      },
+      {
+        "key": "D",
+        "en": "Ask the agent to check each amount against the policy and to confirm it with the customer before every refund it issues",
+        "ja": "返金のたびに金額をポリシーと照らし合わせ、顧客に確認するようエージェントに求める"
+      }
+    ],
+    "answer": [
+      "B",
+      "C"
+    ],
+    "explanation": {
+      "en": "A hard business rule needs deterministic enforcement outside the model: the tool rejects amounts over the limit with a non-retryable structured error that explains why (B), and a hook that intercepts over-limit calls routes them to a human (C). Louder wording and an example in the prompt (A) are still requests, which is what already failed. Asking the agent to check and confirm (D) leaves the limit to the model's judgment, and customer confirmation is not the approval the policy requires.",
+      "ja": "厳格な業務のルールには、モデルの外での決定的な強制が必要です。ツールが上限を超える金額を、理由を伝える再試行不可の構造化されたエラーで拒否すること (B)、そして上限を超える呼び出しを横取りして人に回すフック (C) です。プロンプトの表現を強めて例を加えても (A)、依頼であることに変わりはなく、それはすでに失敗しています。エージェントに確認を求めると (D)、上限がモデルの判断任せのままになり、顧客の確認はポリシーが求める承認ではありません。"
+    }
+  },
+  {
+    "id": "AF090",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS07",
+    "based_on": "AF037",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "The order-lookup tool returns \"Operation failed\" for every problem. On a billing timeout the agent apologizes and escalates; on a malformed order number it retries the identical call several times; and when the customer has no permission for the order, it keeps trying. Which tool response design lets the agent react correctly to each case?",
+      "ja": "注文検索のツールは、どんな問題でも \"Operation failed\" を返します。請求のバックエンドがタイムアウトするとエージェントは謝ってエスカレーションし、注文番号の形式が不正だと同一の呼び出しを何度も再試行し、顧客にその注文の権限がないときは試し続けます。それぞれのケースにエージェントが正しく対応できるツールの応答の設計はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Return \"Operation failed\" together with the raw backend exception, so that the agent can read the details and decide how to react",
+        "ja": "エージェントが詳細を読んで対応を決められるよう、\"Operation failed\" とあわせてバックエンドの生の例外を返す"
+      },
+      {
+        "key": "B",
+        "en": "Return an empty result whenever a call fails, so that the agent goes on with the conversation and neither retries nor escalates",
+        "ja": "エージェントが会話を続け、再試行もエスカレーションもしないよう、呼び出しが失敗したら空の結果を返す"
+      },
+      {
+        "key": "C",
+        "en": "Retry every failure three times inside the tool before returning, so the agent sees an error only when a problem looks permanent",
+        "ja": "エージェントには問題が恒久的に見えるときだけエラーが届くよう、返す前にツールの中であらゆる失敗を3回再試行する"
+      },
+      {
+        "key": "D",
+        "en": "Return an error flag with a category such as transient, validation, or permission, a retryable value, and a short message",
+        "ja": "エラーのフラグに、一時的・検証・権限などの種類、再試行の可否、短いメッセージを付けて返す"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "A uniform \"Operation failed\" hides the information the agent needs. Marking the result as an error and including a category, a retryable flag, and a short explanation lets it retry a timeout, correct a malformed order number, and stop or escalate on a permission problem (D). A raw exception (A) is unstructured and exposes internals. An empty result (B) hides the failure, and the agent may treat it as a valid answer. Retrying everything inside the tool (C) wastes calls on validation and permission errors that can never succeed, and the agent still receives a uniform error.",
+      "ja": "一律の \"Operation failed\" では、エージェントに必要な情報が隠れてしまいます。結果をエラーとして示し、種類、再試行の可否のフラグ、短い説明を含めれば、タイムアウトなら再試行し、注文番号の誤りなら直し、権限の問題なら止めるかエスカレーションできます (D)。生の例外 (A) は構造化されておらず、内部の情報をさらします。空の結果 (B) は失敗を隠し、エージェントがそれを正当な答えとして扱うおそれがあります。ツールの中ですべてを再試行すると (C)、成功しようのない検証や権限のエラーに呼び出しを浪費し、エージェントが受け取るエラーも一律のままです。"
+    }
+  },
+  {
+    "id": "AF091",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AF030",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "You are an AI engineer on a developer productivity agent. Its search_logs tool returns every matching log line, often about 40,000 tokens, although the agent needs only the timestamp, service, and error code of each match to decide its next step. Runs now hit the context limit after two or three searches. How should the tool change?",
+      "ja": "あなたは、開発者の生産性を高めるエージェントを担当する AI エンジニアです。その search_logs ツールは一致したログの行をすべて返し、しばしば約40,000トークンになります。しかし、エージェントが次のステップを決めるのに必要なのは、一致した各行のタイムスタンプ、サービス、エラーコードだけです。今では2〜3回の検索で、実行がコンテキストの上限に達してしまいます。ツールをどう変えるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Keep returning every line but move the agent to a model with a larger window, so that several full searches fit into a single run",
+        "ja": "すべての行を返すのは変えずに、1回の実行に検索結果の全文が複数収まるよう、より大きなウィンドウを持つモデルにエージェントを移す"
+      },
+      {
+        "key": "B",
+        "en": "Return only the timestamp, service, and error code of each match, with a way to fetch the full line when one needs a closer look",
+        "ja": "一致ごとにタイムスタンプ、サービス、エラーコードだけを返し、詳しく見る必要があるときには行全体を取得できる手段も用意する"
+      },
+      {
+        "key": "C",
+        "en": "Send each search result through a second model call that summarizes it first, so that the agent receives a shorter version each time",
+        "ja": "検索結果をそれぞれ2回目のモデル呼び出しで先に要約し、エージェントが毎回短くした版を受け取るようにする"
+      },
+      {
+        "key": "D",
+        "en": "Have the agent call search_logs less often, only when a run is stuck, so that fewer large results accumulate in its context window",
+        "ja": "コンテキストウィンドウに大きな結果が溜まらないよう、エージェントが search_logs を呼ぶのは実行が行き詰まったときだけにする"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Tools should return what the task needs, here three fields per match, and offer a way to get more detail on demand, which keeps context free for reasoning (B). A larger window (A) postpones the same failure and pays for tokens the agent never uses. A summarizing call (C) adds cost, latency, and a lossy step for data the agent could get exactly by returning fewer fields. Calling the tool less often (D) does not change the size of each result and withholds information the agent needs.",
+      "ja": "ツールはタスクに必要なもの（ここでは一致ごとに3つのフィールド）を返し、必要に応じて詳細を取得する手段を用意すべきで、そうすれば推論のためのコンテキストが空きます (B)。大きなウィンドウ (A) は同じ失敗を先送りし、エージェントが使わないトークンの分まで払い続けます。要約のための呼び出し (C) は、フィールドを絞れば正確に得られるデータのために、コスト、レイテンシ、情報が失われるステップを増やします。呼び出しを減らしても (D)、1回ごとの結果の大きさは変わらず、エージェントに必要な情報も渡らなくなります。"
+    }
+  },
+  {
+    "id": "AF092",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AF063",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A company exposes its HR database to an internal assistant through an MCP server with one tool, run_sql, which accepts any SQL statement. The assistant is used only to answer employees' questions about their own leave balance and benefits. A security review flags the design, even though the tool has never been misused. What change addresses the reviewer's concern?",
+      "ja": "ある会社は、任意の SQL 文を受け付ける run_sql という1つのツールを持つ MCP サーバーを通じて、人事データベースを社内のアシスタントに公開しています。このアシスタントは、社員が自分の休暇の残日数や福利厚生について質問するのに答えるためだけに使われています。このツールが悪用されたことは一度もありませんが、セキュリティレビューでこの設計が指摘されました。レビュー担当者の懸念に対処する変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Add a system prompt rule telling the assistant to run only SELECT statements on the tables that hold the asking employee's records",
+        "ja": "質問した社員の記録がある表に対してだけ SELECT 文を実行するよう、アシスタントに伝えるルールをシステムプロンプトに加える"
+      },
+      {
+        "key": "B",
+        "en": "Log every SQL statement the assistant runs and review the log weekly, so that any misuse of the tool is noticed and dealt with",
+        "ja": "ツールの悪用に気づいて対処できるよう、アシスタントが実行した SQL 文をすべて記録し、毎週そのログを確認する"
+      },
+      {
+        "key": "C",
+        "en": "Replace run_sql with narrow tools such as get_leave_balance for the signed-in employee, so the assistant can reach only that data",
+        "ja": "run_sql を、ログインしている社員に限った get_leave_balance のような範囲の狭いツールに置き換え、アシスタントがそのデータにしか届かないようにする"
+      },
+      {
+        "key": "D",
+        "en": "Keep run_sql but switch to a model known for following instructions, so the assistant is less likely to write a harmful statement",
+        "ja": "run_sql は残しつつ、指示に従うことで知られるモデルに切り替え、アシスタントが有害な文を書きにくくする"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "A single unrestricted tool gives the model authority over the whole database, so least privilege cannot be applied; narrow tools scoped to the signed-in employee bound what the assistant can reach regardless of what it is asked (C). A prompt rule (A) is a request to the model, not a limit on the tool. Weekly log review (B) is useful oversight in general, but it detects misuse after the fact instead of preventing it. A model that follows instructions well (D) still holds the same unbounded authority.",
+      "ja": "制限のない1つのツールは、データベース全体に対する権限をモデルに与えるため、最小権限を適用できません。ログインしている社員に範囲を限った狭いツールにすれば、何を頼まれても、アシスタントが届く範囲は限定されます (C)。プロンプトのルール (A) はモデルへの依頼であって、ツールの制限ではありません。毎週のログの確認 (B) は一般的には有用な監視ですが、悪用を防ぐのではなく、あとから見つけるものです。指示によく従うモデル (D) でも、同じ無制限の権限を持ったままです。"
+    }
+  },
+  {
+    "id": "AF093",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS08",
+    "based_on": "AF041",
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "You are a senior engineer on this team. Two tasks are queued: fixing a typo in one error message in a single file, and moving the authentication logic of three services into a new shared library, where several designs are possible and other teams depend on those services. A colleague wants to use the same mode for both tasks to keep things simple. How should the two tasks be handled?",
+      "ja": "あなたはこのチームのシニアエンジニアです。2つのタスクが待っています。1つのファイルにある1つのエラーメッセージの誤字の修正と、3つのサービスの認証ロジックを新しい共有ライブラリに移す作業です。後者には複数の設計がありえ、ほかのチームもそれらのサービスに依存しています。同僚は、単純にするため両方を同じモードで進めたいと考えています。2つのタスクはどう扱うべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Use plan mode for both, since reviewing the approach first is the safer habit and keeps the workflow identical for every task",
+        "ja": "先にやり方をレビューするほうが安全な習慣で、どのタスクでもワークフローを同じにできるので、両方ともプランモードで進める"
+      },
+      {
+        "key": "B",
+        "en": "Use direct execution for both, since Claude Code can revise its changes later if the library design turns out to be wrong",
+        "ja": "ライブラリの設計が間違っていたとしても Claude Code があとで変更を直せるので、両方とも直接実行で進める"
+      },
+      {
+        "key": "C",
+        "en": "Use plan mode for the typo fix and direct execution for the library, since small edits are where unnoticed mistakes slip in",
+        "ja": "小さな編集こそ気づかれない誤りが紛れ込む場所なので、誤字の修正はプランモード、ライブラリは直接実行で進める"
+      },
+      {
+        "key": "D",
+        "en": "Fix the typo with direct execution, and use plan mode for the library so the approach is reviewed before any files change",
+        "ja": "誤字は直接実行で直し、ライブラリはファイルを変更する前にやり方をレビューできるようプランモードで進める"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Plan mode suits large changes with several valid approaches and wide impact, where the approach should be reviewed before edits, while a well-scoped single-file fix suits direct execution (D). Planning everything (A) adds review overhead to trivial edits without reducing any real risk. Direct execution for the library (B) commits to one design across three services before anyone has compared the options. Option (C) reverses the two, putting the review where it adds nothing and skipping it where it matters.",
+      "ja": "プランモードは、有効なやり方が複数あり影響範囲の広い大きな変更で、編集の前にやり方をレビューすべき場合に向いています。範囲がはっきりした1ファイルの修正は直接実行に向いています (D)。すべてを計画させると (A)、実際のリスクは何も減らないまま、些細な編集にレビューの手間が加わります。ライブラリを直接実行すると (B)、誰も選択肢を比べないうちに、3つのサービスにまたがる1つの設計に踏み込むことになります。(C) は2つが逆で、意味のないところでレビューし、重要なところでレビューを飛ばしています。"
+    }
+  },
+  {
+    "id": "AF094",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AF020",
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A platform team has two needs. First, every engineer should follow the same seven-step procedure when cutting a release. Second, a dependency audit reads hundreds of files and produces long output that should not fill the engineer's main session. One engineer proposes making both into skills that run in the main session; another proposes making both into subagents. What is the best assignment?",
+      "ja": "あるプラットフォームチームには2つのニーズがあります。1つ目は、リリースを作るとき、全エンジニアが同じ7ステップの手順に従うことです。2つ目は、依存関係の監査で、数百のファイルを読んで長い出力を生むため、それでエンジニアのメインのセッションを埋めたくないことです。あるエンジニアは両方をメインのセッションで動くスキルにすることを、別のエンジニアは両方をサブエージェントにすることを提案しています。最も良い割り当てはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Make the release procedure a skill and the audit a subagent, since one is reusable know-how and the other needs its own context",
+        "ja": "リリースの手順はスキルに、監査はサブエージェントにする。一方は再利用するノウハウで、もう一方は独自のコンテキストを必要とするから"
+      },
+      {
+        "key": "B",
+        "en": "Make both into skills, since skills are shared through the repository and load only when used, which covers both of the listed needs",
+        "ja": "スキルはリポジトリで共有され、使うときだけ読み込まれ、挙げられた両方のニーズに応えられるので、両方をスキルにする"
+      },
+      {
+        "key": "C",
+        "en": "Make both into subagents, since subagents isolate context and can also follow a step-by-step procedure as faithfully as a skill can",
+        "ja": "サブエージェントはコンテキストを分離でき、スキルと同じように手順にも忠実に従えるので、両方をサブエージェントにする"
+      },
+      {
+        "key": "D",
+        "en": "Make the release procedure a subagent and the audit a skill, since the release has more steps and the audit runs only now and then",
+        "ja": "リリースのほうがステップが多く、監査はたまにしか実行しないので、リリースの手順をサブエージェントに、監査をスキルにする"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "A skill packages reusable know-how such as a team procedure, while a subagent isolates a line of work in its own context so its bulky output stays out of the main session (A). Skills running in the main session (B) would bring the audit's long output into that session, which the team wants to avoid. Making the release procedure a subagent (C) hides a procedure the engineer should follow interactively behind a separate context for no benefit. Option (D) swaps the two, isolating the part that does not need it and leaving the bulky audit in the main session.",
+      "ja": "スキルはチームの手順のような再利用するノウハウをまとめるもので、サブエージェントは作業の流れを独自のコンテキストに分離し、かさばる出力をメインのセッションに入れないようにするものです (A)。メインのセッションで動くスキル (B) では、監査の長い出力がそのセッションに入り、チームが避けたいことが起きます。リリースの手順をサブエージェントにすると (C)、エンジニアが対話しながら従うべき手順を、利点もなく別のコンテキストの奥に隠してしまいます。(D) は2つが逆で、分離の必要がない部分を分離し、かさばる監査をメインのセッションに残します。"
+    }
+  },
+  {
+    "id": "AF095",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AF069",
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "You are the tech lead for a monorepo whose CLAUDE.md has grown to 3,000 lines over two years: build commands, conventions for five languages, old migration notes, and Terraform rules that apply only under infra/. Engineers report that Claude increasingly ignores rules they consider important. Which change addresses this most directly?",
+      "ja": "あなたはモノレポのテックリードです。その CLAUDE.md は2年で3,000行に膨らみました。ビルドコマンド、5つの言語の規約、古い移行のメモ、そして infra/ の下にだけ当てはまる Terraform のルールが入っています。エンジニアからは、Claude が重要なルールをますます無視するようになったという報告が来ています。これに最も直接的に対処する変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Move the most important rules to the top of the file in capital letters, so that they stand out against the rest of the 3,000 lines",
+        "ja": "残りの3,000行の中で目立つよう、最も重要なルールをファイルの先頭に大文字で移す"
+      },
+      {
+        "key": "B",
+        "en": "Ask every engineer to copy the rules they care about into their own ~/.claude/CLAUDE.md, so that each person's key rules are kept",
+        "ja": "各自のルールが残るよう、エンジニア全員に、大事にしているルールを自分の ~/.claude/CLAUDE.md にコピーしてもらう"
+      },
+      {
+        "key": "C",
+        "en": "Delete stale notes, keep shared essentials in CLAUDE.md, and move area rules like Terraform into path-scoped .claude/rules files",
+        "ja": "古いメモを消し、共通の要点は CLAUDE.md に残して、Terraform のような領域ごとのルールはパス限定の .claude/rules のファイルに移す"
+      },
+      {
+        "key": "D",
+        "en": "Split the file into five CLAUDE.md files, one per language, and import all of them from the root file so that nothing is lost",
+        "ja": "何も失われないよう、ファイルを言語ごとの5つの CLAUDE.md に分け、ルートのファイルからそのすべてを読み込む"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Project memory is context, and 3,000 lines of mixed and outdated material dilute the rules that matter; removing stale notes, keeping shared essentials in CLAUDE.md, and moving area-specific rules into path-scoped files that load only for matching files addresses the cause (C). Capital letters at the top (A) leave all the competing material in place. Personal copies (B) are not shared, so the team's behavior diverges. Importing all five files from the root (D) loads the same volume of text everywhere, so nothing is actually reduced.",
+      "ja": "プロジェクトのメモリもコンテキストであり、混在した古い内容が3,000行もあれば、重要なルールが薄まります。古いメモを消し、共通の要点は CLAUDE.md に残し、領域ごとのルールは該当するファイルのときだけ読み込まれるパス限定のファイルに移せば、原因に対処できます (C)。先頭に大文字で書いても (A)、競合する内容はすべて残ったままです。個人のコピー (B) は共有されないので、チームの振る舞いがばらばらになります。ルートから5つのファイルをすべて読み込むと (D)、どこでも同じ量のテキストが読み込まれ、実際には何も減りません。"
+    }
+  },
+  {
+    "id": "AF096",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS05",
+    "based_on": "AF007",
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "The CI reviewer currently runs with the instruction \"Only report high-confidence findings and be conservative.\" Developers still dismiss about 70% of its comments, mostly about naming and formatting, and they have started ignoring the real security findings mixed in with them. Which change best restores the reviewer's precision?",
+      "ja": "CI のレビュー担当は、現在「確信度の高い指摘だけを報告し、控えめにすること」という指示で動いています。それでも開発者はコメントの約70%を却下しており、その多くは命名や書式に関するもので、混ざっている本物のセキュリティの指摘まで無視するようになっています。レビュー担当の精度を最もよく取り戻す変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Strengthen the instruction to \"Only report findings you are very sure about\" and repeat it at the end of the prompt for emphasis",
+        "ja": "指示を「本当に確かな指摘だけを報告すること」に強め、強調のためにプロンプトの最後でも繰り返す"
+      },
+      {
+        "key": "B",
+        "en": "Ask the reviewer to attach a confidence score to each finding, and post only the findings whose score is above a fixed threshold",
+        "ja": "各指摘に確信度のスコアを付けるようレビュー担当に求め、スコアが固定のしきい値を超えた指摘だけを投稿する"
+      },
+      {
+        "key": "C",
+        "en": "Post only the first five findings for each pull request, in the order the reviewer produced them, to keep the volume manageable",
+        "ja": "量を管理できる程度に抑えるため、プルリクエストごとに、レビュー担当が出した順に最初の5件の指摘だけを投稿する"
+      },
+      {
+        "key": "D",
+        "en": "State which issue types to report and which to skip, with a severity bar and short examples of reportable and skippable code",
+        "ja": "報告すべき問題の種類と見送る種類を示し、重大度の基準と、報告するコードと見送るコードの短い例を添える"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "General instructions such as \"be conservative\" do not tell the model where the line is; explicit criteria for what to report and what to skip, a severity bar, and examples of both sides draw that line (D). A stronger version of the same vague instruction (A) changes nothing about the boundary. Self-reported confidence (B) is not a reliable filter, so naming nits can still pass. The first five findings (C) may be nits while real security findings are dropped.",
+      "ja": "「控えめにすること」のような一般的な指示では、どこに線を引けばよいかがモデルに伝わりません。何を報告し何を見送るかの明示的な基準、重大度の基準、そして両方の例があれば、その線を引けます (D)。同じあいまいな指示を強めても (A)、境界は何も変わりません。自己申告の確信度 (B) は当てになるフィルタではなく、命名の細かい指摘も通ってしまいます。最初の5件 (C) が細かい指摘ばかりで、本物のセキュリティの指摘が落ちることもあります。"
+    }
+  },
+  {
+    "id": "AF097",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS06",
+    "based_on": "AF008",
+    "domain": 4,
+    "type": "multiple",
+    "question": {
+      "en": "You are an engineer designing the schema for extracting data from shipping documents. Bills of lading always carry a vessel name, but air waybills never do, and about 10% of bills of lading arrive with the vessel name smudged and unreadable. The current schema marks vessel_name as required, and the model fills in plausible names on air waybills. Which two changes are needed? (Choose two.)",
+      "ja": "あなたは、輸送書類からデータを抽出するスキーマを設計しているエンジニアです。船荷証券（B/L）には必ず船名が記載されていますが、航空運送状（AWB）には記載されることがありません。また、B/L の約10%は、船名がかすれて読めない状態で届きます。現在のスキーマは vessel_name を必須にしており、モデルは AWB にもっともらしい船名を入れています。必要な変更はどれですか。（2つ選べ）"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Make vessel_name nullable, so the model can record its absence honestly instead of supplying a plausible name",
+        "ja": "vessel_name を null 許容にして、モデルがもっともらしい船名を入れる代わりに、値がないことを正直に記録できるようにする"
+      },
+      {
+        "key": "B",
+        "en": "Keep vessel_name required but tell the model to write \"N/A\" in that field whenever it cannot find the vessel name",
+        "ja": "vessel_name は必須のままにし、船名が見つからないときはそのフィールドに \"N/A\" と書くようモデルに伝える"
+      },
+      {
+        "key": "C",
+        "en": "Validate that vessel_name is present for bills of lading, and route those where it is null to a person to check",
+        "ja": "B/L では vessel_name があることを検証し、null になっているものは人に回して確認してもらう"
+      },
+      {
+        "key": "D",
+        "en": "Remove vessel_name from the schema and fill it in later with a lookup, so the model never has to handle the field",
+        "ja": "vessel_name をスキーマから外し、あとで照会して埋めるようにして、モデルがこのフィールドを扱わなくて済むようにする"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": {
+      "en": "A field the source may legitimately lack should be nullable, so absence is recorded instead of invented (A), and the document-type rule belongs in downstream validation, which catches the smudged bills of lading that need a person (C). A required field with \"N/A\" (B) mixes a placeholder string into the data and still pressures the model to fill the field. Removing the field (D) loses vessel names that are present on most bills of lading, and nothing says a lookup source exists.",
+      "ja": "元の文書に正当に含まれないことがあるフィールドは null 許容にし、値を作り出すのではなく、ないことを記録できるようにします (A)。文書の種類によるルールは後続の検証に置き、それによって人の確認が必要なかすれた B/L を捕まえます (C)。必須のまま \"N/A\" と書かせると (B)、データに埋め草の文字列が混ざり、フィールドを埋めさせる圧力も残ります。フィールドを外すと (D)、ほとんどの B/L にある船名まで失われ、照会できる情報源があるとも書かれていません。"
+    }
+  },
+  {
+    "id": "AF098",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AF026",
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "A legal team runs a monthly job that extracts clause data from about 20,000 contracts and compares the results with previous months. This quarter the extracted values shifted noticeably, and nobody can tell whether the contracts changed, someone edited the prompt, or the model behind the job was switched. Which practice would have made this question answerable?",
+      "ja": "ある法務チームは、毎月約20,000件の契約書から条項のデータを抽出し、その結果を過去の月と比べる処理を実行しています。この四半期、抽出された値がはっきり変化しましたが、契約書が変わったのか、誰かがプロンプトを編集したのか、処理に使うモデルが切り替わったのか、誰にもわかりません。この問いに答えられるようにするには、どのやり方が必要でしたか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Running each contract twice every month and keeping the more complete result, so that random variation does not affect the trend",
+        "ja": "ランダムなばらつきが傾向に影響しないよう、毎月各契約書を2回処理し、より完全なほうの結果を残す"
+      },
+      {
+        "key": "B",
+        "en": "Pinning the prompt, schema, and model version for the job, and recording all three with every output so runs can be compared",
+        "ja": "処理に使うプロンプト、スキーマ、モデルのバージョンを固定し、実行どうしを比べられるよう、その3つを毎回の出力とともに記録する"
+      },
+      {
+        "key": "C",
+        "en": "Processing the contracts in the same order every month, so that the job handles them consistently and the results stay aligned",
+        "ja": "処理が契約書を一貫して扱い、結果がそろうよう、毎月同じ順番で契約書を処理する"
+      },
+      {
+        "key": "D",
+        "en": "Raising the output token limit so that extractions are not cut short, which removes one possible source of month-to-month change",
+        "ja": "抽出が途中で切れないよう出力トークンの上限を引き上げ、月ごとの変化の原因の1つを取り除く"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Comparing runs over time requires that everything shaping the output is pinned and recorded with the results, so a shift can be traced to the input, the prompt, the schema, or the model (B). Running twice (A) measures variation but records nothing about what changed. Processing order (C) does not affect what each extraction produces. A higher token limit (D) addresses truncation, which is not the question raised here.",
+      "ja": "時間をまたいで実行を比べるには、出力を左右するものをすべて固定し、結果とともに記録しておく必要があります。そうすれば、変化の原因が入力なのか、プロンプト、スキーマ、モデルなのかをたどれます (B)。2回処理しても (A)、ばらつきは測れますが、何が変わったかは何も記録されません。処理の順番 (C) は各抽出の結果に影響しません。トークンの上限を上げること (D) は出力の切れに対処するもので、ここで問われていることではありません。"
+    }
+  },
+  {
+    "id": "AF099",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AF074",
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "You are an AI engineer on a pipeline that extracts obligations from supplier contracts for a compliance team. Reviewers must be able to jump from each extracted obligation to the exact clause it came from, and they currently search each contract by hand. The extraction already uses a tool schema with fields for party, obligation, and deadline. What change meets the reviewers' need?",
+      "ja": "あなたは、コンプライアンスチームのために、取引先との契約書から義務を抽出するパイプラインを担当している AI エンジニアです。レビュー担当者は、抽出された各義務から、その元になった条項へ正確にたどれなければなりませんが、今は契約書ごとに手で探しています。抽出にはすでに、当事者、義務、期限のフィールドを持つツールのスキーマを使っています。レビュー担当者のニーズを満たす変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Add fields for the source clause number and quoted text to the schema, so the model must fill them in for every obligation",
+        "ja": "元の条項番号と引用したテキストのフィールドをスキーマに加え、モデルがすべての義務についてそれを埋めなければならないようにする"
+      },
+      {
+        "key": "B",
+        "en": "Run a second extraction pass that asks Claude where each obligation came from, and attach that answer to the first pass's output",
+        "ja": "各義務がどこから来たかを Claude に尋ねる2回目の抽出を行い、その答えを1回目の出力に付け加える"
+      },
+      {
+        "key": "C",
+        "en": "Switch to a larger model, since a more capable model is more likely to mention the clause it relied on in its free-text output",
+        "ja": "より高性能なモデルほど、自由記述の出力で根拠にした条項に触れやすいので、より大きなモデルに切り替える"
+      },
+      {
+        "key": "D",
+        "en": "Add a sentence to the prompt asking the model to mention the clause for each obligation somewhere in its reply as it sees fit",
+        "ja": "各義務の条項について、返答のどこかで適宜触れるようモデルに求める1文をプロンプトに加える"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Anything the output must carry has to be part of the declared shape, so adding source fields to the schema makes the model provide them for every obligation in a form reviewers can use (A). A second pass (B) adds cost and a separate output that must be matched back to the first, when one schema can ask for both. A larger model (C) does not create a field. A request to mention the clause somewhere (D) leaves its presence and format to chance.",
+      "ja": "出力に含めなければならないものは、宣言した形の一部にする必要があります。出所のフィールドをスキーマに加えれば、モデルはすべての義務について、レビュー担当者が使える形でそれを返します (A)。2回目の抽出 (B) は、1つのスキーマで両方を求められるのに、コストと、1回目と突き合わせる必要のある別の出力を増やします。大きなモデル (C) ではフィールドは生まれません。どこかで触れるよう求めても (D)、含まれるかどうかも形式も運任せです。"
+    }
+  },
+  {
+    "id": "AF100",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS07",
+    "based_on": "AF036",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Store staff sometimes use one chat to resolve issues for several customers in a row. The agent keeps the full chat in context, and in one session it applied the first customer's refund eligibility to the third customer's request. The orders, the tools, and the refund policy were all correct. What change addresses this most directly?",
+      "ja": "店舗のスタッフは、1つのチャットで複数の顧客の問題を続けて解決することがあります。エージェントはチャット全体をコンテキストに保持しており、あるセッションでは、1人目の顧客の返金資格を3人目の顧客の依頼に当てはめてしまいました。注文、ツール、返金のポリシーはすべて正しいものでした。これに最も直接的に対処する変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Move to a model with a larger context window, so that the agent can keep every customer's details in view without mixing them up",
+        "ja": "エージェントがすべての顧客の詳細を混同せずに見渡せるよう、より大きなコンテキストウィンドウを持つモデルに移す"
+      },
+      {
+        "key": "B",
+        "en": "Add an instruction asking the agent to be careful about which customer each detail belongs to before answering any request",
+        "ja": "どの依頼に答える前にも、各情報がどの顧客のものかに注意するようエージェントに求める指示を加える"
+      },
+      {
+        "key": "C",
+        "en": "Limit each chat to a fixed number of turns, so that earlier customers' details drop out of the context before they cause confusion",
+        "ja": "以前の顧客の詳細が混乱を招く前にコンテキストから外れるよう、各チャットのターン数に決まった上限を設ける"
+      },
+      {
+        "key": "D",
+        "en": "Keep a separate case record per customer and load only the active customer's facts, clearing old lookups when the subject changes",
+        "ja": "顧客ごとに別のケースの記録を持ち、対応中の顧客の事実だけを読み込んで、話題が変わったら古い検索結果を消去する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "The defect is context scoping: facts about one customer remain in the same context as the next, so the fix is a case record per customer and loading only the active customer's facts when the subject changes (D). A larger window (A) keeps even more of the other customers in view. An instruction to be careful (B) leaves the stale facts in context. A turn limit (C) drops details arbitrarily, including the current customer's, and still mixes customers within the limit.",
+      "ja": "欠陥はコンテキストの範囲設定にあります。ある顧客についての事実が次の顧客と同じコンテキストに残っているので、顧客ごとのケースの記録を持ち、話題が変わったら対応中の顧客の事実だけを読み込むことが修正になります (D)。大きなウィンドウ (A) では、ほかの顧客の情報がさらに多く見えたままになります。注意するよう指示しても (B)、古い事実はコンテキストに残ります。ターン数の上限 (C) は、対応中の顧客のものも含めて恣意的に詳細を落とし、上限の範囲内では顧客が混ざったままです。"
+    }
+  },
+  {
+    "id": "AF101",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS01",
+    "based_on": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "You are the architect for the support agent. Policy requires that a customer's identity be verified with verify_identity before any refund. The system prompt says so, yet logs show that about 2% of refunds were processed without a successful verification, usually in long conversations where the customer was impatient and the agent skipped ahead. How should the rule be enforced?",
+      "ja": "あなたはサポートエージェントのアーキテクトです。ポリシーでは、返金の前に必ず verify_identity で顧客の本人確認をすることになっています。システムプロンプトにもそう書かれていますが、ログを見ると、返金の約2%が本人確認に成功しないまま処理されていました。多くは、顧客が急いでいてエージェントが手順を飛ばした長い会話です。このルールはどう強制すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Move the verification rule to the top of the system prompt and repeat it before each tool description, so it stays salient in long chats",
+        "ja": "長いチャットでも目立ち続けるよう、本人確認のルールをシステムプロンプトの先頭に移し、各ツールの説明の前でも繰り返す"
+      },
+      {
+        "key": "B",
+        "en": "Block process_refund in code until verify_identity has succeeded for that customer, returning an error that names the missing step",
+        "ja": "その顧客の verify_identity が成功するまでコードで process_refund を止め、足りない手順を示すエラーを返す"
+      },
+      {
+        "key": "C",
+        "en": "Ask the agent to state at the start of each reply whether the customer is verified, so that the requirement stays visible in the chat",
+        "ja": "要件がチャットの中で見え続けるよう、各返信の冒頭で顧客が本人確認済みかどうかを述べるようエージェントに求める"
+      },
+      {
+        "key": "D",
+        "en": "Escalate every refund request to a human who checks identity, which removes the risk of the agent skipping the verification step",
+        "ja": "本人確認を飛ばすリスクがなくなるよう、すべての返金の依頼を、本人確認を行う人にエスカレーションする"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "When compliance must be guaranteed, such as identity verification before a financial operation, the prerequisite is enforced in code: process_refund is blocked until verification has succeeded, and the error tells the agent what is missing (B). A more prominent prompt rule (A) still leaves the check to the model, which is what failed. A status line in each reply (C) relies on the model's own account of whether verification happened. Escalating every refund (D) removes the risk but gives up the 80% first-contact resolution target.",
+      "ja": "金融の操作の前の本人確認のように、守ることを保証しなければならない場合は、前提条件をコードで強制します。本人確認が成功するまで process_refund を止め、何が足りないかをエラーでエージェントに伝えます (B)。プロンプトのルールを目立たせても (A)、確認はモデル任せのままで、それはすでに失敗しています。各返信での状態の表示 (C) は、本人確認が済んだかどうかについてのモデル自身の申告に頼っています。すべての返金をエスカレーションすると (D)、リスクはなくなりますが、80%の初回解決という目標を手放すことになります。"
+    }
+  },
+  {
+    "id": "AF102",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS01",
+    "based_on": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "When the support agent escalates a dispute, the human specialist receives the full chat transcript of 40 to 80 turns. Specialists say they spend several minutes reconstructing what happened and sometimes ask customers to repeat details, which hurts satisfaction. The agent already knows the customer, the order, what it tried, and why it is escalating. What should the escalation pass on?",
+      "ja": "サポートエージェントが争いの案件をエスカレーションすると、人の担当者は40〜80ターンのチャットの記録全体を受け取ります。担当者は、何が起きたかを把握し直すのに数分かかり、顧客に詳細を繰り返し尋ねることもあると言っており、満足度に響いています。エージェントは、顧客、注文、試したこと、エスカレーションの理由をすでに把握しています。エスカレーションでは何を渡すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Only a link to the transcript and the customer's name, so that the specialist reads the full conversation and forms an independent view",
+        "ja": "担当者が会話全体を読んで独自に判断できるよう、チャットの記録へのリンクと顧客の名前だけを渡す"
+      },
+      {
+        "key": "B",
+        "en": "A free-text paragraph written by the agent in a friendly tone, summarizing the chat the way it would explain it to the customer",
+        "ja": "エージェントが顧客に説明するときのように、親しみやすい口調で会話をまとめた自由記述の段落を渡す"
+      },
+      {
+        "key": "C",
+        "en": "The transcript with the agent's last three messages highlighted, since the reason for escalation usually appears near the end",
+        "ja": "エスカレーションの理由はたいてい終わり近くに出てくるので、エージェントの最後の3つのメッセージを強調したチャットの記録を渡す"
+      },
+      {
+        "key": "D",
+        "en": "A structured summary with the customer ID, order, root cause, actions taken, refund amount at issue, and a recommended next step",
+        "ja": "顧客 ID、注文、根本原因、行った対応、問題になっている返金額、推奨する次の対応をまとめた構造化されたサマリーを渡す"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "A structured handoff that carries the customer ID, the order, the root cause, what was already tried, the amount at stake, and a recommendation lets the specialist act without reconstructing the case or asking the customer to repeat it (D). A transcript link alone (A) is the current situation that wastes specialists' time. A friendly free-text summary (B) is written for the customer and leaves out fields a specialist needs in a predictable place. Highlighting the last messages (C) still forces the specialist to piece the case together from the chat.",
+      "ja": "顧客 ID、注文、根本原因、すでに試したこと、問題になっている金額、推奨を運ぶ構造化された引き継ぎがあれば、担当者は案件を把握し直したり、顧客に繰り返させたりせずに動けます (D)。記録へのリンクだけ (A) は、担当者の時間を無駄にしている今の状況そのものです。親しみやすい自由記述のまとめ (B) は顧客向けに書かれたもので、担当者に必要な項目が決まった場所に入っていません。最後のメッセージを強調しても (C)、担当者はやはりチャットから案件をつなぎ合わせなければなりません。"
+    }
+  },
+  {
+    "id": "AF103",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS01",
+    "based_on": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "You are an AI engineer on the support agent. get_customer returns dates as Unix timestamps, lookup_order returns ISO 8601 strings, and the legacy billing tool returns dates like 03/04/2026. The agent sometimes misjudges whether an order is inside the 30-day return window, and the errors cluster on billing-tool orders. Other teams own the tools, which cannot change soon. What is the most reliable fix?",
+      "ja": "あなたは、サポートエージェントを担当する AI エンジニアです。get_customer は日付を Unix タイムスタンプで、lookup_order は ISO 8601 の文字列で、古い請求のツールは 03/04/2026 のような形で返します。エージェントは注文が30日の返品期間内かどうかをときどき誤って判断し、その誤りは請求のツールから来た注文に集中しています。ツールはほかのチームの担当で、すぐには変えられません。最も信頼できる修正はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Add a PostToolUse hook that converts every date in the tool results to one ISO 8601 format before the agent sees the results",
+        "ja": "エージェントが結果を見る前に、ツールの結果にあるすべての日付を ISO 8601 の1つの形式に変換する PostToolUse フックを加える"
+      },
+      {
+        "key": "B",
+        "en": "Explain the three date formats in the system prompt, and ask the agent to convert each date to one format before it compares them",
+        "ja": "システムプロンプトで3つの日付の形式を説明し、比べる前に各日付を1つの形式に変換するようエージェントに求める"
+      },
+      {
+        "key": "C",
+        "en": "Ask the agent to restate each date in words before it decides on a return, so that format mistakes become visible in the chat",
+        "ja": "形式の誤りがチャットで見えるよう、返品を判断する前に各日付を言葉で言い直すようエージェントに求める"
+      },
+      {
+        "key": "D",
+        "en": "Switch to a more capable model, since a stronger model is less likely to misread dates in unfamiliar formats when comparing them",
+        "ja": "より強いモデルほど比べるときに見慣れない形式の日付を読み違えにくいので、より高性能なモデルに切り替える"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "A PostToolUse hook runs on every tool result and can replace the output before the model sees it, so normalizing all dates to one format there removes the ambiguity deterministically, without changing the tools (A). Explaining the formats in the prompt (B) still leaves each conversion to the model, and 03/04/2026 is ambiguous even to a careful reader. Restating dates in words (C) shows mistakes after they are made instead of preventing them. A more capable model (D) does not resolve a format that is inherently ambiguous.",
+      "ja": "PostToolUse フックはすべてのツールの結果に対して実行され、モデルが見る前に出力を置き換えられます。そこで日付を1つの形式に正規化すれば、ツールを変えずに、あいまいさを決定的に取り除けます (A)。プロンプトで形式を説明しても (B)、変換は1回ごとにモデル任せのままで、03/04/2026 は注意深い人が読んでもあいまいです。日付を言葉で言い直させても (C)、誤りを防ぐのではなく、誤ったあとで見えるようにするだけです。より高性能なモデル (D) でも、もともとあいまいな形式は解決できません。"
+    }
+  },
+  {
+    "id": "AF104",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS03",
+    "based_on": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "The research system's coordinator sends every query through all four subagents in order. Simple factual questions such as \"When was the company founded?\" now take two minutes and cost as much as a full research report, while complex questions still need the whole pipeline. Most user questions are simple ones. How should the coordinator change?",
+      "ja": "リサーチシステムのコーディネーターは、すべての問い合わせを4つのサブエージェントに順に通しています。「その会社はいつ設立されましたか」のような単純な事実の質問にも2分かかり、コストは本格的なリサーチレポートと同じになっています。一方、複雑な質問には今もパイプライン全体が必要です。利用者の質問の大半は単純なものです。コーディネーターをどう変えるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Remove the analysis and synthesis subagents for all queries, so that every question is answered directly from the search results",
+        "ja": "すべての質問に検索結果から直接答えるよう、どの問い合わせでも分析と統合のサブエージェントを外す"
+      },
+      {
+        "key": "B",
+        "en": "Run all four subagents in parallel for every query, so simple questions finish sooner while the full pipeline still runs each time",
+        "ja": "パイプライン全体は毎回実行しつつ単純な質問が早く終わるよう、どの問い合わせでも4つのサブエージェントを並列に実行する"
+      },
+      {
+        "key": "C",
+        "en": "Have the coordinator assess each query and invoke only the subagents it needs, keeping the full pipeline for complex research",
+        "ja": "コーディネーターが各問い合わせを評価して必要なサブエージェントだけを呼び出し、複雑なリサーチにはパイプライン全体を残す"
+      },
+      {
+        "key": "D",
+        "en": "Cache every final report and answer later questions from the cache, so that repeated questions do not run through the pipeline again",
+        "ja": "同じ質問がパイプラインを再び通らないよう、すべての最終レポートをキャッシュし、以降の質問にはキャッシュから答える"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "A coordinator should analyze what a query requires and select the subagents to invoke, rather than routing everything through the full pipeline, so simple questions take a short path and complex ones still get the whole process (C). Removing analysis and synthesis for all queries (A) breaks the complex research the system exists for. Running all four in parallel (B) keeps the full cost for every query, and synthesis depends on the earlier stages' output. A cache (D) helps only with repeated questions, which is not what makes most queries slow.",
+      "ja": "コーディネーターは、すべてをパイプライン全体に通すのではなく、問い合わせに何が必要かを分析して呼び出すサブエージェントを選ぶべきです。そうすれば、単純な質問は短い経路で済み、複雑な質問は全体の処理を受けられます (C)。どの問い合わせでも分析と統合を外すと (A)、このシステムの目的である複雑なリサーチができなくなります。4つを並列に実行しても (B)、すべての問い合わせで全体のコストがかかり、統合は前の段階の出力に依存しています。キャッシュ (D) が役立つのは同じ質問が繰り返されるときだけで、大半の問い合わせが遅い原因ではありません。"
+    }
+  },
+  {
+    "id": "AF105",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS03",
+    "based_on": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "You are the architect of the research system. Asked to research \"the impact of AI on healthcare,\" the coordinator delegated three searches: AI in radiology, AI diagnostic imaging tools, and machine learning for medical scans. The report covered imaging in depth but said nothing about drug discovery, administration, or patient-facing tools, and two subagents returned overlapping sources. What should change?",
+      "ja": "あなたはリサーチシステムのアーキテクトです。「医療への AI の影響」を調べるよう頼まれたコーディネーターは、放射線科の AI、AI による画像診断ツール、医用画像の機械学習という3つの検索を委任しました。レポートは画像診断を深く扱った一方で、創薬、事務、患者向けのツールには一切触れず、2つのサブエージェントは重なった情報源を返しました。何を変えるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The search subagent's model is too small to find broader sources, so it should use the most capable model for every search task",
+        "ja": "検索のサブエージェントのモデルが小さすぎて幅広い情報源を見つけられないので、すべての検索に最も高性能なモデルを使うべきである"
+      },
+      {
+        "key": "B",
+        "en": "The coordinator split the topic too narrowly; it should map the main areas first and give each subagent a distinct area",
+        "ja": "コーディネーターがテーマを狭く分けすぎた。先に主な領域を洗い出し、各サブエージェントに別々の領域を割り当てるべきである"
+      },
+      {
+        "key": "C",
+        "en": "Too few subagents ran in parallel, so the coordinator should launch ten searches for every topic to make sure that nothing is missed",
+        "ja": "並列に動いたサブエージェントが少なすぎたので、漏れがないよう、コーディネーターはどのテーマでも10件の検索を走らせるべきである"
+      },
+      {
+        "key": "D",
+        "en": "The web search tool ranks imaging results too highly, so it should be replaced by a tool that returns a more balanced set of results",
+        "ja": "Web 検索のツールが画像診断の結果を上位にしすぎるので、よりバランスの取れた結果を返すツールに置き換えるべきである"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "The coordinator decomposed a broad topic into three variations of one subtopic, which explains both the missing areas and the overlap; it should cover the topic's main areas and assign distinct scopes to minimize duplication (B). A larger search model (A) cannot search for areas it was never asked about. Launching more searches (C) without changing the decomposition can repeat the same narrow framing at higher cost. The search tool (D) returned what each narrow query asked for.",
+      "ja": "コーディネーターは広いテーマを、1つのサブトピックの言い換え3つに分解しており、それが領域の抜けと重なりの両方を説明しています。テーマの主な領域を網羅し、重複が最小になるよう別々の範囲を割り当てるべきです (B)。大きな検索モデル (A) でも、頼まれていない領域は検索しません。分解を変えずに検索を増やすと (C)、同じ狭い切り口が高いコストで繰り返されかねません。検索ツール (D) は、狭い各クエリが求めたものを返しただけです。"
+    }
+  },
+  {
+    "id": "AF106",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS03",
+    "based_on": null,
+    "domain": 1,
+    "type": "multiple",
+    "question": {
+      "en": "For a market overview, the coordinator researches four regions one after another: it sends a subagent to search Europe, waits for its findings, then sends one for Asia, and so on. Each regional search takes about three minutes and does not depend on the others, and these simple searches run on the same large model as the coordinator. Which two changes cut the wait without dropping a region? (Choose two.)",
+      "ja": "市場の概観を作るとき、コーディネーターは4つの地域を1つずつ調べています。ヨーロッパを検索するサブエージェントを送って結果を待ち、次にアジアのものを送る、という具合です。地域ごとの検索は約3分かかり、互いに依存していません。また、これらの単純な検索は、コーディネーターと同じ大きなモデルで動いています。どの地域も落とさずに待ち時間を短くする変更はどれですか。（2つ選べ）"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Spawn the four regional searches as concurrent subagents, so that the stage ends in about the time of the slowest single search",
+        "ja": "4つの地域の検索を並行して動くサブエージェントとして起動し、この段階が最も遅い1つの検索とほぼ同じ時間で終わるようにする"
+      },
+      {
+        "key": "B",
+        "en": "Assign a faster model to the search subagents in their definitions, and keep the larger model for the coordinator's synthesis",
+        "ja": "検索のサブエージェントには定義でより速いモデルを割り当て、コーディネーターの統合には大きなモデルを残す"
+      },
+      {
+        "key": "C",
+        "en": "Combine the four regions into one subagent that searches them in turn, so the coordinator manages one handoff instead of four",
+        "ja": "コーディネーターが4回ではなく1回の引き継ぎで済むよう、4つの地域を順に検索する1つのサブエージェントにまとめる"
+      },
+      {
+        "key": "D",
+        "en": "Raise max_tokens for each regional search, so that every subagent can return its full findings in one response and finish sooner",
+        "ja": "各サブエージェントが1回の応答で調査結果をすべて返して早く終わるよう、地域ごとの検索の max_tokens を引き上げる"
+      }
+    ],
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": {
+      "en": "Independent subtasks can run as concurrent subagents, so the stage takes roughly as long as the slowest search instead of the sum of all four (A), and a subagent definition can specify its own model, so simple searches can use a faster one while the coordinator keeps the larger model for synthesis (B). One subagent searching the regions in turn (C) keeps the work sequential. A higher max_tokens (D) raises the output limit; it does not make a search finish sooner.",
+      "ja": "独立したサブタスクは並行して動くサブエージェントとして実行でき、この段階にかかる時間は4つの合計ではなく最も遅い検索とほぼ同じになります (A)。また、サブエージェントの定義では独自のモデルを指定できるので、単純な検索には速いモデルを使い、コーディネーターは統合のために大きなモデルを残せます (B)。1つのサブエージェントが地域を順に検索すると (C)、作業は順番のままです。max_tokens を上げても (D)、出力の上限が上がるだけで、検索が早く終わるわけではありません。"
+    }
+  },
+  {
+    "id": "AF107",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS04",
+    "based_on": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "You are a developer using the productivity agent. Yesterday you ran a long session analyzing a legacy billing module and named it billing-audit. Overnight, a teammate changed one of the twelve files you analyzed, renaming two functions in it. The rest of the module is unchanged, and the session's earlier analysis is otherwise still valid. How should you continue the investigation today?",
+      "ja": "あなたは、生産性を高めるエージェントを使っている開発者です。昨日は、古い請求モジュールを分析する長いセッションを実行し、billing-audit と名前を付けました。夜の間に、チームメイトが分析した12個のファイルのうち1つを変更し、その中の2つの関数の名前を変えました。モジュールのほかの部分は変わっておらず、セッションでの以前の分析はそれ以外は今も有効です。今日、調査をどう続けるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Start a new session with no history and ask it to analyze the whole module again, so that no outdated tool result can mislead it",
+        "ja": "古いツールの結果に惑わされないよう、履歴のない新しいセッションを始め、モジュール全体をもう一度分析させる"
+      },
+      {
+        "key": "B",
+        "en": "Resume billing-audit without mentioning the change, since the agent will notice the renamed functions when it next reads the file",
+        "ja": "エージェントは次にファイルを読むときに名前の変わった関数に気づくので、変更には触れずに billing-audit を再開する"
+      },
+      {
+        "key": "C",
+        "en": "Fork billing-audit into a new branch and keep both, so that one branch holds the old analysis and the other can study the change",
+        "ja": "一方の分岐には以前の分析を残し、もう一方で変更を調べられるよう、billing-audit を新しい分岐にフォークして両方を残す"
+      },
+      {
+        "key": "D",
+        "en": "Resume billing-audit and tell it which file changed and how, so that it re-reads that file instead of relying on its old results",
+        "ja": "billing-audit を再開し、どのファイルがどう変わったかを伝えて、古い結果に頼らずにそのファイルを読み直させる"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Resuming suits a session whose context is still mostly valid, and telling the resumed session exactly which file changed lets it re-analyze that file instead of trusting stale tool results (D). Starting over (A) discards a day of valid analysis to deal with one changed file. Resuming silently (B) leaves the old results in context, and nothing makes the agent re-read the file before relying on them. Forking (C) creates two branches that still hold the same stale result and does not tell either about the change.",
+      "ja": "再開は、コンテキストが今もほぼ有効なセッションに向いています。再開したセッションにどのファイルが変わったかを正確に伝えれば、古いツールの結果を信じる代わりに、そのファイルを分析し直させられます (D)。やり直すと (A)、1つの変更されたファイルのために、1日分の有効な分析を捨てることになります。黙って再開すると (B)、古い結果がコンテキストに残り、それに頼る前にファイルを読み直させるものが何もありません。フォークすると (C)、同じ古い結果を持つ分岐が2つできるだけで、どちらにも変更は伝わりません。"
+    }
+  },
+  {
+    "id": "AF108",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS04",
+    "based_on": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "After a long session mapping a legacy payments service, an engineer wants to compare two refactoring strategies: extracting a separate ledger service, or modularizing the code inside the existing service. Both explorations should start from the same analysis without redoing it, and neither should see the other's experiments. What should the engineer do?",
+      "ja": "古い決済サービスを把握するための長いセッションのあと、あるエンジニアは2つのリファクタリングの方針を比べたいと考えています。別の台帳サービスを切り出す方針と、既存のサービスの中でコードをモジュールに分ける方針です。どちらの検討も、分析をやり直さずに同じ分析から始め、互いの試行は見えないようにしなければなりません。エンジニアはどうすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Continue the same session for both strategies, exploring the first and then the second, so that the agent can compare them directly",
+        "ja": "エージェントが2つを直接比べられるよう、同じセッションで1つ目の方針、次に2つ目の方針の順に検討を続ける"
+      },
+      {
+        "key": "B",
+        "en": "Start two new sessions with no history, so that each strategy is explored independently and neither inherits the other's experiments",
+        "ja": "各方針を独立して検討でき、互いの試行を引き継がないよう、履歴のない新しいセッションを2つ始める"
+      },
+      {
+        "key": "C",
+        "en": "Fork the analysis session into two branches, one per strategy, so each starts from the shared analysis and evolves independently",
+        "ja": "分析のセッションを方針ごとに2つの分岐にフォークし、どちらも共通の分析から始めて独立に進めるようにする"
+      },
+      {
+        "key": "D",
+        "en": "Ask the agent to write both strategies into one plan file, and review that file instead of running any further exploration sessions",
+        "ja": "これ以上検討のセッションを実行せず、両方の方針を1つの計画ファイルに書くようエージェントに求めて、そのファイルをレビューする"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Forking creates a new session that starts with a copy of the original's history while the original stays unchanged, so two forks share the analysis and then diverge without seeing each other's work (C). One session for both (A) lets the first strategy's experiments shape the second. New sessions without history (B) keep the strategies apart but redo the analysis. A plan file (D) compares the strategies on paper but does not explore either one.",
+      "ja": "フォークすると、元のセッションの履歴のコピーから始まる新しいセッションができ、元のセッションは変わりません。そのため、2つのフォークは分析を共有したうえで、互いの作業を見ずに別々の方向へ進めます (C)。1つのセッションで両方を行うと (A)、1つ目の方針の試行が2つ目に影響します。履歴のない新しいセッション (B) では方針は分かれますが、分析をやり直すことになります。計画ファイル (D) では方針を紙の上で比べるだけで、どちらも検討されません。"
+    }
+  },
+  {
+    "id": "AF109",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS01",
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "You are the developer of lookup_order. When the order database is unreachable, the tool returns an empty list, the same response it gives when a customer truly has no orders. In both cases the agent says \"I couldn't find any orders on your account,\" and some customers whose orders exist now ask for refunds on orders they think were lost. How should lookup_order respond?",
+      "ja": "あなたは lookup_order の開発者です。注文のデータベースに接続できないとき、このツールは空のリストを返します。これは、顧客に本当に注文がないときと同じ応答です。どちらの場合もエージェントは「お客様のアカウントには注文が見つかりませんでした」と答えており、注文が存在する顧客の一部が、失われたと思った注文の返金を求めるようになっています。lookup_order はどう応答すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Return an empty list in both cases, and add a note to the system prompt saying an empty list may mean the database is down",
+        "ja": "どちらの場合も空のリストを返し、空のリストはデータベースが停止している意味の場合もあるという注記をシステムプロンプトに加える"
+      },
+      {
+        "key": "B",
+        "en": "Retry the database inside the tool until it responds, however long that takes, so that the agent does not get an empty list by mistake",
+        "ja": "エージェントが誤って空のリストを受け取らないよう、どれだけ時間がかかっても、応答があるまでツールの中でデータベースを再試行する"
+      },
+      {
+        "key": "C",
+        "en": "Return an error for every empty result, so that the agent treats a customer with no orders the same way as an unreachable database",
+        "ja": "注文のない顧客を、接続できないデータベースと同じように扱うよう、空の結果はすべてエラーとして返す"
+      },
+      {
+        "key": "D",
+        "en": "Return an error marked transient and retryable when the database is unreachable, and a successful empty list when there are no orders",
+        "ja": "データベースに接続できないときは一時的で再試行可能なエラーを返し、注文がないときは成功として空のリストを返す"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "An access failure and a valid empty result mean different things and need different responses: a transient, retryable error lets the agent retry or tell the customer about a temporary problem, while a successful empty list means there really are no orders (D). A prompt note (A) leaves the agent unable to tell which case it is in. Retrying without limit (B) can leave the customer waiting indefinitely during an outage. Treating every empty result as an error (C) creates the opposite confusion for customers who truly have no orders.",
+      "ja": "アクセスの失敗と正当な空の結果は意味が違うので、別の応答が必要です。一時的で再試行可能なエラーなら、エージェントは再試行するか、一時的な問題だと顧客に伝えられます。成功としての空のリストは、本当に注文がないことを意味します (D)。プロンプトの注記 (A) では、エージェントはどちらの場合なのかを区別できません。上限なく再試行すると (B)、障害の間、顧客をいつまでも待たせかねません。空の結果をすべてエラーにすると (C)、本当に注文がない顧客について逆の混乱が起きます。"
+    }
+  },
+  {
+    "id": "AF110",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS03",
+    "based_on": null,
+    "domain": 2,
+    "type": "multiple",
+    "question": {
+      "en": "The synthesis subagent has access to all 18 tools in the system, including general web search, and it often runs its own searches instead of synthesizing, which puts unvetted sources into reports. About a third of the time, though, it genuinely needs to check one specific fact before writing a sentence. Which two changes fit these observations? (Choose two.)",
+      "ja": "統合のサブエージェントは、一般的な Web 検索を含め、システムにある18個のツールすべてを使えます。そして、統合の代わりに自分で検索を始めることが多く、レポートに検証されていない情報源が入っています。ただし、3回に1回ほどは、文を書く前に特定の1つの事実を確認する必要が本当にあります。この観察に合う変更はどれですか。（2つ選べ）"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Restrict the synthesis subagent's tools to those its role needs, removing general web search so it cannot do its own research",
+        "ja": "統合のサブエージェントのツールを役割に必要なものに絞り、自分でリサーチできないよう一般的な Web 検索を外す"
+      },
+      {
+        "key": "B",
+        "en": "Give the synthesis subagent a narrow verify_fact tool for checking one claim, so it can confirm facts without full searches",
+        "ja": "統合のサブエージェントに、1つの主張を確認するための範囲の狭い verify_fact ツールを渡し、全面的な検索をせずに事実を確認できるようにする"
+      },
+      {
+        "key": "C",
+        "en": "Keep all 18 tools, and add a system prompt instruction telling the synthesis subagent to use web search only as a last resort",
+        "ja": "18個のツールはすべて残し、Web 検索は最後の手段としてだけ使うよう統合のサブエージェントに伝える指示をシステムプロンプトに加える"
+      },
+      {
+        "key": "D",
+        "en": "Remove every tool from the synthesis subagent, so that it relies only on what the coordinator passes and cannot check any facts",
+        "ja": "コーディネーターが渡すものだけに頼り、事実を一切確認できないよう、統合のサブエージェントからすべてのツールを外す"
+      }
+    ],
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": {
+      "en": "Giving an agent tools outside its role invites misuse, so the synthesis subagent's tool set should be scoped to its job, without general web search (A), and a narrow cross-role tool such as verify_fact covers the frequent, legitimate need to check one claim (B). An instruction to use search as a last resort (C) leaves the misused tool in place and the choice to the model. Removing every tool (D) also removes the fact checks that a third of reports genuinely need.",
+      "ja": "役割の外のツールを与えると誤用を招くので、統合のサブエージェントのツールは一般的な Web 検索を除き、役割の範囲に絞るべきです (A)。そして、verify_fact のような範囲の狭い役割横断のツールが、1つの主張を確認するという頻繁で正当なニーズに応えます (B)。検索は最後の手段にするよう指示しても (C)、誤用されているツールは残り、選択もモデル任せのままです。すべてのツールを外すと (D)、レポートの3分の1で本当に必要な事実の確認までできなくなります。"
+    }
+  },
+  {
+    "id": "AF111",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS04",
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "You are an engineer using the productivity agent to rename a configuration key. It must find every file under services/ whose name ends in .yaml, then every place in the code that reads the old key, and then change the key in a settings file where it appears on three identical lines with different values nearby. Its Edit call on that file was just refused. Which approach fits these steps?",
+      "ja": "あなたは、生産性を高めるエージェントを使って設定キーの名前を変えようとしているエンジニアです。エージェントはまず services/ の下で名前が .yaml で終わるファイルをすべて見つけ、次に古いキーを読んでいるコードの箇所をすべて見つけ、最後にある設定ファイルのキーを変えなければなりません。そのファイルでは、キーが同じ内容の3つの行に現れ、近くの値はそれぞれ違います。そのファイルへの Edit の呼び出しは、たった今拒否されました。これらのステップに合う方法はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Use Grep to find the YAML files by name, Glob to find the code that reads the key, and retry the same Edit call until it is accepted",
+        "ja": "YAML ファイルを名前で探すのに Grep を、キーを読むコードを探すのに Glob を使い、受け付けられるまで同じ Edit の呼び出しを再試行する"
+      },
+      {
+        "key": "B",
+        "en": "Read every file in the repository to find both the files and the key, then Write each file back with the key replaced throughout",
+        "ja": "リポジトリのすべてのファイルを Read してファイルとキーの両方を探し、各ファイルをキーを置き換えたうえで Write で書き戻す"
+      },
+      {
+        "key": "C",
+        "en": "Use Glob for the .yaml files, Grep for code reading the key, and Edit with a longer unique string per line, or Read then Write",
+        "ja": ".yaml ファイルには Glob、キーを読むコードには Grep を使い、行ごとにより長い一意の文字列で Edit するか、Read してから Write する"
+      },
+      {
+        "key": "D",
+        "en": "Run one sed command through Bash across the whole repository that replaces the key everywhere, so that no search step is needed",
+        "ja": "検索のステップが不要になるよう、Bash でリポジトリ全体に1つの sed コマンドを実行し、キーをすべて置き換える"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Glob finds files by name pattern, Grep searches file contents, and Edit replaces an exact string that must appear once, so the refused edit needs a longer unique anchor for each line, or a Read followed by a Write of the whole file (C). Option (A) swaps the roles of Grep and Glob, and repeating the same Edit call will be refused again. Reading every file (B) wastes context on a large repository instead of searching. A blind sed across the repository (D) is fast in general, but it can change unrelated text that happens to match, with no review of each occurrence.",
+      "ja": "Glob は名前のパターンでファイルを探し、Grep はファイルの内容を検索します。Edit は1か所にしかない正確な文字列を置き換えるので、拒否された編集には行ごとにより長い一意の目印が必要です。あるいは、Read したあとファイル全体を Write します (C)。(A) は Grep と Glob の役割が逆で、同じ Edit の呼び出しを繰り返しても再び拒否されます。すべてのファイルを読むと (B)、大きなリポジトリでは検索の代わりにコンテキストを浪費します。リポジトリ全体への機械的な sed (D) は一般的には速い方法ですが、たまたま一致した無関係なテキストまで変えてしまい、各箇所を確認することもできません。"
+    }
+  },
+  {
+    "id": "AF112",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS04",
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "The productivity agent uses an MCP server for the company's internal documentation, which holds about 2,000 design documents. Today the server offers only a search_docs tool, so the agent often does not know which documents exist and runs many exploratory searches before finding the right one. The documentation team wants the agent to see what is available without loading every document. What should the server add?",
+      "ja": "生産性を高めるエージェントは、約2,000件の設計書がある社内ドキュメントの MCP サーバーを使っています。現在このサーバーには search_docs ツールしかないため、エージェントはどんな文書があるのかわからないことが多く、正しい文書にたどり着くまでに探りの検索を何度も行います。ドキュメントチームは、すべての文書を読み込まなくても、何があるかをエージェントが把握できるようにしたいと考えています。サーバーに何を加えるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Expose the document catalog as MCP resources with titles and URIs, so the agent can see what exists and read only what it needs",
+        "ja": "文書の一覧をタイトルと URI を持つ MCP のリソースとして公開し、エージェントが何があるかを把握して必要なものだけを読めるようにする"
+      },
+      {
+        "key": "B",
+        "en": "Add a list_all_docs tool that returns the full text of every document in one call, so the agent has everything it needs at once",
+        "ja": "1回の呼び出しで全文書の本文を返す list_all_docs ツールを加え、エージェントが必要なものを一度にすべて得られるようにする"
+      },
+      {
+        "key": "C",
+        "en": "Paste the titles of all 2,000 documents into the agent's system prompt, so the agent knows which documents exist before searching",
+        "ja": "検索の前にどんな文書があるかをエージェントが把握できるよう、2,000件すべての文書のタイトルをエージェントのシステムプロンプトに貼り付ける"
+      },
+      {
+        "key": "D",
+        "en": "Raise the number of results search_docs returns from 10 to 200, so that each exploratory search covers more of the catalog at once",
+        "ja": "探りの検索1回で一覧のより多くをカバーできるよう、search_docs が返す結果の数を10件から200件に増やす"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "MCP resources let a server expose content identified by URIs, such as a document catalog, so the agent can see what is available and read only the documents it needs instead of probing with searches (A). Returning the full text of everything (B) floods the context with documents the agent will never use. Pasting 2,000 titles into the system prompt (C) adds a large, static block to every request and goes stale as documents change. More results per search (D) makes each search heavier without telling the agent what exists.",
+      "ja": "MCP のリソースを使うと、サーバーは文書の一覧のような URI で識別されるコンテンツを公開できます。そのため、エージェントは検索で探り回る代わりに、何があるかを把握し、必要な文書だけを読めます (A)。すべての本文を返すと (B)、エージェントが使うことのない文書でコンテキストがあふれます。2,000件のタイトルをシステムプロンプトに貼ると (C)、毎回のリクエストに大きな固定のブロックが加わり、文書が変わると古くなります。検索ごとの結果を増やしても (D)、1回の検索が重くなるだけで、何があるかはわかりません。"
+    }
+  },
+  {
+    "id": "AF113",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS02",
+    "based_on": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "You are a developer on this team. The team's analyze-deps skill walks the whole repository and prints several thousand lines of dependency details before it gives a short verdict. Every time someone runs it, the rest of their session gets slower and Claude starts to lose track of earlier instructions. The team wants to keep the skill and its one-command invocation. What should change?",
+      "ja": "あなたはこのチームの開発者です。チームの analyze-deps スキルはリポジトリ全体をたどり、短い判定を出す前に数千行の依存関係の詳細を出力します。誰かがこれを実行するたびに、そのあとのセッションが遅くなり、Claude が以前の指示を見失い始めます。チームは、このスキルと、1つのコマンドで呼び出せる使い方は残したいと考えています。何を変えるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Move the skill's instructions into CLAUDE.md so they are always loaded, and ask developers to run the analysis steps by hand",
+        "ja": "常に読み込まれるようスキルの指示を CLAUDE.md に移し、分析の手順は開発者が手で実行するよう求める"
+      },
+      {
+        "key": "B",
+        "en": "Ask the skill to print its output as a more compact table, keeping it in the main session so developers can scroll back through it",
+        "ja": "開発者がスクロールして見返せるようメインのセッションには残しつつ、より簡潔な表の形で出力するようスキルに求める"
+      },
+      {
+        "key": "C",
+        "en": "Run /clear after every use of the skill, so that the long output is removed from the session as soon as the verdict has been read",
+        "ja": "判定を読んだらすぐに長い出力がセッションから消えるよう、スキルを使うたびに /clear を実行する"
+      },
+      {
+        "key": "D",
+        "en": "Set context: fork in the skill's frontmatter, so it runs in a forked subagent context and returns only its result to the session",
+        "ja": "スキルのフロントマターで context: fork を設定し、フォークしたサブエージェントのコンテキストで動かして、結果だけをセッションに返す"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "With context: fork, a skill runs in a forked subagent context, so its verbose output stays there and only the result comes back to the main session, while the one-command invocation stays the same (D). Moving the instructions into CLAUDE.md (A) loads them into every session and gives up the single command. A more compact table (B) still puts the bulk of the output in the main session. Running /clear (C) is good hygiene in general, but it also throws away the earlier work and instructions the developer still needs.",
+      "ja": "context: fork を設定すると、スキルはフォークしたサブエージェントのコンテキストで動くので、大量の出力はそちらにとどまり、結果だけがメインのセッションに戻ります。1つのコマンドでの呼び出しも変わりません (D)。指示を CLAUDE.md に移すと (A)、すべてのセッションに読み込まれ、1つのコマンドという使い方も失われます。簡潔な表 (B) でも、出力の大半はメインのセッションに入ります。/clear の実行 (C) は一般的には良い習慣ですが、開発者がまだ必要としている以前の作業や指示まで捨ててしまいます。"
+    }
+  },
+  {
+    "id": "AF114",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS02",
+    "based_on": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A developer asks Claude Code to write a function that parses shipping-rate tables from CSV files. After four rounds of describing problems in prose, such as \"it breaks on some files\" and \"the totals are off for the weird ones,\" the function still mishandles empty rows and quoted commas. Which approach is most likely to converge quickly from here?",
+      "ja": "ある開発者が、CSV ファイルから送料の表を解析する関数を書くよう Claude Code に頼みました。「一部のファイルで壊れる」「変わったファイルだと合計がずれる」といった問題を文章で伝えるやり取りを4回繰り返しましたが、関数は今も空の行と引用符で囲まれたカンマを正しく扱えません。ここから最も早く収束させられる方法はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Describe the problems again in more detail and with stronger wording, so that Claude understands which of the cases matter most",
+        "ja": "どのケースが最も重要かを Claude が理解できるよう、問題をもっと詳しく、より強い表現で説明し直す"
+      },
+      {
+        "key": "B",
+        "en": "Write tests for the expected behavior and the edge cases first, then share the failing test output with Claude after each try",
+        "ja": "期待する振る舞いと例外的なケースのテストを先に書き、試すたびに失敗したテストの出力を Claude に渡す"
+      },
+      {
+        "key": "C",
+        "en": "Ask Claude to rewrite the function from scratch in each round, so that earlier mistakes do not carry over into the next attempt",
+        "ja": "以前の誤りが次の試みに持ち越されないよう、毎回 Claude に関数を一から書き直させる"
+      },
+      {
+        "key": "D",
+        "en": "Switch to plan mode for every round, so that Claude explains its intended approach before it changes the function's code again",
+        "ja": "関数のコードを再び変える前に Claude が方針を説明するよう、毎回プランモードに切り替える"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Tests that cover the expected behavior and the edge cases turn vague complaints into precise, repeatable feedback, and sharing the failing output after each attempt lets Claude target exactly what is still wrong (B). More detailed prose (A) is still an imprecise description of the failures. Rewriting from scratch (C) discards the parts that already work and has no clearer target. Plan mode (D) reviews the approach before edits, but the problem here is that nobody has specified the edge cases.",
+      "ja": "期待する振る舞いと例外的なケースを扱うテストがあれば、あいまいな不満が正確で繰り返し使えるフィードバックに変わります。試すたびに失敗の出力を渡せば、Claude はまだ何が誤っているかを正確に狙えます (B)。より詳しい文章 (A) も、失敗を不正確に説明していることに変わりはありません。一から書き直すと (C)、すでに動いている部分まで捨てることになり、より明確な目標もありません。プランモード (D) は編集の前に方針をレビューするものですが、ここでの問題は、誰も例外的なケースを定めていないことです。"
+    }
+  },
+  {
+    "id": "AF115",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS02",
+    "based_on": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "You are the tech lead for a monorepo with a payments package and a marketing-site package. Shared standards live in docs/standards/: security.md, api-style.md, and frontend-style.md. Payments needs the security and API standards, and the marketing site needs only the frontend style. Both packages' CLAUDE.md files now hold pasted copies of the standards, which have drifted apart. How should this be organized?",
+      "ja": "あなたは、決済パッケージとマーケティングサイトのパッケージを持つモノレポのテックリードです。共通の規約は docs/standards/ にあり、security.md、api-style.md、frontend-style.md の3つです。決済パッケージにはセキュリティと API の規約が、マーケティングサイトにはフロントエンドのスタイルだけが必要です。現在は両方のパッケージの CLAUDE.md に規約のコピーが貼られており、内容がずれてきています。どう整理すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Paste all three standards into the root CLAUDE.md, so that every package receives the same complete set of rules in every session",
+        "ja": "どのパッケージもすべてのセッションで同じ完全なルールを受け取れるよう、3つの規約をすべてルートの CLAUDE.md に貼る"
+      },
+      {
+        "key": "B",
+        "en": "Delete the pasted copies and ask developers to open the standards files themselves whenever they need them during a task",
+        "ja": "貼ったコピーを消し、作業中に必要になったら開発者が自分で規約のファイルを開くよう求める"
+      },
+      {
+        "key": "C",
+        "en": "In each package's CLAUDE.md, import only the standards files it needs with @ references, so both use the single shared copy",
+        "ja": "各パッケージの CLAUDE.md で、必要な規約のファイルだけを @ 参照で読み込み、両方が1つの共通のコピーを使うようにする"
+      },
+      {
+        "key": "D",
+        "en": "Copy the standards into each developer's ~/.claude/CLAUDE.md, so that everyone has them available in every package they work on",
+        "ja": "作業するどのパッケージでも全員が使えるよう、規約を各開発者の ~/.claude/CLAUDE.md にコピーする"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "CLAUDE.md files can import other files with @path syntax, so each package can import just the standards it needs while both point to the one shared copy, which ends the drift (C). Putting everything in the root file (A) loads frontend rules into payments work and the reverse. Asking developers to open the files (B) means the standards never reach Claude's context. Personal copies (D) are not shared through the repository and drift per developer.",
+      "ja": "CLAUDE.md は @path の構文でほかのファイルを読み込めるので、各パッケージは必要な規約だけを読み込みつつ、両方が1つの共通のコピーを参照でき、ずれがなくなります (C)。すべてをルートのファイルに入れると (A)、決済の作業にフロントエンドのルールが、その逆も読み込まれます。開発者にファイルを開かせても (B)、規約は Claude のコンテキストに届きません。個人のコピー (D) はリポジトリで共有されず、開発者ごとにずれていきます。"
+    }
+  },
+  {
+    "id": "AF116",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS05",
+    "based_on": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "In CI, Claude Code reviews each pull request and posts findings. When a developer pushes new commits to address the review, the job runs again from scratch and reposts many findings that were already fixed or discussed, so developers now complain about duplicate comments. How should the re-review run be set up?",
+      "ja": "CI では、Claude Code がプルリクエストごとにレビューを行い、指摘を投稿しています。開発者がレビューに対応する新しいコミットを push すると、ジョブは最初から実行し直され、すでに直したものや議論済みのものを含む多くの指摘を再び投稿します。そのため開発者から、重複したコメントへの苦情が出ています。再レビューの実行はどう設定すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Include the previous review's findings in the new run's context, and ask it to report only new issues or ones still unresolved",
+        "ja": "前回のレビューの指摘を新しい実行のコンテキストに含め、新しい問題か、まだ解決していない問題だけを報告するよう求める"
+      },
+      {
+        "key": "B",
+        "en": "Skip the review on later commits to a pull request, so that only the first push gets automated feedback from the CI reviewer",
+        "ja": "最初の push にだけ自動のフィードバックが付くよう、プルリクエストへのそれ以降のコミットではレビューを省く"
+      },
+      {
+        "key": "C",
+        "en": "Raise the severity bar for re-reviews, so that only critical findings get posted on later commits to an existing pull request",
+        "ja": "既存のプルリクエストへのそれ以降のコミットでは重大な指摘だけが投稿されるよう、再レビューでは重大度の基準を上げる"
+      },
+      {
+        "key": "D",
+        "en": "Post the new findings to a separate thread each time, so that developers can compare them against the earlier review themselves",
+        "ja": "開発者が自分で前回のレビューと比べられるよう、毎回新しい指摘を別のスレッドに投稿する"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "When a review is rerun after new commits, including the earlier findings in its context and asking for only new or still-unresolved issues prevents duplicates while keeping coverage of the new code (A). Skipping later reviews (B) leaves new commits without feedback. A higher severity bar (C) hides real but non-critical issues in the new code and still reposts critical findings that were already fixed. A separate thread (D) moves the duplicates and leaves developers to sort them out.",
+      "ja": "新しいコミットのあとでレビューをやり直すときは、前回の指摘をコンテキストに含め、新しい問題かまだ解決していない問題だけを求めれば、新しいコードもカバーしつつ重複を防げます (A)。それ以降のレビューを省くと (B)、新しいコミットにフィードバックが付かなくなります。重大度の基準を上げると (C)、新しいコードにある本当の、重大ではない問題が隠れ、すでに直した重大な指摘は再び投稿されます。別のスレッド (D) は重複を移すだけで、整理は開発者任せになります。"
+    }
+  },
+  {
+    "id": "AF117",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS05",
+    "based_on": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "You are an architect for the CI pipeline. A single Claude Code session generates a feature's code and is then asked, in the same session, to review that code before the pull request opens. Its reviews rarely find anything, yet human reviewers later catch logic errors in about one pull request in five. What change is most likely to improve the automated review?",
+      "ja": "あなたは CI パイプラインのアーキテクトです。1つの Claude Code のセッションが機能のコードを生成し、そのあと同じセッションで、プルリクエストを開く前にそのコードをレビューするよう求められます。そのレビューではほとんど何も見つかりませんが、あとで人のレビュー担当者が、プルリクエストの約5件に1件でロジックの誤りを見つけています。自動レビューを最も改善しそうな変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Ask the generating session to review its own code twice in a row, since a second pass in the same context catches what the first missed",
+        "ja": "同じコンテキストでの2回目の確認は1回目で見逃したものを捉えるので、生成したセッションに自分のコードを続けて2回レビューさせる"
+      },
+      {
+        "key": "B",
+        "en": "Add an instruction to the review prompt telling the session to be especially critical of the code it has just written itself",
+        "ja": "自分が書いたばかりのコードには特に厳しくするよう、セッションに伝える指示をレビューのプロンプトに加える"
+      },
+      {
+        "key": "C",
+        "en": "Have the session attach a confidence score to each finding during the review, and flag pull requests where its confidence is low",
+        "ja": "レビュー中に各指摘に確信度のスコアを付けさせ、確信度が低いプルリクエストに印を付ける"
+      },
+      {
+        "key": "D",
+        "en": "Run the review in a separate, independent instance that sees the diff and requirements but not the generating session's reasoning",
+        "ja": "差分と要件は見られるが生成したセッションの推論は見られない、別の独立したインスタンスでレビューを実行する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "A model that reviews its own work keeps the reasoning that produced it, which makes it less likely to question that reasoning; an independent instance without the generator's context is more effective at catching such errors (D). A second pass in the same context (A) keeps the same blind spot. An instruction to be critical (B) does not remove the reasoning context that causes the problem. A self-reported confidence score (C) comes from the same context and is not a reliable signal of missed errors.",
+      "ja": "自分の作業をレビューするモデルは、それを生んだ推論を保持しているため、その推論を疑いにくくなります。生成側のコンテキストを持たない独立したインスタンスのほうが、そうした誤りを効果的に見つけられます (D)。同じコンテキストでの2回目の確認 (A) では、同じ死角が残ります。厳しくするよう指示しても (B)、問題の原因である推論のコンテキストはなくなりません。自己申告の確信度 (C) は同じコンテキストから出てくるもので、見逃した誤りの当てになるシグナルではありません。"
+    }
+  },
+  {
+    "id": "AF118",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS06",
+    "based_on": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "An extraction schema classifies each document's type with an enum: invoice, receipt, contract, or purchase_order. About 6% of incoming documents are something else, such as credit notes and customs forms, and the model forces them into the closest value, which sends them down the wrong downstream path. Some documents are also too damaged to classify. How should the schema change?",
+      "ja": "ある抽出スキーマは、各文書の種類を invoice、receipt、contract、purchase_order の enum で分類しています。届く文書の約6%は、貸方票や税関の書類など、それ以外のものです。モデルはそれらを最も近い値に無理に当てはめ、その結果、後続の間違った経路に送られています。また、損傷がひどく分類できない文書もあります。スキーマをどう変えるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Remove the enum and make the document type a free-text field, so that the model can describe any document in its own words",
+        "ja": "enum をやめて文書の種類を自由記述のフィールドにし、モデルがどんな文書でも自分の言葉で説明できるようにする"
+      },
+      {
+        "key": "B",
+        "en": "Add \"other\" with a detail field for unlisted types and \"unclear\" for unclassifiable ones, and route both values for handling",
+        "ja": "一覧にない種類のために詳細のフィールドを持つ \"other\" と、分類できない文書のための \"unclear\" を加え、両方の値を処理に回す"
+      },
+      {
+        "key": "C",
+        "en": "Keep the four values and add a prompt instruction telling the model to pick the closest type whenever a document does not fit",
+        "ja": "4つの値は残し、文書が当てはまらないときは最も近い種類を選ぶよう、モデルに伝える指示をプロンプトに加える"
+      },
+      {
+        "key": "D",
+        "en": "Add every document type seen so far to the enum, so that credit notes and customs forms each get their own enum value right away",
+        "ja": "貸方票や税関の書類にすぐにそれぞれの値ができるよう、これまでに見たすべての文書の種類を enum に加える"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "An enum needs a place for what it does not list: \"other\" with a detail string captures new types without forcing them into a wrong value, and \"unclear\" records documents that cannot be classified, so both can be routed deliberately (B). A free-text field (A) gives downstream systems nothing reliable to route on. Telling the model to pick the closest type (C) is exactly the behavior causing the misrouting. Adding the types seen so far (D) is sensible in general, but it does not handle the next unlisted type or the damaged documents.",
+      "ja": "enum には、一覧にないものの置き場所が必要です。詳細の文字列を持つ \"other\" は新しい種類を間違った値に押し込まずに捉え、\"unclear\" は分類できない文書を記録するので、どちらも意図して振り分けられます (B)。自由記述のフィールド (A) では、後続のシステムが確実に振り分ける手がかりがなくなります。最も近い種類を選ぶよう指示すること (C) は、まさに誤った振り分けを起こしている振る舞いです。これまでに見た種類を加えること (D) は一般的には妥当ですが、次に現れる一覧にない種類や、損傷した文書には対処できません。"
+    }
+  },
+  {
+    "id": "AF119",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS06",
+    "based_on": null,
+    "domain": 4,
+    "type": "multiple",
+    "question": {
+      "en": "The extraction pipeline validates each record and, on failure, retries up to three times with the validation error appended. Logs show that most retries for purchase-order invoices fail all three times: the required po_number is not in the invoice at all, but in a separate purchase order that is never sent to the model. Which two changes address this situation? (Choose two.)",
+      "ja": "抽出のパイプラインは各レコードを検証し、失敗すると検証エラーを添えて最大3回再試行します。ログを見ると、発注書に基づく請求書の再試行のほとんどは、3回とも失敗しています。必須の po_number は請求書にはまったく記載されておらず、モデルに一度も送られない別の発注書にあるからです。この状況に対処する変更はどれですか。（2つ選べ）"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Detect when a failure is caused by information missing from the document, and stop retrying so that the case goes to a fallback",
+        "ja": "失敗の原因が文書にない情報であることを検出したら再試行をやめ、その案件を代替の経路に回す"
+      },
+      {
+        "key": "B",
+        "en": "Raise the retry limit from three to ten and append the full validation history each time, so the model has more chances to find it",
+        "ja": "モデルが見つける機会を増やすため、再試行の上限を3回から10回に上げ、毎回検証の履歴をすべて添える"
+      },
+      {
+        "key": "C",
+        "en": "Make po_number nullable for these invoices and, where required, get it from the purchase order or route the record to review",
+        "ja": "これらの請求書では po_number を null 許容にし、必要な場合は発注書から取得するか、レコードをレビューに回す"
+      },
+      {
+        "key": "D",
+        "en": "Tell the model in the prompt to infer a likely po_number from the invoice's vendor and date whenever it cannot find the number",
+        "ja": "番号が見つからないときは、請求書の取引先と日付からありそうな po_number を推測するよう、プロンプトでモデルに伝える"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": {
+      "en": "Retrying with error feedback helps only when the information is in the input; when it exists only in another document, the pipeline should recognize that and stop retrying (A), and the schema and flow should allow the field to be absent and obtain it from the purchase order or send the record to review (C). More retries (B) cannot produce information the model never receives. Inferring a likely number (D) fabricates data.",
+      "ja": "エラーのフィードバックを付けた再試行が役立つのは、情報が入力の中にある場合だけです。情報が別の文書にしかない場合、パイプラインはそれを見分けて再試行をやめるべきです (A)。そして、スキーマと処理の流れは、そのフィールドがないことを許し、発注書から取得するか、レコードをレビューに回せるようにすべきです (C)。再試行を増やしても (B)、モデルが受け取っていない情報は生まれません。ありそうな番号の推測 (D) は、データの捏造です。"
+    }
+  },
+  {
+    "id": "AF120",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": "AFS06",
+    "based_on": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Extracted invoice records pass schema validation, but finance finds that about 3% have totals that do not match their own line items, because the model sometimes misreads one line amount. The schema already makes every field strictly typed, and there is no second document to compare against. What change lets the pipeline catch these errors by itself?",
+      "ja": "抽出された請求書のレコードはスキーマの検証を通りますが、経理部門によると、約3%は合計が自身の明細と合っていません。モデルがときどき明細の金額を1つ読み違えるためです。スキーマはすでにすべてのフィールドを厳密に型付けしており、比べられる別の文書もありません。パイプラインがこの誤りを自分で見つけられるようにする変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Lower the temperature and ask the model to read the amounts more carefully, so that misread line amounts become less frequent",
+        "ja": "明細の金額の読み違いが減るよう、temperature を下げ、金額をより注意深く読むようモデルに求める"
+      },
+      {
+        "key": "B",
+        "en": "Extract both the stated total and a calculated total from the line items, and flag the records where the two values disagree",
+        "ja": "記載された合計と、明細から計算した合計の両方を抽出し、2つの値が合わないレコードに印を付ける"
+      },
+      {
+        "key": "C",
+        "en": "Run each invoice through the model twice and keep the record only when both runs return the same values in every single field",
+        "ja": "各請求書をモデルに2回通し、2回の実行がすべてのフィールドで同じ値を返したときだけレコードを残す"
+      },
+      {
+        "key": "D",
+        "en": "Make the schema stricter by adding minimum and maximum values for each amount field, so that implausible amounts get rejected",
+        "ja": "ありえない金額が却下されるよう、各金額のフィールドに最小値と最大値を加えてスキーマをさらに厳密にする"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Strict schemas prevent syntax errors but not semantic ones; extracting a calculated total next to the stated total gives the pipeline an internal check that exposes a misread line amount (B). A lower temperature and more care (A) may reduce the errors but cannot detect the ones that remain. Two matching runs (C) show consistency, and a consistent misreading still passes. Range limits (D) catch implausible values, but a misread amount is usually plausible.",
+      "ja": "厳密なスキーマは構文の誤りは防いでも、意味の誤りは防ぎません。記載された合計の横に計算した合計も抽出すれば、パイプラインに内部のチェックができ、明細の金額の読み違いが表に出ます (B)。temperature を下げて注意を促しても (A)、誤りは減るかもしれませんが、残った誤りは見つけられません。2回の実行の一致 (C) は一貫性を示すだけで、同じように読み違えれば通ってしまいます。範囲の制限 (D) はありえない値を捕まえますが、読み違えた金額はたいていありうる値です。"
+    }
+  }
+]

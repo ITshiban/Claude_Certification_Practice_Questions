@@ -1,0 +1,617 @@
+[
+  {
+    "id": "DV036",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 1,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Your service makes a Messages API call and the response carries stop_reason \"end_turn\" with a tool_use block absent. What does your loop do?",
+      "ja": "あなたのサービスが Messages API を呼び出したところ、応答の stop_reason は \"end_turn\" で、tool_use ブロックは含まれていませんでした。ループは何をしますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Treat the turn as complete and return the content to the caller",
+        "ja": "ターンが完了したものとして扱い、内容を呼び出し元に返す"
+      },
+      {
+        "key": "B",
+        "en": "Execute the last requested tool again",
+        "ja": "最後に要求されたツールをもう一度実行する"
+      },
+      {
+        "key": "C",
+        "en": "Re-send the request with higher max_tokens",
+        "ja": "max_tokens を増やしてリクエストを再送する"
+      },
+      {
+        "key": "D",
+        "en": "Append an empty tool result and continue the loop",
+        "ja": "空のツールの結果を追加してループを続ける"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "\"end_turn\" means the model has finished; \"tool_use\" is the signal to execute a tool and continue the loop\n\n[Supplement] max_tokens (C) matters only when the stop reason is \"max_tokens\"; a finished turn needs no resend.",
+      "ja": "\"end_turn\" はモデルが応答を終えたことを意味します。\"tool_use\" が、ツールを実行してループを続けるべきことを示すシグナルです。\n\n【補足】max_tokens (C) が関係するのは停止理由が \"max_tokens\" の場合だけで、完了したターンを再送する必要はありません。"
+    }
+  },
+  {
+    "id": "DV037",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 2,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A nightly job enriches 200,000 product descriptions. Results are consumed the next morning. Which design minimizes cost?",
+      "ja": "夜間のジョブで、200,000件の商品説明を拡充します。結果は翌朝に使われます。コストを最も抑える設計はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Synchronous calls fanned out across many workers",
+        "ja": "多数のワーカーに分散した同期呼び出し"
+      },
+      {
+        "key": "B",
+        "en": "The Message Batches API with results collected within its processing window",
+        "ja": "Message Batches API を使い、処理期間内に結果を回収する"
+      },
+      {
+        "key": "C",
+        "en": "Synchronous calls with a smaller model and reduced max_tokens",
+        "ja": "より小さいモデルと少ない max_tokens での同期呼び出し"
+      },
+      {
+        "key": "D",
+        "en": "One request containing all descriptions",
+        "ja": "すべての説明を含む1つのリクエスト"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Latency-tolerant bulk work is the Batches API's purpose: 50% of the cost within a 24-hour window\n\n[Supplement] Fanning out synchronous calls (A) pays full price for speed nobody needs, a smaller model with lower max_tokens (C) still pays synchronous rates and may cost quality, and a single request (D) cannot hold 200,000 descriptions.",
+      "ja": "遅延を許容できる大量の処理は Batches API の用途です。24時間以内の処理期間で、コストは50%になります。\n\n【補足】同期呼び出しを分散しても (A)、誰も必要としない速度に通常の料金を払うことになります。小さいモデルと少ない max_tokens (C) も同期呼び出しの料金のままで、品質を損なうおそれがあります。1つのリクエスト (D) には200,000件の説明は収まりません。"
+    }
+  },
+  {
+    "id": "DV038",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 3,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "Which change makes a repeated 10,000-token system prompt cheaper and faster without losing content?",
+      "ja": "繰り返し送る10,000トークンのシステムプロンプトを、内容を失わずに安く速くする変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Moving the prompt to the end of the request",
+        "ja": "プロンプトをリクエストの最後に移す"
+      },
+      {
+        "key": "B",
+        "en": "Compressing the prompt text with abbreviations",
+        "ja": "略語を使ってプロンプトの文章を圧縮する"
+      },
+      {
+        "key": "C",
+        "en": "Placing the stable prompt first and enabling prompt caching so the prefix is reused",
+        "ja": "固定のプロンプトを先頭に置いてプロンプトキャッシュを有効にし、プレフィックスを再利用する"
+      },
+      {
+        "key": "D",
+        "en": "Sending the prompt only on the first request of a session",
+        "ja": "セッションの最初のリクエストでだけプロンプトを送る"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Caching reuses a stable prefix, cutting time-to-first-token and per-request cost. Position matters: stable content first\n\n[Supplement] Abbreviating the prompt (B) risks losing meaning, which the question rules out, and sending it only on the first request (D) loses the content, because each Messages API call is stateless.",
+      "ja": "キャッシュは安定したプレフィックスを再利用し、最初のトークンまでの時間とリクエストごとのコストを削減します。位置が重要で、固定の内容を先頭に置きます。\n\n【補足】略語で圧縮すると (B) 意味が失われるおそれがあり、設問の条件に反します。最初のリクエストでだけプロンプトを送ると (D)、Messages API の呼び出しはそれぞれ独立しているため、以降のリクエストでは内容が失われます。"
+    }
+  },
+  {
+    "id": "DV039",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 4,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "Your extraction endpoint occasionally receives JSON with a missing required field, and downstream code throws. What is the sturdiest production pattern?",
+      "ja": "あなたの抽出用エンドポイントは、必須フィールドが欠けた JSON をときどき受け取り、後続のコードが例外を投げます。本番で最も堅牢なパターンはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Wrap the parse in a try block and return an empty object on failure",
+        "ja": "解析を try ブロックで囲み、失敗したら空のオブジェクトを返す"
+      },
+      {
+        "key": "B",
+        "en": "Instruct the model more firmly in the system prompt",
+        "ja": "システムプロンプトで、より強くモデルに指示する"
+      },
+      {
+        "key": "C",
+        "en": "Post-process with a regular expression that inserts missing fields",
+        "ja": "欠けたフィールドを挿入する正規表現で後処理する"
+      },
+      {
+        "key": "D",
+        "en": "Enforce a schema through tool use, validate the parsed result, and retry once with the validation error appended",
+        "ja": "ツール使用でスキーマを強制し、解析結果を検証して、検証エラーを添えて1回再試行する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Schema enforcement plus a validation-retry loop treats model output as untrusted input and lets the model self-correct\n\n[Supplement] Returning an empty object (A) hides the failure from downstream code, firmer instructions (B) reduce but do not eliminate missing fields, and inserting fields by regular expression (C) fabricates values the model never produced.",
+      "ja": "スキーマの強制と検証・再試行のループを組み合わせると、モデルの出力を信頼できない入力として扱い、モデル自身に修正させることができます。\n\n【補足】空のオブジェクトを返すと (A)、失敗が後続のコードから見えなくなります。指示を強めても (B)、フィールドの欠落は減るだけでなくなりません。正規表現でフィールドを挿入すると (C)、モデルが出力していない値を作り出すことになります。"
+    }
+  },
+  {
+    "id": "DV040",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 5,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A teammate proposes an autonomous agent for a pipeline whose five steps are identical for every input. What is the strongest technical objection?",
+      "ja": "チームメイトが、どの入力に対しても5つのステップが同じであるパイプラインに、自律型エージェントを提案しています。技術的に最も強い反論はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A known, fixed path does not need model-chosen control flow; deterministic orchestration is cheaper, testable, and auditable",
+        "ja": "既知の固定された手順に、モデルが決める制御フローは必要ない。決定的なオーケストレーションのほうが安く、テストも監査もしやすい"
+      },
+      {
+        "key": "B",
+        "en": "Agents are unsupported in production",
+        "ja": "エージェントは本番環境ではサポートされていない"
+      },
+      {
+        "key": "C",
+        "en": "Agents cannot call tools reliably",
+        "ja": "エージェントはツールを確実に呼び出せない"
+      },
+      {
+        "key": "D",
+        "en": "The pipeline would need a larger context window",
+        "ja": "パイプラインに、より大きなコンテキストウィンドウが必要になる"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Autonomy is justified when the path is unknown. A fixed path belongs in deterministic code that can be tested\n\n[Supplement] Agents are used in production (B), tool calling is a standard capability rather than an unreliable one (C), and context window size (D) is unrelated to whether the control flow should be fixed.",
+      "ja": "自律性が正当化されるのは、手順がわからない場合です。固定された手順は、テストできる決定的なコードに置くべきです。\n\n【補足】エージェントは本番環境でも使われており (B)、ツールの呼び出しは不確かなものではなく標準的な機能です (C)。コンテキストウィンドウの大きさ (D) は、制御フローを固定すべきかどうかとは関係ありません。"
+    }
+  },
+  {
+    "id": "DV041",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 6,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Which is the correct use of a subagent in an agent system?",
+      "ja": "エージェントシステムにおけるサブエージェントの正しい使い方はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "To run the same prompt twice for consensus",
+        "ja": "合意を得るために、同じプロンプトを2回実行する"
+      },
+      {
+        "key": "B",
+        "en": "To isolate a self-contained subtask so its verbose intermediate context does not fill the parent's window",
+        "ja": "独立したサブタスクを分離し、その冗長な途中のコンテキストで親のウィンドウが埋まらないようにする"
+      },
+      {
+        "key": "C",
+        "en": "To bypass rate limits",
+        "ja": "レート制限を回避する"
+      },
+      {
+        "key": "D",
+        "en": "To provide a fallback if the main model is unavailable",
+        "ja": "メインのモデルが使えないときの代替手段にする"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Subagents delegate and isolate context; that isolation is their main architectural value\n\n[Supplement] Running the same prompt twice (A) is a voting technique rather than delegation, subagents call the same API under the same limits and do not bypass them (C), and a fallback when the main model is unavailable (D) is a failover concern, not what subagents are for.",
+      "ja": "サブエージェントは委任とコンテキストの分離を行います。その分離こそが、アーキテクチャ上の主な価値です。\n\n【補足】同じプロンプトを2回実行するのは (A)、委任ではなく多数決の手法です。サブエージェントも同じ制限のもとで同じ API を呼び出すため、制限を回避する手段にはなりません (C)。メインのモデルが使えないときの代替 (D) はフェイルオーバーの問題であり、サブエージェントの目的ではありません。"
+    }
+  },
+  {
+    "id": "DV042",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 7,
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "An agent that summarizes user-submitted URLs must never be able to trigger a refund. Where is that guaranteed?",
+      "ja": "ユーザーが送った URL を要約するエージェントが、返金を実行できることは決してあってはなりません。それはどこで保証しますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "In the system prompt, stated clearly",
+        "ja": "システムプロンプトに明確に書く"
+      },
+      {
+        "key": "B",
+        "en": "By instructing the model to confirm before refunds",
+        "ja": "返金の前に確認するよう、モデルに指示する"
+      },
+      {
+        "key": "C",
+        "en": "By not granting the agent the refund tool, and enforcing that with tool configuration or hooks",
+        "ja": "エージェントに返金ツールを与えず、それをツールの設定やフックで強制する"
+      },
+      {
+        "key": "D",
+        "en": "By using a model known for instruction following",
+        "ja": "指示に従うことで知られるモデルを使う"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Capability the agent does not hold cannot be misused. Prompts and confirmations are not enforcement\n\n[Supplement] A model known for instruction following (D) still relies on behavior rather than control.",
+      "ja": "エージェントが持っていない機能は悪用できません。プロンプトや確認は強制力になりません。\n\n【補足】指示に従うことで知られるモデルでも (D)、制御ではなく振る舞いに頼っていることに変わりはありません。"
+    }
+  },
+  {
+    "id": "DV043",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 8,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Your team pins model versions in production. What is the primary reason?",
+      "ja": "あなたのチームは、本番でモデルのバージョンを固定しています。主な理由はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Pinned models are cheaper",
+        "ja": "固定したモデルのほうが安い"
+      },
+      {
+        "key": "B",
+        "en": "Pinning increases the context window",
+        "ja": "固定するとコンテキストウィンドウが大きくなる"
+      },
+      {
+        "key": "C",
+        "en": "Pinning is required by the API",
+        "ja": "API で固定が必須になっている"
+      },
+      {
+        "key": "D",
+        "en": "Model updates can change behavior, so upgrades become deliberate, evaluated changes rather than surprises",
+        "ja": "モデルの更新で挙動が変わることがあるため、アップグレードを不意の変化ではなく、評価を経た意図的な変更にする"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Pinning makes model behavior a controlled dependency so upgrades pass through evaluation\n\n[Supplement] Pinning changes neither the price (A) nor the context window (B), and its purpose is controlling behavior changes, not meeting an API requirement (C).",
+      "ja": "固定すると、モデルの挙動を管理された依存関係として扱え、アップグレードは評価を通してから行えます。\n\n【補足】固定しても料金 (A) やコンテキストウィンドウ (B) は変わりません。固定する目的は挙動の変化を管理することであり、API の要件を満たすことではありません (C)。"
+    }
+  },
+  {
+    "id": "DV044",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 9,
+    "domain": 8,
+    "type": "single",
+    "question": {
+      "en": "Which describes the correct relationship between an MCP server and the applications that use it?",
+      "ja": "MCP サーバーと、それを使うアプリケーションの正しい関係を説明しているものはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The server exposes tools and resources that multiple clients connect to, maintained independently of any one application",
+        "ja": "サーバーが公開するツールやリソースに複数のクライアントが接続し、サーバーは特定のアプリケーションから独立して保守される"
+      },
+      {
+        "key": "B",
+        "en": "Each application embeds its own copy of the server code",
+        "ja": "各アプリケーションが、サーバーのコードの独自のコピーを組み込む"
+      },
+      {
+        "key": "C",
+        "en": "The server replaces the Messages API",
+        "ja": "サーバーが Messages API に取って代わる"
+      },
+      {
+        "key": "D",
+        "en": "The server must run in the same process as the model",
+        "ja": "サーバーはモデルと同じプロセスで動かなければならない"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "An MCP server is a reusable, independently maintained capability that multiple clients share\n\n[Supplement] MCP supplies tools and context to an application that still calls the model, so it does not replace the Messages API (C), and servers can run locally or remotely in their own process (D).",
+      "ja": "MCP サーバーは、複数のクライアントが共有する、再利用可能で独立して保守される機能です。\n\n【補足】MCP は、モデルを呼び出すアプリケーションにツールやコンテキストを提供するもので、Messages API の代わりにはなりません (C)。サーバーはローカルでもリモートでも、独立したプロセスとして動かせます (D)。"
+    }
+  },
+  {
+    "id": "DV045",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 10,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "A long-running assistant begins contradicting itself and forgetting recent constraints. Inspection shows the context is nearly full of verbose tool outputs. What is the correct remedy?",
+      "ja": "長時間動いているアシスタントが、自己矛盾したり、最近の制約を忘れたりし始めました。調べると、コンテキストはほとんど冗長なツールの出力で埋まっています。正しい対処はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Increase temperature to encourage variety",
+        "ja": "多様性を促すため、temperature を上げる"
+      },
+      {
+        "key": "B",
+        "en": "Prune and summarize tool outputs, compact history, and isolate subtasks so the working context stays lean",
+        "ja": "ツールの出力を削って要約し、履歴を圧縮し、サブタスクを分離して、作業中のコンテキストを小さく保つ"
+      },
+      {
+        "key": "C",
+        "en": "Repeat the system prompt after every turn",
+        "ja": "ターンごとにシステムプロンプトを繰り返す"
+      },
+      {
+        "key": "D",
+        "en": "Reduce max_tokens on each response",
+        "ja": "各応答の max_tokens を減らす"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Context drift and bloat are managed by pruning, compaction, and isolation\n\n[Supplement] Higher temperature (A) adds variance rather than memory, repeating the system prompt (C) adds still more tokens to a nearly full context, and max_tokens (D) caps the output without shrinking the accumulated input.",
+      "ja": "コンテキストのドリフトと肥大化は、削減、圧縮、分離で管理します。\n\n【補足】temperature を上げても (A) ばらつきが増えるだけで、記憶は改善しません。システムプロンプトを繰り返すと (C)、ほぼ満杯のコンテキストにさらにトークンが増えます。max_tokens (D) は出力の上限であり、蓄積した入力は減りません。"
+    }
+  },
+  {
+    "id": "DV046",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 11,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "When is few-shot prompting the right tool?",
+      "ja": "Few-shot プロンプティングが適切な手段になるのは、どのようなときですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "When the model needs more factual knowledge",
+        "ja": "モデルに、より多くの事実知識が必要なとき"
+      },
+      {
+        "key": "B",
+        "en": "When latency must be reduced",
+        "ja": "レイテンシを下げなければならないとき"
+      },
+      {
+        "key": "C",
+        "en": "When output format or edge-case handling is inconsistent and examples can demonstrate the target behavior",
+        "ja": "出力形式や特殊なケースの扱いが安定せず、目標の振る舞いを例で示せるとき"
+      },
+      {
+        "key": "D",
+        "en": "When the context window is too small",
+        "ja": "コンテキストウィンドウが小さすぎるとき"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Few-shot examples fix format and edge-case behavior far better than more instructions\n\n[Supplement] Examples demonstrate behavior rather than supply missing facts (A), and they add input tokens, so they neither reduce latency (B) nor help when the context window is already too small (D).",
+      "ja": "Few-shot の例は、指示を増やすよりはるかにうまく、形式と特殊なケースの振る舞いを安定させます。\n\n【補足】例は振る舞いを示すもので、足りない事実を補うものではありません (A)。また、例は入力トークンを増やすため、レイテンシを下げることはなく (B)、コンテキストウィンドウがすでに足りない場合の助けにもなりません (D)。"
+    }
+  },
+  {
+    "id": "DV047",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 12,
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "A page retrieved by your agent contains hidden text instructing it to reveal its system prompt. Which mitigation actually works?",
+      "ja": "エージェントが取得したページに、システムプロンプトを明かすよう指示する隠しテキストが含まれています。実際に効果のある対策はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Asking the model in the system prompt to ignore such instructions",
+        "ja": "そうした指示を無視するよう、システムプロンプトでモデルに頼む"
+      },
+      {
+        "key": "B",
+        "en": "Raising temperature so behavior is less predictable",
+        "ja": "振る舞いが予測しにくくなるよう、temperature を上げる"
+      },
+      {
+        "key": "C",
+        "en": "Filtering pages that contain the word \"ignore\"",
+        "ja": "\"ignore\" という単語を含むページをフィルタリングする"
+      },
+      {
+        "key": "D",
+        "en": "Treating retrieved content as untrusted data, separating it from instructions, and gating sensitive capabilities behind guardrails",
+        "ja": "取得したコンテンツを信頼できないデータとして扱って指示と分け、機密性の高い機能はガードレールの背後に置く"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Injection defense is structural: separate untrusted content and apply least privilege to consequential tools\n\n[Supplement] A request in the system prompt (A) is not enforcement, higher temperature (B) makes behavior less reliable without blocking the attack, and keyword filtering (C) is trivially evaded by rewording.",
+      "ja": "インジェクションへの防御は構造で行います。信頼できないコンテンツを分け、重大な影響を持つツールに最小権限を適用します。\n\n【補足】システムプロンプトで頼むこと (A) は強制力になりません。temperature を上げても (B)、攻撃は防げず振る舞いの信頼性が下がるだけです。キーワードのフィルタリング (C) は、言い換えで簡単にすり抜けられます。"
+    }
+  },
+  {
+    "id": "DV048",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 13,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "Which statement about the Message Batches API is correct?",
+      "ja": "Message Batches API について正しい説明はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It processes large asynchronous workloads at reduced cost within a processing window, correlating requests by custom_id",
+        "ja": "大量の非同期処理を処理期間内に低コストで処理し、リクエストは custom_id で対応付ける"
+      },
+      {
+        "key": "B",
+        "en": "It supports multi-turn tool calling within a batch",
+        "ja": "バッチの中で、複数ターンのツール呼び出しができる"
+      },
+      {
+        "key": "C",
+        "en": "It guarantees sub-second latency",
+        "ja": "1秒未満のレイテンシが保証される"
+      },
+      {
+        "key": "D",
+        "en": "It requires a dedicated endpoint per request",
+        "ja": "リクエストごとに専用のエンドポイントが必要である"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Reduced cost, asynchronous window, custom_id correlation, and no multi-turn tool calling inside a batch\n\n[Supplement] One batch carries many requests, each identified by its own custom_id, so no dedicated endpoint per request is needed (D).",
+      "ja": "コストの削減、非同期の処理期間、custom_id による対応付け、そしてバッチの中では複数ターンのツール呼び出しができないことが特徴です。\n\n【補足】1つのバッチに、それぞれ custom_id で識別される多数のリクエストをまとめて送るため、リクエストごとに専用のエンドポイントは必要ありません (D)。"
+    }
+  },
+  {
+    "id": "DV049",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 14,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "Your CI pipeline runs Claude Code non-interactively and must parse its output. Which invocation fits?",
+      "ja": "あなたの CI パイプラインは Claude Code を非対話で実行し、その出力を解析しなければなりません。適した呼び出し方はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Interactive mode with output piped to a file",
+        "ja": "対話モードで実行し、出力をファイルにパイプする"
+      },
+      {
+        "key": "B",
+        "en": "The print flag with a JSON output format and a schema, so results are machine-readable and validated",
+        "ja": "print フラグと JSON の出力形式、スキーマを指定し、結果を機械可読で検証済みのものにする"
+      },
+      {
+        "key": "C",
+        "en": "Plan mode with a human approver",
+        "ja": "人の承認者を置いたプランモード"
+      },
+      {
+        "key": "D",
+        "en": "A wrapper that screen-scrapes the terminal",
+        "ja": "ターミナルの画面をスクレイピングするラッパー"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Headless CI use means non-interactive invocation with structured, schema-validated output\n\n[Supplement] Screen-scraping the terminal (D) depends on display formatting, which is not a stable, machine-readable interface.",
+      "ja": "CI でのヘッドレス利用では、構造化され、スキーマで検証された出力を返す非対話の呼び出しを使います。\n\n【補足】ターミナルの画面のスクレイピング (D) は表示の体裁に依存しており、安定した機械可読のインターフェースではありません。"
+    }
+  },
+  {
+    "id": "DV050",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-1.html",
+    "source_number": 15,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Traces show your assistant reasons correctly over the documents it receives, but frequently receives documents unrelated to the question. Where is the defect?",
+      "ja": "トレースを見ると、あなたのアシスタントは受け取ったドキュメントについては正しく推論していますが、質問と関係のないドキュメントを頻繁に受け取っています。欠陥はどこにありますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The model, which should be upgraded",
+        "ja": "モデル。アップグレードすべきである"
+      },
+      {
+        "key": "B",
+        "en": "The system prompt, which needs stronger accuracy language",
+        "ja": "システムプロンプト。正確さについて、より強い表現が必要である"
+      },
+      {
+        "key": "C",
+        "en": "The retrieval layer that selects the documents",
+        "ja": "ドキュメントを選ぶ検索層"
+      },
+      {
+        "key": "D",
+        "en": "The output parser",
+        "ja": "出力パーサー"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Traces localize the fault to the integration layer: correct reasoning over wrong inputs is a retrieval defect\n\n[Supplement] The output parser (D) acts after generation, but the traces show the wrong documents arrive before the model reasons.",
+      "ja": "トレースによって、障害は統合層にあると特定されています。間違った入力に対して正しく推論しているなら、それは検索の欠陥です。\n\n【補足】出力パーサー (D) が働くのは生成のあとですが、トレースでは、モデルが推論する前の段階で間違ったドキュメントが届いています。"
+    }
+  }
+]

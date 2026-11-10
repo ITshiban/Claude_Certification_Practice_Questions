@@ -268,3 +268,23 @@ tfoot td { font-weight: 600; }
 
 .storage-warning { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .storage-warning button { flex-shrink: 0; }
+
+/* --- 試験の選択・切り替え --- */
+.header-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+button.exam-switch { padding: 4px 12px; font-size: 0.9rem; }
+.exam-card h3 { margin: 0 0 4px; font-size: 1.1rem; }
+.exam-card p { margin: 0 0 8px; }
+.exam-card .meta { margin: 0 0 2px; }
+.exam-card.last { border-color: var(--accent); border-width: 2px; }
+.exam-list { margin-top: 12px; }
+
+/* --- シナリオ --- */
+.scenario {
+  background: var(--info-bg);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin: 0 0 12px;
+}
+.scenario summary { font-weight: 600; }
+.scenario-label { color: var(--muted); font-weight: normal; font-size: 0.85rem; margin-right: 8px; }
+.scenario-body p { margin: 8px 0 0; }

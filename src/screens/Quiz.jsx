@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { t } from "../i18n.js";
 import { displayLabels, formatKeys, relabel } from "../quiz.js";
-import { QuestionMeta, RichText } from "../components.jsx";
+import { QuestionMeta, RichText, ScenarioBox } from "../components.jsx";
 
 // 親で key={問題番号} を付けて使う（問題が変わると選択状態がリセットされる）
-export default function Quiz({ lang, question, order, index, total, answer, notice, onSubmit, onNext, onQuit }) {
+export default function Quiz({ lang, question, scenario, order, index, total, answer, notice, onSubmit, onNext, onQuit }) {
   const [selected, setSelected] = useState([]);
   const [warning, setWarning] = useState("");
   const labels = displayLabels(order);
@@ -38,6 +38,7 @@ export default function Quiz({ lang, question, order, index, total, answer, noti
       </div>
       <p className="progress-text">{t("progress", lang, { i: index + 1, n: total })}</p>
       <QuestionMeta question={question} lang={lang} />
+      <ScenarioBox scenario={scenario} lang={lang} />
       <div className="question"><RichText text={question.question[lang]} /></div>
 
       <fieldset className="choices" disabled={answered}>

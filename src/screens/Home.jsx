@@ -1,9 +1,17 @@
 import { t } from "../i18n.js";
-import { COUNTS, DOMAIN_IDS, MODES, SOURCE_GROUPS } from "../quiz.js";
+import { domainIds, EXAMS } from "../exams.js";
+import { COUNTS, MODES, NO_SCENARIO } from "../quiz.js";
 import { CheckGroup, domainLabel, sourceGroupLabel } from "../components.jsx";
 
-export default function Home({ lang, settings, onChange, onStart, warning, session, onResume, onDiscard }) {
+export default function Home({ lang, exam, total, scenarios, settings, onChange, onStart, warning, session, onResume, onDiscard }) {
   const set = (patch) => onChange({ ...settings, ...patch });
+  const domains = domainIds(exam);
+  // シナリオの絞り込み：null は全部。全部選んだら null に戻す（あとから増えたシナリオも対象に含めるため）
+  const scenarioOptions = [...scenarios.map((s) => s.id), NO_SCENARIO];
+  const scenarioTitle = Object.fromEntries(scenarios.map((s) => [s.id, s.title[lang]]));
+  const setScenarios = (list) => set({ scenarios: list.length === scenarioOptions.length ? null : list });
+
+  if (total === 0) return <section><p className="notice info">{t("empty_exam", lang)}</p></section>;
 
   return (
     <section>
@@ -43,24 +51,40 @@ export default function Home({ lang, settings, onChange, onStart, warning, sessi
 
       <CheckGroup
         legend={t("filter_domain", lang)}
-        options={DOMAIN_IDS}
+        options={domains}
         selected={settings.domains}
         onChange={(domains) => set({ domains })}
-        format={domainLabel}
+        format={(d) => domainLabel(exam, d, lang)}
       />
       <div className="row under-fieldset">
-        <button type="button" className="link" onClick={() => set({ domains: DOMAIN_IDS })}>{t("select_all", lang)}</button>
+        <button type="button" className="link" onClick={() => set({ domains })}>{t("select_all", lang)}</button>
         <button type="button" className="link" onClick={() => set({ domains: [] })}>{t("clear_all", lang)}</button>
       </div>
 
       <CheckGroup
         legend={t("filter_source", lang)}
-        options={SOURCE_GROUPS}
+        options={EXAMS[exam].sourceGroups}
         selected={settings.sources}
         onChange={(sources) => set({ sources })}
         format={(g) => sourceGroupLabel(g, lang)}
         inline
       />
+
+      {scenarios.length > 0 && (
+        <>
+          <CheckGroup
+            legend={t("filter_scenario", lang)}
+            options={scenarioOptions}
+            selected={settings.scenarios ?? scenarioOptions}
+            onChange={setScenarios}
+            format={(id) => (id === NO_SCENARIO ? t("scenario_none", lang) : scenarioTitle[id])}
+          />
+          <div className="row under-fieldset">
+            <button type="button" className="link" onClick={() => set({ scenarios: null })}>{t("select_all", lang)}</button>
+            <button type="button" className="link" onClick={() => set({ scenarios: [] })}>{t("clear_all", lang)}</button>
+          </div>
+        </>
+      )}
 
       {warning && <p className="notice warn">{warning}</p>}
       <button type="button" className="primary" onClick={onStart}>{t("start", lang)}</button>

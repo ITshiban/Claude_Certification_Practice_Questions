@@ -1,0 +1,632 @@
+[
+  {
+    "id": "AF066",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 1,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "An agentic design calls the same expensive tool repeatedly with identical arguments. What does this indicate?",
+      "ja": "あるエージェントの設計では、同じ高コストのツールを同一の引数で繰り返し呼び出しています。これは何を示していますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Healthy retry behavior",
+        "ja": "健全な再試行の振る舞い"
+      },
+      {
+        "key": "B",
+        "en": "The tool is too fast",
+        "ja": "ツールが速すぎる"
+      },
+      {
+        "key": "C",
+        "en": "The agent is not retaining or reusing the result, which points at the state design",
+        "ja": "エージェントが結果を保持・再利用しておらず、状態の設計に問題がある"
+      },
+      {
+        "key": "D",
+        "en": "The model is too capable",
+        "ja": "モデルの能力が高すぎる"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Repeating an identical call means the prior result is not available to the agent, which is a state problem. It is not retry behavior (A), and neither tool speed (B) nor capability (D) explains it",
+      "ja": "同一の呼び出しを繰り返すのは、前の結果がエージェントから見えていないということであり、状態の問題です。再試行の振る舞いではなく (A)、ツールの速さ (B) も能力 (D) も、それを説明しません。"
+    }
+  },
+  {
+    "id": "AF067",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 2,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "What determines whether two lines of work belong in separate subagents?",
+      "ja": "2つの作業の流れを別々のサブエージェントに分けるべきかどうかを決めるものはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Whether each needs context the other would pollute",
+        "ja": "それぞれが、もう一方に汚されてしまうコンテキストを必要とするかどうか"
+      },
+      {
+        "key": "B",
+        "en": "Their combined length",
+        "ja": "合わせたときの長さ"
+      },
+      {
+        "key": "C",
+        "en": "Whether they use different tools",
+        "ja": "使うツールが違うかどうか"
+      },
+      {
+        "key": "D",
+        "en": "Whether they can run in parallel",
+        "ja": "並列に実行できるかどうか"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Context isolation is the reason subagents exist. Length (B), tool difference (C), and parallelism (D) can all be handled within one context",
+      "ja": "コンテキストの分離こそ、サブエージェントが存在する理由です。長さ (B)、ツールの違い (C)、並列性 (D) は、いずれも1つのコンテキストの中で扱えます。"
+    }
+  },
+  {
+    "id": "AF068",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 3,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Which design most reduces the cost of a wrong autonomous decision?",
+      "ja": "自律的な判断が間違っていたときのコストを、最も減らす設計はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A larger model",
+        "ja": "より大きなモデル"
+      },
+      {
+        "key": "B",
+        "en": "A longer prompt",
+        "ja": "より長いプロンプト"
+      },
+      {
+        "key": "C",
+        "en": "More tools",
+        "ja": "より多くのツール"
+      },
+      {
+        "key": "D",
+        "en": "Making the action reversible, or gating it behind confirmation",
+        "ja": "操作を元に戻せるようにするか、確認を経てから実行するようにする"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Reversibility and gating bound the consequence, which is what the risk is. Capability (A), prompt length (B), and tools (C) affect the chance of error rather than its cost",
+      "ja": "元に戻せることと確認の関門が結果の範囲を限定し、それこそがリスクの中身です。能力 (A)、プロンプトの長さ (B)、ツール (C) は、誤りのコストではなく誤りが起きる確率に影響します。"
+    }
+  },
+  {
+    "id": "AF069",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 4,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A CLAUDE.md has grown to several thousand lines. What is the likely effect?",
+      "ja": "ある CLAUDE.md が数千行にまで膨らみました。考えられる影響はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Better results, because more context is available",
+        "ja": "使えるコンテキストが増えるので、結果が良くなる"
+      },
+      {
+        "key": "B",
+        "en": "The instructions that matter compete with material that no longer applies",
+        "ja": "重要な指示が、もう当てはまらない内容と競合する"
+      },
+      {
+        "key": "C",
+        "en": "No effect, since it is read once",
+        "ja": "一度読まれるだけなので影響はない"
+      },
+      {
+        "key": "D",
+        "en": "Faster responses",
+        "ja": "応答が速くなる"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Project memory is context and dilutes like any other. More is not automatically better (A), it is not free (C), and it does not speed anything up (D)",
+      "ja": "プロジェクトのメモリもコンテキストであり、ほかと同じように薄まります。多ければ自動的に良くなるわけではなく (A)、無料でもなく (C)、何かを速くすることもありません (D)。"
+    }
+  },
+  {
+    "id": "AF070",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 5,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "What should be true of a skill before it is committed to a shared repository?",
+      "ja": "スキルを共有のリポジトリにコミットする前に、何が満たされているべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It is long enough to be useful",
+        "ja": "役に立つだけの長さがある"
+      },
+      {
+        "key": "B",
+        "en": "It encodes a procedure the team genuinely repeats, and it is reviewable",
+        "ja": "チームが実際に繰り返している手順をまとめたもので、レビューできる"
+      },
+      {
+        "key": "C",
+        "en": "It is written by the most senior engineer",
+        "ja": "最も経験のあるエンジニアが書いた"
+      },
+      {
+        "key": "D",
+        "en": "It covers every edge case",
+        "ja": "あらゆる例外的なケースを網羅している"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "A shared skill is justified by genuine repetition and must be reviewable like code. Length (A), authorship (C), and exhaustiveness (D) do not establish that",
+      "ja": "共有のスキルは、実際に繰り返されていることで正当化され、コードと同じようにレビューできなければなりません。長さ (A)、書いた人 (C)、網羅性 (D) は、それを裏付けません。"
+    }
+  },
+  {
+    "id": "AF071",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 6,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "Why is committed configuration preferable to per-developer configuration for team conventions?",
+      "ja": "チームの規約について、開発者ごとの設定よりコミットした設定のほうが望ましいのはなぜですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It is faster to load",
+        "ja": "読み込みが速いから"
+      },
+      {
+        "key": "B",
+        "en": "It uses less context",
+        "ja": "使うコンテキストが少ないから"
+      },
+      {
+        "key": "C",
+        "en": "It cannot be overridden",
+        "ja": "上書きできないから"
+      },
+      {
+        "key": "D",
+        "en": "It is versioned, reviewed, and applies to everyone including automation",
+        "ja": "バージョン管理され、レビューされ、自動化も含めた全員に適用されるから"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Shared, reviewed, versioned context is what makes a convention hold across people and CI. Speed (A) and context size (B) are not the reason, and it can still be overridden locally (C)",
+      "ja": "共有され、レビューされ、バージョン管理されたコンテキストがあってこそ、規約は人と CI をまたいで守られます。速さ (A) やコンテキストの量 (B) が理由ではなく、ローカルで上書きすることもできます (C)。"
+    }
+  },
+  {
+    "id": "AF072",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 7,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "A schema-validated response fails validation once in every few hundred calls. What is the correct handling?",
+      "ja": "スキーマで検証している応答が、数百回に1回、検証に失敗します。正しい扱いはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Define a fallback path: retry, then fail explicitly rather than passing invalid data on",
+        "ja": "代替の経路を定める。再試行し、それでもだめなら、不正なデータを先に渡すのではなく明示的に失敗させる"
+      },
+      {
+        "key": "B",
+        "en": "Ignore it, since the rate is low",
+        "ja": "発生率が低いので無視する"
+      },
+      {
+        "key": "C",
+        "en": "Disable validation to avoid the failures",
+        "ja": "失敗を避けるため検証を無効にする"
+      },
+      {
+        "key": "D",
+        "en": "Increase the output token limit",
+        "ja": "出力トークンの上限を増やす"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "A rare failure still needs a defined path, and silently passing invalid data is the outcome to prevent. Ignoring it (B) and disabling validation (C) do exactly that, and the token limit (D) is not the cause",
+      "ja": "まれな失敗にも決められた経路が必要であり、不正なデータを黙って渡すことこそ防ぐべき結果です。無視すること (B) も検証を無効にすること (C) も、まさにそれを招きます。トークンの上限 (D) は原因ではありません。"
+    }
+  },
+  {
+    "id": "AF073",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 8,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "What is the advantage of validating structured output at the boundary rather than downstream?",
+      "ja": "構造化された出力を、後続の処理ではなく境界で検証する利点はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It is cheaper",
+        "ja": "安く済む"
+      },
+      {
+        "key": "B",
+        "en": "It removes the need for a schema",
+        "ja": "スキーマが不要になる"
+      },
+      {
+        "key": "C",
+        "en": "The failure is caught where it can still be retried or rejected, before it contaminates later steps",
+        "ja": "失敗を、まだ再試行や却下ができ、後のステップを汚す前の地点で捕まえられる"
+      },
+      {
+        "key": "D",
+        "en": "It improves model accuracy",
+        "ja": "モデルの精度が上がる"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Catching at the boundary contains the fault. It is not primarily a cost question (A), the schema is what makes it possible (B), and it does not change the model's accuracy (D)",
+      "ja": "境界で捕まえれば、障害を食い止められます。主にコストの問題ではなく (A)、それを可能にするのがスキーマであり (B)、モデルの精度は変わりません (D)。"
+    }
+  },
+  {
+    "id": "AF074",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 9,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "A structured extraction must record where in the source each value came from. What does this require?",
+      "ja": "ある構造化データの抽出では、各値が元の文書のどこから来たかを記録しなければなりません。何が必要ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A larger model",
+        "ja": "より大きなモデル"
+      },
+      {
+        "key": "B",
+        "en": "A longer prompt",
+        "ja": "より長いプロンプト"
+      },
+      {
+        "key": "C",
+        "en": "A second extraction pass",
+        "ja": "2回目の抽出"
+      },
+      {
+        "key": "D",
+        "en": "The schema to include a provenance field the model must populate",
+        "ja": "モデルが埋めなければならない、出所を示すフィールドをスキーマに含める"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Anything the output must carry has to be part of the declared shape. Model size (A) and prompt length (B) do not create a field, and a second pass (C) is unnecessary if the schema asks for it",
+      "ja": "出力に含めなければならないものは、宣言した形の一部にする必要があります。モデルの大きさ (A) やプロンプトの長さ (B) ではフィールドは生まれず、スキーマで求めれば2回目の抽出 (C) は不要です。"
+    }
+  },
+  {
+    "id": "AF075",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 10,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "Two tools do nearly the same thing with different names. What is the architectural fault?",
+      "ja": "2つのツールが、名前は違うのにほぼ同じことをします。アーキテクチャ上の欠陥はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Duplication of code",
+        "ja": "コードの重複"
+      },
+      {
+        "key": "B",
+        "en": "Higher latency",
+        "ja": "レイテンシが高くなる"
+      },
+      {
+        "key": "C",
+        "en": "The model has no reliable basis for choosing between them",
+        "ja": "モデルが2つのうちどちらを選ぶべきかの確かな根拠を持てない"
+      },
+      {
+        "key": "D",
+        "en": "Increased token cost",
+        "ja": "トークンのコストが増える"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Ambiguity at the point of selection is the fault, because the model chooses from descriptions. Code duplication (A), latency (B), and cost (D) are secondary consequences",
+      "ja": "モデルは説明から選ぶので、選択の時点でのあいまいさが欠陥です。コードの重複 (A)、レイテンシ (B)、コスト (D) は二次的な結果です。"
+    }
+  },
+  {
+    "id": "AF076",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 11,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "What should a tool do when given arguments it cannot satisfy?",
+      "ja": "満たせない引数を渡されたとき、ツールは何をすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Return the closest result it can",
+        "ja": "できる限り近い結果を返す"
+      },
+      {
+        "key": "B",
+        "en": "Return a clear error stating what was wrong, so the model can correct the call",
+        "ja": "何が誤っていたかを示す明確なエラーを返し、モデルが呼び出しを直せるようにする"
+      },
+      {
+        "key": "C",
+        "en": "Return an empty result",
+        "ja": "空の結果を返す"
+      },
+      {
+        "key": "D",
+        "en": "Raise an exception that terminates the run",
+        "ja": "実行を終了させる例外を投げる"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "An informative error keeps the model able to adapt. A closest-guess (A) and an empty result (C) are silently wrong, and terminating (D) discards a recoverable run",
+      "ja": "情報のあるエラーがあれば、モデルは対応を変えられます。最も近い推測 (A) や空の結果 (C) は気づかれないまま誤っており、終了させると (D) 回復できた実行を捨てることになります。"
+    }
+  },
+  {
+    "id": "AF077",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 12,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "An MCP tool exposes a write operation that the use case never needs. What should happen?",
+      "ja": "ある MCP ツールが、ユースケースでは一度も必要としない書き込みの操作を公開しています。どうすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Remove it, because unused authority is unnecessary risk",
+        "ja": "取り除く。使わない権限は不要なリスクだから"
+      },
+      {
+        "key": "B",
+        "en": "Leave it, since it may be useful later",
+        "ja": "あとで役立つかもしれないので残す"
+      },
+      {
+        "key": "C",
+        "en": "Document that it should not be used",
+        "ja": "使うべきでないと文書に書く"
+      },
+      {
+        "key": "D",
+        "en": "Rename it to discourage use",
+        "ja": "使われにくいよう名前を変える"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Authority that is not needed should not be granted. Retaining it for possible future use (B), documenting (C), or renaming (D) all leave the capability reachable",
+      "ja": "必要のない権限は与えるべきではありません。将来使うかもしれないと残すこと (B)、文書に書くこと (C)、名前を変えること (D) は、いずれもその機能に手が届くままにします。"
+    }
+  },
+  {
+    "id": "AF078",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 13,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "What is the earliest reliable signal that context management has failed in a long run?",
+      "ja": "長い実行の中で、コンテキストの管理が失敗したことを示す、最も早く確かなシグナルはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The agent begins repeating work or contradicting earlier decisions",
+        "ja": "エージェントが作業を繰り返したり、以前の判断と矛盾したりし始める"
+      },
+      {
+        "key": "B",
+        "en": "The run takes longer than expected",
+        "ja": "実行が予想より長くかかる"
+      },
+      {
+        "key": "C",
+        "en": "Token cost rises",
+        "ja": "トークンのコストが上がる"
+      },
+      {
+        "key": "D",
+        "en": "A tool returns an error",
+        "ja": "ツールがエラーを返す"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Repetition and self-contradiction are the behavioral signature of lost state. Duration (B) and cost (C) rise for many reasons, and a tool error (D) is unrelated",
+      "ja": "繰り返しと自己矛盾は、状態が失われたときの典型的な振る舞いです。所要時間 (B) やコスト (C) はさまざまな理由で増え、ツールのエラー (D) は関係がありません。"
+    }
+  },
+  {
+    "id": "AF079",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 14,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Why is a defined success criterion necessary for a reliable agentic system?",
+      "ja": "信頼できるエージェントのシステムに、定義された成功の基準が必要なのはなぜですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It reduces token cost",
+        "ja": "トークンのコストが下がるから"
+      },
+      {
+        "key": "B",
+        "en": "Without it there is no way to tell completion from failure, so the system cannot stop correctly or be measured",
+        "ja": "それがなければ完了と失敗を区別できず、システムは正しく止まることも測定されることもできないから"
+      },
+      {
+        "key": "C",
+        "en": "It makes the prompt shorter",
+        "ja": "プロンプトが短くなるから"
+      },
+      {
+        "key": "D",
+        "en": "It is required by the platform",
+        "ja": "プラットフォームで必須になっているから"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Termination and measurement both depend on a definition of done. Cost (A), prompt length (C), and platform requirements (D) are not the reason",
+      "ja": "終了も測定も、完了の定義にかかっています。コスト (A)、プロンプトの長さ (C)、プラットフォームの要件 (D) が理由ではありません。"
+    }
+  },
+  {
+    "id": "AF080",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-3.html",
+    "source_number": 15,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A reliability requirement says wrong output must never reach the user unnoticed. What does the design need?",
+      "ja": "信頼性の要件として、誤った出力が気づかれないまま利用者に届くことは決してあってはならないとされています。設計には何が必要ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A more capable model",
+        "ja": "より高性能なモデル"
+      },
+      {
+        "key": "B",
+        "en": "More examples in the prompt",
+        "ja": "プロンプト内の例を増やす"
+      },
+      {
+        "key": "C",
+        "en": "A detection step with a defined action when it fires",
+        "ja": "検出のステップと、それが反応したときの決められた対応"
+      },
+      {
+        "key": "D",
+        "en": "A longer context window",
+        "ja": "より長いコンテキストウィンドウ"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Preventing silent error requires detection plus a response. Capability (A), examples (B), and context (D) improve the average case without catching the bad one",
+      "ja": "気づかれない誤りを防ぐには、検出と対応の両方が必要です。能力 (A)、例 (B)、コンテキスト (D) は、平均的なケースを良くしても、悪いケースを捕まえはしません。"
+    }
+  }
+]

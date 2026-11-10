@@ -1,0 +1,1472 @@
+[
+  {
+    "id": "AF001",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 1,
+    "scenario_id": "AFS01",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Your support agent resolves most tickets but sometimes loops indefinitely, re-calling lookup_order on the same order. What is the correct structural fix?",
+      "ja": "あなたのサポートエージェントはほとんどのチケットを解決しますが、同じ注文に対して lookup_order を呼び直し続け、終わらなくなることがあります。構造上の正しい修正はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Raise max_tokens so the loop has room to finish",
+        "ja": "ループが終わる余地ができるよう、max_tokens を引き上げる"
+      },
+      {
+        "key": "B",
+        "en": "Remove the lookup_order tool",
+        "ja": "lookup_order ツールを取り除く"
+      },
+      {
+        "key": "C",
+        "en": "Add explicit loop-termination conditions: cap tool iterations, detect repeated identical calls, and route to escalate_to_human when progress stalls",
+        "ja": "ループの終了条件を明示する。ツールの反復回数に上限を設け、同一の呼び出しの繰り返しを検出し、進まなくなったら escalate_to_human に回す"
+      },
+      {
+        "key": "D",
+        "en": "Lower the temperature",
+        "ja": "temperature を下げる"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Agent loops need engineered termination: iteration budgets, repeated-call detection, and an escalation path when the agent cannot progress. Token budget (A) delays the symptom, removing a needed tool (B) breaks resolution, and temperature (D) does not bound iteration.",
+      "ja": "エージェントのループには、設計された終了の仕組みが必要です。反復回数の予算、繰り返しの呼び出しの検出、そしてエージェントが進めなくなったときのエスカレーションの経路です。トークンの予算 (A) は症状を先送りするだけで、必要なツールを取り除くと (B) 解決ができなくなり、temperature (D) は反復回数を制限しません。"
+    }
+  },
+  {
+    "id": "AF002",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 2,
+    "scenario_id": "AFS01",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "process_refund currently accepts any amount. Support policy caps agent-initiated refunds at $200; larger refunds need a human. Where does that rule belong?",
+      "ja": "process_refund は現在、どんな金額でも受け付けます。サポートのポリシーでは、エージェントが行う返金の上限は200ドルで、それより大きい返金には人の判断が必要です。このルールはどこに置くべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "In the system prompt, phrased firmly",
+        "ja": "システムプロンプトに、強い言い回しで書く"
+      },
+      {
+        "key": "B",
+        "en": "In the model's reasoning, since it reads the policy",
+        "ja": "モデルはポリシーを読むので、モデルの推論に任せる"
+      },
+      {
+        "key": "C",
+        "en": "In quarterly staff training",
+        "ja": "四半期ごとのスタッフ研修で扱う"
+      },
+      {
+        "key": "D",
+        "en": "Enforced in the tool layer: the tool rejects amounts over the cap with a structured error, and a hook or the tool itself routes larger cases to escalation",
+        "ja": "ツール層で強制する。ツールは上限を超える金額を構造化されたエラーで拒否し、フックかツール自身が、より大きい案件をエスカレーションに回す"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Hard policy limits are enforced deterministically at the tool boundary, not requested of the model. Prompt phrasing (A) and model reasoning (B) are probabilistic where the requirement is absolute, and training (C) does not constrain the agent at all.",
+      "ja": "厳格なポリシーの上限は、モデルに求めるのではなく、ツールの境界で決定的に強制します。プロンプトの言い回し (A) やモデルの推論 (B) は確率的であり、要件は絶対的です。研修 (C) はエージェントをまったく制約しません。"
+    }
+  },
+  {
+    "id": "AF003",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 3,
+    "scenario_id": "AFS03",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Your coordinator delegates to search, analysis, and report subagents. Final reports cite sources that do not support their claims, though each subagent behaves sensibly alone. What is the most likely architectural cause?",
+      "ja": "あなたのコーディネーターは、検索、分析、レポートのサブエージェントに作業を委任しています。各サブエージェントは単独では妥当に振る舞いますが、最終レポートでは、主張を裏付けていない出典が引用されています。最も可能性の高いアーキテクチャ上の原因はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Provenance is lost at handoffs: findings and their sources are not passed together in a structured form, so the report writer pairs claims with citations by guesswork",
+        "ja": "引き継ぎで出所の情報が失われている。調査結果とその出典が構造化された形で一緒に渡されていないため、レポートを書くサブエージェントが当て推量で主張と引用を組み合わせている"
+      },
+      {
+        "key": "B",
+        "en": "The report subagent's model is too small",
+        "ja": "レポートのサブエージェントのモデルが小さすぎる"
+      },
+      {
+        "key": "C",
+        "en": "The web is unreliable",
+        "ja": "Web が信頼できない"
+      },
+      {
+        "key": "D",
+        "en": "Too many subagents are running in parallel",
+        "ja": "並列で動いているサブエージェントが多すぎる"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "In multi-agent pipelines, provenance survives only if the handoff format carries claim and source together. That failure mode produces exactly this symptom while every stage looks locally fine. Model size (B), source quality (C), and parallelism (D) do not explain correct facts paired with wrong citations.",
+      "ja": "マルチエージェントのパイプラインで出所の情報が保たれるのは、引き継ぎの形式が主張と出典を一緒に運ぶ場合だけです。その失敗のパターンは、どの段階も局所的には問題なく見えながら、まさにこの症状を生みます。モデルの大きさ (B)、情報源の質 (C)、並列性 (D) では、正しい事実に間違った引用が組み合わされることを説明できません。"
+    }
+  },
+  {
+    "id": "AF004",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 4,
+    "scenario_id": "AFS03",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "The analysis subagent returns 30,000-token document dumps to the coordinator, which then fails on context limits. What is the right fix?",
+      "ja": "分析のサブエージェントが30,000トークンの文書をそのままコーディネーターに返し、コーディネーターはコンテキストの上限で失敗します。正しい修正はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Give the coordinator a bigger context window",
+        "ja": "コーディネーターに、より大きなコンテキストウィンドウを与える"
+      },
+      {
+        "key": "B",
+        "en": "Have subagents return structured extracts, findings with citations and confidence, while full documents stay in the subagent's context or a scratchpad file",
+        "ja": "サブエージェントには、出典と確信度を付けた調査結果という構造化された抜粋を返させ、文書全体はサブエージェントのコンテキストかスクラッチパッドのファイルに置いておく"
+      },
+      {
+        "key": "C",
+        "en": "Have the coordinator drop the oldest messages silently",
+        "ja": "コーディネーターに、最も古いメッセージを黙って捨てさせる"
+      },
+      {
+        "key": "D",
+        "en": "Run the analysis twice and keep the shorter answer",
+        "ja": "分析を2回実行し、短いほうの答えを残す"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Context isolation is the point of subagent delegation: raw bulk stays at the edge, distilled results travel. A larger window (A) postpones the failure, silent dropping (C) loses arbitrary information, and rerunning (D) changes nothing structural.",
+      "ja": "コンテキストの分離こそが、サブエージェントに委任する目的です。生の大量データは末端にとどめ、要点だけを渡します。大きなウィンドウ (A) は失敗を先送りし、黙って捨てると (C) どの情報が失われるかわからず、再実行 (D) は構造を何も変えません。"
+    }
+  },
+  {
+    "id": "AF005",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 5,
+    "scenario_id": "AFS02",
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "Your monorepo has frontend and backend directories with different conventions, and one team-wide rule about commit style. Where does each piece of configuration belong?",
+      "ja": "あなたのモノレポには、規約の異なるフロントエンドとバックエンドのディレクトリがあり、コミットのスタイルについてチーム全体のルールが1つあります。それぞれの設定はどこに置くべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Everything in one root CLAUDE.md",
+        "ja": "すべてをルートの CLAUDE.md 1つにまとめる"
+      },
+      {
+        "key": "B",
+        "en": "Each engineer's personal user-level CLAUDE.md",
+        "ja": "各エンジニアの個人用のユーザーレベルの CLAUDE.md に置く"
+      },
+      {
+        "key": "C",
+        "en": "The commit rule in the project-level CLAUDE.md; the per-area conventions in path-scoped rules under .claude/rules/ that load only when matching files are touched",
+        "ja": "コミットのルールはプロジェクトレベルの CLAUDE.md に置き、領域ごとの規約は、該当するファイルを扱うときだけ読み込まれる、.claude/rules/ のパス限定のルールに置く"
+      },
+      {
+        "key": "D",
+        "en": "A wiki page linked from the README",
+        "ja": "README からリンクした Wiki ページに置く"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "The hierarchy exists for exactly this: shared rules at project scope, conditional conventions path-scoped so context is spent only where relevant. One root file (A) loads everything everywhere, personal files (B) diverge per engineer, and a wiki (D) never reaches the model.",
+      "ja": "階層はまさにこのためにあります。共通のルールはプロジェクトのスコープに置き、条件付きの規約はパスで限定して、関係するところでだけコンテキストを使います。ルートのファイル1つ (A) では、どこでもすべてが読み込まれます。個人のファイル (B) はエンジニアごとに食い違い、Wiki (D) はモデルに届きません。"
+    }
+  },
+  {
+    "id": "AF006",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 6,
+    "scenario_id": "AFS05",
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "Your CI job runs Claude Code to review pull requests, and the pipeline must parse the results mechanically. Which invocation is correct?",
+      "ja": "あなたの CI ジョブは Claude Code を実行してプルリクエストをレビューしており、パイプラインはその結果を機械的に解析しなければなりません。正しい呼び出し方はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Interactive mode with a human copying the output into CI",
+        "ja": "対話モードで実行し、人が出力を CI にコピーする"
+      },
+      {
+        "key": "B",
+        "en": "Plan mode, which is safer for automation",
+        "ja": "自動化にはより安全なので、プランモードで実行する"
+      },
+      {
+        "key": "C",
+        "en": "A shell script that greps the human-readable transcript",
+        "ja": "人が読むためのトランスクリプトを grep するシェルスクリプト"
+      },
+      {
+        "key": "D",
+        "en": "Non-interactive mode with -p, with --output-format json and a schema so the review arrives as machine-readable, validated output",
+        "ja": "-p による非対話モードで、--output-format json とスキーマを指定し、レビューを機械可読で検証済みの出力として受け取る"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Headless CI use is what -p with JSON output and a schema is for: deterministic invocation, parseable results. A human in the loop (A) is not CI, plan mode (B) is a review gate for interactive work rather than an output format, and grepping prose (C) breaks on the first wording change.",
+      "ja": "CI でのヘッドレス利用こそ、JSON 出力とスキーマを指定した -p の用途です。決定的に呼び出せ、結果を解析できます。人が間に入る方法 (A) は CI ではありません。プランモード (B) は対話的な作業のためのレビューの関門であって、出力形式ではありません。文章を grep する方法 (C) は、言い回しが最初に変わった時点で壊れます。"
+    }
+  },
+  {
+    "id": "AF007",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 7,
+    "scenario_id": "AFS05",
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "The automated reviewer flags dozens of trivial style nits per pull request, and engineers have started ignoring it. Which change addresses the false-positive problem the way the blueprint suggests?",
+      "ja": "自動レビューがプルリクエストごとに何十件もの些細なスタイルの指摘を出し、エンジニアはそれを無視し始めています。ブループリントが示す方法で誤検知の問題に対処する変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Define explicit review criteria in the prompt: what to flag, what to ignore, and a severity bar, with a few worked examples of in-scope and out-of-scope findings",
+        "ja": "プロンプトでレビューの基準を明示する。何を指摘し、何を無視するか、重大度の基準を示し、対象内と対象外の指摘の実例をいくつか添える"
+      },
+      {
+        "key": "B",
+        "en": "Run the review twice and post only findings that appear both times",
+        "ja": "レビューを2回実行し、両方に出た指摘だけを投稿する"
+      },
+      {
+        "key": "C",
+        "en": "Cap the reviewer at three findings per pull request",
+        "ja": "レビューの指摘をプルリクエストごとに3件までに制限する"
+      },
+      {
+        "key": "D",
+        "en": "Route all findings to a channel nobody reads",
+        "ja": "すべての指摘を誰も読まないチャンネルに送る"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Precision comes from explicit criteria and few-shot examples that draw the boundary between signal and noise. Double-running (B) filters randomness but not systematic nit-picking, an arbitrary cap (C) drops real findings on bad days, and (D) is surrender.",
+      "ja": "精度は、シグナルとノイズの境界を引く明示的な基準と Few-shot の例から生まれます。2回の実行 (B) はランダムさは除けても系統的な細かい指摘は除けず、恣意的な上限 (C) は悪い日に本当の指摘を落とし、(D) は諦めです。"
+    }
+  },
+  {
+    "id": "AF008",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 8,
+    "scenario_id": "AFS06",
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Invoices sometimes lack a purchase-order number, and your extraction schema must handle that honestly while catching real misses. What is the right schema design?",
+      "ja": "請求書には発注番号がないことがあり、あなたの抽出スキーマは、それを正直に扱いつつ、本当の抜けは見逃さないようにしなければなりません。正しいスキーマの設計はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Make every field required so nothing is missed",
+        "ja": "何も見逃さないよう、すべてのフィールドを必須にする"
+      },
+      {
+        "key": "B",
+        "en": "Make purchase_order nullable, so absence is recorded as null, and validate that it is present whenever the document type requires it",
+        "ja": "purchase_order を null 許容にして、ないことを null として記録し、文書の種類上必要な場合には存在することを検証する"
+      },
+      {
+        "key": "C",
+        "en": "Make everything optional to avoid validation errors",
+        "ja": "検証エラーを避けるため、すべてを任意にする"
+      },
+      {
+        "key": "D",
+        "en": "Have the model invent a plausible number when one is missing",
+        "ja": "番号がないときは、もっともらしい番号をモデルに作らせる"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Schema design encodes reality: genuinely optional data is nullable, and conditional requirements are validated downstream. All-required (A) forces fabrication or failure on legitimate documents, all-optional (C) blinds you to true misses, and invention (D) is data corruption.",
+      "ja": "スキーマの設計は現実を表します。本当に任意のデータは null 許容にし、条件付きの必須要件は後続で検証します。すべて必須にすると (A)、正当な文書に対して捏造か失敗を強いることになり、すべて任意にすると (C) 本当の抜けが見えなくなり、作り出すこと (D) はデータの破損です。"
+    }
+  },
+  {
+    "id": "AF009",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 9,
+    "scenario_id": "AFS06",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Your pipeline reports 98% field accuracy, measured on the documents the schema validated cleanly. An auditor calls the number misleading. Why?",
+      "ja": "あなたのパイプラインは、フィールドの精度を98%と報告しています。これはスキーマの検証を問題なく通った文書で測ったものです。監査担当者は、この数値は誤解を招くと言っています。なぜですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Accuracy should be measured only on the hardest documents",
+        "ja": "精度は最も難しい文書だけで測るべきだから"
+      },
+      {
+        "key": "B",
+        "en": "98% is below industry standard",
+        "ja": "98%は業界標準を下回っているから"
+      },
+      {
+        "key": "C",
+        "en": "Validation-clean documents are a biased sample: the honest measure comes from a labeled sample drawn across all documents, including ones that failed or barely passed validation",
+        "ja": "検証を問題なく通った文書は偏ったサンプルだから。正直な測定は、検証に失敗した文書やぎりぎり通った文書も含め、すべての文書から抽出したラベル付きのサンプルで行う"
+      },
+      {
+        "key": "D",
+        "en": "Field accuracy is not a real metric",
+        "ja": "フィールドの精度は本物の指標ではないから"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Measuring only where the system already succeeded inflates the estimate; calibration requires a labeled sample representative of the full input stream. Hardest-only (A) biases in the opposite direction, the standard claim (B) is invented, and (D) is false.",
+      "ja": "システムがすでに成功している部分だけで測ると、見積もりは膨らみます。正しく較正するには、入力全体を代表するラベル付きのサンプルが必要です。最も難しい文書だけ (A) では逆方向に偏り、標準についての主張 (B) は根拠のない作り話で、(D) は誤りです。"
+    }
+  },
+  {
+    "id": "AF010",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 10,
+    "scenario_id": "AFS04",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "Your codebase-exploration agent has get_file_contents, read_source, and fetch_file tools that all read files, and it frequently picks poorly among them. What is the correct fix?",
+      "ja": "あなたのコードベース探索エージェントには、get_file_contents、read_source、fetch_file という、どれもファイルを読むツールがあり、その中からよく不適切なものを選びます。正しい修正はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Add a fourth, better file-reading tool",
+        "ja": "より良い4つ目のファイル読み取りツールを追加する"
+      },
+      {
+        "key": "B",
+        "en": "Fine-tune the model on the tool list",
+        "ja": "ツールの一覧でモデルをファインチューニングする"
+      },
+      {
+        "key": "C",
+        "en": "Randomize which tool the harness dispatches",
+        "ja": "ハーネスが呼び出すツールをランダムにする"
+      },
+      {
+        "key": "D",
+        "en": "Consolidate to one file-reading tool, or give the survivors sharply differentiated descriptions that state exactly when each applies",
+        "ja": "ファイル読み取りツールを1つに統合するか、残すツールにそれぞれいつ使うかを正確に示した、はっきり区別できる説明を付ける"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Tool selection runs on descriptions; overlapping tools with vague descriptions produce dithering. Consolidation or sharp differentiation is the documented cure. Adding overlap (A) worsens it, fine-tuning (B) is disproportionate, and randomization (C) institutionalizes the confusion.",
+      "ja": "ツールの選択は説明に基づいて行われます。重なったツールにあいまいな説明しかなければ、選択は迷います。統合するか、はっきり区別するのが文書化された解決策です。重なりを増やすと (A) 悪化し、ファインチューニング (B) は過剰で、ランダム化 (C) は混乱を制度化します。"
+    }
+  },
+  {
+    "id": "AF011",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 11,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A support workflow resolves tickets by looking up an account, checking entitlement, and drafting a reply, always in that order. Which architecture is correct?",
+      "ja": "あるサポートのワークフローは、アカウントの検索、利用資格の確認、返信の下書きを、常にこの順で行ってチケットを解決します。正しいアーキテクチャはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A deterministic pipeline that calls the model at each defined step",
+        "ja": "定義した各ステップでモデルを呼び出す、決定的なパイプライン"
+      },
+      {
+        "key": "B",
+        "en": "A single agent that decides each step at runtime",
+        "ja": "実行時に各ステップを決める単一のエージェント"
+      },
+      {
+        "key": "C",
+        "en": "Three agents that negotiate the order between them",
+        "ja": "順序をお互いに交渉する3つのエージェント"
+      },
+      {
+        "key": "D",
+        "en": "One prompt containing all three steps",
+        "ja": "3つのステップをすべて含む1つのプロンプト"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "A known, fixed sequence should be encoded rather than rediscovered on every run, which makes it cheaper, faster, and testable step by step. Runtime decisions (B, C) add nondeterminism for no gain, and one prompt (D) removes the checkpoints between steps.",
+      "ja": "既知の固定された手順は、実行のたびに見つけ直させるのではなくコードにすべきで、そのほうが安く速く、ステップごとにテストできます。実行時に決める方法 (B, C) は利点のない非決定性を持ち込み、1つのプロンプト (D) ではステップ間のチェックポイントがなくなります。"
+    }
+  },
+  {
+    "id": "AF012",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 12,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "What is the strongest justification for splitting work across subagents?",
+      "ja": "作業を複数のサブエージェントに分ける、最も強い正当な理由はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The task has many steps",
+        "ja": "タスクのステップが多い"
+      },
+      {
+        "key": "B",
+        "en": "Separate lines of work each need their own context, and mixing them degrades both",
+        "ja": "別々の作業の流れがそれぞれ独自のコンテキストを必要とし、混ぜると両方の質が落ちる"
+      },
+      {
+        "key": "C",
+        "en": "Subagents are faster than a single agent",
+        "ja": "サブエージェントは単一のエージェントより速い"
+      },
+      {
+        "key": "D",
+        "en": "The output must be assembled from several sections",
+        "ja": "出力を複数のセクションから組み立てなければならない"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Subagents exist to isolate context, so the case for them is contamination between concerns rather than volume. Step count (A) and sectioned output (D) suit a workflow, and delegation usually adds latency rather than removing it (C).",
+      "ja": "サブエージェントはコンテキストを分離するためにあるので、使う理由は量ではなく関心事どうしの混ざり合いです。ステップ数 (A) やセクションに分かれた出力 (D) はワークフローに向いており、委任は通常レイテンシを減らすのではなく増やします (C)。"
+    }
+  },
+  {
+    "id": "AF013",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 13,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "An agent loops between two tools without converging. What is the most appropriate first control?",
+      "ja": "あるエージェントが、2つのツールの間を行き来するばかりで収束しません。最初に設けるべき最も適切な制御はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Increase the context window so it can see more history",
+        "ja": "より多くの履歴を見られるよう、コンテキストウィンドウを大きくする"
+      },
+      {
+        "key": "B",
+        "en": "Switch to a larger model",
+        "ja": "より大きなモデルに切り替える"
+      },
+      {
+        "key": "C",
+        "en": "Impose a step ceiling and define the terminating condition explicitly",
+        "ja": "ステップ数の上限を設け、終了条件を明示的に定める"
+      },
+      {
+        "key": "D",
+        "en": "Remove one of the two tools",
+        "ja": "2つのツールのうち1つを取り除く"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Non-termination is bounded by an explicit stop condition and a hard ceiling, which contains cost and makes the failure visible. More context (A) and a larger model (B) do not guarantee convergence, and removing a tool (D) may break the task.",
+      "ja": "終わらない状態は、明示的な停止条件と厳格な上限で抑えます。それによってコストが抑えられ、失敗も見えるようになります。コンテキストを増やすこと (A) や大きなモデル (B) は収束を保証せず、ツールを取り除くと (D) タスクができなくなるおそれがあります。"
+    }
+  },
+  {
+    "id": "AF014",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 14,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Which property most increases the operational risk of an agentic design?",
+      "ja": "エージェントの設計で、運用上のリスクを最も高める性質はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It calls more than one model",
+        "ja": "複数のモデルを呼び出す"
+      },
+      {
+        "key": "B",
+        "en": "It produces structured output",
+        "ja": "構造化された出力を返す"
+      },
+      {
+        "key": "C",
+        "en": "It runs longer than a minute",
+        "ja": "1分より長く動く"
+      },
+      {
+        "key": "D",
+        "en": "It takes irreversible actions without a checkpoint",
+        "ja": "チェックポイントなしに元に戻せない操作を行う"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Reversibility governs the cost of being wrong, which is the dominant risk in autonomous execution. Multiple models (A), structure (B), and duration (C) affect cost and complexity rather than blast radius.",
+      "ja": "元に戻せるかどうかが間違えたときの代償を決め、それが自律的な実行で最も大きなリスクです。複数のモデル (A)、構造 (B)、実行時間 (C) は、影響範囲ではなくコストや複雑さに関わるものです。"
+    }
+  },
+  {
+    "id": "AF015",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 15,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "How should an agentic system handle a step whose result it cannot verify?",
+      "ja": "エージェントのシステムは、結果を検証できないステップをどう扱うべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Surface the unverifiable step for human confirmation before acting on it",
+        "ja": "その結果に基づいて行動する前に、検証できないステップを人の確認に回す"
+      },
+      {
+        "key": "B",
+        "en": "Proceed, since the model is usually right",
+        "ja": "モデルはたいてい正しいので、そのまま進める"
+      },
+      {
+        "key": "C",
+        "en": "Retry the step until two runs agree",
+        "ja": "2回の実行で一致するまでステップを再試行する"
+      },
+      {
+        "key": "D",
+        "en": "Log the step and continue",
+        "ja": "ステップをログに記録して続ける"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "An unverifiable result is exactly where human judgment belongs, before it is acted upon. Assuming correctness (B) and logging without stopping (D) both act on unchecked output, and agreement across runs (C) establishes consistency rather than truth.",
+      "ja": "検証できない結果こそ、それに基づいて行動する前に人の判断を入れるべき箇所です。正しいと仮定すること (B) も、止めずにログに残すこと (D) も、確認されていない出力に基づいて行動しています。複数回の実行での一致 (C) は、真実ではなく一貫性を示すだけです。"
+    }
+  },
+  {
+    "id": "AF016",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 16,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A team proposes an agent for a task where every input is well formed and every rule is known. What should the architect recommend?",
+      "ja": "あるチームが、すべての入力の形式が整っていて、すべてのルールがわかっているタスクにエージェントを提案しています。アーキテクトは何を勧めるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "An agent, for future flexibility",
+        "ja": "将来の柔軟性のため、エージェントにする"
+      },
+      {
+        "key": "B",
+        "en": "A deterministic implementation, reserving model calls for the genuinely ambiguous parts",
+        "ja": "決定的な実装にし、モデルの呼び出しは本当にあいまいな部分のために取っておく"
+      },
+      {
+        "key": "C",
+        "en": "An agent with a low step limit",
+        "ja": "ステップ数の上限を低くしたエージェントにする"
+      },
+      {
+        "key": "D",
+        "en": "A multi-agent design for separation of concerns",
+        "ja": "関心の分離のため、マルチエージェントの設計にする"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Known rules over well-formed input are code, and using a model there buys nondeterminism at a price. Speculative flexibility (A), a constrained agent (C), and multiple agents (D) all keep the cost without the need.",
+      "ja": "形式の整った入力に既知のルールを当てはめるのはコードの仕事であり、そこでモデルを使うと、お金を払って非決定性を買うことになります。見込みの柔軟性 (A)、制約を付けたエージェント (C)、複数のエージェント (D) は、いずれも必要がないのにコストを抱えたままです。"
+    }
+  },
+  {
+    "id": "AF017",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 17,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "What most improves the debuggability of an agentic system in production?",
+      "ja": "本番のエージェントのシステムで、デバッグのしやすさを最も高めるものはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Reducing the number of tools",
+        "ja": "ツールの数を減らす"
+      },
+      {
+        "key": "B",
+        "en": "Using a single model for every step",
+        "ja": "すべてのステップで1つのモデルを使う"
+      },
+      {
+        "key": "C",
+        "en": "Recording the inputs, tool calls, and outputs of each step as a trace",
+        "ja": "各ステップの入力、ツール呼び出し、出力をトレースとして記録する"
+      },
+      {
+        "key": "D",
+        "en": "Increasing the step limit",
+        "ja": "ステップ数の上限を上げる"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "A per-step trace is what makes a nondeterministic run reconstructable after the fact. Fewer tools (A) and one model (B) simplify without explaining, and a higher ceiling (D) makes failures longer rather than clearer.",
+      "ja": "ステップごとのトレースがあれば、非決定的な実行をあとから再構成できます。ツールを減らすこと (A) や1つのモデル (B) は単純にはしても説明にはならず、上限を上げると (D) 失敗が分かりやすくなるのではなく長くなります。"
+    }
+  },
+  {
+    "id": "AF018",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 18,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "Where should conventions that apply to everyone working in a repository be recorded?",
+      "ja": "リポジトリで作業する全員に適用される規約は、どこに記録すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "In each developer's personal settings",
+        "ja": "各開発者の個人設定"
+      },
+      {
+        "key": "B",
+        "en": "In the pull request template",
+        "ja": "プルリクエストのテンプレート"
+      },
+      {
+        "key": "C",
+        "en": "In a pinned chat message",
+        "ja": "ピン留めしたチャットのメッセージ"
+      },
+      {
+        "key": "D",
+        "en": "In a CLAUDE.md committed to the repository",
+        "ja": "リポジトリにコミットした CLAUDE.md"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Committed project memory is versioned, reviewable, and shared, which is what a team convention requires. Personal settings (A) do not propagate, and templates (B) and messages (C) are not read as working context.",
+      "ja": "コミットしたプロジェクトのメモリは、バージョン管理され、レビューでき、共有されます。それがチームの規約に必要なことです。個人設定 (A) は広まらず、テンプレート (B) やメッセージ (C) は作業のコンテキストとして読み込まれません。"
+    }
+  },
+  {
+    "id": "AF019",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 19,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "What distinguishes work suited to headless mode?",
+      "ja": "ヘッドレスモードに向いている作業の特徴はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It is well defined and repeatable, so it can run unattended in automation",
+        "ja": "内容がはっきりしていて繰り返し行えるため、自動化の中で無人で実行できる"
+      },
+      {
+        "key": "B",
+        "en": "It is complex and needs close supervision",
+        "ja": "複雑で、細かな監督が必要である"
+      },
+      {
+        "key": "C",
+        "en": "It requires many tools",
+        "ja": "多くのツールを必要とする"
+      },
+      {
+        "key": "D",
+        "en": "It produces a long output",
+        "ja": "長い出力を生む"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Headless execution suits bounded, repeatable work where no one is watching. Supervision (B) argues for interactive use, and tool count (C) and output length (D) do not determine suitability.",
+      "ja": "ヘッドレスでの実行は、誰も見ていない状態で行う、範囲の決まった繰り返しの作業に向いています。監督が必要なこと (B) は対話的な利用を勧める理由であり、ツールの数 (C) や出力の長さ (D) は向き不向きを決めません。"
+    }
+  },
+  {
+    "id": "AF020",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 20,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A skill and a subagent could both address a need. What decides between them?",
+      "ja": "スキルとサブエージェントのどちらでも対応できそうなニーズがあります。どちらにするかを決めるものはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Skills are always preferable",
+        "ja": "スキルのほうが常に望ましい"
+      },
+      {
+        "key": "B",
+        "en": "Whether the need is reusable know-how or an isolated line of work with its own context",
+        "ja": "そのニーズが再利用するノウハウなのか、独自のコンテキストを持つ独立した作業の流れなのか"
+      },
+      {
+        "key": "C",
+        "en": "Whether the task is long",
+        "ja": "タスクが長いかどうか"
+      },
+      {
+        "key": "D",
+        "en": "Whether the repository already has a CLAUDE.md",
+        "ja": "リポジトリにすでに CLAUDE.md があるかどうか"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "The two solve different problems: a skill packages reusable procedure, a subagent isolates context. A blanket preference (A), duration (C), and existing files (D) do not address that distinction.",
+      "ja": "この2つは別々の問題を解決します。スキルは再利用する手順をまとめたもの、サブエージェントはコンテキストを分離するものです。一律の優先 (A)、所要時間 (C)、既存のファイル (D) は、その違いに答えていません。"
+    }
+  },
+  {
+    "id": "AF021",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 21,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "What is the correct use of a hook in a Claude Code workflow?",
+      "ja": "Claude Code のワークフローにおけるフックの正しい使い方はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "To hold instructions the model should follow",
+        "ja": "モデルが従うべき指示を入れておく"
+      },
+      {
+        "key": "B",
+        "en": "To store project context",
+        "ja": "プロジェクトのコンテキストを保存する"
+      },
+      {
+        "key": "C",
+        "en": "To enforce a deterministic action at a defined point, independently of the model",
+        "ja": "モデルとは関係なく、決まった時点で決定的な処理を強制する"
+      },
+      {
+        "key": "D",
+        "en": "To define which model is used",
+        "ja": "どのモデルを使うかを定義する"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Hooks run as code at fixed points, so they enforce rather than request. Instructions (A) and context (B) belong in project memory, and model choice (D) is configuration.",
+      "ja": "フックは決まった時点でコードとして実行されるため、依頼するのではなく強制します。指示 (A) やコンテキスト (B) はプロジェクトのメモリに置くもので、モデルの選択 (D) は設定です。"
+    }
+  },
+  {
+    "id": "AF022",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 22,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "Claude Code performs well for one engineer and inconsistently across the team. What is the most likely cause?",
+      "ja": "Claude Code は、あるエンジニアの環境ではうまく動きますが、チーム全体では結果が安定しません。最も可能性の高い原因はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The others need more capable machines",
+        "ja": "ほかのメンバーには、より高性能なマシンが必要である"
+      },
+      {
+        "key": "B",
+        "en": "The repository is too large",
+        "ja": "リポジトリが大きすぎる"
+      },
+      {
+        "key": "C",
+        "en": "The others are using different terminals",
+        "ja": "ほかのメンバーが別のターミナルを使っている"
+      },
+      {
+        "key": "D",
+        "en": "The working conventions live in one person's local setup rather than in the repository",
+        "ja": "作業の規約が、リポジトリではなく1人のローカル環境にある"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Context that is not committed does not travel, which produces exactly this asymmetry. Hardware (A), repository size (B), and terminal choice (C) do not explain a difference in output quality.",
+      "ja": "コミットされていないコンテキストは共有されず、まさにこの差を生みます。ハードウェア (A)、リポジトリの大きさ (B)、ターミナルの選択 (C) では、出力の質の違いを説明できません。"
+    }
+  },
+  {
+    "id": "AF023",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 23,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "A pipeline requires output that always validates against a schema. What is the correct approach?",
+      "ja": "あるパイプラインでは、常にスキーマに対して検証が通る出力が必要です。正しい方法はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Declare the schema as a tool the model must call, and validate on receipt",
+        "ja": "スキーマをモデルが呼び出さなければならないツールとして宣言し、受け取ったら検証する"
+      },
+      {
+        "key": "B",
+        "en": "Ask for the schema in the prompt and validate afterwards",
+        "ja": "プロンプトでスキーマを求め、あとで検証する"
+      },
+      {
+        "key": "C",
+        "en": "Ask for JSON and repair malformed output in code",
+        "ja": "JSON を求め、形式が不正な出力はコードで修復する"
+      },
+      {
+        "key": "D",
+        "en": "Use a lower temperature",
+        "ja": "temperature を下げる"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "A declared schema makes the structure part of the contract rather than a request, and validation on receipt closes the loop. Prompt requests (B), downstream repair (C), and temperature (D) all leave the shape to chance.",
+      "ja": "スキーマを宣言すると、構造が依頼ではなく契約の一部になり、受け取ったときの検証で確認が完結します。プロンプトでの依頼 (B)、後続での修復 (C)、temperature (D) は、いずれも形を運任せにしています。"
+    }
+  },
+  {
+    "id": "AF024",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 24,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Extraction is accurate for common cases and fails on rare formats. What is the most effective response?",
+      "ja": "抽出は一般的なケースでは正確ですが、まれな形式では失敗します。最も効果的な対応はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Raise the temperature to encourage flexibility",
+        "ja": "柔軟性を促すため、temperature を上げる"
+      },
+      {
+        "key": "B",
+        "en": "Add examples covering the rare formats and define what to return when a field is absent",
+        "ja": "まれな形式を扱う例を追加し、フィールドがないときに何を返すかを定める"
+      },
+      {
+        "key": "C",
+        "en": "Switch to a larger model",
+        "ja": "より大きなモデルに切り替える"
+      },
+      {
+        "key": "D",
+        "en": "Ask the model to try harder on unusual inputs",
+        "ja": "普通でない入力ではもっと頑張るようモデルに頼む"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Rare cases fail because they are unspecified, and examples plus an explicit absent-field rule specify them. Temperature (A) adds variance, a larger model (C) is not aimed at the gap, and exhortation (D) is not a specification.",
+      "ja": "まれなケースが失敗するのは、それが定められていないからです。例と、フィールドがない場合の明示的なルールがそれを定めます。temperature (A) はばらつきを増やし、大きなモデル (C) はその穴を狙ったものではなく、励まし (D) は仕様になりません。"
+    }
+  },
+  {
+    "id": "AF025",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 25,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "What should a schema define for a field the source document may not contain?",
+      "ja": "元の文書に含まれていない可能性があるフィールドについて、スキーマは何を定めるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Nothing, since the model will omit it",
+        "ja": "何も定めない。モデルが省略するから"
+      },
+      {
+        "key": "B",
+        "en": "A default value that looks plausible",
+        "ja": "もっともらしく見える既定値"
+      },
+      {
+        "key": "C",
+        "en": "An explicit representation for absence, so a missing value is distinguishable from an unfilled one",
+        "ja": "値がないことの明示的な表現。それによって、存在しない値と埋められていない値を区別できるようにする"
+      },
+      {
+        "key": "D",
+        "en": "A free-text field for notes",
+        "ja": "メモ用の自由記述のフィールド"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Absence must be representable, or downstream code cannot tell a genuine gap from a failure. Silent omission (A) is ambiguous, plausible defaults (B) fabricate data, and a notes field (D) does not make the state machine-readable.",
+      "ja": "値がないことを表現できなければ、後続のコードは本当の欠落と失敗を区別できません。黙って省略すること (A) はあいまいで、もっともらしい既定値 (B) はデータを捏造し、メモのフィールド (D) では状態が機械可読になりません。"
+    }
+  },
+  {
+    "id": "AF026",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 26,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Which practice most improves consistency across a long-running structured extraction job?",
+      "ja": "長時間続く構造化データの抽出処理で、一貫性を最も高めるやり方はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Randomising the order of documents",
+        "ja": "文書の順番をランダムにする"
+      },
+      {
+        "key": "B",
+        "en": "Increasing the output token limit",
+        "ja": "出力トークンの上限を増やす"
+      },
+      {
+        "key": "C",
+        "en": "Running each document twice",
+        "ja": "各文書を2回処理する"
+      },
+      {
+        "key": "D",
+        "en": "Fixing the prompt, the schema, and the model version, and recording them with the output",
+        "ja": "プロンプト、スキーマ、モデルのバージョンを固定し、それらを出力とともに記録する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Consistency requires that the things that shape output are pinned and recorded, so results remain comparable and reproducible. Ordering (A) is irrelevant, the token cap (B) affects length, and duplicate runs (C) measure variance without removing it.",
+      "ja": "一貫性を保つには、出力を左右するものを固定して記録し、結果を比較・再現できるようにする必要があります。順番 (A) は関係がなく、トークンの上限 (B) は長さに影響するだけで、2回の処理 (C) はばらつきを測っても取り除きはしません。"
+    }
+  },
+  {
+    "id": "AF027",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 27,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "A prompt mixes the instruction, the data, and the output format in continuous prose. What is the first improvement?",
+      "ja": "あるプロンプトでは、指示、データ、出力形式がひと続きの文章に混ざっています。最初に行うべき改善はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Separate the sections so the instruction, the input, and the required format are distinguishable",
+        "ja": "指示、入力、求める形式を見分けられるよう、セクションを分ける"
+      },
+      {
+        "key": "B",
+        "en": "Shorten it",
+        "ja": "短くする"
+      },
+      {
+        "key": "C",
+        "en": "Move it into the system prompt",
+        "ja": "システムプロンプトに移す"
+      },
+      {
+        "key": "D",
+        "en": "Add emphasis to the format requirement",
+        "ja": "形式の要件を強調する"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Structure lets the model tell instruction from data, which is the most common source of confusion in long prompts. Shortening (B) may remove needed detail, relocation (C) does not clarify, and emphasis (D) does not separate.",
+      "ja": "構造があれば、モデルは指示とデータを見分けられます。長いプロンプトで混乱が起きる最も一般的な原因はそこにあります。短くすると (B) 必要な詳細が消えるおそれがあり、移動 (C) では明確にならず、強調 (D) では分離されません。"
+    }
+  },
+  {
+    "id": "AF028",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 28,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "What is the strongest indicator that a tool surface needs redesign?",
+      "ja": "ツール群の作り直しが必要であることを最も強く示すものはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It contains more than ten tools",
+        "ja": "ツールが10個より多い"
+      },
+      {
+        "key": "B",
+        "en": "The model regularly selects a tool that cannot accomplish the request",
+        "ja": "要求を達成できないツールを、モデルが繰り返し選んでいる"
+      },
+      {
+        "key": "C",
+        "en": "The tools return JSON",
+        "ja": "ツールが JSON を返す"
+      },
+      {
+        "key": "D",
+        "en": "The tools are implemented across several services",
+        "ja": "ツールが複数のサービスにまたがって実装されている"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Repeated wrong selection is evidence that the tools are not distinguishable from their descriptions, which is a design fault. Tool count (A), return format (C), and implementation topology (D) are not themselves problems.",
+      "ja": "間違った選択が繰り返されるのは、説明からツールを区別できない証拠であり、設計上の欠陥です。ツールの数 (A)、戻り値の形式 (C)、実装の構成 (D) は、それ自体は問題ではありません。"
+    }
+  },
+  {
+    "id": "AF029",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 29,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "How should a tool that performs an irreversible action be designed?",
+      "ja": "元に戻せない操作を行うツールは、どう設計すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "With a description warning the model to be careful",
+        "ja": "慎重にするようモデルに警告する説明を付ける"
+      },
+      {
+        "key": "B",
+        "en": "So that it requires more parameters",
+        "ja": "より多くのパラメータを必要とするようにする"
+      },
+      {
+        "key": "C",
+        "en": "So that authorisation and confirmation are enforced outside the model",
+        "ja": "認可と確認がモデルの外で強制されるようにする"
+      },
+      {
+        "key": "D",
+        "en": "So that it is declared last",
+        "ja": "最後に宣言されるようにする"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Irreversibility is controlled by the surrounding system, because a prompt-level warning is a request rather than a guarantee. Extra parameters (B) and ordering (D) do not constrain authority.",
+      "ja": "元に戻せない操作は周囲のシステムで制御します。プロンプトの段階での警告は依頼であって保証ではないからです。パラメータを増やすこと (B) や順番 (D) は、権限を制約しません。"
+    }
+  },
+  {
+    "id": "AF030",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 30,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A tool returns a large payload that consumes most of the context window. What is the right change?",
+      "ja": "あるツールが大きなデータを返し、コンテキストウィンドウの大半を使ってしまいます。正しい変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Increase the context window",
+        "ja": "コンテキストウィンドウを大きくする"
+      },
+      {
+        "key": "B",
+        "en": "Summarise the payload with a second model call",
+        "ja": "2回目のモデル呼び出しでデータを要約する"
+      },
+      {
+        "key": "C",
+        "en": "Call the tool less often",
+        "ja": "ツールを呼び出す頻度を減らす"
+      },
+      {
+        "key": "D",
+        "en": "Return only what the task needs, with a way to request more detail",
+        "ja": "タスクに必要なものだけを返し、詳細を求める手段も用意する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Tools should return task-relevant results rather than everything available, which keeps context for reasoning. A larger window (A) postpones the problem, a second call (B) adds cost and a failure point, and calling less often (C) does not change the payload.",
+      "ja": "ツールは、手に入るものをすべてではなく、タスクに関係する結果を返すべきで、そうすれば推論のためのコンテキストが残ります。大きなウィンドウ (A) は問題を先送りし、2回目の呼び出し (B) はコストと失敗の要因を増やし、呼び出しを減らしても (C) 返る量は変わりません。"
+    }
+  },
+  {
+    "id": "AF031",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 31,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "What belongs in a tool's description?",
+      "ja": "ツールの説明には何を書くべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "What the tool does, when to use it, and what its parameters mean",
+        "ja": "ツールが何をするか、いつ使うか、パラメータが何を意味するか"
+      },
+      {
+        "key": "B",
+        "en": "The implementation language and framework",
+        "ja": "実装言語とフレームワーク"
+      },
+      {
+        "key": "C",
+        "en": "The service level agreement",
+        "ja": "サービスレベルアグリーメント（SLA）"
+      },
+      {
+        "key": "D",
+        "en": "The name of the team that owns it",
+        "ja": "担当しているチームの名前"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "The description is the model's selection guide, so it must answer purpose, applicability, and parameters. Implementation detail (B), service levels (C), and ownership (D) are irrelevant to the choice.",
+      "ja": "説明はモデルがツールを選ぶための手引きなので、目的、使いどころ、パラメータに答えていなければなりません。実装の詳細 (B)、サービスレベル (C)、担当者 (D) は、選択には関係ありません。"
+    }
+  },
+  {
+    "id": "AF032",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 32,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A long agentic run degrades in quality as it proceeds. What is the most likely cause?",
+      "ja": "長いエージェントの実行で、進むにつれて品質が落ちていきます。最も可能性の高い原因はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The model version changed mid-run",
+        "ja": "実行の途中でモデルのバージョンが変わった"
+      },
+      {
+        "key": "B",
+        "en": "Context has accumulated until relevant material competes with stale material",
+        "ja": "コンテキストが積み重なり、関係のある情報が古い情報と競合するようになった"
+      },
+      {
+        "key": "C",
+        "en": "The temperature was set too low",
+        "ja": "temperature が低すぎた"
+      },
+      {
+        "key": "D",
+        "en": "The tools became slower",
+        "ja": "ツールが遅くなった"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Progressive degradation over a long run is the signature of context accumulation and drift. Versions do not change mid-run (A), low temperature (C) reduces variety rather than quality, and tool latency (D) does not affect correctness.",
+      "ja": "長い実行の中で品質が徐々に落ちるのは、コンテキストの蓄積とドリフトの典型的な兆候です。バージョンは実行の途中で変わらず (A)、低い temperature (C) は品質ではなく多様性を下げ、ツールのレイテンシ (D) は正しさに影響しません。"
+    }
+  },
+  {
+    "id": "AF033",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 33,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "What is the right way to carry state across a compaction boundary?",
+      "ja": "圧縮（コンパクション）の境目をまたいで状態を引き継ぐ正しい方法はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Rely on the model to remember what mattered",
+        "ja": "重要だったことはモデルが覚えていると信頼する"
+      },
+      {
+        "key": "B",
+        "en": "Increase the context window so compaction is never needed",
+        "ja": "圧縮が不要になるよう、コンテキストウィンドウを大きくする"
+      },
+      {
+        "key": "C",
+        "en": "Write the decisions and constraints that must persist into an explicit summary that is carried forward",
+        "ja": "持続させるべき判断と制約を明示的な要約に書き出し、それを引き継ぐ"
+      },
+      {
+        "key": "D",
+        "en": "Restart the task after compaction",
+        "ja": "圧縮のあとでタスクをやり直す"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Persistence must be deliberate, because compaction is lossy by design. Relying on recall (A) is unreliable, a larger window (B) only delays the boundary, and restarting (D) discards the work.",
+      "ja": "圧縮はもともと情報が失われるものなので、持続させるものは意図的に残さなければなりません。記憶に頼ること (A) は当てにならず、大きなウィンドウ (B) は境目を先送りするだけで、やり直すと (D) 作業が捨てられます。"
+    }
+  },
+  {
+    "id": "AF034",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 34,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Which measure most improves reliability for a workflow that must not silently produce wrong output?",
+      "ja": "誤った出力を気づかないまま生んではならないワークフローで、信頼性を最も高める対策はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A larger model",
+        "ja": "より大きなモデル"
+      },
+      {
+        "key": "B",
+        "en": "A longer prompt",
+        "ja": "より長いプロンプト"
+      },
+      {
+        "key": "C",
+        "en": "More examples in the prompt",
+        "ja": "プロンプト内の例を増やす"
+      },
+      {
+        "key": "D",
+        "en": "A validation step that can reject output and trigger a defined fallback",
+        "ja": "出力を却下して、定めた代替処理を起動できる検証のステップ"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Reliability against silent failure requires detection and a defined response, which is what validation with a fallback provides. Model size (A), prompt length (B), and examples (C) improve the average case without catching the bad one.",
+      "ja": "気づかれない失敗に対する信頼性には、検出と、決められた対応が必要です。それを提供するのが、代替処理を備えた検証です。モデルの大きさ (A)、プロンプトの長さ (B)、例 (C) は平均的なケースを良くしても、悪いケースを捕まえはしません。"
+    }
+  },
+  {
+    "id": "AF035",
+    "source": "practice",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/practice-questions.html",
+    "source_number": 35,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "What should be measured to know whether a production agentic system is healthy?",
+      "ja": "本番のエージェントのシステムが健全かどうかを知るには、何を測るべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Task success against a defined criterion, plus the rate and shape of failures",
+        "ja": "定めた基準に照らしたタスクの成功と、失敗の発生率とその傾向"
+      },
+      {
+        "key": "B",
+        "en": "Total tokens consumed",
+        "ja": "消費したトークンの総数"
+      },
+      {
+        "key": "C",
+        "en": "Average response time",
+        "ja": "平均応答時間"
+      },
+      {
+        "key": "D",
+        "en": "The number of tool calls per run",
+        "ja": "1回の実行あたりのツール呼び出しの数"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Health is defined by whether the system accomplishes the task and how it fails when it does not. Tokens (B), latency (C), and call counts (D) are cost and behavior signals that say nothing about correctness.",
+      "ja": "健全さは、システムがタスクを達成しているか、達成できないときにどう失敗しているかで決まります。トークン (B)、レイテンシ (C)、呼び出しの数 (D) はコストや振る舞いのシグナルであり、正しさについては何も示しません。"
+    }
+  }
+]

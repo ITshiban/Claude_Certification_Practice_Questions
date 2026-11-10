@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import {
   createSession, displayLabels, domainAccuracy, filterQuestions, formatKeys, isCorrect, relabel,
-  selectQuestions, shuffledKeys, statusCounts,
+  NO_SCENARIO, progressOf, selectQuestions, shuffledKeys, sourceGroup, statusCounts,
 } from "../src/quiz.js";
 
 const makeQ = (id, { answer = ["A"], domain = 1, source = "practice" } = {}) => ({
@@ -93,6 +93,31 @@ describe("絞り込み", () => {
   test("何も選んでいなければ0件", () => {
     expect(filterQuestions(qs, [], ["mock"])).toEqual([]);
   });
+
+  test("シナリオで絞り込む（none はシナリオのない問題）。null は絞り込みなし", () => {
+    const sq = [
+      { id: "AF036", source: "mock1", domain: 1, scenario_id: "AFS01" },
+      { id: "AF037", source: "mock1", domain: 1, scenario_id: "AFS02" },
+      { id: "AF051", source: "mock2", domain: 1, scenario_id: null },
+      { id: "Q001", source: "practice", domain: 1 }, // scenario_id がない問題もシナリオなしとして扱う
+    ];
+    expect(filterQuestions(sq, null, null, ["AFS01"]).map((q) => q.id)).toEqual(["AF036"]);
+    expect(filterQuestions(sq, null, null, [NO_SCENARIO]).map((q) => q.id)).toEqual(["AF051", "Q001"]);
+    expect(filterQuestions(sq, null, null, ["AFS02", NO_SCENARIO]).map((q) => q.id)).toEqual(["AF037", "AF051", "Q001"]);
+    expect(filterQuestions(sq, null, null, null)).toHaveLength(4);
+    expect(filterQuestions(sq, null, null, [])).toEqual([]);
+  });
+
+  test("based_on を持つ original は難化版と新規に分ける（持たない original はそのまま）", () => {
+    expect(sourceGroup({ source: "original", based_on: "DV012" })).toBe("original_hard");
+    expect(sourceGroup({ source: "original", based_on: null })).toBe("original_new");
+    expect(sourceGroup({ source: "original" })).toBe("original");
+    const dv = [
+      { id: "DV081", source: "original", based_on: "DV012", domain: 1 },
+      { id: "DV101", source: "original", based_on: null, domain: 1 },
+    ];
+    expect(filterQuestions(dv, null, ["original_new"]).map((q) => q.id)).toEqual(["DV101"]);
+  });
 });
 
 describe("選択肢の表示と解説", () => {
@@ -131,7 +156,7 @@ describe("集計", () => {
       { questionId: "Q2", correct: true },
       { questionId: "Q999", correct: true }, // 存在しない問題は無視する
     ];
-    const acc = domainAccuracy(history, qs);
+    const acc = domainAccuracy(history, qs, [1, 2, 3]);
     expect(acc[1]).toEqual({ correct: 1, total: 2 });
     expect(acc[2]).toEqual({ correct: 1, total: 1 });
     expect(acc[3]).toEqual({ correct: 0, total: 0 });
@@ -139,5 +164,9 @@ describe("集計", () => {
 
   test("記録のない問題は未回答として数える", () => {
     expect(statusCounts(questions.slice(0, 3), { Q001: "correct" })).toEqual({ correct: 1, incorrect: 0, unanswered: 2 });
+  });
+
+  test("試験選択画面の進捗はステータスだけから数える（手動の未回答は数えない）", () => {
+    expect(progressOf({ Q001: "correct", Q002: "incorrect", Q003: "unanswered" })).toEqual({ correct: 1, answered: 2 });
   });
 });

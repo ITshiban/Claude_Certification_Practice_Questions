@@ -1,0 +1,1688 @@
+[
+  {
+    "id": "DV081",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV005",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "You are an AI engineer maintaining your company's thin wrapper around the Messages API. The wrapper returns the first text block of each response to its callers. Since a weather lookup tool was added, users of the support bot sometimes receive a reply such as \"Let me check that for you\" and then nothing more. The logs for those requests show stop_reason \"tool_use\". What should the wrapper do when it receives such a response?",
+      "ja": "あなたは、自社で使っている Messages API の薄いラッパーを保守している AI エンジニアです。このラッパーは、各応答の最初のテキストブロックを呼び出し元に返します。天気を調べるツールを追加して以来、サポートボットの利用者に「確認しますね」のような返信だけが届き、その先が何も返ってこないことがあります。該当するリクエストのログでは、stop_reason が \"tool_use\" になっています。ラッパーは、このような応答を受け取ったときに何をすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Treat the reply as final because its text block is already a complete sentence, and log the tool request so that the team can review it later",
+        "ja": "テキストブロックがすでに完結した文になっているので応答を最終結果として扱い、あとでチームが確認できるようツールの要求をログに残す"
+      },
+      {
+        "key": "B",
+        "en": "Resend the same request with a higher max_tokens value so that the model has enough room to finish its answer without needing to stop early",
+        "ja": "モデルが途中で止まらずに答えを書き終えられるよう、max_tokens の値を増やして同じリクエストを再送する"
+      },
+      {
+        "key": "C",
+        "en": "Retry the identical request until a response comes back with stop_reason \"end_turn\", then return that response's first text block to the caller",
+        "ja": "stop_reason が \"end_turn\" の応答が返るまで同じリクエストを再試行し、その応答の最初のテキストブロックを呼び出し元に返す"
+      },
+      {
+        "key": "D",
+        "en": "Run the requested tool, then send a new request that appends the assistant turn and a user turn holding a tool_result for that tool_use_id",
+        "ja": "要求されたツールを実行し、アシスタントのターンと、その tool_use_id に対する tool_result を含むユーザーのターンを追加して、新しいリクエストを送る"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "stop_reason \"tool_use\" means the model paused to wait for a tool result, so the wrapper must run the tool and continue the conversation with a tool_result block whose tool_use_id matches the request (D). Treating the reply as final (A) is exactly the bug users see: the model announced a lookup it never got to finish. A higher max_tokens (B) addresses stop_reason \"max_tokens\", not this one. Retrying the identical request (C) ignores what the model asked for, and the same input tends to produce the same tool call again.",
+      "ja": "stop_reason が \"tool_use\" であることは、モデルがツールの結果を待って一時停止したことを意味します。そのため、ラッパーはツールを実行し、要求と一致する tool_use_id を持つ tool_result ブロックで会話を続けなければなりません (D)。応答を最終結果として扱うこと (A) こそ、利用者が目にしている不具合です。モデルは調べると告げたまま、それを終えられていません。max_tokens を増やすこと (B) は stop_reason が \"max_tokens\" の場合の対処で、今回のケースではありません。同じリクエストの再試行 (C) はモデルの要求を無視しており、同じ入力からはまた同じツール呼び出しが返りがちです。"
+    }
+  },
+  {
+    "id": "DV082",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV025",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Your team's research agent delegates literature searches to a subagent so that long search results stay out of the main context. Before delegation was added, the agent respected the user's rule that only sources published after 2022 count. Since then, the subagent's summaries regularly cite older papers, even though the subagent uses the same model and the same search tool as before. What is the most likely cause, and what is the fix?",
+      "ja": "あなたのチームのリサーチエージェントは、長い検索結果がメインのコンテキストに入らないよう、文献検索をサブエージェントに委任しています。委任を導入する前は、エージェントは「2022年より後に公開された情報源だけを対象とする」というユーザーのルールを守っていました。導入後は、サブエージェントの要約に古い論文がたびたび引用されるようになりました。サブエージェントは以前と同じモデルと同じ検索ツールを使っています。最も可能性の高い原因と、その修正はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The subagent starts from a fresh context, so the date rule has to be written into the task description that the main agent passes to it",
+        "ja": "サブエージェントは新しいコンテキストから始まるため、日付のルールを、メインのエージェントが渡すタスクの説明に書き込む必要がある"
+      },
+      {
+        "key": "B",
+        "en": "The subagent needs more capability, so it should be moved to the largest available model so that it follows rules as well as the main agent",
+        "ja": "サブエージェントの能力が足りないため、メインのエージェントと同じようにルールを守れるよう、利用できる最大のモデルに移すべきである"
+      },
+      {
+        "key": "C",
+        "en": "The search tool ranks older papers higher, so it should be replaced by a tool that filters results by publication year before returning them",
+        "ja": "検索ツールが古い論文を上位に表示するため、結果を返す前に公開年で絞り込むツールに置き換えるべきである"
+      },
+      {
+        "key": "D",
+        "en": "Delegation itself causes the drop, so the subagent should be removed and the main agent should again run every search with full results",
+        "ja": "委任そのものが品質低下の原因であるため、サブエージェントを外し、メインのエージェントがすべての検索を結果ごと再び実行するべきである"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "A subagent works from its own fresh context and sees only what the delegating agent passes to it. The date rule lived in the main conversation, so the handoff must carry it (A). The subagent already uses the same model as before, so a larger model (B) does not explain the change. The same search tool produced correct results before delegation was added, so the tool (C) is not the cause. Removing the subagent (D) brings back the context bloat that delegation was added to prevent.",
+      "ja": "サブエージェントは自分専用の新しいコンテキストで動き、委任元のエージェントが渡したものしか見えません。日付のルールはメインの会話にあったため、引き継ぎでそれを渡す必要があります (A)。サブエージェントはすでに以前と同じモデルを使っているので、大きなモデル (B) では変化を説明できません。同じ検索ツールで委任の導入前は正しい結果が出ていたので、ツール (C) は原因ではありません。サブエージェントを外すと (D)、委任によって防ごうとしたコンテキストの肥大化が戻ってきます。"
+    }
+  },
+  {
+    "id": "DV083",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV001",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "You are the developer responsible for an internal FAQ bot. Each request is assembled in this order: a line with the current timestamp and the user's name, then a 7,000-token block of policy text that changes once a month, then the user's question. You enabled prompt caching with a breakpoint after the policy block, but the usage fields show no cache reads at all. Which change addresses the cause?",
+      "ja": "あなたは社内 FAQ ボットを担当する開発者です。各リクエストは、現在のタイムスタンプとユーザー名の行、月に1回変わる7,000トークンのポリシー文のブロック、ユーザーの質問、の順に組み立てています。ポリシーのブロックの後ろにブレークポイントを置いてプロンプトキャッシュを有効にしましたが、usage のフィールドを見ると、キャッシュの読み取りがまったくありません。原因に対処する変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Shorten the policy block to a fraction of its size, because cache reads begin only after the cached prefix falls under the account's size limit",
+        "ja": "キャッシュされたプレフィックスがアカウントのサイズ上限を下回って初めて読み取りが始まるので、ポリシーのブロックを数分の1に縮める"
+      },
+      {
+        "key": "B",
+        "en": "Move the breakpoint to after the user's question, so that every part of the request, including the variable text, is stored in the cache entry",
+        "ja": "変化するテキストも含め、リクエストのすべての部分がキャッシュのエントリに保存されるよう、ブレークポイントをユーザーの質問の後ろに移す"
+      },
+      {
+        "key": "C",
+        "en": "Put the policy block first with the breakpoint after it, and move the timestamp and user name below it, next to the question that varies",
+        "ja": "ポリシーのブロックを先頭に置いてその後ろにブレークポイントを置き、タイムスタンプとユーザー名は、その下の変化する質問の隣に移す"
+      },
+      {
+        "key": "D",
+        "en": "Send the policy block in a separate request each morning to keep it cached, and afterwards send only the timestamp, user name, and question",
+        "ja": "毎朝ポリシーのブロックを別のリクエストで送ってキャッシュしておき、その後はタイムスタンプ、ユーザー名、質問だけを送る"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Prompt caching matches the prompt as a prefix, up to and including the block marked with cache_control, so a change anywhere before the breakpoint means the stored entry no longer matches. A timestamp at the very top changes on every request, so the policy block behind it is never read from cache. Putting the stable policy first and the variable lines after it fixes this (C). A breakpoint after the question (B) creates a new entry for every distinct question. The Messages API is stateless, so content sent in an earlier request (D) is not part of later ones. The size of the policy block (A) is not what prevents the cache reads here.",
+      "ja": "プロンプトキャッシュは、cache_control を付けたブロックまでを含むプレフィックスとしてプロンプトを照合するため、ブレークポイントより前のどこかが変わると、保存されたエントリと一致しなくなります。先頭のタイムスタンプはリクエストごとに変わるので、その後ろのポリシーのブロックはキャッシュから読み取られません。変化しないポリシーを先頭に置き、変化する行をその後ろに置けば解決します (C)。ブレークポイントを質問の後ろに置くと (B)、質問が違うたびに新しいエントリが作られます。Messages API はステートレスなので、以前のリクエストで送った内容 (D) は後のリクエストに含まれません。ポリシーのブロックの大きさ (A) は、ここでキャッシュが読み取られない原因ではありません。"
+    }
+  },
+  {
+    "id": "DV084",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV002",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A finance team must categorize about 60,000 invoices at every month-end close. The categories feed a report that accountants review three days later, and the API budget for this job has just been cut in half. One small part of the workload, invoices flagged as disputed, must be categorized while an accountant is on the phone with the vendor. How should the team split the work?",
+      "ja": "ある経理チームは、毎月の月次決算で約60,000件の請求書を分類しなければなりません。分類結果は、3日後に会計担当者が確認するレポートに使われます。また、この処理の API 予算はちょうど半分に削られたところです。処理のごく一部である「係争中」の印が付いた請求書だけは、会計担当者が取引先と電話している最中に分類しなければなりません。チームは処理をどう分けるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Submit the routine invoices through the Message Batches API, and handle the disputed ones with standard Messages API calls when they come up",
+        "ja": "通常の請求書は Message Batches API で送信し、係争中の請求書は発生したときに通常の Messages API 呼び出しで処理する"
+      },
+      {
+        "key": "B",
+        "en": "Submit every invoice, disputed ones included, through the Message Batches API, since a single pipeline is easier to operate than two paths",
+        "ja": "係争中のものも含めすべての請求書を Message Batches API で送信する。2つの経路より1つのパイプラインのほうが運用しやすいため"
+      },
+      {
+        "key": "C",
+        "en": "Send every invoice as a standard Messages API call at high concurrency, and switch to the smallest model so that the cost fits the new budget",
+        "ja": "すべての請求書を高い同時実行数で通常の Messages API 呼び出しとして送り、新しい予算に収まるよう最も小さいモデルに切り替える"
+      },
+      {
+        "key": "D",
+        "en": "Send the routine invoices as standard streamed calls overnight, and reserve the Message Batches API for the disputed invoices that are urgent",
+        "ja": "通常の請求書は夜間にストリーミングの通常呼び出しで送り、Message Batches API は急ぎの係争中の請求書のために取っておく"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "The Message Batches API charges 50 percent of standard prices, and most batches finish within an hour, but results are only guaranteed once the batch completes or after 24 hours. That fits the routine invoices with three days of slack, while the disputed invoices need an answer during a live call, so they go through standard calls (A). Batching the disputed invoices too (B) is simpler to run but cannot promise an answer during the call. Standard calls (C) pay full price, and a smaller model gives up quality the task never asked to trade. Option (D) reverses the two paths, and streaming does not change the price.",
+      "ja": "Message Batches API の料金は通常の50%で、ほとんどのバッチは1時間以内に終わりますが、結果を取得できるのはバッチの完了時か24時間後であり、それより早い保証はありません。3日の余裕がある通常の請求書にはこれが合い、通話中に答えが必要な係争中の請求書は通常の呼び出しで処理します (A)。係争中の請求書までバッチにすると (B)、運用は単純になりますが、通話中に答えが出ることを保証できません。通常の呼び出し (C) は正規の料金がかかり、小さいモデルにすると、このタスクが求めていない品質の低下を受け入れることになります。(D) は2つの経路が逆であり、ストリーミングにしても料金は変わりません。"
+    }
+  },
+  {
+    "id": "DV085",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV003",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "You are a CCDV-F certified developer reviewing an ETL job that asks Claude to extract shipment records as JSON. About 3% of runs fail downstream because a quantity arrives as a string such as \"12 units\" instead of an integer. The team has already lowered the temperature and added \"quantity must be an integer\" to the prompt, which reduced the failures but did not remove them. Which change should you recommend?",
+      "ja": "あなたは CCDV-F の資格を持つ開発者で、Claude に出荷レコードを JSON として抽出させる ETL ジョブをレビューしています。実行の約3%は、数量が整数ではなく \"12 units\" のような文字列で届くため、後続の処理で失敗します。チームはすでに temperature を下げ、プロンプトに「quantity は整数でなければならない」と追加しており、失敗は減ったもののなくなってはいません。どの変更を勧めるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Add a post-processing step that strips non-digit characters from the quantity, so that values like \"12 units\" become integers before loading",
+        "ja": "数量から数字以外の文字を取り除く後処理を加え、\"12 units\" のような値を読み込みの前に整数にする"
+      },
+      {
+        "key": "B",
+        "en": "Define the record as a tool input schema with an integer quantity, validate each result, and on failure retry once with the error included",
+        "ja": "レコードを数量が整数のツール入力スキーマとして定義し、結果ごとに検証して、失敗したらエラーを添えて1回再試行する"
+      },
+      {
+        "key": "C",
+        "en": "Repeat the integer rule at the start and at the end of the prompt and set the temperature to zero, since both steps already reduced failures",
+        "ja": "どちらの手段でもすでに失敗が減ったので、整数のルールをプロンプトの最初と最後で繰り返し、temperature を0にする"
+      },
+      {
+        "key": "D",
+        "en": "Wrap the loader in error handling that skips records failing type checks, and write the skipped records to a log for review every week",
+        "ja": "型のチェックに失敗したレコードを読み込みでスキップするエラー処理を加え、スキップしたレコードはログに残して毎週確認する"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "A schema turns the expected types into a contract instead of a request, and validating the parsed result with the error fed back on failure lets the model correct itself; with strict tool use, the schema is also enforced when the output is generated (B). Stripping characters (A) silently turns text into numbers that may be wrong, for example \"1,200\" or \"12 boxes of 10\". Stronger wording and a lower temperature (C) are what the team already tried, and they only reduced the failures. Skipping records (D) hides data loss and delays the shipments until someone reviews the log.",
+      "ja": "スキーマを使うと、期待する型が依頼ではなく契約になります。さらに解析結果を検証し、失敗時にエラーを返せば、モデル自身が修正できます。strict tool use を使えば、出力の生成時にもスキーマが強制されます (B)。文字を取り除く方法 (A) は、\"1,200\" や \"12 boxes of 10\" のように、間違っているかもしれない数値へ気づかないまま変換してしまいます。表現を強めて temperature を下げること (C) はチームがすでに試した方法で、失敗が減っただけでした。レコードをスキップすると (D)、データの欠落が隠れ、誰かがログを確認するまで出荷処理が遅れます。"
+    }
+  },
+  {
+    "id": "DV086",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV014",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "Your nightly job runs 40 worker processes that each call the Messages API. When the job starts, many requests receive HTTP 429 responses. Each worker currently retries a failed request immediately, up to 20 times, and the logs show the 429 responses growing more frequent after every wave of retries until the job is aborted. What change should the workers make?",
+      "ja": "あなたの夜間ジョブでは40個のワーカープロセスが動き、それぞれが Messages API を呼び出します。ジョブの開始時に、多くのリクエストが HTTP 429 の応答を受け取ります。現在、各ワーカーは失敗したリクエストを最大20回まですぐに再試行しており、ログを見ると、再試行の波が来るたびに 429 の応答が増え、最後にはジョブが中止されています。ワーカーはどう変えるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Treat each 429 response as a permanent failure and skip that record, so the remaining records finish on time and the rest wait for the next night",
+        "ja": "429 の応答はすべて恒久的な失敗として扱ってそのレコードを飛ばし、残りのレコードを時間内に終わらせて、飛ばした分は翌晩に回す"
+      },
+      {
+        "key": "B",
+        "en": "Retry with exponential backoff and random jitter, wait for the retry-after header when it is present, and cap the attempts made per request",
+        "ja": "ランダムなジッターを加えた指数バックオフで再試行し、retry-after ヘッダーがあればその時間待ち、リクエストごとの試行回数に上限を設ける"
+      },
+      {
+        "key": "C",
+        "en": "Keep the immediate retries but raise the cap from 20 to 50 attempts, so that each request gets more chances to succeed before the job gives up",
+        "ja": "すぐに再試行する方式はそのままにして上限を20回から50回に増やし、ジョブが諦める前に各リクエストが成功する機会を増やす"
+      },
+      {
+        "key": "D",
+        "en": "Spread the workers across several API keys in the same organization, so that each key carries only a fraction of the requests sent by the job",
+        "ja": "同じ組織の複数の API キーにワーカーを分散し、ジョブが送るリクエストのうち一部だけを各キーが受け持つようにする"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Immediate retries from 40 workers arrive in synchronized waves and keep the load above the limit. Exponential backoff with jitter spreads the retries out, the retry-after header, when a 429 carries one, says how long to wait, and a cap keeps the failure predictable (B). Skipping records (A) throws away work that would succeed a moment later. More immediate retries (C) add load to the exact condition causing the 429 responses. Spreading the load over more keys (D) works around the limit instead of reducing the load the job sends.",
+      "ja": "40個のワーカーからの即時の再試行は足並みのそろった波となって届き、負荷を制限より上に保ち続けます。ジッター付きの指数バックオフは再試行を分散させ、429 に retry-after ヘッダーが付いていればその値が待つべき時間を示し、上限を設ければ失敗するときも予測どおりに失敗します (B)。レコードを飛ばすと (A)、少し待てば成功した処理を捨てることになります。即時の再試行を増やすと (C)、429 を引き起こしている状況そのものに負荷を上乗せします。キーを増やして負荷を分散するのは (D)、ジョブが送る負荷を減らすのではなく、制限を回避しようとするものです。"
+    }
+  },
+  {
+    "id": "DV087",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV018",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "You are an AI engineer on a team that generates weekly incident reports with Claude. Recently, the longest reports end in the middle of a sentence. One teammate suspects the network, and another suspects that the input logs have grown too large. The responses arrive without any error, and the shorter reports are always complete. What should you check first?",
+      "ja": "あなたは、Claude で週次のインシデントレポートを作成しているチームの AI エンジニアです。最近、最も長いレポートが文の途中で終わるようになりました。あるメンバーはネットワークを、別のメンバーは入力のログが大きくなりすぎたことを疑っています。応答はエラーなしで届いており、短めのレポートは常に最後まで出力されています。最初に何を確認すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The stop_reason of the cut-off responses, and if it is \"max_tokens\", raise the limit or ask the model to continue from where it stopped",
+        "ja": "途中で切れた応答の stop_reason。それが \"max_tokens\" なら上限を引き上げるか、止まったところから続けるようモデルに求める"
+      },
+      {
+        "key": "B",
+        "en": "The network path between your service and the API, adding a retry on timeouts, since a dropped connection is how text usually stops early",
+        "ja": "接続が切れることが、テキストが途中で止まる典型的な原因なので、サービスと API の間のネットワーク経路を調べ、タイムアウト時の再試行を加える"
+      },
+      {
+        "key": "C",
+        "en": "The size of the input logs, trimming them before each call, since an input that is too large for the context window cuts off the output",
+        "ja": "入力がコンテキストウィンドウに対して大きすぎると出力が途中で切れるので、入力のログの大きさを調べ、呼び出しの前に切り詰める"
+      },
+      {
+        "key": "D",
+        "en": "The model version in use, moving to a newer model, since older models tend to stop early once a report format grows too long to follow",
+        "ja": "古いモデルはレポートの形式が長くなると途中で止まりがちなので、使っているモデルのバージョンを調べ、新しいモデルに移る"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "A response that stops cleanly in mid-sentence, only when the output is long, matches the output reaching the max_tokens limit, which the response reports as stop_reason \"max_tokens\"; the fix is to raise the limit or continue the response (A). A dropped connection (B) shows up as an error, not as a clean response. An input too large for the context window (C) fails before generation instead of cutting off the output. Nothing in the symptoms points to the model version (D).",
+      "ja": "応答がエラーなく文の途中で止まり、それが出力の長いときだけ起きるという症状は、出力が max_tokens の上限に達したことと一致し、その場合の応答は stop_reason \"max_tokens\" を返します。対処は上限を引き上げるか、応答を続けさせることです (A)。接続が切れた場合 (B) は、正常な応答ではなくエラーとして現れます。入力がコンテキストウィンドウに対して大きすぎる場合 (C) は、出力が切れるのではなく生成の前に失敗します。症状のどこにも、モデルのバージョン (D) を疑う根拠はありません。"
+    }
+  },
+  {
+    "id": "DV088",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV052",
+    "domain": 2,
+    "type": "multiple",
+    "question": {
+      "en": "A partner platform sends your service a webhook for every new support ticket and requires an HTTP response within 3 seconds; otherwise it marks the delivery as failed and sends it again. Generating a good draft reply with Claude takes 15 to 40 seconds. The partner also offers an API for posting a draft to a ticket later. Which two changes together meet these requirements? (Choose two.)",
+      "ja": "パートナーのプラットフォームは、新しいサポートチケットごとにあなたのサービスへ Webhook を送り、3秒以内の HTTP 応答を求めています。応答がなければ配信を失敗とみなし、もう一度送ってきます。Claude で質の良い返信の下書きを作るには15〜40秒かかります。パートナーは、あとから下書きをチケットに投稿するための API も提供しています。これらの要件を合わせて満たす変更はどれですか。（2つ選べ）"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Raise the HTTP server's timeout so that the webhook handler can keep the connection open until Claude has finished writing the full draft",
+        "ja": "Claude が下書き全体を書き終えるまで Webhook のハンドラーが接続を開いたままにできるよう、HTTP サーバーのタイムアウトを延ばす"
+      },
+      {
+        "key": "B",
+        "en": "Acknowledge the webhook right after storing the ticket in a job queue, and return a success response before any call to Claude is made",
+        "ja": "チケットをジョブキューに保存した直後に Webhook への受付を返し、Claude を呼び出す前に成功の応答を返す"
+      },
+      {
+        "key": "C",
+        "en": "Switch to the smallest model and cap max_tokens so that each draft is produced within 3 seconds, accepting shorter and less useful drafts",
+        "ja": "下書きが3秒以内に作られるよう最も小さいモデルに切り替えて max_tokens を制限し、短くて役に立ちにくい下書きを受け入れる"
+      },
+      {
+        "key": "D",
+        "en": "Have a background worker take jobs from the queue, generate each draft, and post it to the ticket through the partner's API when ready",
+        "ja": "バックグラウンドのワーカーがキューからジョブを取り出して下書きを作り、できあがったらパートナーの API でチケットに投稿する"
+      }
+    ],
+    "answer": [
+      "B",
+      "D"
+    ],
+    "explanation": {
+      "en": "The partner's 3-second limit and the 15 to 40 seconds of generation can both be met only by separating acceptance from completion: acknowledge the webhook as soon as the ticket is queued (B), and deliver the draft later through the partner's API (D). A longer timeout on your server (A) does not change the partner's 3-second limit, so deliveries would still fail and be resent. A smaller model with a lower max_tokens (C) gives up the draft quality that the requirement asks for.",
+      "ja": "パートナーの3秒の制限と15〜40秒の生成時間を両方満たすには、受付と完了を切り離すしかありません。チケットをキューに入れたらすぐに Webhook へ受付を返し (B)、下書きはあとからパートナーの API で届けます (D)。自分のサーバーのタイムアウトを延ばしても (A)、パートナーの3秒の制限は変わらないため、配信は失敗して再送され続けます。小さいモデルと少ない max_tokens にすると (C)、要件が求める下書きの質を手放すことになります。"
+    }
+  },
+  {
+    "id": "DV089",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV069",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "During a weekly one-hour promotion, traffic to your shopping assistant jumps to about ten times normal. In that hour, many requests to Claude fail with rate limit errors, and because the web handler retries only three times, some customer questions are lost. Outside promotions, traffic stays well within your rate limits. Which design change addresses this most directly?",
+      "ja": "毎週1時間のセール中、あなたのショッピングアシスタントへのトラフィックは通常の約10倍に跳ね上がります。その1時間に、Claude へのリクエストの多くがレート制限のエラーで失敗し、Web のハンドラーは3回しか再試行しないため、顧客の質問の一部が失われています。セール以外の時間帯は、トラフィックはレート制限の範囲内に十分収まっています。最も直接的に対処できる設計の変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Request a higher rate limit tier sized for the promotion peak, so that the web handler can keep sending requests straight to the API as now",
+        "ja": "セールのピークに合わせた、より高いレート制限の階層を申請し、Web のハンドラーが今までどおり API に直接リクエストを送り続けられるようにする"
+      },
+      {
+        "key": "B",
+        "en": "Increase the retry count in the web handler from three to twenty, so that each request keeps trying until capacity frees up during the hour",
+        "ja": "セール中に空きが出るまで各リクエストが試行を続けられるよう、Web のハンドラーの再試行回数を3回から20回に増やす"
+      },
+      {
+        "key": "C",
+        "en": "Place requests in a queue that workers drain at a rate within your limits, so that bursts wait their turn instead of failing and being lost",
+        "ja": "リクエストをキューに入れ、ワーカーが制限内の速さで取り出すようにして、急な集中が失敗して失われるのではなく順番を待つようにする"
+      },
+      {
+        "key": "D",
+        "en": "Cache Claude's answer to each customer question, so that the promotion traffic is served from the cache instead of calling Claude each time",
+        "ja": "顧客の質問ごとに Claude の回答をキャッシュし、セール中のトラフィックは毎回 Claude を呼ばずにキャッシュから返す"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "The demand exceeds the limit for one hour a week while average traffic fits comfortably, which is the case a queue is for: it absorbs the burst and feeds requests to Claude at a sustainable rate, so nothing is dropped (C). A higher tier (A) is a reasonable step in general, but it sizes capacity for a one-hour peak and leaves the design as fragile as before. More retries in the handler (B) add load during the burst and still drop requests that run out of attempts. Customer questions differ from one another, so caching answers (D) does not remove the calls.",
+      "ja": "需要が制限を超えるのは週に1時間だけで、平均のトラフィックは余裕を持って収まっています。これはまさにキューの用途で、急な集中を吸収し、持続できる速さで Claude にリクエストを送るため、取りこぼしがなくなります (C)。より高い階層 (A) は一般的には妥当な手段ですが、1時間のピークに合わせて容量を確保するもので、設計の弱さはそのまま残ります。ハンドラーの再試行を増やすと (B)、集中時の負荷が増え、試行回数を使い切ったリクエストはやはり失われます。顧客の質問はそれぞれ異なるので、回答をキャッシュしても (D) 呼び出しはなくなりません。"
+    }
+  },
+  {
+    "id": "DV090",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV049",
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "You are the developer who owns your team's CI pipeline. For every pull request, a job runs Claude Code to review the diff, and a bot then reads the result to decide whether to add a \"needs-changes\" label. Nobody watches the job while it runs, and the bot must keep working when the wording of the reviews changes. How should the job invoke Claude Code?",
+      "ja": "あなたはチームの CI パイプラインを担当する開発者です。プルリクエストごとにジョブが Claude Code を実行して差分をレビューし、その結果をボットが読んで「needs-changes」ラベルを付けるかどうかを決めます。ジョブの実行中は誰も見ておらず、レビューの言い回しが変わってもボットが動き続けなければなりません。ジョブは Claude Code をどう呼び出すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Run it in print mode with -p, set --output-format json, and pass --json-schema so that the bot reads validated fields instead of prose",
+        "ja": "-p で print モードで実行し、--output-format json を指定して --json-schema を渡し、ボットが文章ではなく検証済みのフィールドを読むようにする"
+      },
+      {
+        "key": "B",
+        "en": "Start an interactive session in a pseudo-terminal, send the review request as keystrokes, and save the terminal transcript for the bot",
+        "ja": "疑似端末で対話セッションを開始し、レビューの依頼をキー入力として送って、ターミナルの記録をボット用に保存する"
+      },
+      {
+        "key": "C",
+        "en": "Run it in print mode with -p and plain text output, and have the bot search the text for phrases such as \"needs changes\" to pick the label",
+        "ja": "-p で print モードかつプレーンテキストの出力で実行し、ボットがテキストから \"needs changes\" のような文言を探してラベルを決める"
+      },
+      {
+        "key": "D",
+        "en": "Start it in plan mode so that a reviewer approves each step, and have that reviewer copy the final verdict into the pull request for the bot",
+        "ja": "レビュー担当者が各ステップを承認するようプランモードで開始し、その担当者が最終的な判定をボットのためにプルリクエストへ書き写す"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Print mode (-p) runs Claude Code without interaction, --output-format json returns structured output, and --json-schema returns validated JSON matching a schema, so the bot reads fields rather than wording (A). Driving an interactive session and reading the transcript (B) depends on terminal formatting rather than a machine-readable interface. Searching plain text for phrases (C) breaks as soon as the wording changes, which the requirement rules out. Plan mode with a human approver (D) needs someone to watch, but nobody watches the job.",
+      "ja": "print モード (-p) は Claude Code を非対話で実行し、--output-format json は構造化された出力を返し、--json-schema はスキーマに合った検証済みの JSON を返します。そのため、ボットは言い回しではなくフィールドを読めます (A)。対話セッションを操作して記録を読む方法 (B) は、機械可読のインターフェースではなくターミナルの体裁に依存します。プレーンテキストから文言を探す方法 (C) は、言い回しが変わった時点で壊れ、要件に反します。人の承認者を置くプランモード (D) は誰かが見ている必要がありますが、このジョブは誰も見ていません。"
+    }
+  },
+  {
+    "id": "DV091",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV006",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "You are the technical lead for a claims-processing service at an insurance company. Auditors require that any change in how claims are summarized be reviewed before it reaches production. A teammate proposes configuring the service to always call whichever Claude model is newest, so that quality improvements arrive automatically. A new model was released last week, and no retirement date has been announced for your current model. What should you do?",
+      "ja": "あなたは保険会社の保険金請求処理サービスの技術リードです。監査担当者は、請求の要約のしかたに関わる変更はすべて、本番に出る前にレビューすることを求めています。チームメイトは、品質の改善が自動的に反映されるよう、常に最新の Claude モデルを呼び出す設定にすることを提案しています。先週新しいモデルがリリースされましたが、現在のモデルの提供終了日はまだ発表されていません。どうすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Adopt the teammate's proposal, since newer models generally summarize better and the auditors can review outputs after each model change goes live",
+        "ja": "新しいモデルのほうが一般に要約が上手で、監査担当者はモデルの変更が本番に出たあとで出力をレビューできるので、チームメイトの提案を採用する"
+      },
+      {
+        "key": "B",
+        "en": "Keep the current model for as long as possible and set the new model aside, since any model change creates differences the auditors must review",
+        "ja": "モデルを変えるたびに監査担当者がレビューすべき違いが生じるので、現在のモデルをできるだけ長く使い続け、新しいモデルは見送る"
+      },
+      {
+        "key": "C",
+        "en": "Switch production to the new model now and pin it there, since the newest release is the one least likely to be retired in the next few years",
+        "ja": "最新のリリースは今後数年で提供終了になる可能性が最も低いので、今すぐ本番を新しいモデルに切り替え、そのモデルに固定する"
+      },
+      {
+        "key": "D",
+        "en": "Keep production pinned to the current model ID, evaluate the new model on your claims test set, and switch only after it passes the audit review",
+        "ja": "本番は現在のモデル ID に固定したまま、自社の請求のテストセットで新しいモデルを評価し、監査のレビューを通ってから切り替える"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Every current Claude model ID is a pinned snapshot, and Anthropic advises testing applications with newer models well before the current model's retirement date. Keeping production pinned while evaluating the new model on your own claims, and switching after the review, satisfies the audit rule and still lets the team adopt improvements (D). Following whichever model is newest (A) puts unreviewed changes into production, which the auditors forbid. Setting the new model aside (B) only postpones the migration until a retirement date forces it on a deadline. Switching now (C) skips the evaluation and review that the audit rule requires.",
+      "ja": "現在の Claude のモデル ID はすべて固定されたスナップショットであり、Anthropic は、現在のモデルの提供終了日よりかなり前に新しいモデルでアプリケーションをテストするよう勧めています。本番を固定したまま自社の請求で新しいモデルを評価し、レビュー後に切り替えれば、監査のルールを守りつつ改善も取り入れられます (D)。常に最新のモデルに追従すると (A)、レビューされていない変更が本番に出ることになり、監査担当者が禁じていることに反します。新しいモデルを見送ると (B)、移行を先送りするだけで、提供終了日が来たときに期限付きで移行を迫られます。今すぐ切り替えると (C)、監査のルールが求める評価とレビューを飛ばすことになります。"
+    }
+  },
+  {
+    "id": "DV092",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV019",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A content team tags 2 million product reviews per month with one of twelve sentiment and topic labels. The job has run on the most capable Claude model since launch, with 97% agreement against a human-labeled sample, while the team's requirement is 94%. Finance now asks for a large cost reduction, and someone suggests running the job only every other month. What should the team do first?",
+      "ja": "あるコンテンツチームは、毎月200万件の商品レビューに、感情とトピックを表す12種類のラベルのいずれかを付けています。この処理はリリース以来、最も高性能な Claude モデルで動いており、人がラベルを付けたサンプルとの一致率は97%です。チームの要件は94%です。財務部門から大幅なコスト削減を求められ、処理を隔月にしてはどうかという提案も出ています。チームは最初に何をすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Keep the most capable model, because agreement is already high and any change of model could lower accuracy below the level the team has today",
+        "ja": "一致率はすでに高く、モデルを変えれば精度が今の水準を下回るおそれがあるので、最も高性能なモデルを使い続ける"
+      },
+      {
+        "key": "B",
+        "en": "Run the job every other month as suggested, which halves the cost while keeping the same model and the same agreement on the reviews it tags",
+        "ja": "同じモデルのまま、処理するレビューの一致率も変えずにコストを半分にできるので、提案どおり処理を隔月にする"
+      },
+      {
+        "key": "C",
+        "en": "Evaluate a smaller model on the human-labeled sample, and move the job to it if it meets the 94% requirement at a lower cost per review",
+        "ja": "人がラベルを付けたサンプルで小さいモデルを評価し、レビューあたりのコストを下げつつ94%の要件を満たすなら、そのモデルに移す"
+      },
+      {
+        "key": "D",
+        "en": "Ask the current model to rate its confidence for each review, and send the reviews it rates as easy to a keyword classifier to save cost",
+        "ja": "現在のモデルにレビューごとの確信度を評価させ、簡単だと評価したレビューはコスト削減のためキーワード分類器に回す"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Model choice is a fit-to-requirement decision: the requirement is 94%, the current setup exceeds it, and a short, repetitive labeling task is where a smaller model often suffices, so measuring one on the labeled sample comes first (C). Keeping the most capable model (A) treats accuracy beyond the requirement as worth any price. Running the job less often (B) changes the requirement instead of meeting it, since tags would arrive a month late. Routing by the model's own confidence to a keyword classifier (D) relies on self-reported confidence and an untested classifier.",
+      "ja": "モデルの選択は要件に合うかどうかの判断です。要件は94%で現在の構成はそれを上回っており、短く繰り返しの多いラベル付けは小さいモデルで十分なことが多い領域なので、まずラベル付きのサンプルで測定します (C)。最も高性能なモデルを使い続けると (A)、要件を超える精度にいくらでも費用を払うことになります。処理の頻度を下げると (B)、ラベルが1か月遅れて届くため、要件を満たすのではなく要件を変えることになります。モデル自身の確信度でキーワード分類器に振り分ける方法 (D) は、自己申告の確信度と、テストされていない分類器に頼っています。"
+    }
+  },
+  {
+    "id": "DV093",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV021",
+    "domain": 5,
+    "type": "multiple",
+    "question": {
+      "en": "You are an AI engineer investigating a support assistant whose monthly API cost doubled over the last quarter, while the number of conversations and the model in use stayed the same. Each turn resends the full conversation history, and the assistant calls a search tool that returns long result pages. Which two measurements should you look at first to find where the extra cost comes from? (Choose two.)",
+      "ja": "あなたは、サポートアシスタントの月々の API コストがこの四半期で2倍になった原因を調べている AI エンジニアです。会話の件数と使っているモデルは変わっていません。各ターンでは会話の履歴全体を再送しており、アシスタントは長い結果ページを返す検索ツールを呼び出します。増えたコストの出どころを見つけるため、最初に見るべき測定値はどれですか。（2つ選べ）"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The input_tokens in each response's usage, compared across turns, to see how much the resent history grows within a single conversation",
+        "ja": "各応答の usage にある input_tokens をターンごとに比べ、1つの会話の中で再送される履歴がどれだけ増えるかを見る"
+      },
+      {
+        "key": "B",
+        "en": "The average latency per request over the quarter, since slower responses are usually the first sign that each request has become costlier",
+        "ja": "応答が遅くなることは各リクエストが高くなった最初の兆候であることが多いので、四半期を通したリクエストあたりの平均レイテンシを見る"
+      },
+      {
+        "key": "C",
+        "en": "The size of the tool results added to the context per turn, to see how much each search response adds to the input of every later turn",
+        "ja": "ターンごとにコンテキストに追加されるツールの結果の大きさを見て、各検索の応答が以降のすべてのターンの入力をどれだけ増やすかを調べる"
+      },
+      {
+        "key": "D",
+        "en": "The number of API keys and workspaces in use, since requests spread over more keys are billed at a higher rate than the same requests on one",
+        "ja": "複数のキーに分散したリクエストは1つのキーで送る場合より高い単価で課金されるので、使っている API キーとワークスペースの数を見る"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": {
+      "en": "With conversation volume and model unchanged, the cost per conversation must have grown, and input is the usual driver: the usage object reports input_tokens for each request, which shows how the resent history accumulates (A), and long tool results stay in the history and are paid for again on every later turn (C). Latency (B) is not what is billed, and it does not show which part of the input grew. The number of keys or workspaces (D) does not change the price of a token.",
+      "ja": "会話の件数とモデルが変わっていないなら、会話あたりのコストが増えたはずであり、その主な原因は通常、入力です。usage オブジェクトはリクエストごとの input_tokens を報告するので、再送される履歴が積み上がる様子がわかります (A)。また、長いツールの結果は履歴に残り、以降のターンのたびに再び料金がかかります (C)。レイテンシ (B) は課金の対象ではなく、入力のどの部分が増えたかも示しません。キーやワークスペースの数 (D) によって、トークンの単価は変わりません。"
+    }
+  },
+  {
+    "id": "DV094",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV022",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A legal-tech startup extracts clauses from scanned commercial leases. A newly released model tops a public reasoning benchmark by a wide margin, and the CEO wants to switch this week. The team has 300 leases whose clauses were already extracted and checked by lawyers. Its current model meets the accuracy target but is slower than customers would like. How should the team decide whether to switch?",
+      "ja": "あるリーガルテックのスタートアップは、スキャンした商業用の賃貸借契約書から条項を抽出しています。新しくリリースされたモデルが公開されている推論のベンチマークで大差の首位となり、CEO は今週中に切り替えたいと考えています。チームには、条項の抽出結果を弁護士が確認済みの契約書が300件あります。現在のモデルは精度の目標を満たしていますが、顧客が望むより遅いです。チームは切り替えるかどうかをどう決めるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Switch this week, since a wide benchmark lead over the current model is strong evidence that the new model also extracts lease clauses better",
+        "ja": "ベンチマークでの大差は、新しいモデルが契約書の条項抽出でも優れていることの強い証拠なので、今週中に切り替える"
+      },
+      {
+        "key": "B",
+        "en": "Run both models on the 300 checked leases and compare accuracy, latency, and cost against the team's targets before deciding on a switch",
+        "ja": "確認済みの300件の契約書で両方のモデルを実行し、精度・レイテンシ・コストをチームの目標と比べてから、切り替えるかどうかを決める"
+      },
+      {
+        "key": "C",
+        "en": "Ask each model to explain how it would extract clauses from a sample lease, and choose the one whose explanation sounds more careful",
+        "ja": "サンプルの契約書から条項をどう抽出するか各モデルに説明させ、説明がより慎重に聞こえるほうを選ぶ"
+      },
+      {
+        "key": "D",
+        "en": "Keep the current model since it meets the accuracy target, and revisit the choice only once the current model is announced for retirement",
+        "ja": "現在のモデルは精度の目標を満たしているので使い続け、提供終了が発表されたときに初めて選択を見直す"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Anthropic's model selection guidance is to build benchmark tests specific to your use case and test with your actual prompts and data, and the 300 lawyer-checked leases are exactly that set (B). A public reasoning benchmark (A) may not reflect clause extraction from scanned leases. A model's description of its own method (C) is not a measurement of its accuracy. Keeping the current model without testing (D) ignores the latency problem customers already report, which the new model might solve.",
+      "ja": "Anthropic のモデル選択のガイドでは、自分のユースケースに合わせたベンチマークテストを作り、実際のプロンプトとデータでテストするよう勧めています。弁護士が確認した300件の契約書は、まさにそのためのセットです (B)。公開されている推論のベンチマーク (A) は、スキャンした契約書からの条項抽出を反映していないことがあります。モデルが自分の方法を説明しても (C)、精度を測ったことにはなりません。テストせずに現在のモデルを使い続けると (D)、顧客がすでに訴えているレイテンシの問題を無視することになり、新しいモデルでそれが解決する可能性も確かめられません。"
+    }
+  },
+  {
+    "id": "DV095",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV007",
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "You are the developer of a debugging assistant that runs for hours inside long investigation sessions. Each step calls tools that return full log files and stack traces. After about two hours, the assistant starts repeating checks it has already run and forgets constraints the user set early on. The context is close to its limit, and most of it is raw tool output from early steps. Which approach addresses the cause?",
+      "ja": "あなたは、長い調査セッションの中で何時間も動くデバッグ支援アシスタントの開発者です。各ステップでは、ログファイル全体やスタックトレースを返すツールを呼び出します。2時間ほどたつと、アシスタントはすでに実行した確認を繰り返し、ユーザーが最初に設定した制約を忘れ始めます。コンテキストは上限近くまで埋まっており、その大半は初期のステップで得た生のツール出力です。原因に対処する方法はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Move to a model with a larger context window, so that the full log files from every step keep fitting and the assistant can see all earlier work",
+        "ja": "すべてのステップのログファイル全体が収まり続け、アシスタントが以前の作業をすべて見られるよう、より大きなコンテキストウィンドウを持つモデルに移る"
+      },
+      {
+        "key": "B",
+        "en": "Restate the user's early constraints in the system prompt after every tool call, so that they stay near the end of the context and are kept",
+        "ja": "ユーザーが最初に設定した制約がコンテキストの末尾近くに残るよう、ツールを呼び出すたびにシステムプロンプトで言い直す"
+      },
+      {
+        "key": "C",
+        "en": "Clear or summarize old tool results, keep a short record of checks and constraints, and give large log analysis to subagents that report back",
+        "ja": "古いツールの結果を消去または要約し、確認済みの項目と制約を短い記録として残し、大きなログの分析は結論を返すサブエージェントに任せる"
+      },
+      {
+        "key": "D",
+        "en": "Start a fresh session every hour without any history, so that the context never fills up, and let the assistant find what it needs in the logs",
+        "ja": "コンテキストが埋まらないよう1時間ごとに履歴なしで新しいセッションを始め、必要な情報はアシスタントにログから探させる"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "The context is filled with stale tool output, so the fix is context hygiene: clear or summarize old tool results (the API offers context editing and compaction for this), keep the decisions and constraints in a compact record, and isolate bulky log analysis in subagents (C). A larger window (A) delays the same failure and raises the cost of every step. Restating constraints after every call (B) adds still more tokens to a context that is already nearly full. Fresh sessions without history (D) throw away the user's constraints along with the clutter.",
+      "ja": "コンテキストが古いツールの出力で埋まっているので、対策はコンテキストの整理です。古いツールの結果を消去または要約し（API にはそのための context editing と compaction があります）、判断と制約を簡潔な記録として残し、かさばるログの分析はサブエージェントに分離します (C)。大きなウィンドウにしても (A)、同じ失敗を先送りし、ステップごとのコストが上がるだけです。呼び出しのたびに制約を言い直すと (B)、ほぼ満杯のコンテキストにさらにトークンが増えます。履歴なしの新しいセッションでは (D)、不要な情報と一緒にユーザーの制約も失われます。"
+    }
+  },
+  {
+    "id": "DV096",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV008",
+    "domain": 7,
+    "type": "multiple",
+    "question": {
+      "en": "A company builds an assistant that reads each employee's incoming email, summarizes it, and can create calendar events and send replies on the employee's behalf. During testing, an external email containing hidden text caused the assistant to forward an internal document to an outside address. Which two measures most effectively defend against this kind of attack? (Choose two.)",
+      "ja": "ある会社は、各社員の受信メールを読んで要約し、社員の代わりにカレンダーの予定を作ったり返信を送ったりできるアシスタントを開発しています。テスト中、隠しテキストを含む外部からのメールによって、アシスタントが社内文書を外部のアドレスに転送してしまいました。この種の攻撃を防ぐのに最も効果的な対策はどれですか。（2つ選べ）"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Add a firm rule to the system prompt telling the model to disregard instructions found inside email bodies, and repeat it at the end",
+        "ja": "メール本文の中にある指示には従わないという強いルールをシステムプロンプトに加え、プロンプトの最後でも繰り返す"
+      },
+      {
+        "key": "B",
+        "en": "Pass email content to the model as untrusted data in tool results, kept apart from instructions, so it is treated as text to summarize",
+        "ja": "メールの内容を、指示とは分けた信頼できないデータとして tool_result でモデルに渡し、要約する対象のテキストとして扱われるようにする"
+      },
+      {
+        "key": "C",
+        "en": "Switch to the model that follows instructions most reliably, so that it ranks the system prompt above any other text it finds in an email body",
+        "ja": "指示に最も確実に従うモデルに切り替え、メール本文の中のどんなテキストよりもシステムプロンプトを優先させる"
+      },
+      {
+        "key": "D",
+        "en": "Require the employee's approval before any mail is sent and limit recipients to an allowlist, so that injected text cannot send on its own",
+        "ja": "メールを送る前には必ず社員の承認を求め、宛先を許可リストに限定して、注入されたテキストだけでは何も送れないようにする"
+      }
+    ],
+    "answer": [
+      "B",
+      "D"
+    ],
+    "explanation": {
+      "en": "Injection defense is structural. Delivering third-party content inside tool results, separate from instructions, is Anthropic's documented guidance (B), and least privilege with an approval step and a recipient allowlist means a successful injection still cannot send anything (D). A rule in the system prompt (A) is an instruction, not an enforcement mechanism, and it can be overridden by cleverly written email text. A more instruction-following model (C) does not remove the attack surface and can even be more susceptible to injected instructions.",
+      "ja": "インジェクションへの防御は構造で行います。第三者のコンテンツを指示と分けて tool_result の中で渡すことは、Anthropic が文書で示している方法です (B)。また、承認の手順と宛先の許可リストによる最小権限があれば、インジェクションが成功しても何も送れません (D)。システムプロンプトのルール (A) は指示であって強制の仕組みではなく、巧妙に書かれたメールの文面で覆される可能性があります。指示に従いやすいモデル (C) にしても攻撃対象はなくならず、注入された指示の影響をかえって受けやすくなることさえあります。"
+    }
+  },
+  {
+    "id": "DV097",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV079",
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "You are a developer adding a feature to the company wiki that asks Claude to summarize long pages and inserts each summary into the page as HTML. Any employee can edit pages, and pages sometimes include text pasted from outside sources. During review, a colleague notices that one summary contained a script tag copied from its source page. What should the feature do before inserting a summary?",
+      "ja": "あなたは、社内 Wiki に機能を追加している開発者です。この機能は Claude に長いページを要約させ、各要約を HTML としてページに挿入します。ページはどの社員でも編集でき、外部の情報源から貼り付けたテキストが含まれることもあります。レビュー中に同僚が、ある要約に元のページからコピーされた script タグが含まれていることに気づきました。この機能は、要約を挿入する前に何をすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Instruct the model in the system prompt to produce plain text only and to leave out HTML tags, since the model wrote the script tag itself",
+        "ja": "script タグを書いたのはモデル自身なので、プレーンテキストだけを出力し HTML タグは含めないよう、システムプロンプトでモデルに指示する"
+      },
+      {
+        "key": "B",
+        "en": "Trust the summary since it came from the company's own Claude integration, and limit the feature to employees who signed the security policy",
+        "ja": "要約は自社の Claude 連携から得たものなので信頼し、機能の利用をセキュリティポリシーに署名した社員に限定する"
+      },
+      {
+        "key": "C",
+        "en": "Treat each summary as untrusted output and escape or sanitize it before inserting it into the page, as with any other user-supplied content",
+        "ja": "各要約を信頼できない出力として扱い、ほかのユーザー入力のコンテンツと同じように、ページに挿入する前にエスケープまたはサニタイズする"
+      },
+      {
+        "key": "D",
+        "en": "Scan each source page for script tags before summarizing and skip pages that contain them, so that the model does not see HTML it could copy",
+        "ja": "モデルがコピーできる HTML を目にしないよう、要約の前に元のページで script タグを探し、含まれているページは飛ばす"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Model output can be shaped by its input, and this input is editable by anyone, so anything rendered into a page must be escaped or sanitized regardless of where it came from (C). An instruction to the model (A) influences behavior but is not a control, and injected text can override it. Trusting output because it came from your own integration (B) ignores that the source page is untrusted. Scanning for script tags (D) misses other forms of markup and event handlers, and the output still reaches the page unescaped.",
+      "ja": "モデルの出力は入力の影響を受けることがあり、その入力は誰でも編集できるものです。そのため、ページに描画するものは、出どころにかかわらずエスケープまたはサニタイズしなければなりません (C)。モデルへの指示 (A) は振る舞いに影響しても制御にはならず、注入されたテキストで覆される可能性があります。自社の連携から得た出力だから信頼するという考え方 (B) は、元のページが信頼できないことを見落としています。script タグを探す方法 (D) は、ほかの形式のマークアップやイベントハンドラーを見逃し、出力がエスケープされずにページに届くことも変わりません。"
+    }
+  },
+  {
+    "id": "DV098",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV031",
+    "domain": 8,
+    "type": "single",
+    "question": {
+      "en": "After three teams merged their MCP servers into one shared server, it exposes 36 tools, including search_tickets, find_ticket, lookup_issue, and query_support_cases, which all search the same ticket system with slightly different filters. Since the merge, the agent picks a wrong or weaker tool in about one call out of five. Each tool description is a single short sentence. What is the best fix?",
+      "ja": "3つのチームの MCP サーバーを1つの共有サーバーに統合したところ、36個のツールが公開されるようになりました。その中の search_tickets、find_ticket、lookup_issue、query_support_cases は、どれも同じチケットシステムを少しずつ違う条件で検索するツールです。統合以来、エージェントはおよそ5回に1回、間違ったツールや劣るツールを選んでいます。どのツールの説明も、短い1文だけです。最善の修正はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Consolidate the overlapping search tools into one tool with clear parameters, and give each remaining tool a detailed description of its use",
+        "ja": "重なっている検索ツールを、明確なパラメータを持つ1つのツールに統合し、残りの各ツールには使いどころを詳しく書いた説明を付ける"
+      },
+      {
+        "key": "B",
+        "en": "Add a line to the system prompt telling the agent to think carefully before choosing a tool, and list the four search tools in order of preference",
+        "ja": "ツールを選ぶ前によく考えるようエージェントに伝える1行をシステムプロンプトに加え、4つの検索ツールを優先順に並べて示す"
+      },
+      {
+        "key": "C",
+        "en": "Split the merged server back into three servers, one per team, so that each exposes fewer tools even though the agent still connects to all three",
+        "ja": "エージェントが3つすべてに接続するとしても各サーバーが公開するツールは減るので、統合したサーバーをチームごとの3つのサーバーに戻す"
+      },
+      {
+        "key": "D",
+        "en": "Rename the tools with team prefixes such as billing_ and support_, so that the agent sees which team owns each tool when it picks one to call",
+        "ja": "billing_ や support_ のようなチーム名の接頭辞でツール名を付け直し、エージェントが呼び出すツールを選ぶときに、どのチームのツールかわかるようにする"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "The tools overlap in purpose and their descriptions are too thin to tell them apart. Anthropic's tool guidance is to consolidate related operations into fewer tools and to write detailed descriptions, which removes the ambiguity at its source (A). A prompt line and a preference list (B) do not make overlapping tools distinct. Splitting the server (C) leaves the agent with the same 36 tools. Namespacing (D) is a good practice in general, but a prefix shows ownership, not which of four similar search tools fits the request.",
+      "ja": "ツールの目的が重なっており、説明も短すぎて区別できません。Anthropic のツールのガイドでは、関連する操作を少数のツールにまとめ、詳しい説明を書くよう勧めており、これであいまいさの根本が取り除かれます (A)。プロンプトの1行と優先順位のリスト (B) では、重なったツールは区別できるようになりません。サーバーを分けても (C)、エージェントから見えるツールは同じ36個です。名前空間を付けること (D) は一般的には良いプラクティスですが、接頭辞が示すのは持ち主であって、似た4つの検索ツールのどれが要求に合うかではありません。"
+    }
+  },
+  {
+    "id": "DV099",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV032",
+    "domain": 8,
+    "type": "single",
+    "question": {
+      "en": "You are an AI engineer building an order-status agent. When the inventory API times out, your tool handler raises an exception, the agent loop catches it and ends the run, and the customer sees a generic error page. Most timeouts clear within a few seconds, and the agent also has an order-history tool that can answer many questions without inventory data. How should the handler deal with a timeout?",
+      "ja": "あなたは注文状況を答えるエージェントを開発している AI エンジニアです。在庫 API がタイムアウトすると、ツールのハンドラーが例外を投げ、エージェントループがそれを捕捉して実行を終了し、顧客には汎用のエラーページが表示されます。タイムアウトのほとんどは数秒で解消し、エージェントには、在庫データがなくても多くの質問に答えられる注文履歴のツールもあります。ハンドラーはタイムアウトをどう扱うべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Retry the inventory call inside the handler until it succeeds, however long that takes, so the agent receives real data and does not see the failure",
+        "ja": "エージェントが実際のデータを受け取り、失敗を目にしないよう、どれだけ時間がかかってもハンドラーの中で在庫 API を成功するまで再試行する"
+      },
+      {
+        "key": "B",
+        "en": "Show the raw exception and stack trace to the customer, so that the customer understands what went wrong and can decide whether to try again",
+        "ja": "何が起きたかを顧客が理解し、もう一度試すかどうかを決められるよう、生の例外とスタックトレースを顧客に表示する"
+      },
+      {
+        "key": "C",
+        "en": "Return an empty tool result without any message, so that the agent continues the run and answers the customer from what it already knows",
+        "ja": "エージェントが実行を続け、すでに把握している情報から顧客に答えられるよう、メッセージのない空のツールの結果を返す"
+      },
+      {
+        "key": "D",
+        "en": "Return the timeout to the model as a tool_result with is_error set to true and a short message, so that it can retry or use another tool",
+        "ja": "タイムアウトを、is_error を true にして短いメッセージを添えた tool_result としてモデルに返し、再試行や別のツールの利用ができるようにする"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Returning the failure as a tool_result with is_error set to true keeps the model in the loop: it learns the call failed and can try again or answer with the order-history tool instead (D). Retrying without a limit inside the handler (A) can leave the customer waiting indefinitely when the outage lasts. A raw stack trace (B) leaks internal details and does not help the customer. An empty result with no message (C) hides the failure, so the model may answer as if inventory data were simply absent.",
+      "ja": "失敗を is_error を true にした tool_result として返すと、モデルはループの中にとどまり、呼び出しが失敗したことを知ったうえで、もう一度試すか、注文履歴のツールで答えることができます (D)。ハンドラーの中で上限なく再試行すると (A)、障害が長引いたときに顧客をいつまでも待たせることになります。生のスタックトレース (B) は内部の情報を漏らし、顧客の役にも立ちません。メッセージのない空の結果 (C) は失敗を隠すため、モデルは在庫データが単に存在しないかのように答えるおそれがあります。"
+    }
+  },
+  {
+    "id": "DV100",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": "DV077",
+    "domain": 8,
+    "type": "single",
+    "question": {
+      "en": "A CRM agent's get_customer tool returns the full customer record, about 9,000 tokens including order history, notes, and attachment metadata. In most conversations, the agent calls it only to obtain the customer's ID, which it then passes to create_ticket. Conversations that look up several customers now approach the context limit, and answer quality drops as they do. What should change?",
+      "ja": "ある CRM エージェントの get_customer ツールは、注文履歴、メモ、添付ファイルのメタデータを含む約9,000トークンの顧客レコード全体を返します。ほとんどの会話では、エージェントは顧客 ID を得るためだけにこのツールを呼び出し、その ID を create_ticket に渡します。複数の顧客を調べる会話はコンテキストの上限に近づき、それにつれて回答の質が下がっています。何を変えるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Keep the tool output as it is and move to a model with a larger context window, so several full customer records fit in a single conversation",
+        "ja": "ツールの出力はそのままにし、1つの会話に複数の顧客レコード全体が収まるよう、より大きなコンテキストウィンドウを持つモデルに移る"
+      },
+      {
+        "key": "B",
+        "en": "Have the tool return a stable customer ID with a few key fields, and add a separate detail tool for the cases that need the full record",
+        "ja": "ツールが安定した顧客 ID と主要なフィールドをいくつかだけ返すようにし、レコード全体が必要な場合のために別の詳細ツールを追加する"
+      },
+      {
+        "key": "C",
+        "en": "Summarize each full record with a second model call before returning it, so the agent receives a shorter version of the same data each time",
+        "ja": "エージェントが毎回同じデータの短い版を受け取れるよう、返す前に2回目のモデル呼び出しで各レコード全体を要約する"
+      },
+      {
+        "key": "D",
+        "en": "Tell the agent in the system prompt to ignore the parts of the record it does not need, so that it focuses on the ID when deciding what to do",
+        "ja": "次の行動を決めるときに ID に集中できるよう、レコードのうち不要な部分は無視するようシステムプロンプトでエージェントに伝える"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Anthropic's tool guidance is to return semantic, stable identifiers and only the fields Claude needs for its next step; a separate detail tool keeps the full record available when it is actually needed (B). A larger window (A) postpones the problem and keeps paying for 9,000 unused tokens per lookup. A second summarizing call (C) adds cost, latency, and another point of failure for data the agent mostly does not use. Telling the agent to ignore fields (D) does not stop those tokens from filling the context.",
+      "ja": "Anthropic のツールのガイドでは、意味のある安定した識別子と、Claude が次のステップに必要とするフィールドだけを返すよう勧めています。別の詳細ツールがあれば、本当に必要なときはレコード全体を取得できます (B)。大きなウィンドウにしても (A)、問題を先送りし、検索のたびに使わない9,000トークン分の料金を払い続けることになります。要約のための2回目の呼び出し (C) は、エージェントがほとんど使わないデータのために、コスト、レイテンシ、失敗の要因を増やします。フィールドを無視するよう伝えても (D)、それらのトークンがコンテキストを埋めることは止められません。"
+    }
+  },
+  {
+    "id": "DV101",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "You are a senior engineer setting up Claude Code for a monorepo. The team's CLAUDE.md says \"Run the formatter on every file you edit,\" yet about one edit in ten still reaches review unformatted, especially late in long sessions. The formatter is a single command that takes a file path, finishes in under a second, and is safe to run repeatedly. What is the most reliable way to make sure every edited file gets formatted?",
+      "ja": "あなたは、モノレポに Claude Code を導入しているシニアエンジニアです。チームの CLAUDE.md には「編集したファイルにはすべてフォーマッタを実行すること」と書かれていますが、長いセッションの後半を中心に、編集の約10回に1回はフォーマットされないままレビューに届きます。フォーマッタはファイルパスを受け取る1つのコマンドで、1秒以内に終わり、何度実行しても問題ありません。編集したすべてのファイルを確実にフォーマットさせる最も信頼できる方法はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Move the formatter rule to the top of CLAUDE.md in capital letters and repeat it at the end, so that the model keeps it in view during long sessions",
+        "ja": "長いセッションの間もモデルが意識し続けるよう、フォーマッタのルールを CLAUDE.md の先頭に大文字で書き、最後でも繰り返す"
+      },
+      {
+        "key": "B",
+        "en": "Add a custom slash command that formats the changed files, and ask developers to run it before each commit, so formatting happens at a known point",
+        "ja": "変更したファイルをフォーマットするカスタムスラッシュコマンドを追加し、コミットの前に実行するよう開発者に頼んで、決まったタイミングでフォーマットする"
+      },
+      {
+        "key": "C",
+        "en": "Configure a PostToolUse hook that matches the Edit and Write tools and runs the formatter on the edited file path, so it runs after every edit",
+        "ja": "Edit と Write のツールにマッチする PostToolUse フックを設定し、編集したファイルのパスに対してフォーマッタを実行して、編集のたびに動くようにする"
+      },
+      {
+        "key": "D",
+        "en": "Ask Claude at the end of each session to list the files it edited and confirm it formatted each one, so that missed files are fixed at that point",
+        "ja": "セッションの最後に、編集したファイルを一覧にしてそれぞれフォーマットしたかを確認するよう Claude に頼み、漏れていたファイルをそこで直す"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Hooks are shell commands that Claude Code runs at fixed points in its lifecycle, so a PostToolUse hook on Edit and Write formats every edited file without depending on the model to remember (C). CLAUDE.md is treated as context rather than enforced configuration, so louder wording (A) still leaves compliance to the model. A slash command run before commits (B) moves the step to developers, who can forget it just as the model does. A self-reported checklist (D) relies on the model's own account of what it did.",
+      "ja": "フックは、Claude Code がライフサイクルの決まった時点で実行するシェルコマンドです。そのため、Edit と Write に対する PostToolUse フックを設定すれば、モデルが覚えているかどうかに頼らず、編集したすべてのファイルをフォーマットできます (C)。CLAUDE.md は強制される設定ではなくコンテキストとして扱われるので、表現を強めても (A)、守るかどうかはモデル次第のままです。コミット前に実行するスラッシュコマンド (B) は手順を開発者に移すだけで、開発者もモデルと同じように忘れることがあります。自己申告のチェックリスト (D) は、モデル自身の報告に頼っています。"
+    }
+  },
+  {
+    "id": "DV102",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A three-person product team wants an agent that runs research tasks for up to an hour in the background, uses a sandbox to execute code and edit files, and reports back when it is done. Nobody on the team can run or scale servers, containers, or session storage, and the team has no requirement to keep the agent loop on its own infrastructure. Which approach fits these constraints best?",
+      "ja": "3人のプロダクトチームが、リサーチのタスクをバックグラウンドで最大1時間実行し、サンドボックスでコードを実行したりファイルを編集したりして、終わったら報告するエージェントを求めています。チームにはサーバー、コンテナ、セッションの保存領域を運用・拡張できる人がおらず、エージェントループを自分たちのインフラで動かす必要もありません。この条件に最も合う方法はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Self-host the Claude Agent SDK in containers the team operates, since it offers the same agent loop and tools that power Claude Code in-process",
+        "ja": "Claude Code を支えるのと同じエージェントループとツールをプロセス内で使えるので、チームが運用するコンテナで Claude Agent SDK をセルフホストする"
+      },
+      {
+        "key": "B",
+        "en": "Use Claude Managed Agents, where Anthropic hosts the agent loop and sandbox, and configure the agent through the Claude API instead of a runtime",
+        "ja": "Anthropic がエージェントループとサンドボックスをホストする Claude Managed Agents を使い、ランタイムを運用せずに Claude API でエージェントを設定する"
+      },
+      {
+        "key": "C",
+        "en": "Write a custom agent loop on the Messages API with a homemade tool runner and sandbox, so that every part of the execution stays under direct control",
+        "ja": "実行のすべてを直接管理できるよう、Messages API の上に自作のツール実行器とサンドボックスを備えたカスタムのエージェントループを書く"
+      },
+      {
+        "key": "D",
+        "en": "Submit each research task through the Message Batches API, since batch jobs run in the background for long periods and return results at the end",
+        "ja": "バッチジョブはバックグラウンドで長時間動き、終わると結果を返すので、各リサーチのタスクを Message Batches API で送信する"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Anthropic's hosting guidance says that if you do not need to run the agent loop on your own infrastructure, you should consider Managed Agents, where Anthropic hosts the agent loop and sandbox for long-running work; the feature is currently in beta (B). The Agent SDK (A) is a strong option in general, but self-hosting it means operating the containers, sessions, and scaling the team cannot staff. A custom loop (C) adds even more to build and run. The Message Batches API (D) processes independent Messages requests at lower cost; it does not run a multi-step agent with tools and a sandbox.",
+      "ja": "Anthropic のホスティングのガイドには、エージェントループを自分のインフラで動かす必要がなければ Managed Agents を検討するよう書かれています。Managed Agents では、長時間の作業のためのエージェントループとサンドボックスを Anthropic がホストします。この機能は現在ベータ版です (B)。Agent SDK (A) は一般的には有力な選択肢ですが、セルフホストすると、チームが人を割けないコンテナ、セッション、拡張の運用が必要になります。カスタムのループ (C) は、作って運用するものがさらに増えます。Message Batches API (D) は独立した Messages のリクエストを低コストで処理するもので、ツールとサンドボックスを使う多段階のエージェントを動かすものではありません。"
+    }
+  },
+  {
+    "id": "DV103",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "You are an AI engineer on a home-insurance app where customers photograph damage and then chat with an assistant about their claim. Photos come straight from phone cameras at full resolution and are sent base64-encoded in the first message of the conversation. Answers are accurate, but response times grow noticeably with each turn, and the requests have become very large. Which change best addresses this?",
+      "ja": "あなたは住宅保険アプリの AI エンジニアです。このアプリでは、顧客が損害の写真を撮り、そのあと請求についてアシスタントとチャットします。写真はスマートフォンのカメラからフル解像度のまま届き、会話の最初のメッセージで base64 エンコードして送られます。回答は正確ですが、ターンを重ねるごとに応答時間がはっきり長くなり、リクエストも非常に大きくなっています。これに最もよく対処する変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Convert each photo to a text description with a separate OCR service, and send only that text, so that no image data is included in any request",
+        "ja": "別の OCR サービスで各写真をテキストの説明に変換し、そのテキストだけを送って、どのリクエストにも画像データを含めないようにする"
+      },
+      {
+        "key": "B",
+        "en": "Move the photos to the end of the first message after the customer's text, since images placed after the text are processed faster than images first",
+        "ja": "テキストより後ろに置いた画像のほうが先頭に置いた画像より速く処理されるので、写真を最初のメッセージの、顧客のテキストの後ろに移す"
+      },
+      {
+        "key": "C",
+        "en": "Switch to the smallest model for the whole conversation, since a smaller model returns answers about images faster on every turn of the chat",
+        "ja": "小さいモデルのほうがチャットの毎ターンで画像について速く答えるので、会話全体を最も小さいモデルに切り替える"
+      },
+      {
+        "key": "D",
+        "en": "Resize the photos before sending them, since the full image bytes are resent on every turn and the API downscales oversized images anyway",
+        "ja": "画像のバイト列は毎ターン丸ごと再送され、大きすぎる画像はどのみち API が縮小するので、写真を送る前にリサイズする"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Base64 images are included in full in the payload on every turn, and images above the size limits are downscaled before processing anyway, so resizing before sending cuts request size and latency without losing what the model actually sees (D); uploading once through the Files API and referencing the file_id is another way to avoid resending the bytes. OCR (A) captures text, but water stains and cracks are visual, so accuracy would suffer. The docs recommend images before text, not after (B). A smaller model (C) trades away quality and leaves the oversized payload in every request.",
+      "ja": "base64 の画像は毎ターン、ペイロードに丸ごと含まれ、サイズの上限を超える画像は処理の前にどのみち縮小されます。そのため、送る前にリサイズすれば、モデルが実際に見る内容を損なわずにリクエストのサイズとレイテンシを減らせます (D)。Files API で一度アップロードして file_id で参照するのも、バイト列の再送を避ける方法です。OCR (A) が拾うのは文字ですが、水染みやひび割れは見た目の情報なので、精度が落ちます。ドキュメントが勧めているのは画像をテキストの前に置くことで、後ろではありません (B)。小さいモデル (C) は品質を犠牲にし、大きすぎるペイロードも毎回のリクエストに残ります。"
+    }
+  },
+  {
+    "id": "DV104",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A team streams responses from the Messages API so that a chat UI can show text as it arrives. After they added a tool, their stream handler started to crash: it runs a JSON parser on the partial_json string of every input_json_delta event as soon as the event arrives, and the parser fails on fragments such as {\"city\": \"San Fra. Text-only responses still work. How should the handler process the tool input?",
+      "ja": "あるチームは、チャット UI で届いたそばからテキストを表示できるよう、Messages API の応答をストリーミングしています。ツールを追加したところ、ストリームのハンドラーがクラッシュするようになりました。このハンドラーは、input_json_delta イベントが届くたびに、その partial_json の文字列をすぐ JSON パーサーにかけており、{\"city\": \"San Fra のような断片で解析に失敗します。テキストだけの応答は今も正常です。ハンドラーはツールの入力をどう処理すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Append each partial_json fragment to a buffer for its content block, and parse the buffer when that block's content_block_stop event arrives",
+        "ja": "各 partial_json の断片をそのコンテンツブロック用のバッファに追加し、そのブロックの content_block_stop イベントが届いたらバッファを解析する"
+      },
+      {
+        "key": "B",
+        "en": "Catch the parse error for each fragment and drop the ones that fail, keeping only the fragments that already form valid JSON on their own",
+        "ja": "断片ごとに解析エラーを捕捉して失敗したものを捨て、それだけで有効な JSON になっている断片だけを残す"
+      },
+      {
+        "key": "C",
+        "en": "Turn off streaming for requests that define tools, since tool input cannot be read from a stream and arrives whole only in non-streamed replies",
+        "ja": "ツールの入力はストリームから読めず、ストリーミングしない応答でしか完全な形で届かないので、ツールを定義するリクエストではストリーミングを無効にする"
+      },
+      {
+        "key": "D",
+        "en": "Tell the model in the system prompt to keep tool arguments short, so that each argument fits in a single delta and can be parsed on arrival",
+        "ja": "各引数が1つのデルタに収まり届いたらすぐ解析できるよう、ツールの引数を短くするようシステムプロンプトでモデルに伝える"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "In a stream, the deltas of a tool_use block are partial JSON strings; the documented approach is to accumulate them and parse once the content_block_stop event arrives, or to use the SDK's streaming helpers (A). Dropping fragments that fail to parse (B) discards most of the arguments. Tool input can be read from a stream, so turning streaming off (C) gives up incremental text for no reason. Asking for short arguments (D) does not guarantee that any argument arrives in a single delta.",
+      "ja": "ストリームでは、tool_use ブロックのデルタは部分的な JSON の文字列です。ドキュメントに書かれている方法は、それを蓄積して content_block_stop イベントが届いたら解析するか、SDK のストリーミング用ヘルパーを使うことです (A)。解析に失敗した断片を捨てると (B)、引数のほとんどが失われます。ツールの入力はストリームから読めるので、ストリーミングを無効にすると (C)、少しずつテキストを表示する利点を理由もなく手放すことになります。短い引数を求めても (D)、引数が1つのデルタで届く保証にはなりません。"
+    }
+  },
+  {
+    "id": "DV105",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 2,
+    "type": "multiple",
+    "question": {
+      "en": "You are a developer on a multi-tenant contract-review service. Each customer uploads a reference handbook of about 300 pages, and every review request currently sends that handbook again as a base64 PDF, which makes requests slow and large. You plan to move to the Files API. Uploaded files are visible across your whole API workspace, which all customers share. Which two practices should the design include? (Choose two.)",
+      "ja": "あなたはマルチテナントの契約レビューサービスの開発者です。各顧客は約300ページの参照用ハンドブックをアップロードしており、現在はレビューのリクエストのたびに、そのハンドブックを base64 の PDF として送り直しているため、リクエストが遅く大きくなっています。Files API に移行する予定です。アップロードしたファイルは、全顧客で共有している API のワークスペース全体から見えます。設計に含めるべき方法はどれですか。（2つ選べ）"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Upload each handbook once through the Files API, store its file_id with the customer's account, and reference that file_id in later requests",
+        "ja": "各ハンドブックを Files API で一度だけアップロードし、その file_id を顧客のアカウントと一緒に保存して、以降のリクエストではその file_id を参照する"
+      },
+      {
+        "key": "B",
+        "en": "Keep sending the handbook as base64 in every request but also upload it, so that the API can match the two copies and skip reprocessing either of them",
+        "ja": "API が2つのコピーを照合してどちらの再処理も省けるよう、ハンドブックを毎回 base64 で送り続けたうえで、アップロードもしておく"
+      },
+      {
+        "key": "C",
+        "en": "Let the client app send the handbook's file_id with each request, so that the server can pass it straight to the API without a lookup step",
+        "ja": "サーバーが検索の手順なしで API にそのまま渡せるよう、クライアントアプリがリクエストごとにハンドブックの file_id を送るようにする"
+      },
+      {
+        "key": "D",
+        "en": "Look up the file_id on the server from the customer's own records, and reject any file_id that arrives in a request from the client side",
+        "ja": "file_id はサーバー側で顧客自身の記録から取得し、クライアント側からリクエストに含めて送られてきた file_id は拒否する"
+      }
+    ],
+    "answer": [
+      "A",
+      "D"
+    ],
+    "explanation": {
+      "en": "The Files API lets you upload a file once and reference it by file_id instead of re-uploading the content, which removes the large payload from every request (A). Because uploaded files are scoped to the whole workspace, the docs warn never to accept file_id values from end users or other untrusted sources, so the server must resolve the file_id from its own records (D). Sending base64 alongside an upload (B) keeps the large payload and gains nothing. Accepting a file_id from the client (C) would let one customer reference another customer's handbook.",
+      "ja": "Files API では、ファイルを一度アップロードし、内容を送り直す代わりに file_id で参照できるので、毎回のリクエストから大きなペイロードがなくなります (A)。アップロードしたファイルはワークスペース全体が範囲になるため、ドキュメントでは、エンドユーザーなど信頼できない送り手からの file_id を受け付けないよう警告しています。そのため、サーバーが自分の記録から file_id を決めなければなりません (D)。アップロードと並行して base64 も送ると (B)、大きなペイロードが残るだけで何も得られません。クライアントから file_id を受け付けると (C)、ある顧客が別の顧客のハンドブックを参照できてしまいます。"
+    }
+  },
+  {
+    "id": "DV106",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A document-analysis service lets users attach several long reports and ask questions across them. Some requests fail because the combined input exceeds the model's context window, and users find out only after waiting for the error. The team wants to warn users before the request is sent and suggest removing a report, without paying for any extra model calls. Which approach fits best?",
+      "ja": "ある文書分析サービスでは、ユーザーが長いレポートを複数添付し、それらにまたがる質問をできます。入力の合計がモデルのコンテキストウィンドウを超えて失敗するリクエストがあり、ユーザーはエラーを待ってから初めてそれを知ります。チームは、追加のモデル呼び出しの料金を払わずに、送信前にユーザーへ警告し、レポートを外すよう提案したいと考えています。最も適した方法はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Estimate the tokens by dividing each report's character count by four, and warn users when the total crosses a fixed threshold below the window",
+        "ja": "各レポートの文字数を4で割ってトークン数を見積もり、合計がウィンドウより低く設定した固定のしきい値を超えたらユーザーに警告する"
+      },
+      {
+        "key": "B",
+        "en": "Send the request anyway and catch the error, then ask the user which report to remove, since the API returns a clear error for oversized input",
+        "ja": "API は大きすぎる入力に対して明確なエラーを返すので、とにかくリクエストを送ってエラーを捕捉し、どのレポートを外すかユーザーに尋ねる"
+      },
+      {
+        "key": "C",
+        "en": "Call the token counting endpoint with the assembled messages before sending, and warn the user when the count nears the model's context window",
+        "ja": "送信前に、組み立てたメッセージでトークンカウントのエンドポイントを呼び出し、トークン数がモデルのコンテキストウィンドウに近づいたらユーザーに警告する"
+      },
+      {
+        "key": "D",
+        "en": "Ask a small model to summarize each report first and send the summaries in place of the reports, so that the combined input stays under the limit",
+        "ja": "入力の合計が上限に収まるよう、まず小さいモデルに各レポートを要約させ、レポートの代わりに要約を送る"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "The token counting endpoint returns the input token count for a message before you send it, and it is free to use (within its own rate limits), so the service can warn users accurately without paying for a model call (C). A characters-divided-by-four estimate (A) is a common rule of thumb, but it varies by language and content, so the warning would be unreliable near the limit. Waiting for the error (B) is the current behavior the team wants to avoid. Summarizing first (D) adds the extra model calls the team ruled out and changes what users asked about.",
+      "ja": "トークンカウントのエンドポイントは、メッセージを送る前に入力のトークン数を返し、（専用のレート制限の範囲内で）無料で使えます。そのため、モデル呼び出しの料金を払わずに、正確にユーザーへ警告できます (C)。文字数を4で割る見積もり (A) はよく使われる目安ですが、言語や内容によってずれるため、上限付近では警告が当てになりません。エラーを待つ方法 (B) は、チームが避けたい今の挙動そのものです。先に要約する方法 (D) は、チームが除外した追加のモデル呼び出しを増やし、ユーザーが質問した対象も変えてしまいます。"
+    }
+  },
+  {
+    "id": "DV107",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "You are an AI engineer building an assistant that answers questions about a company's HR policy PDFs. Compliance requires that every answer show the exact passage and page it relies on, so that employees can check it. Today the prompt asks Claude to quote its sources, but reviewers keep finding quotes that are slightly reworded and page numbers that are wrong. Which change best meets the requirement?",
+      "ja": "あなたは、会社の人事規程の PDF について質問に答えるアシスタントを開発している AI エンジニアです。コンプライアンス上、社員が確認できるよう、すべての回答に根拠とした正確な箇所とページを示すことが求められています。現在はプロンプトで出典を引用するよう Claude に求めていますが、レビュー担当者は、わずかに言い換えられた引用や間違ったページ番号を何度も見つけています。この要件を最もよく満たす変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Add an instruction to quote passages word for word and double-check page numbers, and lower the temperature so that the quotes vary less across runs",
+        "ja": "箇所を一字一句そのまま引用し、ページ番号を見直すよう指示を加え、実行ごとに引用がばらつかないよう temperature を下げる"
+      },
+      {
+        "key": "B",
+        "en": "Send the PDFs as document blocks with citations enabled, and show the returned cited text and page location next to each claim in the answer",
+        "ja": "PDF を引用（citations）を有効にしたドキュメントブロックとして送り、返された引用テキストとページの位置を、回答の各主張の横に表示する"
+      },
+      {
+        "key": "C",
+        "en": "Ask Claude to return a confidence score for each quote, and show only the quotes whose score is above a threshold set by the compliance team",
+        "ja": "引用ごとに確信度のスコアを返すよう Claude に求め、コンプライアンスチームが決めたしきい値を超える引用だけを表示する"
+      },
+      {
+        "key": "D",
+        "en": "Split each PDF into one page per request and ask the question page by page, so that the page number of any quote is known from its request",
+        "ja": "各 PDF を1ページずつに分けてリクエストし、同じ質問をページごとに行って、どのリクエストから出た引用かでページ番号がわかるようにする"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "With citations enabled on document blocks, the response returns the cited text together with its location, such as page numbers for PDFs, so the passage and page come from the document rather than from the model's recollection (B). Stronger instructions and a lower temperature (A) reduce variation but still leave the quote and page to the model. A self-reported confidence score (C) is not evidence that a quote is exact. Asking page by page (D) multiplies the cost, loses answers that span pages, and still lets the model reword the passage.",
+      "ja": "ドキュメントブロックで引用（citations）を有効にすると、応答は引用されたテキストとその位置（PDF ならページ番号など）を返します。そのため、箇所とページはモデルの記憶ではなく文書そのものから得られます (B)。指示を強めて temperature を下げても (A)、ばらつきが減るだけで、引用とページは依然としてモデル任せです。自己申告の確信度 (C) は、引用が正確であることの証拠になりません。ページごとに尋ねると (D)、コストが何倍にもなり、ページをまたぐ回答が失われ、モデルが箇所を言い換えることも防げません。"
+    }
+  },
+  {
+    "id": "DV108",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A team uses Claude Code on a shared repository. One developer prefers responses in Japanese and relies on a personal script path on their own machine, while the whole team must follow the same build commands and coding conventions. Recently the developer committed these personal preferences to ./CLAUDE.md, and teammates now get Japanese responses and errors from a script path that does not exist on their machines. How should the instructions be organized?",
+      "ja": "あるチームは、共有のリポジトリで Claude Code を使っています。ある開発者は日本語での応答を好み、自分のマシンにだけある個人用のスクリプトのパスを使っていますが、チーム全体は同じビルドコマンドとコーディング規約に従わなければなりません。最近、この開発者が個人的な設定を ./CLAUDE.md にコミットしたため、ほかのメンバーにも日本語で応答が返り、自分のマシンに存在しないスクリプトのパスでエラーが出るようになりました。指示はどう整理すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Keep everything in ./CLAUDE.md but wrap the personal lines in a comment naming the developer, so that Claude applies them only for that person",
+        "ja": "すべて ./CLAUDE.md に残したまま、個人用の行をその開発者の名前を書いたコメントで囲み、Claude がその人にだけ適用するようにする"
+      },
+      {
+        "key": "B",
+        "en": "Move every instruction, team conventions included, into each developer's ~/.claude/CLAUDE.md, so nothing in the repository affects anyone else",
+        "ja": "リポジトリの中のものが他人に影響しないよう、チームの規約も含めたすべての指示を、各開発者の ~/.claude/CLAUDE.md に移す"
+      },
+      {
+        "key": "C",
+        "en": "Put the personal preferences into a second CLAUDE.md in a subfolder of the repository, so they load only when Claude works inside that folder",
+        "ja": "Claude がそのフォルダの中で作業するときだけ読み込まれるよう、個人用の設定をリポジトリのサブフォルダにある2つ目の CLAUDE.md に入れる"
+      },
+      {
+        "key": "D",
+        "en": "Keep team conventions in ./CLAUDE.md, and move the personal preferences to CLAUDE.local.md or ~/.claude/CLAUDE.md, which git does not share",
+        "ja": "チームの規約は ./CLAUDE.md に残し、個人用の設定は、git で共有されない CLAUDE.local.md か ~/.claude/CLAUDE.md に移す"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Project instructions in ./CLAUDE.md are shared with the team through source control, while ~/.claude/CLAUDE.md holds personal preferences for all projects and CLAUDE.local.md holds personal, project-specific preferences that stay out of version control (D). A comment naming the developer (A) is still loaded for everyone, and Claude has no reliable way to tell who is running it. Moving the team conventions into personal files (B) loses the shared rules the whole team must follow. A CLAUDE.md in a subfolder (C) is still committed and still affects anyone working in that folder.",
+      "ja": "./CLAUDE.md のプロジェクトの指示はソース管理を通じてチームで共有されます。一方、~/.claude/CLAUDE.md はすべてのプロジェクトに共通の個人の設定を、CLAUDE.local.md はバージョン管理に入れないプロジェクト固有の個人の設定を置く場所です (D)。開発者の名前を書いたコメント (A) も全員に読み込まれ、Claude には誰が実行しているかを確実に知る方法がありません。チームの規約を個人のファイルに移すと (B)、チーム全体が従うべき共通のルールが失われます。サブフォルダの CLAUDE.md (C) もコミットされるので、そのフォルダで作業する人全員に影響します。"
+    }
+  },
+  {
+    "id": "DV109",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 2,
+    "type": "multiple",
+    "question": {
+      "en": "You are a backend developer on a support platform where queue workers ask Claude to draft a reply and post it to the ticket system. If a worker crashes after posting but before marking the job done, the queue redelivers the job, the customer gets a second, different reply, and the second draft costs another model call. The ticket system accepts an Idempotency-Key header and ignores repeated posts with the same key. Which two changes together prevent both problems? (Choose two.)",
+      "ja": "あなたはサポートプラットフォームのバックエンド開発者です。このプラットフォームでは、キューのワーカーが Claude に返信の下書きを作らせ、チケットシステムに投稿します。投稿したあと、ジョブを完了にする前にワーカーがクラッシュすると、キューはそのジョブを再配信し、顧客には内容の違う2通目の返信が届き、2つ目の下書きの分だけモデル呼び出しの料金もかかります。チケットシステムは Idempotency-Key ヘッダーを受け付け、同じキーの投稿が繰り返されても無視します。両方の問題を合わせて防ぐ変更はどれですか。（2つ選べ）"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Turn off redelivery in the queue so each job is attempted only once, accepting that a job is lost whenever a worker crashes before it finishes",
+        "ja": "各ジョブを1回だけ試行するようキューの再配信を無効にし、ワーカーが終わる前にクラッシュしたらそのジョブは失われることを受け入れる"
+      },
+      {
+        "key": "B",
+        "en": "Derive the key from the job ID and send it in the Idempotency-Key header, so that the ticket system ignores a second post for the same job",
+        "ja": "キーをジョブ ID から作って Idempotency-Key ヘッダーで送り、同じジョブの2回目の投稿をチケットシステムが無視するようにする"
+      },
+      {
+        "key": "C",
+        "en": "Save each draft under its job ID before posting it, and on redelivery post the saved draft instead of asking Claude to write another one",
+        "ja": "投稿する前に各下書きをジョブ ID に紐づけて保存し、再配信されたときは Claude に書き直させずに保存した下書きを投稿する"
+      },
+      {
+        "key": "D",
+        "en": "Generate a fresh random value for the Idempotency-Key header on every attempt, so that each post carries a key the system has not seen yet",
+        "ja": "各投稿がシステムにとって未知のキーを持つよう、試行のたびに新しいランダムな値を Idempotency-Key ヘッダーに使う"
+      }
+    ],
+    "answer": [
+      "B",
+      "C"
+    ],
+    "explanation": {
+      "en": "A key derived from the job ID stays the same across redeliveries, so the ticket system recognizes and ignores the repeated post (B), and saving the draft before posting lets a redelivered job reuse it instead of paying for a new generation (C). Turning off redelivery (A) prevents duplicates by losing jobs whenever a worker crashes, which trades one failure for another. A fresh random key on every attempt (D) defeats the purpose of the header, since the second post looks like a new request.",
+      "ja": "ジョブ ID から作ったキーは再配信されても同じなので、チケットシステムは繰り返しの投稿を認識して無視します (B)。また、投稿前に下書きを保存しておけば、再配信されたジョブはそれを再利用でき、新しい生成の料金を払わずに済みます (C)。再配信を無効にすると (A)、ワーカーがクラッシュするたびにジョブが失われることで重複を防ぐことになり、ある失敗を別の失敗に置き換えるだけです。試行のたびに新しいランダムなキーを使うと (D)、2回目の投稿が新しいリクエストに見えるため、ヘッダーの意味がなくなります。"
+    }
+  },
+  {
+    "id": "DV110",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A developer has used one Claude Code session all morning: first to debug a flaky payment test, then to review a pull request, and now to write a migration script for an unrelated service. Claude keeps referring to the payment test and suggests patterns from the reviewed code that do not fit the new service, and each response is slower and costs more than at the start. What should the developer do?",
+      "ja": "ある開発者は、午前中ずっと1つの Claude Code のセッションを使っています。最初は不安定な決済のテストをデバッグし、次にプルリクエストをレビューし、今は無関係なサービスの移行スクリプトを書いています。Claude は決済のテストに何度も触れ、レビューしたコードのパターンを新しいサービスに合わないのに提案し、応答は最初のころより遅く、コストも高くなっています。開発者はどうすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Run /clear before starting the migration script, and give Claude the context the new task needs, so the earlier tasks stop filling the session",
+        "ja": "移行スクリプトに取りかかる前に /clear を実行し、新しいタスクに必要なコンテキストを Claude に渡して、以前のタスクがセッションを埋めないようにする"
+      },
+      {
+        "key": "B",
+        "en": "Keep the session and add a note to CLAUDE.md telling Claude to ignore the payment test and the reviewed code, so both stop shaping suggestions",
+        "ja": "セッションはそのままにし、決済のテストとレビューしたコードを無視するよう CLAUDE.md にメモを加えて、どちらも提案に影響しないようにする"
+      },
+      {
+        "key": "C",
+        "en": "Move the session to a model with a larger context window, so that the earlier tasks and the new script all fit and Claude can draw on all of it",
+        "ja": "以前のタスクと新しいスクリプトがすべて収まり、Claude がそのすべてを活用できるよう、セッションをより大きなコンテキストウィンドウを持つモデルに移す"
+      },
+      {
+        "key": "D",
+        "en": "Ask Claude in a chat message to forget the earlier tasks, so that it stops referring to them while the session history stays available for later",
+        "ja": "セッションの履歴はあとで使えるよう残したまま、以前のタスクに触れなくなるよう、チャットのメッセージで以前のタスクを忘れるよう Claude に頼む"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Claude Code's best practices recommend running /clear between unrelated tasks, so the next task does not keep paying for the previous one's history and the context stays focused (A). A note in CLAUDE.md (B) adds instructions to every future session while the old history still fills this one. A larger window (C) keeps the irrelevant history in play and costs more per response. Asking Claude to forget (D) is not a mechanism; the history is still sent with every request.",
+      "ja": "Claude Code のベストプラクティスでは、無関係なタスクの間に /clear を実行するよう勧めています。そうすれば、次のタスクが前のタスクの履歴の分を払い続けることがなく、コンテキストも絞られます (A)。CLAUDE.md へのメモ (B) は今後のすべてのセッションに指示を増やす一方、古い履歴はこのセッションを埋めたままです。大きなウィンドウ (C) は無関係な履歴を残したままで、応答ごとのコストも上がります。忘れるよう頼むこと (D) は仕組みではなく、履歴は毎回のリクエストで送られ続けます。"
+    }
+  },
+  {
+    "id": "DV111",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "You are a tech lead whose team repeats the same release-notes procedure every sprint: collect merged pull requests, group them by label, apply a fixed template, and check every link. Each developer currently pastes a long instruction block into Claude Code when it is needed, and the copies have drifted apart. The team wants one shared version that Claude picks up when the task comes up, without adding the full procedure to every session's context. What should you do?",
+      "ja": "あなたはテックリードで、チームはスプリントごとに同じリリースノートの手順を繰り返しています。マージされたプルリクエストを集め、ラベルごとに分け、決まったテンプレートを当てはめ、すべてのリンクを確認する手順です。現在は、必要になるたびに各開発者が長い指示のブロックを Claude Code に貼り付けており、それぞれのコピーの内容がずれてきています。チームは、すべてのセッションのコンテキストに手順全体を加えることなく、タスクが出てきたときに Claude が使える共通の1つの版を求めています。どうすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Put the full procedure into the project CLAUDE.md, so that Claude has the steps available in every session and nobody needs to paste the block",
+        "ja": "どのセッションでも Claude が手順を使え、誰もブロックを貼り付けなくて済むよう、手順全体をプロジェクトの CLAUDE.md に入れる"
+      },
+      {
+        "key": "B",
+        "en": "Keep the procedure on a shared wiki page, and ask each developer to paste its latest version into Claude Code whenever release notes are due",
+        "ja": "手順を共有の Wiki ページに置き、リリースノートが必要になるたびに最新版を Claude Code に貼り付けるよう各開発者に頼む"
+      },
+      {
+        "key": "C",
+        "en": "Have each developer save the procedure as a personal skill in ~/.claude/skills, so that Claude can load it on demand in any project they open",
+        "ja": "各開発者が手順を ~/.claude/skills に個人のスキルとして保存し、どのプロジェクトでも Claude が必要なときに読み込めるようにする"
+      },
+      {
+        "key": "D",
+        "en": "Create a project skill in .claude/skills whose SKILL.md says when to use it, and commit it so the team shares one copy that loads on demand",
+        "ja": "使いどころを書いた SKILL.md を持つプロジェクトのスキルを .claude/skills に作ってコミットし、必要なときに読み込まれる1つのコピーをチームで共有する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "A project skill lives in .claude/skills/<name>/SKILL.md and is committed so the whole team gets it; Claude uses a skill when it is relevant, and unlike CLAUDE.md content, a skill's body loads only when it is used (D). Putting the procedure in CLAUDE.md (A) shares it but adds the full text to every session, which the team wants to avoid. A wiki page (B) keeps the manual pasting that let the copies drift. Personal skills (C) load on demand, but each developer keeps a separate copy, so the drift continues.",
+      "ja": "プロジェクトのスキルは .claude/skills/<name>/SKILL.md に置き、コミットすればチーム全員が使えます。Claude は関連するときにスキルを使い、CLAUDE.md の内容とは違って、スキルの本文は使われるときにだけ読み込まれます (D)。手順を CLAUDE.md に入れると (A)、共有はできますが、チームが避けたいとしている、すべてのセッションへの全文の追加が起きます。Wiki ページ (B) では、コピーのずれを生んだ手作業の貼り付けが残ります。個人のスキル (C) も必要なときに読み込まれますが、開発者ごとに別のコピーを持つため、ずれは続きます。"
+    }
+  },
+  {
+    "id": "DV112",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A team wants Claude Code to run a security review of each change before it is committed. The reviewer should only read code and run the project's static analysis command, never edit files, and its long scan output should not crowd the main session. The team also wants everyone working in the repository to use the same reviewer definition. Which setup fits these requirements?",
+      "ja": "あるチームは、各変更をコミットする前に Claude Code にセキュリティレビューをさせたいと考えています。レビュー担当はコードを読むことと、プロジェクトの静的解析コマンドを実行することだけを行い、ファイルは決して編集してはならず、その長いスキャン出力でメインのセッションを埋めてはなりません。また、リポジトリで作業する全員が同じレビュー担当の定義を使うことも求めています。これらの要件に合う構成はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Define a subagent in .claude/agents with a description of when to use it and tools limited to reading files and the analysis command, then commit it",
+        "ja": "使いどころを書いた説明と、ファイルの読み取りと解析コマンドだけに限ったツールを持つサブエージェントを .claude/agents に定義し、コミットする"
+      },
+      {
+        "key": "B",
+        "en": "Add a section to CLAUDE.md asking Claude to act as a security reviewer and not to edit files during reviews, so the main session handles each review",
+        "ja": "セキュリティレビュー担当として振る舞い、レビュー中はファイルを編集しないよう Claude に求める節を CLAUDE.md に加え、メインのセッションで各レビューを行う"
+      },
+      {
+        "key": "C",
+        "en": "Define the reviewer as a subagent in each developer's ~/.claude/agents folder with the same tools list, so every developer can call it on their machine",
+        "ja": "同じツールのリストを持つサブエージェントとしてレビュー担当を各開発者の ~/.claude/agents フォルダに定義し、各自のマシンで呼び出せるようにする"
+      },
+      {
+        "key": "D",
+        "en": "Create a slash command that prints the security checklist into the session, so that Claude works through the checklist in the main conversation",
+        "ja": "セキュリティのチェックリストをセッションに表示するスラッシュコマンドを作り、Claude がメインの会話の中でチェックリストを順にこなすようにする"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Subagents are Markdown files with YAML frontmatter; one in .claude/agents belongs to the project and can be committed, its description tells Claude when to delegate, its tools field limits what it can use, and it works in its own context so the scan output stays out of the main session (A). A CLAUDE.md section (B) is guidance rather than a tool restriction, and the scan output lands in the main session. Subagents in ~/.claude/agents (C) apply to one developer's projects, so the definitions are not shared and can drift. A slash command that prints a checklist (D) neither restricts tools nor isolates the output.",
+      "ja": "サブエージェントは YAML のフロントマターを持つ Markdown ファイルです。.claude/agents に置いたものはプロジェクトに属してコミットでき、description は Claude がいつ委任するかを決め、tools のフィールドは使えるツールを制限します。また、サブエージェントは自分のコンテキストで動くので、スキャン出力はメインのセッションに入りません (A)。CLAUDE.md の節 (B) は指針であってツールの制限ではなく、スキャン出力もメインのセッションに入ります。~/.claude/agents のサブエージェント (C) は1人の開発者のプロジェクトにだけ適用されるため、定義は共有されず、ずれていく可能性があります。チェックリストを表示するスラッシュコマンド (D) は、ツールを制限せず、出力も分離しません。"
+    }
+  },
+  {
+    "id": "DV113",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "You are an AI engineer running two workloads on the same current Claude model: a high-volume intent classifier that labels short chat messages, and a low-volume planner that designs multi-step data migrations. Both use the default settings. The classifier is accurate, but its cost and latency exceed the budget, while the planner's quality is only just acceptable. A colleague suggests adding extended thinking with a token budget to the planner. What should you do?",
+      "ja": "あなたは、現行の同じ Claude モデルで2つの処理を動かしている AI エンジニアです。1つは短いチャットメッセージにラベルを付ける大量の意図分類、もう1つは多段階のデータ移行を設計する少量のプランナーです。どちらも既定の設定のままです。分類は正確ですが、コストとレイテンシが予算を超えており、プランナーの品質はかろうじて許容範囲です。同僚は、プランナーにトークン予算付きの拡張思考（extended thinking）を加えることを提案しています。どうすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Add extended thinking with a fixed budget_tokens value to the planner as suggested, and leave the classifier as it is since it is already accurate",
+        "ja": "提案どおりプランナーに固定の budget_tokens 値で拡張思考を加え、分類はすでに正確なのでそのままにする"
+      },
+      {
+        "key": "B",
+        "en": "Lower the effort setting for the classifier to cut the tokens it spends, and raise it for the planner, where deeper reasoning is worth paying for",
+        "ja": "分類では effort の設定を下げて使うトークンを減らし、深い推論に費用をかける価値があるプランナーでは effort を上げる"
+      },
+      {
+        "key": "C",
+        "en": "Raise the effort setting for both workloads, since more reasoning improves every request and the classifier's higher cost will be offset by accuracy",
+        "ja": "推論を増やせばすべてのリクエストが改善し、分類のコスト増は精度で埋め合わされるので、両方の処理で effort の設定を上げる"
+      },
+      {
+        "key": "D",
+        "en": "Move the classifier onto the planner's schedule and run both workloads only once a day, so that the classifier's volume and total cost both drop",
+        "ja": "分類をプランナーのスケジュールに合わせ、両方の処理を1日1回だけ実行して、分類の処理量と総コストの両方を減らす"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "The effort parameter controls how many tokens Claude spends on a response, and thinking tokens are billed as output tokens, so lowering effort for the simple, high-volume classifier saves cost and latency while raising it for the complex planner buys deeper reasoning where it matters (B). Extended thinking with budget_tokens (A) is a legacy feature, and Claude 4.7 and later models reject requests that use it. Raising effort for both (C) increases the classifier's cost, which is already over budget, for accuracy it does not need. Running the classifier once a day (D) changes what the product does instead of tuning the model settings.",
+      "ja": "effort パラメータは Claude が応答に使うトークンの量を制御し、思考のトークンは出力トークンとして課金されます。そのため、単純で大量の分類では effort を下げてコストとレイテンシを減らし、複雑なプランナーでは effort を上げて、必要なところで深い推論を得ます (B)。budget_tokens を使う拡張思考 (A) はレガシー機能で、Claude 4.7 以降のモデルはこれを使うリクエストを拒否します。両方で effort を上げると (C)、すでに予算を超えている分類のコストが、必要のない精度のために増えます。分類を1日1回にすると (D)、モデルの設定を調整するのではなく、製品の動作そのものを変えることになります。"
+    }
+  },
+  {
+    "id": "DV114",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A team compares two prompt versions for a contract-summary feature by running each prompt once on 40 test contracts at temperature 0 and counting the summaries that reviewers mark as acceptable. Version B scored 31 against version A's 29, so the team plans to ship B. When a teammate reran the same test the next day, A scored 31 and B scored 28. What should the team change in its evaluation?",
+      "ja": "あるチームは、契約書の要約機能について2つのプロンプトを比べています。各プロンプトを temperature 0 で40件のテスト用の契約書に1回ずつ実行し、レビュー担当者が合格とした要約の数を数えました。B 版が31件、A 版が29件だったため、チームは B 版をリリースする予定です。翌日、チームメイトが同じテストを再実行すると、A 版が31件、B 版が28件でした。チームは評価のしかたをどう変えるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Set temperature to 0 for both versions and also fix the order of the contracts, so that each prompt produces identical outputs on every run",
+        "ja": "各プロンプトが毎回同じ出力を返すよう、両方の版で temperature を0にしたうえで、契約書の順番も固定する"
+      },
+      {
+        "key": "B",
+        "en": "Ship version B anyway, since it won the first run and temperature 0 makes a first result the most faithful sign of each prompt's behavior",
+        "ja": "最初の実行で勝っており、temperature 0 では最初の結果が各プロンプトの振る舞いを最も忠実に表すので、そのまま B 版をリリースする"
+      },
+      {
+        "key": "C",
+        "en": "Run each prompt several times on the test set and compare the score distributions, since identical inputs can produce different outputs",
+        "ja": "同じ入力でも異なる出力が返ることがあるので、各プロンプトをテストセットで複数回実行し、スコアの分布を比べる"
+      },
+      {
+        "key": "D",
+        "en": "Cut the test set to 10 hand-picked contracts that reviewers know well, so that each run is faster to review and the scores come out steadier",
+        "ja": "各実行のレビューを速くしスコアを安定させるため、テストセットをレビュー担当者がよく知る10件の契約書に絞る"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Even with temperature set to 0, results are not fully deterministic, and identical inputs can produce different outputs across API calls; a two-point gap from a single run is within that noise, so the team needs repeated runs and a comparison of distributions (C). Temperature 0 and a fixed order (A) still do not make outputs identical, which the rerun has already shown. Shipping on the first result (B) treats one noisy run as a measurement. Ten hand-picked contracts (D) make the sample smaller and less representative, which makes the noise worse.",
+      "ja": "temperature を0にしても結果は完全には決定的にならず、同じ入力でも API の呼び出しごとに異なる出力が返ることがあります。1回の実行での2件の差はそのばらつきの範囲内なので、繰り返し実行して分布を比べる必要があります (C)。temperature 0 と順番の固定 (A) でも出力は同じにならないことを、再実行がすでに示しています。最初の結果でリリースすると (B)、ばらつきのある1回の実行を測定として扱うことになります。手で選んだ10件 (D) はサンプルを小さく偏ったものにし、ばらつきをかえって大きくします。"
+    }
+  },
+  {
+    "id": "DV115",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "You are a developer on an internal compliance assistant used by about 30 analysts. Every request starts with the same 20,000-token rulebook marked with cache_control. The usage logs show that most requests report a large cache_creation_input_tokens value and zero cache_read_input_tokens. The prompt prefix is identical across requests, and analysts typically send a question every 15 to 30 minutes, rarely at the same time. What explains these usage figures?",
+      "ja": "あなたは、約30人のアナリストが使う社内のコンプライアンスアシスタントの開発者です。すべてのリクエストは、cache_control を付けた同じ20,000トークンの規則集から始まります。usage のログを見ると、ほとんどのリクエストで cache_creation_input_tokens が大きく、cache_read_input_tokens は0です。プロンプトのプレフィックスはリクエスト間で同一で、アナリストはたいてい15〜30分おきに質問を送り、同時に送ることはまれです。この usage の数値は何によって説明できますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The rulebook is too long to be cached, since cache entries hold only short prefixes, so it has to be split into several smaller cached blocks",
+        "ja": "キャッシュのエントリは短いプレフィックスしか保持できないので、規則集が長すぎてキャッシュできず、複数の小さなキャッシュ対象のブロックに分ける必要がある"
+      },
+      {
+        "key": "B",
+        "en": "The cache_control marker has to be placed on the user's question rather than the rulebook, since only a request's final block can be read",
+        "ja": "読み取れるのはリクエストの最後のブロックだけなので、cache_control は規則集ではなくユーザーの質問に付ける必要がある"
+      },
+      {
+        "key": "C",
+        "en": "Cache reads are reported under input_tokens rather than cache_read_input_tokens, so the logs undercount the cache hits the requests receive",
+        "ja": "キャッシュの読み取りは cache_read_input_tokens ではなく input_tokens に計上されるので、ログはリクエストが実際に得ているキャッシュヒットを少なく数えている"
+      },
+      {
+        "key": "D",
+        "en": "Requests arrive further apart than the cache's default five-minute lifetime, so each entry expires before the next request and is rewritten",
+        "ja": "リクエストの間隔がキャッシュの既定の5分の有効期間より長いので、各エントリは次のリクエストの前に期限切れになり、書き直されている"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "By default a cache entry lives for five minutes and is refreshed each time it is used; with questions arriving 15 to 30 minutes apart, each entry expires first, so the next request writes it again (D). The documented size limit works the other way: prompts shorter than a minimum length cannot be cached, so a 20,000-token rulebook is not too long (A). Caching matches the prefix up to the block marked with cache_control, which is why the stable rulebook is the right place for it (B). Cache reads are reported in cache_read_input_tokens, which is why that field is the one to check (C).",
+      "ja": "既定では、キャッシュのエントリの有効期間は5分で、使われるたびに延長されます。質問が15〜30分おきに届くため、各エントリは先に期限切れになり、次のリクエストがそれを書き直します (D)。ドキュメントにあるサイズの制限は逆向きで、最小の長さより短いプロンプトはキャッシュできません。20,000トークンの規則集が長すぎることはありません (A)。キャッシュは cache_control を付けたブロックまでのプレフィックスを照合するので、変化しない規則集に付けるのが正しい位置です (B)。キャッシュの読み取りは cache_read_input_tokens に計上されるので、確認すべきフィールドはまさにそれです (C)。"
+    }
+  },
+  {
+    "id": "DV116",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A team's service calls the Messages API through the official Python SDK with default settings. To handle overload, a developer wrapped every call in a loop that retries up to five times with exponential backoff on any exception. During a recent rate-limit incident, the logs showed far more attempts per request than anyone expected, and failing requests took minutes to give up. What is the most likely explanation, and what should change?",
+      "ja": "あるチームのサービスは、公式の Python SDK を既定の設定のまま使って Messages API を呼び出しています。過負荷に対処するため、ある開発者がすべての呼び出しを、どんな例外でも指数バックオフで最大5回再試行するループで囲みました。最近のレート制限の障害では、ログに誰も予想しなかったほど多くのリクエストあたりの試行が記録され、失敗するリクエストは諦めるまでに数分かかりました。最も可能性の高い説明と、変えるべき点はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The SDK already retries transient errors with backoff, so the layers multiply; rely on the SDK and tune its max_retries, or disable one layer",
+        "ja": "SDK はすでに一時的なエラーをバックオフで再試行しているので層が掛け合わされている。SDK に任せて max_retries を調整するか、一方の層を無効にする"
+      },
+      {
+        "key": "B",
+        "en": "The SDK does not retry rate-limit errors, so the custom loop should retry more times with shorter waits to recover faster in the next incident",
+        "ja": "SDK はレート制限のエラーを再試行しないので、次の障害で早く回復できるよう、自前のループの再試行回数を増やし待ち時間を短くする"
+      },
+      {
+        "key": "C",
+        "en": "Exponential backoff causes the long failure times, so the loop should retry immediately instead, which shortens how long a failing request waits",
+        "ja": "失敗までの時間が長いのは指数バックオフのせいなので、ループはすぐに再試行するようにして、失敗するリクエストの待ち時間を短くする"
+      },
+      {
+        "key": "D",
+        "en": "The SDK retries every exception, invalid requests included, so the custom loop should go and the SDK should retry all errors without any limit",
+        "ja": "SDK は無効なリクエストも含めあらゆる例外を再試行するので、自前のループを外し、SDK にすべてのエラーを上限なく再試行させる"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "The official SDK retries transient failures such as connection errors, rate limits, and 5xx errors twice by default with exponential backoff, honoring retry-after when present, and max_retries configures or disables this; wrapping it in a five-attempt loop multiplies the attempts to as many as 18 per request (A). The SDK does retry rate limits, so more custom retries (B) add to the problem. Immediate retries (C) add load during the very condition that causes the errors. The SDK retries transient failures rather than every exception, and retrying without a limit (D) would never let a failing request end.",
+      "ja": "公式 SDK は、接続エラー、レート制限、5xx エラーなどの一時的な失敗を、既定で2回、指数バックオフで再試行し、retry-after があればそれに従います。max_retries でこの動作を調整または無効にできます。これを5回のループで囲むと、試行回数はリクエストあたり最大18回に掛け合わされます (A)。SDK はレート制限を再試行するので、自前の再試行を増やすと (B) 問題を悪化させます。すぐに再試行すると (C)、エラーの原因となっている状況そのものに負荷を加えます。SDK が再試行するのはあらゆる例外ではなく一時的な失敗であり、上限なく再試行すると (D)、失敗するリクエストがいつまでも終わりません。"
+    }
+  },
+  {
+    "id": "DV117",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "You are an AI engineer building a contract-checking prompt. It contains the instructions, two sample clauses that show what an acceptable indemnity clause looks like, and then the customer's full contract, all written as plain paragraphs separated by blank lines. Reviewers find that Claude sometimes reports problems in the sample clauses as if they were part of the customer's contract. What change most directly addresses this?",
+      "ja": "あなたは、契約書をチェックするプロンプトを作っている AI エンジニアです。このプロンプトには、指示、許容できる補償条項の例を示す2つのサンプル条項、そして顧客の契約書全文が含まれており、すべて空行で区切った普通の段落として書かれています。レビュー担当者は、Claude がサンプル条項の問題点を、顧客の契約書の一部であるかのように報告することがあると気づきました。これに最も直接的に対処する変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Remove the sample clauses, since examples are the part that gets mixed up with the input, and the instructions alone describe what to look for",
+        "ja": "入力と混同されるのは例の部分であり、何を探すかは指示だけで説明できているので、サンプル条項を取り除く"
+      },
+      {
+        "key": "B",
+        "en": "Wrap the instructions, the sample clauses, and the contract in distinct XML tags such as <examples> and <contract>, and refer to those tags",
+        "ja": "指示、サンプル条項、契約書を <examples> や <contract> のような別々の XML タグで囲み、指示の中でそれらのタグに言及する"
+      },
+      {
+        "key": "C",
+        "en": "Move the customer's contract above the instructions and the sample clauses, so that the model reads it first and treats the rest as guidance",
+        "ja": "モデルが最初に契約書を読み、残りを指針として扱うよう、顧客の契約書を指示とサンプル条項より上に移す"
+      },
+      {
+        "key": "D",
+        "en": "Raise the temperature slightly, so that the model explores more readings of the prompt and is less likely to treat the samples as the input",
+        "ja": "モデルがプロンプトをより多様に読み取り、サンプルを入力として扱いにくくなるよう、temperature を少し上げる"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "The model cannot tell where the sample clauses end and the contract begins. XML tags help Claude parse complex prompts unambiguously, and naming the tags in the instructions makes clear which content to check (B). Removing the samples (A) gives up the examples that define an acceptable clause instead of fixing the boundary. Putting a long document first (C) is good practice in general, but plain paragraphs in a new order still leave the boundary between samples and contract unmarked. A higher temperature (D) adds variation rather than structure.",
+      "ja": "モデルには、サンプル条項がどこで終わり、契約書がどこから始まるのかがわかりません。XML タグは Claude が複雑なプロンプトをあいまいさなく解析するのに役立ち、指示の中でタグの名前を挙げれば、どの内容をチェックすべきかが明確になります (B)。サンプルを取り除くと (A)、境界を直すのではなく、許容できる条項を定義する例を手放すことになります。長い文書を先頭に置くこと (C) は一般的には良い方法ですが、普通の段落を並べ替えただけでは、サンプルと契約書の境界は示されないままです。temperature を上げても (D)、構造ではなくばらつきが増えるだけです。"
+    }
+  },
+  {
+    "id": "DV118",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "A startup is launching a browser-based writing tool. To ship quickly, the front-end JavaScript calls the Claude API directly, with the API key stored in a configuration file that is bundled into the page. The key belongs to a workspace that also runs the company's internal tools. Before launch, a security reviewer flags this design. What should the team do?",
+      "ja": "あるスタートアップが、ブラウザで使う文章作成ツールをリリースしようとしています。早く出すため、フロントエンドの JavaScript が Claude API を直接呼び出しており、API キーはページにバンドルされる設定ファイルに保存されています。このキーは、会社の社内ツールも動かしているワークスペースのものです。リリース前に、セキュリティのレビュー担当者がこの設計を指摘しました。チームはどうすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Obfuscate the key in the bundled JavaScript and split it across several variables, so that users have a much harder time finding it in the source",
+        "ja": "ユーザーがソースからキーを見つけにくくなるよう、バンドルした JavaScript の中でキーを難読化し、複数の変数に分割する"
+      },
+      {
+        "key": "B",
+        "en": "Keep calling the API from the browser, but rotate the key every week, so that any copy users extract from the page stops working within days",
+        "ja": "ブラウザから API を呼び出すのは続けつつ毎週キーをローテーションし、ユーザーがページから抜き出したコピーが数日で使えなくなるようにする"
+      },
+      {
+        "key": "C",
+        "en": "Ask users to paste their own API key into the tool on first use, and keep it in the browser's local storage so they do not need to enter it again",
+        "ja": "初回の利用時にユーザー自身の API キーを貼り付けてもらい、再入力しなくて済むようブラウザのローカルストレージに保存する"
+      },
+      {
+        "key": "D",
+        "en": "Move the API calls to the team's own back end, keep the key in a secrets manager there, and scope it to a separate workspace for this product",
+        "ja": "API の呼び出しをチーム自身のバックエンドに移し、キーはそこでシークレットマネージャーに保管して、この製品専用の別のワークスペースに限定する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Anthropic's guidance is to call the Claude API from your own back end, not from code that runs in users' browsers, since anyone can read a key in a page's code; keys belong in a secrets manager and can be scoped to a specific workspace, which also keeps this product away from the internal tools (D). Obfuscation (A) still ships the key to every visitor. Weekly rotation (B) is a good habit in general, but every new key is exposed the same way as soon as it ships. Asking users for their own keys (C) changes the product and pushes key handling onto users.",
+      "ja": "Anthropic のガイドでは、ページのコードにあるキーは誰でも読めるため、ユーザーのブラウザで動くコードではなく自分のバックエンドから Claude API を呼び出すよう勧めています。キーはシークレットマネージャーに保管し、特定のワークスペースに限定でき、それによってこの製品を社内ツールから切り離せます (D)。難読化しても (A)、キーはすべての訪問者に配られたままです。毎週のローテーション (B) は一般的には良い習慣ですが、新しいキーもリリースした時点で同じようにさらされます。ユーザーに自分のキーを求めると (C)、製品の形が変わり、キーの管理をユーザーに押し付けることになります。"
+    }
+  },
+  {
+    "id": "DV119",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 8,
+    "type": "multiple",
+    "question": {
+      "en": "You are an AI engineer debugging a travel agent built on the Messages API. When a user asks for flights and hotels at once, Claude returns two tool_use blocks in a single response. Your loop runs both tools, then sends each tool_result in its own user message, one after the other, and labels each result with a sequence number instead of an ID. Which two changes make the loop follow the documented pattern for this case? (Choose two.)",
+      "ja": "あなたは、Messages API で作った旅行エージェントをデバッグしている AI エンジニアです。ユーザーがフライトとホテルを同時に尋ねると、Claude は1つの応答で2つの tool_use ブロックを返します。あなたのループは両方のツールを実行したあと、各 tool_result をそれぞれ別のユーザーメッセージで順に送り、各結果には ID ではなく連番を付けています。この場合について、ループをドキュメントに書かれたパターンに沿わせる変更はどれですか。（2つ選べ）"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Send all of the tool_result blocks for that response together in the next user message, instead of one user message for each result",
+        "ja": "結果ごとに1つのユーザーメッセージを送るのではなく、その応答に対するすべての tool_result ブロックを次のユーザーメッセージにまとめて送る"
+      },
+      {
+        "key": "B",
+        "en": "Run only the first tool_use block in each response and ignore the rest, so the conversation keeps a simple pattern of one call per turn",
+        "ja": "会話が1ターンに1回の呼び出しという単純なパターンを保つよう、各応答の最初の tool_use ブロックだけを実行し、残りは無視する"
+      },
+      {
+        "key": "C",
+        "en": "Set each tool_result's tool_use_id to the id of the tool_use block it answers, so each result is matched to the call that requested it",
+        "ja": "各 tool_result の tool_use_id に、それが答える tool_use ブロックの id を設定し、各結果を要求した呼び出しと対応付ける"
+      },
+      {
+        "key": "D",
+        "en": "Merge the outputs of both tools into one text block in the user message, so that Claude reads the flights and hotels together as one result",
+        "ja": "Claude がフライトとホテルを1つの結果としてまとめて読めるよう、両方のツールの出力をユーザーメッセージの1つのテキストブロックに統合する"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": {
+      "en": "A single assistant turn can contain several tool_use blocks, and the documented pattern is to return one tool_result for each of them, all together in the next user message (A), matching each result to its call with tool_use_id (C). Ignoring the extra tool_use blocks (B) leaves the model's requests unanswered. Merging the outputs into one text block (D) loses the link between each result and the call that produced it.",
+      "ja": "1つのアシスタントのターンには複数の tool_use ブロックが含まれることがあり、ドキュメントに書かれたパターンは、そのそれぞれに対して tool_result を1つずつ返し、すべてを次のユーザーメッセージにまとめて送ること (A)、そして tool_use_id で各結果をその呼び出しと対応付けることです (C)。余分な tool_use ブロックを無視すると (B)、モデルの要求に答えないままになります。出力を1つのテキストブロックに統合すると (D)、各結果とそれを生んだ呼び出しとのつながりが失われます。"
+    }
+  },
+  {
+    "id": "DV120",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "based_on": null,
+    "domain": 8,
+    "type": "single",
+    "question": {
+      "en": "A platform team built an MCP server that gives Claude Code access to the company's deployment logs. Each developer added it by hand with slightly different commands and URLs, so some setups break after updates, and new hires do not have it at all. The server needs a personal access token for each developer, and tokens must not be committed. How should the team distribute the server configuration?",
+      "ja": "あるプラットフォームチームが、Claude Code から会社のデプロイログにアクセスできる MCP サーバーを作りました。各開発者が少しずつ違うコマンドや URL で手作業で追加したため、更新後に動かなくなる環境があり、新しく入った人はそもそも設定していません。このサーバーには開発者ごとの個人アクセストークンが必要で、トークンはコミットしてはなりません。チームはサーバーの設定をどう配布すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Have each developer add the server with the default local scope, and post the exact command in the team wiki so everyone can copy the same setup",
+        "ja": "各開発者に既定のローカルスコープでサーバーを追加してもらい、全員が同じ設定をコピーできるよう、正確なコマンドをチームの Wiki に載せる"
+      },
+      {
+        "key": "B",
+        "en": "Add the server with project scope so it is saved in .mcp.json at the repo root, commit it, and reference the token via an environment variable",
+        "ja": "サーバーをプロジェクトスコープで追加してリポジトリのルートの .mcp.json に保存し、それをコミットして、トークンは環境変数で参照する"
+      },
+      {
+        "key": "C",
+        "en": "Commit .mcp.json with each developer's personal token written into it, so that the server works for everyone right after they pull the repository",
+        "ja": "リポジトリを pull したらすぐに全員がサーバーを使えるよう、各開発者の個人トークンを書き込んだ .mcp.json をコミットする"
+      },
+      {
+        "key": "D",
+        "en": "Add the server with user scope on a shared build machine, so everyone who logs into that machine can use it from Claude Code without a setup",
+        "ja": "共有のビルドマシンにユーザースコープでサーバーを追加し、そのマシンにログインした人なら誰でも設定なしで Claude Code から使えるようにする"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Project-scoped MCP servers are stored in .mcp.json at the project root, which is meant to be checked into version control so the whole team gets the same configuration, and values such as tokens can be pulled from environment variables instead of being written into the file (B). Local scope (A) keeps each setup private to one developer, so copying a wiki command still drifts and misses new hires. Writing tokens into the committed file (C) leaks every developer's credentials. A shared machine with user scope (D) does not reach developers' own environments and shares one person's access with everyone.",
+      "ja": "プロジェクトスコープの MCP サーバーはプロジェクトのルートの .mcp.json に保存され、このファイルはバージョン管理にチェックインしてチーム全員が同じ設定を使うためのものです。トークンなどの値は、ファイルに書き込む代わりに環境変数から取り込めます (B)。ローカルスコープ (A) では設定が開発者1人だけのものになるので、Wiki のコマンドをコピーしてもずれが生じ、新しく入った人にも届きません。コミットするファイルにトークンを書き込むと (C)、全開発者の認証情報が漏れます。ユーザースコープの共有マシン (D) は開発者自身の環境に届かず、1人のアクセス権を全員で共有することになります。"
+    }
+  }
+]

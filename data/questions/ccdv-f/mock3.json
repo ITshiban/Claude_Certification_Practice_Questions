@@ -1,0 +1,617 @@
+[
+  {
+    "id": "DV066",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 1,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A request fails with an authentication error after working for months. What is the most likely cause?",
+      "ja": "何か月も正常に動いていたリクエストが、認証エラーで失敗するようになりました。最も可能性の高い原因はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A transient service fault",
+        "ja": "サービスの一時的な障害"
+      },
+      {
+        "key": "B",
+        "en": "The prompt became too long",
+        "ja": "プロンプトが長くなりすぎた"
+      },
+      {
+        "key": "C",
+        "en": "A credential that expired, was rotated, or lost its permissions",
+        "ja": "認証情報の期限が切れた、ローテーションされた、または権限を失った"
+      },
+      {
+        "key": "D",
+        "en": "The model was deprecated",
+        "ja": "モデルが非推奨になった"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Authentication failures point at the credential rather than the payload. A transient fault (A) presents differently, and neither prompt length (B) nor deprecation (D) produces an auth error",
+      "ja": "認証の失敗は、ペイロードではなく認証情報に原因があることを示しています。一時的な障害 (A) は別の形で現れ、プロンプトの長さ (B) も非推奨化 (D) も認証エラーにはなりません。"
+    }
+  },
+  {
+    "id": "DV067",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 2,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "What is the purpose of correlating a request identifier through an integration?",
+      "ja": "連携処理全体でリクエストの識別子を対応付ける目的はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It lets a specific response be traced back to the request that produced it",
+        "ja": "特定の応答を、それを生んだリクエストまでたどれるようにする"
+      },
+      {
+        "key": "B",
+        "en": "It reduces token cost",
+        "ja": "トークンのコストを下げる"
+      },
+      {
+        "key": "C",
+        "en": "It improves model accuracy",
+        "ja": "モデルの精度を上げる"
+      },
+      {
+        "key": "D",
+        "en": "It is required by the API",
+        "ja": "API で必須になっている"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Correlation exists for traceability, which is what debugging asynchronous or batched work depends on. It does not affect cost (B) or accuracy (C), and it is a design practice rather than a requirement (D)",
+      "ja": "対応付けは追跡のためにあり、非同期の処理やバッチ処理のデバッグはそれに頼っています。コスト (B) や精度 (C) には影響せず、要件ではなく設計上のプラクティスです (D)。"
+    }
+  },
+  {
+    "id": "DV068",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 3,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "An integration must handle a response that stops early because the model called a tool. What does the application do next?",
+      "ja": "ある連携処理は、モデルがツールを呼び出したために途中で止まった応答を扱わなければなりません。アプリケーションは次に何をしますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Treat it as an error and retry",
+        "ja": "エラーとして扱って再試行する"
+      },
+      {
+        "key": "B",
+        "en": "Return the partial text to the user",
+        "ja": "途中までのテキストをユーザーに返す"
+      },
+      {
+        "key": "C",
+        "en": "Increase the output token limit",
+        "ja": "出力トークンの上限を上げる"
+      },
+      {
+        "key": "D",
+        "en": "Execute the tool and return its result so the model can continue",
+        "ja": "ツールを実行して結果を返し、モデルが処理を続けられるようにする"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "A tool-use stop is a handoff, and the loop continues once the result is returned. Retrying (A) repeats the request, returning partial text (B) discards the work, and the token limit (C) is unrelated",
+      "ja": "tool use による停止は引き継ぎであり、結果を返せばループが続きます。再試行は同じリクエストを繰り返すだけで (A)、途中のテキストを返すと作業が無駄になり (B)、トークンの上限は関係ありません (C)。"
+    }
+  },
+  {
+    "id": "DV069",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 4,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "Which is the strongest reason to put a queue between an application and the model?",
+      "ja": "アプリケーションとモデルの間にキューを置く、最も強い理由はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It makes responses more accurate",
+        "ja": "応答の精度が上がる"
+      },
+      {
+        "key": "B",
+        "en": "It absorbs bursts so load stays within rate limits without dropping work",
+        "ja": "急な負荷の集中を吸収し、処理を取りこぼさずにレート制限の範囲内に収める"
+      },
+      {
+        "key": "C",
+        "en": "It reduces the token count",
+        "ja": "トークン数が減る"
+      },
+      {
+        "key": "D",
+        "en": "It removes the need for retries",
+        "ja": "再試行が不要になる"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "A queue smooths demand against a rate-limited dependency. It does not change accuracy (A) or token counts (C), and retries remain necessary (D)",
+      "ja": "キューは、レート制限のある依存先に対して需要を平準化します。精度 (A) やトークン数 (C) は変わらず、再試行は引き続き必要です (D)。"
+    }
+  },
+  {
+    "id": "DV070",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 5,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A response arrives well-formed but semantically wrong for the input. Where should investigation start?",
+      "ja": "形式は正しいものの、入力に対して意味的に間違った応答が返ってきました。調査はどこから始めるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The transport layer",
+        "ja": "通信層"
+      },
+      {
+        "key": "B",
+        "en": "The prompt and the exact context supplied for that input",
+        "ja": "プロンプトと、その入力に対して実際に渡したコンテキスト"
+      },
+      {
+        "key": "C",
+        "en": "The rate limit configuration",
+        "ja": "レート制限の設定"
+      },
+      {
+        "key": "D",
+        "en": "The output token limit",
+        "ja": "出力トークンの上限"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "A well-formed but wrong answer points at what the model was told, not how it was delivered. Transport (A), limits (C), and output caps (D) produce failures of delivery rather than of meaning",
+      "ja": "形式は正しいのに答えが間違っている場合は、どう届けたかではなく、モデルに何を伝えたかに原因があります。通信 (A)、制限 (C)、出力の上限 (D) は、意味ではなく配信の失敗を引き起こすものです。"
+    }
+  },
+  {
+    "id": "DV071",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 6,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "What is the practical consequence of choosing a model with a much larger context window than the task needs?",
+      "ja": "タスクに必要な量よりはるかに大きなコンテキストウィンドウを持つモデルを選ぶと、実際にはどうなりますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Better accuracy on every task",
+        "ja": "どのタスクでも精度が上がる"
+      },
+      {
+        "key": "B",
+        "en": "Fewer rate limit errors",
+        "ja": "レート制限のエラーが減る"
+      },
+      {
+        "key": "C",
+        "en": "More reliable structured output",
+        "ja": "構造化された出力の信頼性が上がる"
+      },
+      {
+        "key": "D",
+        "en": "Cost and latency that the task does not require",
+        "ja": "タスクに必要のないコストとレイテンシがかかる"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Unused capacity is paid for in cost and time. A larger window does not itself improve accuracy (A), reduce rate limiting (B), or make structure more reliable (C)",
+      "ja": "使わない容量にも、コストと時間を払うことになります。ウィンドウが大きいこと自体で、精度が上がること (A)、レート制限が減ること (B)、構造の信頼性が上がること (C) はありません。"
+    }
+  },
+  {
+    "id": "DV072",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 7,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "How should a team decide when to move a task to a smaller model?",
+      "ja": "タスクをより小さいモデルに移す時期は、どのように判断すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "When measurement shows the smaller model meets the task's stated quality bar",
+        "ja": "小さいモデルがタスクで定めた品質基準を満たすことが、測定で示されたとき"
+      },
+      {
+        "key": "B",
+        "en": "When the budget is exceeded",
+        "ja": "予算を超えたとき"
+      },
+      {
+        "key": "C",
+        "en": "When the task becomes high volume",
+        "ja": "タスクの量が多くなったとき"
+      },
+      {
+        "key": "D",
+        "en": "When latency becomes a complaint",
+        "ja": "レイテンシに不満が出たとき"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "The decision is evidence-led against a defined bar. Budget (B), volume (C), and latency (D) create pressure to look, but they do not establish that quality holds",
+      "ja": "判断は、定めた基準に照らした根拠に基づいて行います。予算 (B)、量 (C)、レイテンシ (D) は検討するきっかけにはなりますが、品質が保たれることを示すものではありません。"
+    }
+  },
+  {
+    "id": "DV073",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 8,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A long-running agent needs to keep a decision it made twenty steps ago. What is the correct mechanism?",
+      "ja": "長時間動くエージェントが、20ステップ前に下した判断を保持しておく必要があります。正しい仕組みはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Rely on the context window retaining it",
+        "ja": "コンテキストウィンドウに残っていることに頼る"
+      },
+      {
+        "key": "B",
+        "en": "Increase the temperature",
+        "ja": "temperature を上げる"
+      },
+      {
+        "key": "C",
+        "en": "Write it into an explicit state that is carried forward regardless of compaction",
+        "ja": "圧縮に関係なく引き継がれる、明示的な状態として書き出す"
+      },
+      {
+        "key": "D",
+        "en": "Restart the agent periodically",
+        "ja": "定期的にエージェントを再起動する"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Durable state must be explicit, because context is finite and compaction is lossy. Relying on the window (A) fails at length, temperature (B) is unrelated, and restarting (D) loses the decision",
+      "ja": "コンテキストには限りがあり、圧縮では情報が失われるため、持続させる状態は明示的にしておかなければなりません。ウィンドウに頼ると長くなったときに失敗し (A)、temperature は関係なく (B)、再起動すると判断が失われます (D)。"
+    }
+  },
+  {
+    "id": "DV074",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 9,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "What distinguishes a workflow from an agent in practice?",
+      "ja": "実務上、ワークフローとエージェントを分けるものはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Workflows are shorter",
+        "ja": "ワークフローのほうが短い"
+      },
+      {
+        "key": "B",
+        "en": "Agents cannot use tools",
+        "ja": "エージェントはツールを使えない"
+      },
+      {
+        "key": "C",
+        "en": "Workflows cannot call the model",
+        "ja": "ワークフローはモデルを呼び出せない"
+      },
+      {
+        "key": "D",
+        "en": "In a workflow the control flow is fixed in advance; in an agent the model chooses the next step",
+        "ja": "ワークフローでは制御フローが事前に決まっており、エージェントではモデルが次のステップを選ぶ"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Who decides the next step is the distinction that matters. Length (A) is incidental, agents do use tools (B), and workflows do call the model (C)",
+      "ja": "重要な違いは、次のステップを誰が決めるかです。長さ (A) は付随的なもので、エージェントはツールを使い (B)、ワークフローもモデルを呼び出します (C)。"
+    }
+  },
+  {
+    "id": "DV075",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 10,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "A prompt contains an instruction that contradicts an example in the same prompt. What is the likely outcome?",
+      "ja": "あるプロンプトに、同じプロンプト内の例と矛盾する指示が含まれています。起こりうる結果はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The instruction always wins",
+        "ja": "常に指示が優先される"
+      },
+      {
+        "key": "B",
+        "en": "The example always wins",
+        "ja": "常に例が優先される"
+      },
+      {
+        "key": "C",
+        "en": "Behavior becomes unpredictable between the two",
+        "ja": "2つの間で振る舞いが予測できなくなる"
+      },
+      {
+        "key": "D",
+        "en": "The request is rejected",
+        "ja": "リクエストが拒否される"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Contradictory signals produce inconsistent behavior rather than a defined precedence. Neither the instruction (A) nor the example (B) reliably wins, and the request is not rejected (D)",
+      "ja": "矛盾するシグナルは、決まった優先順位ではなく一貫しない振る舞いを生みます。指示 (A) も例 (B) も確実に優先されるわけではなく、リクエストが拒否されることもありません (D)。"
+    }
+  },
+  {
+    "id": "DV076",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 11,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "What is the effect of placing the most important instruction in the middle of a very long prompt?",
+      "ja": "非常に長いプロンプトの中ほどに、最も重要な指示を置くとどうなりますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "None, position is irrelevant",
+        "ja": "何も起きない。位置は関係ない"
+      },
+      {
+        "key": "B",
+        "en": "It is more likely to be overlooked than if it were at a boundary",
+        "ja": "端に置いた場合より見落とされやすくなる"
+      },
+      {
+        "key": "C",
+        "en": "It is followed more closely",
+        "ja": "より忠実に従われる"
+      },
+      {
+        "key": "D",
+        "en": "It causes an error",
+        "ja": "エラーになる"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Material at the edges of a long input is attended to more reliably than material buried in the middle. Position is not neutral (A) or advantageous here (C), and it does not error (D)",
+      "ja": "長い入力では、中ほどに埋もれた内容より、端にある内容のほうが確実に注意を向けられます。位置は中立ではなく (A)、ここでは有利にも働かず (C)、エラーにもなりません (D)。"
+    }
+  },
+  {
+    "id": "DV077",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 12,
+    "domain": 8,
+    "type": "single",
+    "question": {
+      "en": "When should a tool return an identifier rather than the full object?",
+      "ja": "ツールがオブジェクト全体ではなく識別子を返すべきなのは、どのようなときですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "When the object is large and the model only needs it to make a subsequent call",
+        "ja": "オブジェクトが大きく、モデルがそれを次の呼び出しに使うためだけに必要とするとき"
+      },
+      {
+        "key": "B",
+        "en": "Never, the model needs the full object",
+        "ja": "返すべきときはない。モデルにはオブジェクト全体が必要である"
+      },
+      {
+        "key": "C",
+        "en": "Always, to reduce cost",
+        "ja": "コストを下げるため、常に返す"
+      },
+      {
+        "key": "D",
+        "en": "Only for write operations",
+        "ja": "書き込み操作のときだけ"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Returning a handle keeps context free when the payload is only needed for a later call. Always returning everything (B) or nothing (C) ignores the task, and the rule is not about writes (D)",
+      "ja": "データがあとの呼び出しにしか必要ない場合は、ハンドルを返せばコンテキストを空けておけます。常にすべてを返す (B)、あるいは何も返さない (C) のは、タスクを無視しています。この原則は書き込みに関するものではありません (D)。"
+    }
+  },
+  {
+    "id": "DV078",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 13,
+    "domain": 8,
+    "type": "single",
+    "question": {
+      "en": "An MCP server is added and the agent's success rate falls. What should be checked first?",
+      "ja": "MCP サーバーを追加したところ、エージェントの成功率が下がりました。最初に何を確認すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Whether the new tools overlap with existing ones and have distinguishable descriptions",
+        "ja": "新しいツールが既存のツールと重なっていないか、説明で区別できるか"
+      },
+      {
+        "key": "B",
+        "en": "The server's uptime",
+        "ja": "サーバーの稼働率"
+      },
+      {
+        "key": "C",
+        "en": "The model version",
+        "ja": "モデルのバージョン"
+      },
+      {
+        "key": "D",
+        "en": "The network latency",
+        "ja": "ネットワークのレイテンシ"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "A new tool surface most often degrades selection through overlap and unclear descriptions. Uptime (B) and latency (D) present as errors or slowness, and the model did not change (C)",
+      "ja": "新しいツール群は、重なりや不明確な説明によって、ツールの選択を悪化させることが最も多いです。稼働率 (B) やレイテンシ (D) の問題はエラーや遅さとして現れ、モデルは変わっていません (C)。"
+    }
+  },
+  {
+    "id": "DV079",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 14,
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "A model output will be rendered directly into a web page. What must the application do?",
+      "ja": "モデルの出力を、そのまま Web ページに描画します。アプリケーションは何をしなければなりませんか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Nothing, model output is safe",
+        "ja": "何もしない。モデルの出力は安全である"
+      },
+      {
+        "key": "B",
+        "en": "Treat the output as untrusted and escape or sanitise it before rendering",
+        "ja": "出力を信頼できないものとして扱い、描画する前にエスケープまたはサニタイズする"
+      },
+      {
+        "key": "C",
+        "en": "Ask the model not to produce markup",
+        "ja": "マークアップを出力しないようモデルに頼む"
+      },
+      {
+        "key": "D",
+        "en": "Use a larger model",
+        "ja": "より大きなモデルを使う"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Anything rendered into a page is escaped regardless of source, since output can be influenced by input. Assuming safety (A) and instructing the model (C) are not controls, and model size (D) is irrelevant",
+      "ja": "出力は入力の影響を受けうるため、ページに描画するものは出どころにかかわらずエスケープします。安全だと仮定すること (A) やモデルへの指示 (C) は制御にならず、モデルの大きさ (D) は関係ありません。"
+    }
+  },
+  {
+    "id": "DV080",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/developer-foundations/mock-exam-3.html",
+    "source_number": 15,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "What does a regression suite protect against that a one-off evaluation does not?",
+      "ja": "1回限りの評価では防げず、回帰テストのスイートなら防げるものはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Slow responses",
+        "ja": "遅い応答"
+      },
+      {
+        "key": "B",
+        "en": "Rate limits",
+        "ja": "レート制限"
+      },
+      {
+        "key": "C",
+        "en": "A change that improves the target behavior while quietly breaking another",
+        "ja": "目標の振る舞いを改善する一方で、別の部分を気づかれないまま壊してしまう変更"
+      },
+      {
+        "key": "D",
+        "en": "Cost increases",
+        "ja": "コストの増加"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Regressions are silent by definition and are caught by continuously testing what must not break. Latency (A), limits (B), and cost (D) are operational signals rather than correctness",
+      "ja": "回帰はそもそも気づかれずに起きるものであり、壊れてはいけないものを継続的にテストすることで見つけます。レイテンシ (A)、制限 (B)、コスト (D) は、正しさではなく運用上のシグナルです。"
+    }
+  }
+]

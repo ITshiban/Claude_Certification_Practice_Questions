@@ -1,0 +1,156 @@
+[
+  {
+    "id": "AFS01",
+    "title": {
+      "en": "Customer support resolution agent",
+      "ja": "カスタマーサポートの解決エージェント"
+    },
+    "body": {
+      "en": "A support agent built with the Claude Agent SDK handles ambiguous customer requests such as returns, billing disputes, and account problems. It reaches the company's backend through custom MCP tools (get_customer, lookup_order, process_refund, escalate_to_human). The goal is to resolve at least 80% of contacts on the first interaction while recognizing when a case should go to a human.",
+      "ja": "Claude Agent SDK で作ったサポートエージェントが、返品、請求をめぐる争い、アカウントの問題など、あいまいな顧客の依頼を扱います。会社のバックエンドには、独自の MCP ツール（get_customer、lookup_order、process_refund、escalate_to_human）を通じてアクセスします。目標は、問い合わせの80%以上を最初の対応で解決しつつ、人に引き継ぐべき案件を見極めることです。"
+    },
+    "source": "guide",
+    "source_url": "https://github.com/Amey-Thakur/CLAUDE-CERTIFICATIONS/blob/main/architect-foundations/exam-guide.pdf",
+    "source_note": "公式試験ガイドの公開シナリオをもとに作成（Scenario 1）"
+  },
+  {
+    "id": "AFS02",
+    "title": {
+      "en": "Code generation with Claude Code",
+      "ja": "Claude Code によるコード生成"
+    },
+    "body": {
+      "en": "A development team uses Claude Code to speed up its work: generating and refactoring code, debugging, and writing documentation. The team wants to build it into its daily workflow with custom slash commands and CLAUDE.md configuration, and to know when plan mode is the better choice and when direct execution is.",
+      "ja": "開発チームが、コードの生成やリファクタリング、デバッグ、ドキュメント作成を速めるために Claude Code を使っています。チームは、カスタムスラッシュコマンドと CLAUDE.md の設定によって日々のワークフローに組み込み、プランモードと直接実行のどちらが適しているかを判断できるようにしたいと考えています。"
+    },
+    "source": "guide",
+    "source_url": "https://github.com/Amey-Thakur/CLAUDE-CERTIFICATIONS/blob/main/architect-foundations/exam-guide.pdf",
+    "source_note": "公式試験ガイドの公開シナリオをもとに作成（Scenario 2）"
+  },
+  {
+    "id": "AFS03",
+    "title": {
+      "en": "Multi-agent research system",
+      "ja": "マルチエージェントのリサーチシステム"
+    },
+    "body": {
+      "en": "A research system built with the Claude Agent SDK uses a coordinator agent that hands work to specialized subagents: one searches the web, one analyzes documents, one synthesizes the findings, and one writes the report. The system investigates a topic and delivers a thorough report with citations.",
+      "ja": "Claude Agent SDK で作ったリサーチシステムでは、コーディネーターのエージェントが専門のサブエージェントに作業を割り振ります。Web を検索するもの、文書を分析するもの、調査結果を統合するもの、レポートを書くものの4つです。システムはテーマを調べ、出典付きの詳しいレポートを届けます。"
+    },
+    "source": "guide",
+    "source_url": "https://github.com/Amey-Thakur/CLAUDE-CERTIFICATIONS/blob/main/architect-foundations/exam-guide.pdf",
+    "source_note": "公式試験ガイドの公開シナリオをもとに作成（Scenario 3）"
+  },
+  {
+    "id": "AFS04",
+    "title": {
+      "en": "Developer productivity tooling",
+      "ja": "開発者の生産性を高めるツール"
+    },
+    "body": {
+      "en": "An internal tool built on the Claude Agent SDK helps engineers find their way around unfamiliar codebases and legacy systems, produce boilerplate code, and automate repetitive chores. It works with the built-in tools (Read, Write, Bash, Grep, Glob) and connects to MCP servers.",
+      "ja": "Claude Agent SDK で作った社内ツールが、エンジニアが不慣れなコードベースやレガシーシステムを理解し、定型的なコードを作り、繰り返しの作業を自動化するのを助けます。組み込みのツール（Read、Write、Bash、Grep、Glob）を使い、MCP サーバーとも連携します。"
+    },
+    "source": "guide",
+    "source_url": "https://github.com/Amey-Thakur/CLAUDE-CERTIFICATIONS/blob/main/architect-foundations/exam-guide.pdf",
+    "source_note": "公式試験ガイドの公開シナリオをもとに作成（Scenario 4）"
+  },
+  {
+    "id": "AFS05",
+    "title": {
+      "en": "Claude Code in CI/CD",
+      "ja": "CI/CD での Claude Code"
+    },
+    "body": {
+      "en": "Claude Code runs inside the team's CI/CD pipeline, where it reviews code automatically, writes test cases, and comments on pull requests. The prompts have to produce feedback developers can act on while keeping false positives to a minimum.",
+      "ja": "チームの CI/CD パイプラインの中で Claude Code が動き、コードの自動レビュー、テストケースの作成、プルリクエストへのコメントを行います。プロンプトは、開発者が行動に移せるフィードバックを返しつつ、誤検知を最小限に抑えなければなりません。"
+    },
+    "source": "guide",
+    "source_url": "https://github.com/Amey-Thakur/CLAUDE-CERTIFICATIONS/blob/main/architect-foundations/exam-guide.pdf",
+    "source_note": "公式試験ガイドの公開シナリオをもとに作成（Scenario 5）"
+  },
+  {
+    "id": "AFS06",
+    "title": {
+      "en": "Structured data extraction",
+      "ja": "構造化データの抽出"
+    },
+    "body": {
+      "en": "An extraction system uses Claude to pull information out of unstructured documents and checks the output against JSON schemas. It has to stay highly accurate, deal sensibly with unusual cases, and feed its results into downstream systems.",
+      "ja": "抽出システムが、Claude を使って非構造化文書から情報を取り出し、その出力を JSON スキーマで検証します。高い精度を保ち、例外的なケースにもうまく対処し、結果を後続のシステムに渡さなければなりません。"
+    },
+    "source": "guide",
+    "source_url": "https://github.com/Amey-Thakur/CLAUDE-CERTIFICATIONS/blob/main/architect-foundations/exam-guide.pdf",
+    "source_note": "公式試験ガイドの公開シナリオをもとに作成（Scenario 6）"
+  },
+  {
+    "id": "AFS07",
+    "title": {
+      "en": "Scenario A: customer support resolution agent",
+      "ja": "シナリオ A：カスタマーサポートの解決エージェント"
+    },
+    "body": {
+      "en": "An Agent SDK agent handles returns, billing disputes, and account issues through MCP tools: get_customer, lookup_order, process_refund, escalate_to_human.",
+      "ja": "Agent SDK で作ったエージェントが、MCP ツール（get_customer、lookup_order、process_refund、escalate_to_human）を使って、返品、請求をめぐる争い、アカウントの問題を扱います。"
+    },
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_note": "Mock exam 1 Scenario A"
+  },
+  {
+    "id": "AFS08",
+    "title": {
+      "en": "Scenario B: Claude Code for a development team",
+      "ja": "シナリオ B：開発チームでの Claude Code"
+    },
+    "body": {
+      "en": "A team uses Claude Code across a monorepo for generation, refactoring, and review.",
+      "ja": "あるチームが、モノレポ全体で、コードの生成、リファクタリング、レビューに Claude Code を使っています。"
+    },
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_note": "Mock exam 1 Scenario B"
+  },
+  {
+    "id": "AFS09",
+    "title": {
+      "en": "Scenario C: multi-agent research system",
+      "ja": "シナリオ C：マルチエージェントのリサーチシステム"
+    },
+    "body": {
+      "en": "A coordinator delegates to search, analysis, synthesis, and report subagents that produce cited reports.",
+      "ja": "コーディネーターが、検索、分析、統合、レポートのサブエージェントに作業を委任し、出典付きのレポートを作ります。"
+    },
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_note": "Mock exam 1 Scenario C"
+  },
+  {
+    "id": "AFS10",
+    "title": {
+      "en": "Scenario D: Claude Code in CI/CD",
+      "ja": "シナリオ D：CI/CD での Claude Code"
+    },
+    "body": {
+      "en": "Claude Code runs automated review on pull requests and posts feedback.",
+      "ja": "Claude Code がプルリクエストの自動レビューを行い、フィードバックを投稿します。"
+    },
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_note": "Mock exam 1 Scenario D"
+  },
+  {
+    "id": "AFS11",
+    "title": {
+      "en": "Scenario E: structured data extraction",
+      "ja": "シナリオ E：構造化データの抽出"
+    },
+    "body": {
+      "en": "Documents are parsed into validated records for downstream systems.",
+      "ja": "文書を解析し、後続のシステムのために検証済みのレコードにします。"
+    },
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_note": "Mock exam 1 Scenario E"
+  }
+]

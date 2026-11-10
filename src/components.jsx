@@ -1,6 +1,7 @@
 // 複数の画面で使う小さな部品
 import { t } from "./i18n.js";
-import { DOMAINS, STATUSES } from "./quiz.js";
+import { EXAMS } from "./exams.js";
+import { sourceGroup, STATUSES } from "./quiz.js";
 
 /** 問題文・解説の表示。空行で段落を分け、**x** を太字にする */
 export function RichText({ text }) {
@@ -13,13 +14,13 @@ export function RichText({ text }) {
   ));
 }
 
-export function domainLabel(d) {
-  return `${d}. ${DOMAINS[d]}`;
+export function domainLabel(exam, d, lang) {
+  return `${d}. ${EXAMS[exam].domains[d][lang]}`;
 }
 
 /** 出典の表示。サイト由来は元ページへのリンク、独自問題は「オリジナル」 */
 export function SourceLabel({ question, lang }) {
-  if (question.source === "original") return t("source_original", lang);
+  if (question.source === "original") return sourceGroupLabel(sourceGroup(question), lang);
   const name = t(`source_${question.source}`, lang);
   return (
     <a href={question.source_url} target="_blank" rel="noreferrer">
@@ -29,7 +30,7 @@ export function SourceLabel({ question, lang }) {
 }
 
 export function sourceGroupLabel(g, lang) {
-  return g === "original" ? t("source_original", lang) : t(`source_${g}`, lang);
+  return t(`source_${g}`, lang);
 }
 
 /** ステータスの選択欄 */
@@ -67,9 +68,23 @@ export function CheckGroup({ legend, options, selected, onChange, format, inline
 export function QuestionMeta({ question, lang }) {
   return (
     <p className="meta">
-      {t("domain", lang)}: {domainLabel(question.domain)}
+      {t("domain", lang)}: {domainLabel(question.exam, question.domain, lang)}
       <span className="sep">|</span>
       {t("source", lang)}: <SourceLabel question={question} lang={lang} />
     </p>
+  );
+}
+
+/** 問題の上に出すシナリオ（共通の状況説明）。本文は折りたためる */
+export function ScenarioBox({ scenario, lang, open = true }) {
+  if (!scenario) return null;
+  return (
+    <details className="scenario" open={open}>
+      <summary>
+        <span className="scenario-label">{t("scenario", lang)}</span>
+        {scenario.title[lang]}
+      </summary>
+      <div className="scenario-body"><RichText text={scenario.body[lang]} /></div>
+    </details>
   );
 }

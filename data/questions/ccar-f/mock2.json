@@ -1,0 +1,632 @@
+[
+  {
+    "id": "AF051",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 1,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A pipeline has four steps whose order never varies and whose outputs are each checkable. What should it be?",
+      "ja": "あるパイプラインには、順序が決して変わらず、それぞれの出力を確認できる4つのステップがあります。どのような作りにすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "An agent that plans each run",
+        "ja": "実行のたびに計画を立てるエージェント"
+      },
+      {
+        "key": "B",
+        "en": "Four agents, one per step",
+        "ja": "ステップごとに1つずつの、4つのエージェント"
+      },
+      {
+        "key": "C",
+        "en": "A deterministic workflow with model calls at defined points",
+        "ja": "決められた箇所でモデルを呼び出す、決定的なワークフロー"
+      },
+      {
+        "key": "D",
+        "en": "A single prompt covering all four steps",
+        "ja": "4つのステップすべてを扱う1つのプロンプト"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "A known fixed order is encoded rather than rediscovered, which is cheaper and testable per step. Runtime planning (A, B) adds nondeterminism, and one prompt (D) removes the checkpoints",
+      "ja": "既知の固定された順序は、見つけ直させるのではなくコードにします。そのほうが安く、ステップごとにテストできます。実行時の計画 (A, B) は非決定性を持ち込み、1つのプロンプト (D) ではチェックポイントがなくなります。"
+    }
+  },
+  {
+    "id": "AF052",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 2,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "What is the principal cost of introducing a subagent?",
+      "ja": "サブエージェントを導入することの主なコストはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It loses the context the parent held unless the handoff carries it explicitly",
+        "ja": "引き継ぎで明示的に渡さない限り、親が持っていたコンテキストが失われる"
+      },
+      {
+        "key": "B",
+        "en": "It requires a larger model",
+        "ja": "より大きなモデルが必要になる"
+      },
+      {
+        "key": "C",
+        "en": "It cannot use tools",
+        "ja": "ツールを使えない"
+      },
+      {
+        "key": "D",
+        "en": "It doubles token cost in every case",
+        "ja": "どんな場合でもトークンのコストが2倍になる"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Delegation buys isolation and pays in context, which is why handoffs must be explicit. A subagent does not require a larger model (B), can use tools (C), and cost varies with the work (D)",
+      "ja": "委任は分離を得る代わりにコンテキストを失うものであり、だからこそ引き継ぎは明示的でなければなりません。サブエージェントに大きなモデルは必須ではなく (B)、ツールも使え (C)、コストは作業によって変わります (D)。"
+    }
+  },
+  {
+    "id": "AF053",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 3,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "An autonomous step would modify production data. What does the architecture require?",
+      "ja": "ある自律的なステップが、本番のデータを変更することになります。アーキテクチャには何が必要ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A more capable model",
+        "ja": "より高性能なモデル"
+      },
+      {
+        "key": "B",
+        "en": "A longer system prompt describing caution",
+        "ja": "慎重さを説く、より長いシステムプロンプト"
+      },
+      {
+        "key": "C",
+        "en": "A retry policy",
+        "ja": "再試行のポリシー"
+      },
+      {
+        "key": "D",
+        "en": "A checkpoint where a person authorises the action, or a reversible mechanism",
+        "ja": "人がその操作を承認するチェックポイント、または元に戻せる仕組み"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Irreversible external effects need an authorisation boundary or reversibility, enforced outside the model. Capability (A), instruction (B), and retries (C) do not bound the consequence",
+      "ja": "元に戻せない外部への影響には、モデルの外で強制される承認の境界か、元に戻せる仕組みが必要です。能力 (A)、指示 (B)、再試行 (C) では、その結果の範囲を限定できません。"
+    }
+  },
+  {
+    "id": "AF054",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 4,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "What most helps diagnose an agentic failure after the fact?",
+      "ja": "エージェントの失敗をあとから診断するのに、最も役立つものはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The final output alone",
+        "ja": "最終的な出力だけ"
+      },
+      {
+        "key": "B",
+        "en": "A trace of each step's inputs, tool calls, and outputs",
+        "ja": "各ステップの入力、ツール呼び出し、出力のトレース"
+      },
+      {
+        "key": "C",
+        "en": "The total token count",
+        "ja": "トークンの総数"
+      },
+      {
+        "key": "D",
+        "en": "The model version",
+        "ja": "モデルのバージョン"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "A per-step trace reconstructs a nondeterministic run, which is what diagnosis needs. The final output (A), token totals (C), and version (D) do not show where it diverged",
+      "ja": "ステップごとのトレースは非決定的な実行を再構成でき、それが診断に必要なものです。最終的な出力 (A)、トークンの合計 (C)、バージョン (D) では、どこで食い違ったかがわかりません。"
+    }
+  },
+  {
+    "id": "AF055",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 5,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "Where should repository-wide conventions for Claude Code live?",
+      "ja": "リポジトリ全体に関わる Claude Code の規約は、どこに置くべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "In each developer's local configuration",
+        "ja": "各開発者のローカルの設定"
+      },
+      {
+        "key": "B",
+        "en": "In a CLAUDE.md committed to the repository",
+        "ja": "リポジトリにコミットした CLAUDE.md"
+      },
+      {
+        "key": "C",
+        "en": "In the team's chat channel",
+        "ja": "チームのチャットチャンネル"
+      },
+      {
+        "key": "D",
+        "en": "In the CI configuration only",
+        "ja": "CI の設定の中だけ"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Committed project memory is shared, versioned, and reviewed with the code. Local configuration (A) does not propagate, chat (C) is not read as context, and CI (D) covers automation rather than interactive work",
+      "ja": "コミットしたプロジェクトのメモリは、コードとともに共有され、バージョン管理され、レビューされます。ローカルの設定 (A) は広まらず、チャット (C) はコンテキストとして読み込まれず、CI (D) が扱うのは自動化であって対話的な作業ではありません。"
+    }
+  },
+  {
+    "id": "AF056",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 6,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "Which task is best suited to headless Claude Code in CI?",
+      "ja": "CI でのヘッドレスの Claude Code に最も向いているタスクはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Exploratory debugging of an unfamiliar failure",
+        "ja": "見慣れない失敗を探りながらデバッグする"
+      },
+      {
+        "key": "B",
+        "en": "Designing a new module's architecture",
+        "ja": "新しいモジュールのアーキテクチャを設計する"
+      },
+      {
+        "key": "C",
+        "en": "Pair programming with a developer",
+        "ja": "開発者とペアプログラミングをする"
+      },
+      {
+        "key": "D",
+        "en": "A repeatable, well-specified check that runs on every pull request",
+        "ja": "プルリクエストのたびに実行する、繰り返し可能で仕様の明確なチェック"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Headless execution suits bounded, repeatable work that runs unattended. Exploration (A), design (B), and pairing (C) all depend on a person in the loop",
+      "ja": "ヘッドレスでの実行は、無人で動く、範囲の決まった繰り返しの作業に向いています。探索 (A)、設計 (B)、ペアでの作業 (C) は、いずれも人が関わることが前提です。"
+    }
+  },
+  {
+    "id": "AF057",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 7,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "What is a hook for?",
+      "ja": "フックは何のためのものですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Running a deterministic action at a defined point, independently of the model",
+        "ja": "モデルとは関係なく、決まった時点で決定的な処理を実行する"
+      },
+      {
+        "key": "B",
+        "en": "Storing reusable instructions",
+        "ja": "再利用する指示を保存する"
+      },
+      {
+        "key": "C",
+        "en": "Holding project context",
+        "ja": "プロジェクトのコンテキストを保持する"
+      },
+      {
+        "key": "D",
+        "en": "Selecting the model",
+        "ja": "モデルを選ぶ"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Hooks execute as code at fixed points, which is how a guarantee is enforced. Instructions (B) and context (C) belong in project memory, and model choice (D) is configuration",
+      "ja": "フックは決まった時点でコードとして実行され、それによって保証を強制します。指示 (B) やコンテキスト (C) はプロジェクトのメモリに置くもので、モデルの選択 (D) は設定です。"
+    }
+  },
+  {
+    "id": "AF058",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 8,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "A pipeline needs output that always conforms to a fixed shape. What is the correct mechanism?",
+      "ja": "あるパイプラインでは、常に決まった形に合った出力が必要です。正しい仕組みはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Requesting the shape in the prompt and parsing the result",
+        "ja": "プロンプトで形を求め、結果を解析する"
+      },
+      {
+        "key": "B",
+        "en": "Post-processing prose with regular expressions",
+        "ja": "文章を正規表現で後処理する"
+      },
+      {
+        "key": "C",
+        "en": "Declaring the shape as a schema the model must satisfy, and validating on receipt",
+        "ja": "形をモデルが満たさなければならないスキーマとして宣言し、受け取ったら検証する"
+      },
+      {
+        "key": "D",
+        "en": "Lowering the temperature",
+        "ja": "temperature を下げる"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "A declared schema makes the shape a contract rather than a request, and validation closes the loop. Prompt requests (A), text parsing (B), and temperature (D) leave the shape to chance",
+      "ja": "スキーマを宣言すると、形が依頼ではなく契約になり、検証で確認が完結します。プロンプトでの依頼 (A)、テキストの解析 (B)、temperature (D) は、形を運任せにします。"
+    }
+  },
+  {
+    "id": "AF059",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 9,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "How should a schema handle a value the source may not contain?",
+      "ja": "元のデータに含まれていない可能性がある値を、スキーマはどう扱うべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Omit the field silently",
+        "ja": "黙ってフィールドを省く"
+      },
+      {
+        "key": "B",
+        "en": "Supply a plausible default",
+        "ja": "もっともらしい既定値を入れる"
+      },
+      {
+        "key": "C",
+        "en": "Return an empty string in all cases",
+        "ja": "どんな場合も空の文字列を返す"
+      },
+      {
+        "key": "D",
+        "en": "Define an explicit representation for absence",
+        "ja": "値がないことを表す明示的な表現を定める"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Absence must be representable so a genuine gap is distinguishable from a failure. Silent omission (A) is ambiguous, a plausible default (B) fabricates, and an empty string (C) conflates absence with an empty value",
+      "ja": "値がないことを表現できるようにして、本当の欠落と失敗を区別できるようにしなければなりません。黙って省くこと (A) はあいまいで、もっともらしい既定値 (B) は捏造であり、空の文字列 (C) は値がないことと空の値を混同します。"
+    }
+  },
+  {
+    "id": "AF060",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 10,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Extraction succeeds on typical inputs and fails on unusual ones. What is the most effective response?",
+      "ja": "抽出は一般的な入力では成功し、普通でない入力では失敗します。最も効果的な対応はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Raise the temperature",
+        "ja": "temperature を上げる"
+      },
+      {
+        "key": "B",
+        "en": "Use a larger model",
+        "ja": "より大きなモデルを使う"
+      },
+      {
+        "key": "C",
+        "en": "Add examples covering the unusual formats and state what to return when a field is missing",
+        "ja": "普通でない形式を扱う例を追加し、フィールドがないときに何を返すかを示す"
+      },
+      {
+        "key": "D",
+        "en": "Ask the model to be careful with unusual inputs",
+        "ja": "普通でない入力には注意するようモデルに頼む"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "The unusual cases fail because they were never specified, and examples plus a missing-value rule specify them. Temperature (A) adds variance, model size (B) is not aimed at the gap, and exhortation (D) is not specification",
+      "ja": "普通でないケースが失敗するのは、それが一度も定められていなかったからであり、例と、値がない場合のルールがそれを定めます。temperature (A) はばらつきを増やし、モデルの大きさ (B) はその穴を狙ったものではなく、励まし (D) は仕様になりません。"
+    }
+  },
+  {
+    "id": "AF061",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 11,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "What is the clearest sign that a tool surface needs redesign rather than better prompting?",
+      "ja": "プロンプトの改善ではなく、ツール群の作り直しが必要であることを最もはっきり示すものはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It exposes more than five tools",
+        "ja": "ツールを5個より多く公開している"
+      },
+      {
+        "key": "B",
+        "en": "The model repeatedly selects a tool that cannot satisfy the request",
+        "ja": "要求を満たせないツールを、モデルが繰り返し選んでいる"
+      },
+      {
+        "key": "C",
+        "en": "The tools are implemented in different services",
+        "ja": "ツールが別々のサービスで実装されている"
+      },
+      {
+        "key": "D",
+        "en": "The tools return large payloads",
+        "ja": "ツールが大きなデータを返す"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Repeated wrong selection indicates the tools are not distinguishable from their descriptions, which is a design fault. Tool count (A) and implementation topology (C) are not faults, and payload size (D) is a separate problem",
+      "ja": "間違った選択が繰り返されるのは、説明からツールを区別できないことを示しており、設計上の欠陥です。ツールの数 (A) や実装の構成 (C) は欠陥ではなく、データの大きさ (D) は別の問題です。"
+    }
+  },
+  {
+    "id": "AF062",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 12,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "How should a tool that deletes records be constrained?",
+      "ja": "レコードを削除するツールは、どのように制約すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "By enforcing authorisation and scope outside the model",
+        "ja": "モデルの外で、認可と範囲を強制する"
+      },
+      {
+        "key": "B",
+        "en": "By a description warning the model to use it carefully",
+        "ja": "慎重に使うようモデルに警告する説明を付ける"
+      },
+      {
+        "key": "C",
+        "en": "By requiring more parameters",
+        "ja": "より多くのパラメータを必要とする"
+      },
+      {
+        "key": "D",
+        "en": "By declaring it last among the tools",
+        "ja": "ツールの中で最後に宣言する"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Destructive capability is bounded by the surrounding system, since a description is a request rather than a control. Extra parameters (C) and ordering (D) do not limit authority",
+      "ja": "破壊的な機能は周囲のシステムで範囲を限定します。説明は依頼であって制御ではないからです。パラメータを増やすこと (C) や順番 (D) では、権限は限定されません。"
+    }
+  },
+  {
+    "id": "AF063",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 13,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "An MCP integration exposes an entire database through one general query tool. What is the architectural concern?",
+      "ja": "ある MCP の連携が、1つの汎用のクエリツールを通じてデータベース全体を公開しています。アーキテクチャ上の懸念はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The model's authority is unbounded, and least privilege cannot be applied",
+        "ja": "モデルの権限に限りがなく、最小権限を適用できない"
+      },
+      {
+        "key": "B",
+        "en": "It will be slow",
+        "ja": "遅くなる"
+      },
+      {
+        "key": "C",
+        "en": "It uses too many tokens",
+        "ja": "トークンを使いすぎる"
+      },
+      {
+        "key": "D",
+        "en": "It cannot return structured output",
+        "ja": "構造化された出力を返せない"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "A single unrestricted tool removes the ability to scope what the model may reach. Speed (B) and tokens (C) are secondary, and structured output (D) is achievable either way",
+      "ja": "制限のない1つのツールでは、モデルが触れてよい範囲を限定できなくなります。速度 (B) やトークン (C) は二の次で、構造化された出力 (D) はどちらの方法でも実現できます。"
+    }
+  },
+  {
+    "id": "AF064",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 14,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Quality degrades steadily through a long agentic run. What is the most likely cause?",
+      "ja": "長いエージェントの実行を通じて、品質が着実に落ちていきます。最も可能性の高い原因はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The model version changed mid-run",
+        "ja": "実行の途中でモデルのバージョンが変わった"
+      },
+      {
+        "key": "B",
+        "en": "Accumulated context has diluted the material that matters",
+        "ja": "積み重なったコンテキストによって、重要な情報が薄まった"
+      },
+      {
+        "key": "C",
+        "en": "The temperature is too low",
+        "ja": "temperature が低すぎる"
+      },
+      {
+        "key": "D",
+        "en": "The tools have become slower",
+        "ja": "ツールが遅くなった"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Progressive degradation over a long run is the signature of context accumulation. Versions do not change mid-run (A), low temperature (C) reduces variety rather than quality, and tool latency (D) does not affect correctness",
+      "ja": "長い実行の中で品質が徐々に落ちるのは、コンテキストの蓄積の典型的な兆候です。バージョンは実行の途中で変わらず (A)、低い temperature (C) は品質ではなく多様性を下げ、ツールのレイテンシ (D) は正しさに影響しません。"
+    }
+  },
+  {
+    "id": "AF065",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-2.html",
+    "source_number": 15,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "What must happen for state to survive a compaction boundary?",
+      "ja": "圧縮（コンパクション）の境目をまたいで状態を保つには、何が必要ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Nothing, the model retains what matters",
+        "ja": "何も必要ない。重要なことはモデルが覚えている"
+      },
+      {
+        "key": "B",
+        "en": "The context window must be enlarged",
+        "ja": "コンテキストウィンドウを大きくしなければならない"
+      },
+      {
+        "key": "C",
+        "en": "The decisions and constraints that must persist are written into an explicit carried-forward summary",
+        "ja": "持続させるべき判断と制約を、明示的に引き継ぐ要約に書き出す"
+      },
+      {
+        "key": "D",
+        "en": "The run must restart",
+        "ja": "実行をやり直さなければならない"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Compaction is lossy, so persistence must be deliberate. Relying on recall (A) is unreliable, a larger window (B) only moves the boundary, and restarting (D) discards the work",
+      "ja": "圧縮では情報が失われるので、持続させるものは意図的に残さなければなりません。記憶に頼ること (A) は当てにならず、大きなウィンドウ (B) は境目を動かすだけで、やり直すと (D) 作業が捨てられます。"
+    }
+  }
+]
