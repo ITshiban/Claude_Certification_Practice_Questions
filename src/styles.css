@@ -277,3 +277,14 @@ button.exam-switch { padding: 4px 12px; font-size: 0.9rem; }
 .exam-card .meta { margin: 0 0 2px; }
 .exam-card.last { border-color: var(--accent); border-width: 2px; }
 .exam-list { margin-top: 12px; }
+
+/* --- シナリオ --- */
+.scenario {
+  background: var(--info-bg);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin: 0 0 12px;
+}
+.scenario summary { font-weight: 600; }
+.scenario-label { color: var(--muted); font-weight: normal; font-size: 0.85rem; margin-right: 8px; }
+.scenario-body p { margin: 8px 0 0; }

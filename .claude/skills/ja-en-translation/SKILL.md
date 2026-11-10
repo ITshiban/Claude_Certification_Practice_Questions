@@ -126,6 +126,18 @@ Haiku, Sonnet, Opus, Claude Code, API, temperature
 | CCDV-F | Prompt and Context Engineering | プロンプト・コンテキストエンジニアリング |
 | CCDV-F | Security and Safety | セキュリティと安全性 |
 | CCDV-F | Tools and MCPs | ツールと MCP |
+| CCAR-F | Agentic Architecture & Orchestration | エージェントのアーキテクチャとオーケストレーション |
+| CCAR-F | Tool Design & MCP Integration | ツール設計と MCP 統合 |
+| CCAR-F | Claude Code Configuration & Workflows | Claude Code の設定とワークフロー |
+| CCAR-F | Prompt Engineering & Structured Output | プロンプトエンジニアリングと構造化出力 |
+| CCAR-F | Context Management & Reliability | コンテキスト管理と信頼性 |
+| CCAR-P | Solution Design & Architecture | ソリューション設計とアーキテクチャ |
+| CCAR-P | Claude Models, Prompting & Context Engineering | Claude のモデル、プロンプト、コンテキストエンジニアリング |
+| CCAR-P | Integration | 統合 |
+| CCAR-P | Evaluation, Testing & Optimization | 評価、テスト、最適化 |
+| CCAR-P | Governance, Safety & Risk Management | ガバナンス、安全性、リスク管理 |
+| CCAR-P | Stakeholder Communication & Lifecycle Management | ステークホルダーとのコミュニケーションとライフサイクル管理 |
+| CCAR-P | Developer Productivity & Operational Enablement | 開発者の生産性と運用の支援 |
 
 ## 新しい用語が出たとき
 - 上の表にない専門用語は、訳語案を提示してから使う

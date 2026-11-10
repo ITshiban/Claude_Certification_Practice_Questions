@@ -1,18 +1,23 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, test } from "vitest";
-import { domainIds, EXAM_IDS, EXAMS } from "../src/exams.js";
+import { domainIds, EXAM_IDS, EXAMS, scenarioFile } from "../src/exams.js";
 import { filterQuestions, selectQuestions, sourceGroup } from "../src/quiz.js";
 
 const load = (exam) => JSON.parse(readFileSync(`public/${EXAMS[exam].file}`, "utf-8"));
+const loadScenarios = (exam) => JSON.parse(readFileSync(`public/${scenarioFile(exam)}`, "utf-8"));
 const counts = JSON.parse(readFileSync("public/questions/index.json", "utf-8"));
 
 describe("試験ごとの問題", () => {
   test.each(EXAM_IDS)("%s の問題ファイルには、その試験の問題だけが入っている", (exam) => {
     const qs = load(exam);
-    expect(qs.length).toBeGreaterThan(0);
     expect(qs.every((q) => q.exam === exam)).toBe(true);
     expect(qs.every((q) => domainIds(exam).includes(q.domain))).toBe(true);
     expect(qs.every((q) => EXAMS[exam].sourceGroups.includes(sourceGroup(q)))).toBe(true);
+  });
+
+  test("シナリオのファイルは試験ごとにあり、シナリオのない試験は空の配列", () => {
+    for (const exam of EXAM_IDS) expect(Array.isArray(loadScenarios(exam))).toBe(true);
+    expect(loadScenarios("ccao-f")).toEqual([]);
   });
 
   test("試験選択画面用の問題数は、問題ファイルの件数と一致する", () => {

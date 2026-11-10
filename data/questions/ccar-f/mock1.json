@@ -1,0 +1,632 @@
+[
+  {
+    "id": "AF036",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 1,
+    "scenario_id": "AFS07",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "The agent occasionally answers billing questions using an order it looked up three turns earlier for a different customer. What is the architectural fix?",
+      "ja": "エージェントが請求に関する質問に答えるとき、3ターン前に別の顧客のために調べた注文を使ってしまうことがあります。アーキテクチャ上の修正はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Increase the context window",
+        "ja": "コンテキストウィンドウを大きくする"
+      },
+      {
+        "key": "B",
+        "en": "Scope each conversation's context to one customer and clear or isolate prior lookups when the subject changes",
+        "ja": "各会話のコンテキストを1人の顧客に限定し、話題が変わったら以前の検索結果を消去するか分離する"
+      },
+      {
+        "key": "C",
+        "en": "Remove the lookup_order tool",
+        "ja": "lookup_order ツールを取り除く"
+      },
+      {
+        "key": "D",
+        "en": "Instruct the model to be careful about customer identity",
+        "ja": "顧客の取り違えに注意するようモデルに指示する"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Cross-customer contamination is a context-scoping defect, not a window-size problem\n\n[Supplement] Removing lookup_order (C) breaks the order lookups that resolution depends on, and an instruction to be careful (D) leaves the stale lookup in context.",
+      "ja": "顧客をまたいだ情報の混入は、ウィンドウの大きさの問題ではなく、コンテキストの範囲設定の欠陥です。\n\n【補足】lookup_order を取り除くと (C)、解決に必要な注文の検索ができなくなります。注意するよう指示しても (D)、古い検索結果はコンテキストに残ったままです。"
+    }
+  },
+  {
+    "id": "AF037",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 2,
+    "scenario_id": "AFS07",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "process_refund fails intermittently because the billing backend times out. What should the tool return so the agent can behave sensibly?",
+      "ja": "請求のバックエンドがタイムアウトするため、process_refund が断続的に失敗します。エージェントが適切に振る舞えるよう、ツールは何を返すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "An empty string",
+        "ja": "空の文字列"
+      },
+      {
+        "key": "B",
+        "en": "A message asking the user to try later",
+        "ja": "あとでもう一度試すよう利用者に伝えるメッセージ"
+      },
+      {
+        "key": "C",
+        "en": "A structured error with a category and a retryable flag, so the agent can retry or escalate deliberately",
+        "ja": "種類と再試行の可否を示すフラグを持つ構造化されたエラー。エージェントが意図して再試行やエスカレーションを選べるようにする"
+      },
+      {
+        "key": "D",
+        "en": "The exception stack trace",
+        "ja": "例外のスタックトレース"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Structured errors with categories and retryable flags are what let an agent recover deliberately\n\n[Supplement] An empty string (A) hides the failure, a message meant for the user (B) gives the agent nothing to decide on, and a stack trace (D) exposes internals without a usable category.",
+      "ja": "種類と再試行の可否のフラグを持つ構造化されたエラーがあってこそ、エージェントは意図して回復できます。\n\n【補足】空の文字列 (A) は失敗を隠し、利用者向けのメッセージ (B) はエージェントに判断の材料を与えません。スタックトレース (D) は、使える種類の情報なしに内部の情報をさらします。"
+    }
+  },
+  {
+    "id": "AF038",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 3,
+    "scenario_id": "AFS07",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Which condition should route a ticket to escalate_to_human rather than continue autonomous resolution?",
+      "ja": "自律的な解決を続けるのではなく、チケットを escalate_to_human に回すべきなのはどの条件ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The customer writes in a language the agent supports",
+        "ja": "顧客が、エージェントの対応している言語で書いている"
+      },
+      {
+        "key": "B",
+        "en": "The order is more than thirty days old",
+        "ja": "注文から30日より長くたっている"
+      },
+      {
+        "key": "C",
+        "en": "The conversation exceeds five turns",
+        "ja": "会話が5ターンを超えた"
+      },
+      {
+        "key": "D",
+        "en": "The request falls outside documented policy, or the agent cannot make progress after a bounded number of attempts",
+        "ja": "要求が文書化されたポリシーの範囲外である、またはエージェントが決められた回数の試行のあとも先に進めない"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Policy gaps and lack of progress are the documented escalation triggers; turn counts and order age are not\n\n[Supplement] A language the agent supports (A) is a reason it can continue, not a reason to escalate.",
+      "ja": "ポリシーの穴と進展のなさが、文書化されたエスカレーションのきっかけです。ターン数や注文からの日数はきっかけではありません。\n\n【補足】エージェントが対応している言語 (A) は、処理を続けられる理由であって、エスカレーションする理由ではありません。"
+    }
+  },
+  {
+    "id": "AF039",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 4,
+    "scenario_id": "AFS07",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "The agent sometimes calls get_customer when it should call lookup_order. What is the most effective change?",
+      "ja": "エージェントは、lookup_order を呼ぶべきときに get_customer を呼ぶことがあります。最も効果的な変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Rewrite both tool descriptions so each states precisely when it applies and how it differs from the other",
+        "ja": "両方のツールの説明を書き直し、それぞれがいつ当てはまり、もう一方とどう違うかを正確に示す"
+      },
+      {
+        "key": "B",
+        "en": "Reorder the tools in the configuration",
+        "ja": "設定の中でツールの順番を入れ替える"
+      },
+      {
+        "key": "C",
+        "en": "Merge them into one tool with a mode flag",
+        "ja": "モードのフラグを持つ1つのツールに統合する"
+      },
+      {
+        "key": "D",
+        "en": "Increase the model's temperature",
+        "ja": "モデルの temperature を上げる"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Tool selection runs on descriptions, so differentiation is the fix for confusion between similar tools\n\n[Supplement] Tool order (B) does not tell the model when each tool applies, a merged tool with a mode flag (C) moves the same choice into a parameter that still needs a clear description, and a higher temperature (D) adds randomness rather than clarity.",
+      "ja": "ツールの選択は説明に基づいて行われるので、似たツールの混同には、違いをはっきりさせることが修正になります。\n\n【補足】ツールの順番 (B) は、それぞれのツールをいつ使うかをモデルに伝えません。モードのフラグを持つ1つのツールに統合しても (C)、同じ選択がパラメータに移るだけで、やはり明確な説明が必要です。temperature を上げると (D)、明確さではなくランダムさが増えます。"
+    }
+  },
+  {
+    "id": "AF040",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 5,
+    "scenario_id": "AFS08",
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "Backend conventions should apply only when backend files are touched. Where do they belong?",
+      "ja": "バックエンドの規約は、バックエンドのファイルを扱うときだけ適用すべきです。どこに置くべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "In the root CLAUDE.md so they are always available",
+        "ja": "常に使えるよう、ルートの CLAUDE.md に置く"
+      },
+      {
+        "key": "B",
+        "en": "In a path-scoped rule under .claude/rules/ with frontmatter matching backend paths",
+        "ja": "バックエンドのパスに一致するフロントマターを持つ、.claude/rules/ のパス限定のルールに置く"
+      },
+      {
+        "key": "C",
+        "en": "In each engineer's user-level configuration",
+        "ja": "各エンジニアのユーザーレベルの設定に置く"
+      },
+      {
+        "key": "D",
+        "en": "In the repository wiki",
+        "ja": "リポジトリの Wiki に置く"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Path-scoped rules load conditionally, which is exactly the stated requirement\n\n[Supplement] The root CLAUDE.md (A) loads the backend conventions for every file, user-level configuration (C) is not shared with the team, and a wiki (D) never reaches the model.",
+      "ja": "パス限定のルールは条件付きで読み込まれ、まさに求められている要件を満たします。\n\n【補足】ルートの CLAUDE.md (A) では、どのファイルでもバックエンドの規約が読み込まれます。ユーザーレベルの設定 (C) はチームで共有されず、Wiki (D) はモデルに届きません。"
+    }
+  },
+  {
+    "id": "AF041",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 6,
+    "scenario_id": "AFS08",
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "When is plan mode the appropriate choice over direct execution?",
+      "ja": "直接実行よりプランモードが適しているのはどのようなときですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "For every change, since planning is always safer",
+        "ja": "計画するほうが常に安全なので、すべての変更で使う"
+      },
+      {
+        "key": "B",
+        "en": "Only when the model is unfamiliar with the language",
+        "ja": "モデルがその言語に不慣れなときだけ使う"
+      },
+      {
+        "key": "C",
+        "en": "When the change is large or risky enough that a human should review the approach before edits are made",
+        "ja": "編集の前に人がやり方をレビューすべきほど、変更が大きいかリスクが高いとき"
+      },
+      {
+        "key": "D",
+        "en": "When the context window is nearly full",
+        "ja": "コンテキストウィンドウがほぼ埋まっているとき"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Plan mode is a human review gate for approach, warranted by risk rather than universally\n\n[Supplement] Unfamiliarity with a language (B) and a nearly full context (D) are not what call for a human review of the approach.",
+      "ja": "プランモードはやり方を人がレビューするための関門であり、使うかどうかは一律ではなくリスクで決まります。\n\n【補足】言語に不慣れであること (B) や、コンテキストがほぼ埋まっていること (D) は、やり方を人がレビューすべき理由にはなりません。"
+    }
+  },
+  {
+    "id": "AF042",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 7,
+    "scenario_id": "AFS08",
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A repeated multi-step review procedure should be available to the whole team as a single invocation. What is the right mechanism?",
+      "ja": "繰り返し行う複数ステップのレビュー手順を、チーム全体が1回の呼び出しで使えるようにすべきです。正しい仕組みはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A shared document describing the steps",
+        "ja": "手順を説明した共有ドキュメント"
+      },
+      {
+        "key": "B",
+        "en": "A longer CLAUDE.md",
+        "ja": "より長い CLAUDE.md"
+      },
+      {
+        "key": "C",
+        "en": "A saved chat transcript",
+        "ja": "保存したチャットのトランスクリプト"
+      },
+      {
+        "key": "D",
+        "en": "A custom slash command or skill committed to the repository",
+        "ja": "リポジトリにコミットしたカスタムスラッシュコマンドまたはスキル"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Repeatable team procedures belong in committed commands or skills, not prose\n\n[Supplement] A saved chat transcript (C) records one past session; it cannot be invoked as a procedure.",
+      "ja": "チームで繰り返す手順は、文章ではなく、コミットしたコマンドやスキルに置くべきです。\n\n【補足】保存したチャットのトランスクリプト (C) は過去の1回のセッションの記録であり、手順として呼び出すことはできません。"
+    }
+  },
+  {
+    "id": "AF043",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 8,
+    "scenario_id": "AFS09",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Subagents return full source documents to the coordinator, which then exceeds its context limit. What is the correct design change?",
+      "ja": "サブエージェントが元の文書全体をコーディネーターに返し、コーディネーターはコンテキストの上限を超えてしまいます。正しい設計の変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Have subagents return structured findings with citations while raw sources stay at the edge or in a scratchpad",
+        "ja": "サブエージェントには出典付きの構造化された調査結果を返させ、元の情報源は末端かスクラッチパッドに置いておく"
+      },
+      {
+        "key": "B",
+        "en": "Give the coordinator a larger model",
+        "ja": "コーディネーターに、より大きなモデルを使う"
+      },
+      {
+        "key": "C",
+        "en": "Reduce the number of subagents to one",
+        "ja": "サブエージェントを1つに減らす"
+      },
+      {
+        "key": "D",
+        "en": "Truncate each document to its first page",
+        "ja": "各文書を最初のページだけに切り詰める"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Delegation exists to keep bulk at the edge and move distilled results\n\n[Supplement] A larger model for the coordinator (B) does not reduce how much bulk arrives, a single subagent (C) gives up the separate lines of work without solving the bulk, and keeping only the first page (D) discards evidence arbitrarily.",
+      "ja": "委任は、大量のデータを末端にとどめ、要点だけを渡すためにあります。\n\n【補足】コーディネーターのモデルを大きくしても (B)、届く量は減りません。サブエージェントを1つにすると (C)、大量のデータの問題は解決しないまま、作業の流れを分けた利点を失います。最初のページだけを残すと (D)、根拠が恣意的に捨てられます。"
+    }
+  },
+  {
+    "id": "AF044",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 9,
+    "scenario_id": "AFS09",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Final reports attribute claims to the wrong sources even though each subagent is individually accurate. What is the likely cause?",
+      "ja": "各サブエージェントは単独では正確なのに、最終レポートでは主張が間違った出典に結び付けられています。考えられる原因はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The synthesis model is too small",
+        "ja": "統合のモデルが小さすぎる"
+      },
+      {
+        "key": "B",
+        "en": "The handoff format does not carry claim and source together, so provenance is lost between stages",
+        "ja": "引き継ぎの形式が主張と出典を一緒に運ばないため、段階の間で出所の情報が失われている"
+      },
+      {
+        "key": "C",
+        "en": "The search subagent returns too many results",
+        "ja": "検索のサブエージェントが返す結果が多すぎる"
+      },
+      {
+        "key": "D",
+        "en": "Reports are generated before analysis completes",
+        "ja": "分析が終わる前にレポートが作られている"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Provenance survives handoffs only when the format carries claim and source together\n\n[Supplement] Model size (A), the number of search results (C), and timing (D) do not explain individually accurate stages that end up pairing claims with the wrong sources.",
+      "ja": "出所の情報が引き継ぎで保たれるのは、形式が主張と出典を一緒に運ぶ場合だけです。\n\n【補足】モデルの大きさ (A)、検索結果の数 (C)、タイミング (D) では、単独では正確な各段階が、最終的に主張を間違った出典と結び付けてしまうことを説明できません。"
+    }
+  },
+  {
+    "id": "AF045",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 10,
+    "scenario_id": "AFS09",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A subagent fails permanently on one source. What should the coordinator receive?",
+      "ja": "あるサブエージェントが、1つの情報源で恒久的に失敗します。コーディネーターは何を受け取るべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Nothing, so the report proceeds",
+        "ja": "何も受け取らない。レポートの作成を進めるため"
+      },
+      {
+        "key": "B",
+        "en": "A silent retry loop until it succeeds",
+        "ja": "成功するまで黙って再試行するループ"
+      },
+      {
+        "key": "C",
+        "en": "A propagated error with enough context to decide between retry, exclusion with a noted gap, or abort",
+        "ja": "再試行、欠落を記したうえでの除外、中止のどれにするかを決められるだけの情報を添えて、伝えられたエラー"
+      },
+      {
+        "key": "D",
+        "en": "A generic failure flag with no detail",
+        "ja": "詳細のない汎用の失敗フラグ"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Errors must propagate with enough context for the coordinator to choose a recovery path\n\n[Supplement] Receiving nothing (A) hides the gap from the report, a silent retry loop (B) never ends on a permanent failure, and a generic flag (D) leaves the coordinator without the context it needs to choose.",
+      "ja": "コーディネーターが回復の方法を選べるよう、エラーは十分な情報とともに伝えなければなりません。\n\n【補足】何も受け取らないと (A)、レポートから欠落が見えなくなります。黙って再試行するループ (B) は、恒久的な失敗に対しては終わりません。汎用のフラグ (D) では、コーディネーターは選ぶのに必要な情報を得られません。"
+    }
+  },
+  {
+    "id": "AF046",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 11,
+    "scenario_id": "AFS10",
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "The reviewer must emit results a pipeline can parse. Which invocation is correct?",
+      "ja": "レビューの担当は、パイプラインが解析できる結果を出さなければなりません。正しい呼び出し方はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Interactive session with output redirected to a log",
+        "ja": "出力をログにリダイレクトした対話セッション"
+      },
+      {
+        "key": "B",
+        "en": "Plan mode with an approval step",
+        "ja": "承認のステップを置いたプランモード"
+      },
+      {
+        "key": "C",
+        "en": "A cron job that emails the transcript",
+        "ja": "トランスクリプトをメールで送る cron ジョブ"
+      },
+      {
+        "key": "D",
+        "en": "Non-interactive print mode with JSON output and a schema",
+        "ja": "JSON 出力とスキーマを指定した、非対話の print モード"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "CI requires non-interactive invocation with structured, schema-validated output\n\n[Supplement] Emailing the transcript (C) produces prose for people, not output a pipeline can parse.",
+      "ja": "CI には、構造化され、スキーマで検証された出力を返す、非対話の呼び出しが必要です。\n\n【補足】トランスクリプトをメールで送る方法 (C) は、パイプラインが解析できる出力ではなく、人が読む文章を生むだけです。"
+    }
+  },
+  {
+    "id": "AF047",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 12,
+    "scenario_id": "AFS10",
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Reviews flag many low-value style nits and engineers now ignore them. Which change addresses this?",
+      "ja": "レビューが価値の低いスタイルの細かい指摘を大量に出し、エンジニアは今ではそれを無視しています。これに対処する変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Define explicit review criteria and a severity bar in the prompt, with examples of in-scope and out-of-scope findings",
+        "ja": "プロンプトで明示的なレビューの基準と重大度の基準を定め、対象内と対象外の指摘の例を添える"
+      },
+      {
+        "key": "B",
+        "en": "Post findings to a separate channel",
+        "ja": "指摘を別のチャンネルに投稿する"
+      },
+      {
+        "key": "C",
+        "en": "Run the review only on large pull requests",
+        "ja": "大きなプルリクエストだけをレビューする"
+      },
+      {
+        "key": "D",
+        "en": "Cap output at five findings",
+        "ja": "出力を5件の指摘までに制限する"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Precision comes from explicit criteria and examples that draw the signal boundary\n\n[Supplement] A separate channel (B) moves the noise without reducing it, reviewing only large pull requests (C) skips small changes that can still contain real defects, and a five-finding cap (D) can drop real findings while keeping nits.",
+      "ja": "精度は、シグナルの境界を引く明示的な基準と例から生まれます。\n\n【補足】別のチャンネル (B) はノイズを移すだけで減らしません。大きなプルリクエストだけをレビューすると (C)、本当の欠陥を含みうる小さな変更が漏れます。5件までの上限 (D) は、細かい指摘を残したまま本当の指摘を落とすことがあります。"
+    }
+  },
+  {
+    "id": "AF048",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 13,
+    "scenario_id": "AFS11",
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Some invoices legitimately lack a delivery date. How should the schema express this?",
+      "ja": "請求書の中には、正当な理由で納品日が記載されていないものがあります。スキーマではこれをどう表現すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Make the field required and let extraction fail",
+        "ja": "フィールドを必須にし、抽出を失敗させる"
+      },
+      {
+        "key": "B",
+        "en": "Make the field nullable so absence is recorded explicitly, with conditional validation where the document type requires it",
+        "ja": "フィールドを null 許容にして値がないことを明示的に記録し、文書の種類上必要な場合は条件付きで検証する"
+      },
+      {
+        "key": "C",
+        "en": "Omit the field from the schema",
+        "ja": "スキーマからフィールドを除く"
+      },
+      {
+        "key": "D",
+        "en": "Default it to today's date",
+        "ja": "今日の日付を既定値にする"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Nullable fields record legitimate absence; required fields force fabrication or failure\n\n[Supplement] Omitting the field (C) loses the delivery dates on invoices that have them, and defaulting to today's date (D) records a fabricated value.",
+      "ja": "null 許容のフィールドは正当な欠落を記録します。必須のフィールドは、捏造か失敗を強いることになります。\n\n【補足】フィールドを除くと (C)、納品日が記載された請求書からもその日付が失われます。今日の日付を既定値にすると (D)、捏造した値を記録することになります。"
+    }
+  },
+  {
+    "id": "AF049",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 14,
+    "scenario_id": "AFS11",
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Which loop gives the most reliable extraction output?",
+      "ja": "最も信頼できる抽出結果が得られるループはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Generate, then manually review every record",
+        "ja": "生成したあと、すべてのレコードを人が確認する"
+      },
+      {
+        "key": "B",
+        "en": "Generate three times and take the majority",
+        "ja": "3回生成して多数決を取る"
+      },
+      {
+        "key": "C",
+        "en": "Enforce a JSON schema through tool use, validate, and on failure retry with the validation error provided to the model",
+        "ja": "ツール使用で JSON スキーマを強制して検証し、失敗したら検証エラーをモデルに渡して再試行する"
+      },
+      {
+        "key": "D",
+        "en": "Generate with temperature zero and accept the result",
+        "ja": "temperature 0 で生成し、その結果を受け入れる"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Schema enforcement plus a validation-retry loop is the reliability pattern the guide describes\n\n[Supplement] Reviewing every record by hand (A) does not scale and leaves the extraction itself unchanged, majority voting (B) measures agreement rather than validity, and temperature zero (D) does not guarantee a valid structure.",
+      "ja": "スキーマの強制と検証・再試行のループの組み合わせが、ガイドに書かれている信頼性のパターンです。\n\n【補足】すべてのレコードを人が確認する方法 (A) は規模に耐えられず、抽出そのものは何も変わりません。多数決 (B) は妥当性ではなく一致の度合いを測るだけで、temperature 0 (D) は正しい構造を保証しません。"
+    }
+  },
+  {
+    "id": "AF050",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-foundations/mock-exam-1.html",
+    "source_number": 15,
+    "scenario_id": "AFS11",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Your team reports 97% accuracy measured only on records that passed validation. Why is that number misleading?",
+      "ja": "あなたのチームは、検証を通ったレコードだけで測った精度を97%と報告しています。この数値はなぜ誤解を招くのですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Accuracy should be measured per field, not per record",
+        "ja": "精度はレコード単位ではなくフィールド単位で測るべきだから"
+      },
+      {
+        "key": "B",
+        "en": "97% is too low to report",
+        "ja": "97%は報告するには低すぎるから"
+      },
+      {
+        "key": "C",
+        "en": "Validation and accuracy are unrelated",
+        "ja": "検証と精度は無関係だから"
+      },
+      {
+        "key": "D",
+        "en": "It excludes the failures, so it measures where the system already succeeded rather than the true rate across all documents",
+        "ja": "失敗を除いているため、すべての文書での本当の割合ではなく、システムがすでに成功している部分を測っているから"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Measuring only validated records is a biased sample; calibration needs coverage of all documents\n\n[Supplement] Measuring per field instead of per record (A) does not remove the biased sample, the size of the figure (B) is not what makes it misleading, and validation is related to accuracy, which is exactly why excluding failures skews the number (C).",
+      "ja": "検証を通ったレコードだけを測るのは偏ったサンプルです。正しく較正するには、すべての文書を対象にする必要があります。\n\n【補足】レコード単位ではなくフィールド単位で測っても (A)、偏ったサンプルであることは変わりません。誤解を招く理由は数値の大きさ (B) ではありません。また、検証は精度と関係しており (C)、だからこそ失敗を除くと数値が偏ります。"
+    }
+  }
+]

@@ -4,7 +4,7 @@ import { COUNTS, MODES, STATUSES } from "./quiz.js";
 
 // キーは v1 のときのまま（公開中のアプリの記録を引き継ぐため変えない）
 export const STORAGE_KEY = "ccaof-quiz:v1";
-export const SCHEMA_VERSION = 2;
+export const SCHEMA_VERSION = 3;
 
 // schemaVersion を上げるときは、ここに「旧バージョン → 次のバージョン」の変換を追加する
 const MIGRATIONS = {
@@ -18,12 +18,20 @@ const MIGRATIONS = {
       exams: { "ccao-f": { settings: examSettings, statuses, history, currentSession } },
     };
   },
+  // v3 で出題設定にシナリオの絞り込み（null は絞り込みなし）を追加した
+  2: (data) => ({
+    ...data,
+    schemaVersion: 3,
+    exams: Object.fromEntries(
+      Object.entries(data.exams ?? {}).map(([exam, d]) => [exam, { ...d, settings: { ...d?.settings, scenarios: null } }]),
+    ),
+  }),
 };
 
 /** 1つの試験の記録の初期値 */
 export function initialExamData(exam) {
   return {
-    settings: { count: 10, mode: "random", domains: domainIds(exam), sources: [...EXAMS[exam].sourceGroups] },
+    settings: { count: 10, mode: "random", domains: domainIds(exam), sources: [...EXAMS[exam].sourceGroups], scenarios: null },
     statuses: {},
     history: [],
     currentSession: null,
@@ -60,6 +68,8 @@ function findExamProblem(d, exam) {
   if (!MODES.includes(s.mode)) return "settings.mode";
   if (!Array.isArray(s.domains) || !s.domains.every((x) => domains.includes(x))) return "settings.domains";
   if (!Array.isArray(s.sources) || !s.sources.every((g) => EXAMS[exam].sourceGroups.includes(g))) return "settings.sources";
+  // シナリオの ID は問題データ側にあるので、ここでは形だけを確かめる
+  if (s.scenarios !== null && !isStringArray(s.scenarios)) return "settings.scenarios";
 
   if (!isObject(d.statuses) || !Object.values(d.statuses).every((v) => STATUSES.includes(v))) return "statuses";
 

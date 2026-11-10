@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { t, tParts } from "./i18n.js";
-import { EXAMS, REPO_URL } from "./exams.js";
+import { EXAMS, REPO_URL, scenarioFile } from "./exams.js";
 import { createSession, filterQuestions, isCorrect, selectQuestions } from "./quiz.js";
 import { dropUnknownSession, load, resetAll, resetExam, save } from "./storage.js";
 import ExamSelect from "./screens/ExamSelect.jsx";
@@ -19,6 +19,7 @@ const isComplete = (s) => s !== null && s.answers.length === s.questionIds.lengt
 
 export default function App() {
   const [questionsByExam, setQuestionsByExam] = useState({}); // 読み込んだ試験の問題 { 試験: [...] }
+  const [scenariosByExam, setScenariosByExam] = useState({}); // 読み込んだ試験のシナリオ { 試験: [...] }
   const [loadError, setLoadError] = useState(false);
   const [counts, setCounts] = useState(null); // 試験ごとの問題数（試験選択画面用）
   // 保存データ（lang / currentExam / exams）をそのまま状態として持つ
@@ -35,6 +36,8 @@ export default function App() {
   const session = rec?.currentSession ?? null;
   const questions = exam ? questionsByExam[exam] : undefined;
   const byId = questions ? Object.fromEntries(questions.map((q) => [q.id, q])) : {};
+  const scenarios = exam ? scenariosByExam[exam] ?? [] : [];
+  const scenarioById = Object.fromEntries(scenarios.map((s) => [s.id, s]));
 
   useEffect(() => {
     fetch(`${BASE}questions/index.json`)
@@ -46,16 +49,18 @@ export default function App() {
       .catch(() => setCounts({}));
   }, []);
 
-  // 選んだ試験の問題ファイルだけを読み込む（読み込んだ分は持っておく）
+  // 選んだ試験の問題ファイルとシナリオファイルだけを読み込む（読み込んだ分は持っておく）
   useEffect(() => {
     if (!exam || questionsByExam[exam]) return;
     setLoadError(false);
-    fetch(`${BASE}${EXAMS[exam].file}`)
-      .then((res) => {
+    const getJson = (path) =>
+      fetch(`${BASE}${path}`).then((res) => {
         if (!res.ok) throw new Error(res.statusText);
         return res.json();
-      })
-      .then((qs) => {
+      });
+    Promise.all([getJson(EXAMS[exam].file), getJson(scenarioFile(exam))])
+      .then(([qs, ss]) => {
+        setScenariosByExam((m) => ({ ...m, [exam]: ss }));
         setQuestionsByExam((m) => ({ ...m, [exam]: qs }));
         setData((d) => dropUnknownSession(d, exam, new Set(qs.map((q) => q.id))));
       })
@@ -90,8 +95,8 @@ export default function App() {
   }
 
   function start() {
-    const { count, mode, domains, sources } = rec.settings;
-    const picked = selectQuestions(filterQuestions(questions, domains, sources), count, mode, rec.statuses);
+    const { count, mode, domains, sources, scenarios: scenarioFilter } = rec.settings;
+    const picked = selectQuestions(filterQuestions(questions, domains, sources, scenarioFilter), count, mode, rec.statuses);
     if (picked.length === 0) {
       setWarning(t("no_questions", lang));
       return;
@@ -176,6 +181,7 @@ export default function App() {
         key={`${id}-${session.index}`}
         lang={lang}
         question={byId[id]}
+        scenario={scenarioById[byId[id].scenario_id]}
         order={session.orders[id]}
         index={session.index}
         total={session.questionIds.length}
@@ -188,7 +194,7 @@ export default function App() {
     );
   } else if (page === "result" && session) {
     content = (
-      <Result lang={lang} session={session} byId={byId} statuses={rec.statuses} onSetStatus={setStatus}
+      <Result lang={lang} session={session} byId={byId} scenarioById={scenarioById} statuses={rec.statuses} onSetStatus={setStatus}
         onHome={() => navigate("home")} />
     );
   } else if (page === "list") {
@@ -202,7 +208,7 @@ export default function App() {
     );
   } else {
     content = (
-      <Home lang={lang} exam={exam} total={questions.length} settings={rec.settings} onChange={setSettings} onStart={start}
+      <Home lang={lang} exam={exam} total={questions.length} scenarios={scenarios} settings={rec.settings} onChange={setSettings} onStart={start}
         warning={warning} session={inProgress} onResume={() => setPage("quiz")} onDiscard={discardSession} />
     );
   }

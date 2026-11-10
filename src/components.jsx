@@ -74,3 +74,17 @@ export function QuestionMeta({ question, lang }) {
     </p>
   );
 }
+
+/** 問題の上に出すシナリオ（共通の状況説明）。本文は折りたためる */
+export function ScenarioBox({ scenario, lang, open = true }) {
+  if (!scenario) return null;
+  return (
+    <details className="scenario" open={open}>
+      <summary>
+        <span className="scenario-label">{t("scenario", lang)}</span>
+        {scenario.title[lang]}
+      </summary>
+      <div className="scenario-body"><RichText text={scenario.body[lang]} /></div>
+    </details>
+  );
+}

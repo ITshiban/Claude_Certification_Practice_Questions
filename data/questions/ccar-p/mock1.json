@@ -1,0 +1,632 @@
+[
+  {
+    "id": "AP036",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 1,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A retailer wants Claude to answer product questions from a 40,000-document catalog that changes daily. Which architecture fits?",
+      "ja": "ある小売業者は、毎日変わる40,000件の文書からなるカタログをもとに、Claude に商品についての質問に答えさせたいと考えています。合っているアーキテクチャはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Fine-tune a model on the catalog nightly",
+        "ja": "毎晩カタログでモデルをファインチューニングする"
+      },
+      {
+        "key": "B",
+        "en": "Load the catalog into the system prompt",
+        "ja": "カタログをシステムプロンプトに読み込む"
+      },
+      {
+        "key": "C",
+        "en": "Retrieval over an index refreshed as the catalog changes, with the model answering from retrieved context",
+        "ja": "カタログの変更に合わせて更新されるインデックスを検索し、モデルが検索したコンテキストから答える"
+      },
+      {
+        "key": "D",
+        "en": "An autonomous agent that browses the public website",
+        "ja": "公開 Web サイトを閲覧する自律型エージェント"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Frequently changing knowledge belongs in retrieval, not in weights or a context window\n\n[Supplement] An agent browsing the public website (D) sees only what is published there, adds latency and nondeterminism to every answer, and gives up control over which source is used.",
+      "ja": "頻繁に変わる知識は、モデルの重みやコンテキストウィンドウではなく、検索に置くべきです。\n\n【補足】公開 Web サイトを閲覧するエージェント (D) は、そこに公開されているものしか見られず、すべての回答にレイテンシと非決定性を加え、どの情報源を使うかの制御も失います。"
+    }
+  },
+  {
+    "id": "AP037",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 2,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "After a re-index, your retrieval system returns semantically similar but commercially wrong products. Which investigation comes first?",
+      "ja": "再インデックスのあと、あなたの検索システムは、意味的には似ているものの商業的には間違った商品を返すようになりました。最初に調べるのはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The generation prompt",
+        "ja": "生成のプロンプト"
+      },
+      {
+        "key": "B",
+        "en": "The model version",
+        "ja": "モデルのバージョン"
+      },
+      {
+        "key": "C",
+        "en": "The user interface",
+        "ja": "ユーザーインターフェース"
+      },
+      {
+        "key": "D",
+        "en": "Chunking and embedding configuration, and whether the index was rebuilt consistently",
+        "ja": "チャンク分割と埋め込みの設定、そしてインデックスが一貫して作り直されたかどうか"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Degradation following a re-index points at chunking, embeddings, and index consistency\n\n[Supplement] The generation prompt (A), the model version (B), and the user interface (C) did not change with the re-index, and wrong products are already in the retrieved results before generation starts.",
+      "ja": "再インデックスのあとに起きた劣化は、チャンク分割、埋め込み、インデックスの一貫性に原因があることを示しています。\n\n【補足】生成のプロンプト (A)、モデルのバージョン (B)、ユーザーインターフェース (C) は再インデックスで変わっておらず、間違った商品は生成が始まる前の検索結果の時点ですでに含まれています。"
+    }
+  },
+  {
+    "id": "AP038",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 3,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "An agent used by 300 employees exposes 45 tools across eight systems. Selection quality is degrading. What is the architectural response?",
+      "ja": "300人の社員が使うエージェントが、8つのシステムにまたがる45個のツールを公開しています。ツールの選択の質が落ちています。アーキテクチャ上の対応はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Scope toolsets per task or role, with progressive discovery for the rest",
+        "ja": "タスクや役割ごとにツール群を絞り、それ以外は段階的な発見で扱う"
+      },
+      {
+        "key": "B",
+        "en": "Shorten all tool descriptions",
+        "ja": "すべてのツールの説明を短くする"
+      },
+      {
+        "key": "C",
+        "en": "Merge tools into a few multi-mode tools",
+        "ja": "ツールを統合して、少数のマルチモードのツールにする"
+      },
+      {
+        "key": "D",
+        "en": "Replace the agent with a larger model",
+        "ja": "エージェントをより大きなモデルに置き換える"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "At large tool counts, scoping and progressive discovery preserve selection quality\n\n[Supplement] Shorter descriptions (B) remove the information the model selects by, multi-mode tools (C) hide distinct behaviors behind a parameter, and a larger model (D) still faces the same 45 tools in every context.",
+      "ja": "ツールの数が多い場合、絞り込みと段階的な発見によって、選択の質を保てます。\n\n【補足】説明を短くすると (B)、モデルが選ぶ手がかりになる情報が減ります。マルチモードのツール (C) は、別々の振る舞いをパラメータの裏に隠してしまいます。より大きなモデル (D) でも、どのコンテキストにも同じ45個のツールが並ぶことに変わりはありません。"
+    }
+  },
+  {
+    "id": "AP039",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 4,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Which evaluation design best fits a summarization feature where quality is subjective?",
+      "ja": "品質が主観的な要約機能に、最もよく合う評価の設計はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Exact match against reference summaries",
+        "ja": "参照用の要約との完全一致"
+      },
+      {
+        "key": "B",
+        "en": "A rubric covering the failure modes that matter, applied by model graders and periodically audited by humans on a labeled set",
+        "ja": "重要な失敗のパターンを含むルーブリックをモデルの採点者が適用し、ラベル付きのセットで定期的に人が監査する"
+      },
+      {
+        "key": "C",
+        "en": "Average output length compared to references",
+        "ja": "参照と比べた出力の平均の長さ"
+      },
+      {
+        "key": "D",
+        "en": "User thumbs-up counts alone",
+        "ja": "利用者の高評価の数だけ"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Subjective quality becomes measurable through rubrics, labeled sets, and mixed methodology\n\n[Supplement] Exact match (A) fails every valid paraphrase, length (C) says nothing about quality, and thumbs-up counts alone (D) arrive late and reflect only the users who bother to vote.",
+      "ja": "主観的な品質も、ルーブリック、ラベル付きのセット、複数の方法の組み合わせによって測れるようになります。\n\n【補足】完全一致 (A) では妥当な言い換えがすべて不合格になり、長さ (C) は品質について何も示しません。高評価の数だけ (D) では、結果がわかるのが遅く、評価する手間をかけた利用者の意見しか反映されません。"
+    }
+  },
+  {
+    "id": "AP040",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 5,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Before a prompt change reaches all users, what is the disciplined sequence?",
+      "ja": "プロンプトの変更が全利用者に届く前の、規律ある手順はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Ship it and monitor complaints",
+        "ja": "リリースして苦情を監視する"
+      },
+      {
+        "key": "B",
+        "en": "Team vote followed by rollout",
+        "ja": "チームの投票のあとで展開する"
+      },
+      {
+        "key": "C",
+        "en": "Regression evaluation, then a controlled A/B against the current prompt on predefined metrics, then rollout",
+        "ja": "回帰の評価を行い、次に事前に定めた指標で現在のプロンプトとの管理された A/B テストを行い、そのあと展開する"
+      },
+      {
+        "key": "D",
+        "en": "Rollout with a feedback form",
+        "ja": "フィードバックのフォームを付けて展開する"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Prompt changes are production changes: regression first, then a controlled comparison\n\n[Supplement] Monitoring complaints (A) and a feedback form (D) make users the test, and a team vote (B) is opinion rather than measurement.",
+      "ja": "プロンプトの変更は本番の変更です。まず回帰を確認し、そのあとで管理された比較を行います。\n\n【補足】苦情の監視 (A) やフィードバックのフォーム (D) は利用者をテストの対象にすることになり、チームの投票 (B) は測定ではなく意見です。"
+    }
+  },
+  {
+    "id": "AP041",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 6,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A hospital system requires that protected health information never reach the model provider, while clinicians need free-text search. Which design satisfies both?",
+      "ja": "ある病院のシステムは、保護対象の保健情報（PHI）がモデルの提供者に決して届かないことを求めていますが、臨床医には自由記述での検索が必要です。両方を満たす設計はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A policy instructing clinicians not to type identifiers",
+        "ja": "識別情報を入力しないよう臨床医に求めるポリシー"
+      },
+      {
+        "key": "B",
+        "en": "A system prompt instructing the model to disregard PHI",
+        "ja": "PHI を無視するようモデルに指示するシステムプロンプト"
+      },
+      {
+        "key": "C",
+        "en": "Restricting the feature to structured queries only",
+        "ja": "機能を構造化されたクエリだけに制限する"
+      },
+      {
+        "key": "D",
+        "en": "A de-identification layer that removes or tokenizes PHI before the call, with local re-association and auditing",
+        "ja": "呼び出しの前に PHI を取り除くかトークン化し、ローカルで結び付け直して監査する非識別化の層"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Compliance boundaries are enforced architecturally before data crosses, and audited\n\n[Supplement] Limiting the feature to structured queries (C) fails the stated need for free-text search, which a de-identification layer can meet.",
+      "ja": "コンプライアンスの境界は、データが越える前にアーキテクチャで強制し、監査します。\n\n【補足】機能を構造化されたクエリに限ると (C)、自由記述での検索という明示されたニーズを満たせません。非識別化の層なら、それを満たせます。"
+    }
+  },
+  {
+    "id": "AP042",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 7,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Which is the correct application of human-in-the-loop review at scale?",
+      "ja": "大規模な human-in-the-loop のレビューの正しい適用のしかたはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Route by confidence and consequence, so low-confidence and high-impact cases reach humans while routine cases flow through",
+        "ja": "確信度と影響の大きさで振り分け、確信度が低い案件や影響の大きい案件を人に回し、定型的な案件はそのまま流す"
+      },
+      {
+        "key": "B",
+        "en": "Review every output regardless of risk",
+        "ja": "リスクにかかわらず、すべての出力をレビューする"
+      },
+      {
+        "key": "C",
+        "en": "Review a fixed 10% sample chosen at random",
+        "ja": "ランダムに選んだ決まった10%のサンプルをレビューする"
+      },
+      {
+        "key": "D",
+        "en": "Review only what users complain about",
+        "ja": "利用者が苦情を言ったものだけをレビューする"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Confidence and consequence routing makes human review affordable and effective\n\n[Supplement] A random 10% sample (C) misses most high-impact cases by chance, and reviewing only complaints (D) catches errors after they have already reached users.",
+      "ja": "確信度と影響の大きさによる振り分けで、人のレビューを負担可能で効果的なものにできます。\n\n【補足】ランダムな10%のサンプル (C) では、影響の大きい案件の多くが偶然に左右されて漏れます。苦情があったものだけのレビュー (D) では、誤りがすでに利用者に届いたあとで見つけることになります。"
+    }
+  },
+  {
+    "id": "AP043",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 8,
+    "scenario_id": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "An executive sponsor demands a single accuracy number for a system whose performance varies sharply by document type. What does a competent architect present?",
+      "ja": "役員スポンサーが、文書の種類によって性能が大きく異なるシステムについて、精度の数値を1つだけ求めています。有能なアーキテクトは何を示しますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The highest observed number",
+        "ja": "観測された最も高い数値"
+      },
+      {
+        "key": "B",
+        "en": "Performance broken out by document type with the aggregate, the measurement method, and what the business outcome is after human review",
+        "ja": "文書の種類ごとの性能と全体の数値、測定方法、そして人のレビューを経たあとの業務上の成果"
+      },
+      {
+        "key": "C",
+        "en": "A refusal to quantify",
+        "ja": "数値化を断る"
+      },
+      {
+        "key": "D",
+        "en": "An average weighted to look favorable",
+        "ja": "良く見えるように重み付けした平均"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Honest segmentation plus method and end-to-end outcome is what earns and keeps trust\n\n[Supplement] Refusing to quantify (C) leaves the sponsor without the information the decision needs.",
+      "ja": "正直な内訳に加えて、方法とエンドツーエンドの成果を示すことが、信頼を得て保つことにつながります。\n\n【補足】数値化を断ると (C)、スポンサーは判断に必要な情報を得られません。"
+    }
+  },
+  {
+    "id": "AP044",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 9,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Your design must satisfy GDPR for EU customer data. Which requirement most directly shapes the architecture?",
+      "ja": "あなたの設計は、EU の顧客データについて GDPR を満たさなければなりません。アーキテクチャを最も直接的に形づくる要件はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Response latency targets",
+        "ja": "応答のレイテンシの目標"
+      },
+      {
+        "key": "B",
+        "en": "The choice of programming language",
+        "ja": "プログラミング言語の選択"
+      },
+      {
+        "key": "C",
+        "en": "Data minimization, purpose limitation, and the ability to delete personal data on request",
+        "ja": "データの最小化、目的の限定、そして依頼に応じて個人データを削除できること"
+      },
+      {
+        "key": "D",
+        "en": "The number of model providers",
+        "ja": "モデルの提供者の数"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "GDPR drives minimization, purpose limitation, and erasure, all of which shape design\n\n[Supplement] Latency targets (A), the programming language (B), and the number of model providers (D) are design choices that GDPR does not itself dictate.",
+      "ja": "GDPR は、最小化、目的の限定、消去を求め、そのすべてが設計を形づくります。\n\n【補足】レイテンシの目標 (A)、プログラミング言語 (B)、モデルの提供者の数 (D) は設計上の選択であり、GDPR そのものが決めるものではありません。"
+    }
+  },
+  {
+    "id": "AP045",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 10,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Which is the correct reason to prefer a workflow over an agent for a document intake process?",
+      "ja": "文書の受付のプロセスに、エージェントよりワークフローを選ぶ正しい理由はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Workflows are always more accurate",
+        "ja": "ワークフローのほうが常に正確だから"
+      },
+      {
+        "key": "B",
+        "en": "Agents cannot process documents",
+        "ja": "エージェントは文書を処理できないから"
+      },
+      {
+        "key": "C",
+        "en": "Workflows use less context",
+        "ja": "ワークフローのほうが使うコンテキストが少ないから"
+      },
+      {
+        "key": "D",
+        "en": "The processing path is known in advance, so deterministic orchestration is cheaper, testable, and auditable",
+        "ja": "処理の経路が事前にわかっているので、決定的なオーケストレーションのほうが安く、テストでき、監査できるから"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Known path, deterministic orchestration; autonomy earns its complexity only when the path is not known\n\n[Supplement] Workflows are not always more accurate (A), agents can process documents (B), and context use (C) depends on the design rather than the pattern.",
+      "ja": "経路がわかっていれば決定的なオーケストレーションにします。自律性がその複雑さに見合うのは、経路がわかっていない場合だけです。\n\n【補足】ワークフローが常に正確なわけではなく (A)、エージェントも文書を処理でき (B)、コンテキストの使用量 (C) はパターンではなく設計によって決まります。"
+    }
+  },
+  {
+    "id": "AP046",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 11,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "An application sends an identical 12,000-token policy preamble on every request. Which optimization addresses both latency and cost?",
+      "ja": "あるアプリケーションは、すべてのリクエストで同一の12,000トークンのポリシーの前置きを送っています。レイテンシとコストの両方に対処する最適化はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Ordering the static preamble first and enabling prompt caching",
+        "ja": "固定の前置きを先頭に置き、プロンプトキャッシュを有効にする"
+      },
+      {
+        "key": "B",
+        "en": "Splitting the preamble across two requests",
+        "ja": "前置きを2つのリクエストに分ける"
+      },
+      {
+        "key": "C",
+        "en": "Summarizing the preamble with the model at request time",
+        "ja": "リクエストのたびにモデルで前置きを要約する"
+      },
+      {
+        "key": "D",
+        "en": "Moving the preamble into a few-shot block",
+        "ja": "前置きを Few-shot のブロックに移す"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "A stable cached prefix cuts time-to-first-token and per-request cost together\n\n[Supplement] Splitting the preamble (B) adds a round trip without reusing anything, summarizing it on every request (C) adds a model call and can drop policy detail, and moving it into a few-shot block (D) changes its role without making it any cheaper.",
+      "ja": "安定したプレフィックスをキャッシュすると、最初のトークンまでの時間とリクエストごとのコストの両方が減ります。\n\n【補足】前置きを分けると (B)、何も再利用されないまま往復が増えます。リクエストのたびに要約すると (C)、モデルの呼び出しが増え、ポリシーの細部が失われるおそれがあります。Few-shot のブロックに移しても (D)、役割が変わるだけで安くはなりません。"
+    }
+  },
+  {
+    "id": "AP047",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 12,
+    "scenario_id": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "What belongs in an architecture decision record for a Claude system?",
+      "ja": "Claude のシステムのアーキテクチャ決定記録には、何を書くべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The final design only",
+        "ja": "最終的な設計だけ"
+      },
+      {
+        "key": "B",
+        "en": "The decision, the alternatives considered, the tradeoffs, and the constraints that drove the choice",
+        "ja": "決定、検討した代替案、トレードオフ、そしてその選択を左右した制約"
+      },
+      {
+        "key": "C",
+        "en": "The team members involved",
+        "ja": "関わったチームのメンバー"
+      },
+      {
+        "key": "D",
+        "en": "The implementation timeline",
+        "ja": "実装のスケジュール"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "A decision record captures alternatives and tradeoffs, not just the outcome\n\n[Supplement] The team members (C) and the timeline (D) may appear in project documents, but they do not explain why the decision was made.",
+      "ja": "決定記録は、結果だけでなく、代替案とトレードオフを残すものです。\n\n【補足】チームのメンバー (C) やスケジュール (D) はプロジェクトの文書に載ることはあっても、なぜその決定をしたのかは説明しません。"
+    }
+  },
+  {
+    "id": "AP048",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 13,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Observability for a production agent should capture which of the following to make incidents diagnosable?",
+      "ja": "本番のエージェントのオブザーバビリティでは、インシデントを診断できるようにするために、次のうち何を記録すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Final outputs only",
+        "ja": "最終的な出力だけ"
+      },
+      {
+        "key": "B",
+        "en": "Aggregate latency metrics only",
+        "ja": "集計したレイテンシの指標だけ"
+      },
+      {
+        "key": "C",
+        "en": "Traces of tool calls, retrieved context, and decision points alongside outputs",
+        "ja": "出力とあわせて、ツール呼び出し、検索したコンテキスト、判断のポイントのトレース"
+      },
+      {
+        "key": "D",
+        "en": "User feedback only",
+        "ja": "利用者のフィードバックだけ"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Without traces of tool calls and retrieved context, failures cannot be localized to a layer",
+      "ja": "ツール呼び出しと検索したコンテキストのトレースがなければ、失敗がどの層で起きたかを特定できません。"
+    }
+  },
+  {
+    "id": "AP049",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 14,
+    "scenario_id": null,
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "A partner team wants to adopt your Claude Code setup. What makes adoption durable rather than a one-time handoff?",
+      "ja": "提携しているチームが、あなたの Claude Code の設定を取り入れたいと考えています。導入を1回限りの引き渡しではなく、持続するものにするのはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A recorded walkthrough",
+        "ja": "録画した説明"
+      },
+      {
+        "key": "B",
+        "en": "A shared chat channel",
+        "ja": "共有のチャットチャンネル"
+      },
+      {
+        "key": "C",
+        "en": "Individual coaching sessions",
+        "ja": "個別のコーチング"
+      },
+      {
+        "key": "D",
+        "en": "Version-controlled shared configuration, common skills and commands, and an onboarding path that new engineers follow",
+        "ja": "バージョン管理された共有の設定、共通のスキルとコマンド、そして新しいエンジニアがたどるオンボーディングの道筋"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Shared, versioned configuration with an onboarding path is what makes adoption stick\n\n[Supplement] A recorded walkthrough (A), a chat channel (B), and individual coaching (C) transfer knowledge once but leave nothing in the repository that configures the next engineer's setup.",
+      "ja": "共有され、バージョン管理された設定と、オンボーディングの道筋があってこそ、導入が定着します。\n\n【補足】録画した説明 (A)、チャットチャンネル (B)、個別のコーチング (C) は、知識を一度伝えるだけで、次のエンジニアの環境を設定するものはリポジトリに何も残りません。"
+    }
+  },
+  {
+    "id": "AP050",
+    "source": "mock1",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-1.html",
+    "source_number": 15,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "Which change best reduces risk in an agent that can both read and modify production records?",
+      "ja": "本番のレコードを読むことも変更することもできるエージェントで、リスクを最も減らす変更はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Separating read and write capabilities, granting write access only where the role requires it, and gating writes behind explicit approval",
+        "ja": "読み取りと書き込みの機能を分け、書き込みの権限は役割が必要とする場合にだけ与え、書き込みは明示的な承認の後ろに置く"
+      },
+      {
+        "key": "B",
+        "en": "Logging modifications for later review",
+        "ja": "あとで確認できるよう変更を記録する"
+      },
+      {
+        "key": "C",
+        "en": "Requiring a longer system prompt about caution",
+        "ja": "慎重さについての、より長いシステムプロンプトを求める"
+      },
+      {
+        "key": "D",
+        "en": "Running the agent during business hours only",
+        "ja": "エージェントを営業時間内だけ動かす"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Least privilege plus approval gates on writes reduces the surface rather than monitoring it\n\n[Supplement] A longer system prompt about caution (C) is a request rather than a control, and business-hours operation (D) narrows the window without reducing what the agent can do.",
+      "ja": "最小権限と書き込みへの承認の関門は、監視するのではなく、攻撃や誤りの入り口そのものを減らします。\n\n【補足】慎重さについての長いシステムプロンプト (C) は制御ではなく依頼であり、営業時間内だけの運用 (D) は危険な時間を狭めるだけで、エージェントができることは減りません。"
+    }
+  }
+]

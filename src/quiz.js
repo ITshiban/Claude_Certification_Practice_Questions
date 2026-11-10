@@ -3,6 +3,8 @@
 export const STATUSES = ["correct", "incorrect", "unanswered"];
 export const MODES = ["random", "unanswered", "incorrect"];
 export const COUNTS = [5, 10, 20];
+// シナリオでの絞り込みで「シナリオのない問題」を表す値
+export const NO_SCENARIO = "none";
 
 // 解説中の選択肢記号：(B) / (B, C) / **B**
 const REF = /\(([A-D](?:, [A-D])*)\)|\*\*([A-D])\*\*/g;
@@ -19,12 +21,18 @@ export function sourceGroup(question) {
   return question.source;
 }
 
-/** ドメイン・出典グループで絞り込む。null は絞り込みなし */
-export function filterQuestions(questions, domains = null, sources = null) {
+/** 問題のシナリオでの絞り込み用の値（シナリオがなければ NO_SCENARIO） */
+export function scenarioKey(question) {
+  return question.scenario_id ?? NO_SCENARIO;
+}
+
+/** ドメイン・出典グループ・シナリオで絞り込む。null は絞り込みなし */
+export function filterQuestions(questions, domains = null, sources = null, scenarios = null) {
   return questions.filter(
     (q) =>
       (domains === null || domains.includes(q.domain)) &&
-      (sources === null || sources.includes(sourceGroup(q))),
+      (sources === null || sources.includes(sourceGroup(q))) &&
+      (scenarios === null || scenarios.includes(scenarioKey(q))),
   );
 }
 

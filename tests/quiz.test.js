@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import {
   createSession, displayLabels, domainAccuracy, filterQuestions, formatKeys, isCorrect, relabel,
-  progressOf, selectQuestions, shuffledKeys, sourceGroup, statusCounts,
+  NO_SCENARIO, progressOf, selectQuestions, shuffledKeys, sourceGroup, statusCounts,
 } from "../src/quiz.js";
 
 const makeQ = (id, { answer = ["A"], domain = 1, source = "practice" } = {}) => ({
@@ -92,6 +92,20 @@ describe("絞り込み", () => {
 
   test("何も選んでいなければ0件", () => {
     expect(filterQuestions(qs, [], ["mock"])).toEqual([]);
+  });
+
+  test("シナリオで絞り込む（none はシナリオのない問題）。null は絞り込みなし", () => {
+    const sq = [
+      { id: "AF036", source: "mock1", domain: 1, scenario_id: "AFS01" },
+      { id: "AF037", source: "mock1", domain: 1, scenario_id: "AFS02" },
+      { id: "AF051", source: "mock2", domain: 1, scenario_id: null },
+      { id: "Q001", source: "practice", domain: 1 }, // scenario_id がない問題もシナリオなしとして扱う
+    ];
+    expect(filterQuestions(sq, null, null, ["AFS01"]).map((q) => q.id)).toEqual(["AF036"]);
+    expect(filterQuestions(sq, null, null, [NO_SCENARIO]).map((q) => q.id)).toEqual(["AF051", "Q001"]);
+    expect(filterQuestions(sq, null, null, ["AFS02", NO_SCENARIO]).map((q) => q.id)).toEqual(["AF037", "AF051", "Q001"]);
+    expect(filterQuestions(sq, null, null, null)).toHaveLength(4);
+    expect(filterQuestions(sq, null, null, [])).toEqual([]);
   });
 
   test("based_on を持つ original は難化版と新規に分ける（持たない original はそのまま）", () => {

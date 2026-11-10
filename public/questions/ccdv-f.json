@@ -39,7 +39,8 @@
     "explanation": {
       "en": "A stable prefix plus caching lets repeated content be reused, cutting both time-to-first-token and per-request cost without losing context. Truncation (A) discards required policy, relocating text (C) changes nothing about reuse, and splitting calls (D) adds overhead.",
       "ja": "安定したプレフィックスとキャッシュを組み合わせると、繰り返される内容を再利用でき、コンテキストを失わずに、最初のトークンまでの時間とリクエストごとのコストの両方を削減できます。切り詰めると必要なポリシーが失われ (A)、テキストの置き場所を変えても再利用には何の影響もありません (C)。呼び出しを分割するとオーバーヘッドが増えます (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV002",
@@ -81,7 +82,8 @@
     "explanation": {
       "en": "Latency-tolerant bulk work is exactly what the Batches API is for: 50% of the cost, results within a 24-hour window, correlated by custom_id. Parallel synchronous calls (A) pay full price for speed nobody needs, max_tokens (B) does not change per-token pricing, and a single request (D) exceeds any context window.",
       "ja": "遅延を許容できる大量の処理は、まさに Batches API の用途です。コストは50%で、結果は24時間以内に返され、custom_id で対応付けられます。並列の同期呼び出しは、誰も必要としない速度に通常の料金を払うことになり (A)、max_tokens を変えてもトークンあたりの料金は変わりません (B)。1つのリクエストにまとめると、どのコンテキストウィンドウにも収まりません (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV003",
@@ -123,7 +125,8 @@
     "explanation": {
       "en": "Schema-enforced output plus a validation-retry loop treats model output as untrusted input and gives the model the information to correct itself. Louder instructions (A) reduce but do not eliminate failures, silent skipping (B) hides data loss, and temperature (C) does not guarantee syntax.",
       "ja": "スキーマで強制した出力と、検証・再試行のループを組み合わせると、モデルの出力を信頼できない入力として扱いつつ、モデル自身が修正するための情報を与えられます。指示を強い口調にしても失敗は減るだけでなくなりはせず (A)、黙ってスキップするとデータの欠落が隠れます (B)。temperature を下げても構文は保証されません (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV004",
@@ -165,7 +168,8 @@
     "explanation": {
       "en": "When the sequence is fixed, orchestrate it in code and use the model where the model adds value. Autonomy buys nothing on a known path and adds nondeterminism (B), skipping validation is a defect rather than a feature (C), and supervision hierarchies (D) are for problems that need delegation, not four fixed steps.",
       "ja": "手順が固定されている場合は、コードでオーケストレーションし、モデルが価値を生む箇所でモデルを使います。手順がわかっている処理では自律性は何の利点もなく、非決定性を持ち込むだけです (B)。検証を省略するのは機能ではなく欠陥です (C)。監督の階層構造は委任が必要な問題のためのもので、固定された4つのステップのためのものではありません (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV005",
@@ -207,7 +211,8 @@
     "explanation": {
       "en": "That is the agentic loop: \"tool_use\" means the model is waiting for a tool result before it can continue. Ending the turn (A) abandons the model mid-task, re-rolling (C) re-asks the same question while ignoring the request, and max_tokens (D) is unrelated to tool dispatch.",
       "ja": "これがエージェントループです。\"tool_use\" は、モデルが処理を続ける前にツールの結果を待っていることを意味します。ターンを終えるとモデルをタスクの途中で放り出すことになり (A)、再試行は要求を無視して同じ質問をし直すだけです (C)。max_tokens はツールの呼び出し処理とは関係ありません (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV006",
@@ -249,7 +254,8 @@
     "explanation": {
       "en": "Version pinning makes model behavior a controlled dependency; upgrades then pass through evaluation like any other change. Prompting for old behavior (A) is not a contract, failover (B) trades one behavior change for another, and empty responses (D) institutionalize the failure.",
       "ja": "バージョンを固定すると、モデルの挙動を管理された依存関係として扱えます。アップグレードは、ほかの変更と同じように評価を通してから行います。以前の挙動をプロンプトで求めても保証にはならず (A)、フェイルオーバーは挙動の変化を別の変化に置き換えるだけです (B)。空の応答を返すと、障害を常態化させることになります (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV007",
@@ -291,7 +297,8 @@
     "explanation": {
       "en": "Drift and bloat are managed by context hygiene: prune, compact, and isolate. A bigger window (A) delays the same failure while raising cost, repetition (B) accelerates the bloat, and asking the model to ignore confusion (C) is not a mechanism.",
       "ja": "ドリフトと肥大化は、コンテキストの整理（削る、圧縮する、分離する）で管理します。大きなウィンドウにしても、コストを上げながら同じ失敗を先送りするだけです (A)。繰り返しは肥大化を加速させ (B)、混乱を無視するよう頼むことは仕組みになりません (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV008",
@@ -333,7 +340,8 @@
     "explanation": {
       "en": "Injection defense is structural: separate untrusted content from trusted instructions and deny injected text access to consequential capabilities through least privilege and guardrails. Polite instructions (B) are not enforcement, model size (C) does not remove the attack surface, and keyword scanning (D) is trivially evaded.",
       "ja": "インジェクションへの防御は構造で行います。信頼できないコンテンツを信頼できる指示から分け、最小権限とガードレールによって、注入されたテキストが重大な影響を持つ機能に触れられないようにします。丁寧な指示は強制力になりません (B)。モデルを大きくしても攻撃対象がなくなるわけではありません (C)。キーワードのスキャンは簡単にすり抜けられます (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV009",
@@ -375,7 +383,8 @@
     "explanation": {
       "en": "Reusable, independently maintained, model-facing capabilities are the MCP server's exact job. Copied tools (A) drift apart, pasted data (C) is stale and wastes context, and a Skill (D) carries instructions, not a live connection.",
       "ja": "再利用でき、独立して保守され、モデルから使える機能を提供することは、まさに MCP サーバーの役割です。コピーしたツールは次第に食い違い (A)、貼り付けたデータは古くなるうえコンテキストを浪費します (C)。Skill が伝えるのは指示であり、実データへの接続ではありません (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV010",
@@ -417,7 +426,8 @@
     "explanation": {
       "en": "The traces localize the fault: the model is correct given its inputs, and the inputs are wrong. That is an integration-layer defect. Model upgrades (A) and prompt exhortations (B) cannot fix inputs, and blaming users (D) ignores the evidence.",
       "ja": "トレースによって障害の場所が特定されています。モデルは与えられた入力に対しては正しく、入力が間違っています。これは統合層の欠陥です。モデルのアップグレード (A) やプロンプトでの強調 (B) では入力を直せません。ユーザーのせいにするのは証拠を無視しています (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV011",
@@ -459,7 +469,8 @@
     "explanation": {
       "en": "A large, unchanging prefix is exactly what prompt caching exists for, and it cuts both cost and time to first token without changing behavior. Trimming instructions (A) sacrifices capability, a smaller model (B) trades quality for price, and batching (C) breaks a per-request service.",
       "ja": "大きく変化しないプレフィックスは、まさにプロンプトキャッシュの対象であり、挙動を変えずにコストと最初のトークンまでの時間の両方を削減できます。指示を削ると能力が犠牲になり (A)、小さいモデルは品質と価格を引き換えにします (B)。まとめて処理すると、リクエストごとに応答するサービスが成り立ちません (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV012",
@@ -501,7 +512,8 @@
     "explanation": {
       "en": "Streaming is the mechanism for incremental delivery and is what perceived latency depends on. A smaller model (B) and a shorter cap (D) reduce total time without changing when the first token appears, and splitting (C) adds round trips.",
       "ja": "ストリーミングは出力を少しずつ届けるための仕組みであり、体感のレイテンシはこれで決まります。小さいモデル (B) や短い上限 (D) は全体の時間を減らしますが、最初のトークンが表示されるタイミングは変わりません。分割すると往復が増えます (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV013",
@@ -543,7 +555,8 @@
     "explanation": {
       "en": "Work that is large, uniform, and not time-critical is what batch processing is for, and it is materially cheaper. Streaming (A) serves interactive use, maximum concurrency (C) risks rate limits for no benefit here, and splitting keys (D) is an evasion rather than a design.",
       "ja": "大量で均一で、急ぎではない処理こそバッチ処理の用途であり、コストが大幅に下がります。ストリーミングは対話的な用途のためのもので (A)、最大の同時実行数は、ここでは何の利点もなくレート制限のリスクがあります (C)。キーを分けるのは設計ではなく制限の回避です (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV014",
@@ -585,7 +598,8 @@
     "explanation": {
       "en": "Backoff with a retry ceiling relieves the pressure that caused the limit and still fails predictably. Immediate retries (A) worsen the condition, treating it as terminal (B) discards recoverable work, and shrinking requests (D) does not address a rate that is measured in calls.",
       "ja": "再試行の上限を設けたバックオフは、制限の原因となった負荷を和らげつつ、失敗するときは予測どおりに失敗します。すぐに再試行すると状況が悪化し (A)、恒久的な失敗として扱うと回復できる処理を捨てることになります (B)。リクエストを小さくしても、呼び出し回数で測られるレートには対処できません (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV015",
@@ -627,7 +641,8 @@
     "explanation": {
       "en": "A declared schema turns structure into a contract the response must satisfy, which is what a typed insert needs. Asking in prose (A) and retrying on failure (B) both leave the shape to chance, and regular expressions over prose (C) are brittle by construction.",
       "ja": "スキーマを宣言すると、構造が応答の満たすべき契約になります。型の決まったレコードへの挿入には、それが必要です。文章で求める方法 (A) も、失敗時に再試行する方法 (B) も、形を運任せにしています。文章に正規表現を当てる方法は、そもそも壊れやすい作りです (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV016",
@@ -669,7 +684,8 @@
     "explanation": {
       "en": "Compaction preserves the meaning of earlier exchanges within a much smaller footprint, which is what continuity requires. Blind truncation (B) drops facts silently, the output cap (C) is unrelated, and starting fresh (D) discards the state entirely.",
       "ja": "圧縮（コンパクション）は、以前のやり取りの意味をはるかに小さな量で保つため、会話の連続性に必要なものです。機械的に切り捨てると事実が気づかれないまま失われ (B)、出力の上限は関係がなく (C)、新しく始めると状態がすべて失われます (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV017",
@@ -711,7 +727,8 @@
     "explanation": {
       "en": "A client error means the request itself is wrong, and repeating it unchanged cannot succeed. Latency (A) and a single prior failure (C) are consistent with transient faults, and a spending limit (D) is an operational matter rather than a property of the request.",
       "ja": "クライアントエラーはリクエスト自体が誤っていることを意味し、変更せずに繰り返しても成功しません。レイテンシ (A) や1回の失敗 (C) は、一時的な障害とも矛盾しません。利用額の上限 (D) は運用上の問題であり、リクエストの性質ではありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV018",
@@ -753,7 +770,8 @@
     "explanation": {
       "en": "Hitting the output cap produces exactly this symptom and is reported as such in the stop reason. An oversized input (A) fails before generation, an unsupported format (B) produces wrong shape rather than a cut, and a dropped connection (D) is an error rather than a clean stop.",
       "ja": "出力の上限に達すると、まさにこの症状になり、停止理由にもそのことが示されます。入力が大きすぎる場合は生成の前に失敗し (A)、対応していない形式では、途切れるのではなく形の違う出力になります (B)。接続が切れた場合は、正常な停止ではなくエラーになります (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV019",
@@ -795,7 +813,8 @@
     "explanation": {
       "en": "Model selection is a fit-to-requirement decision, and a simple, repetitive task is where a smaller model most often suffices. Treating accuracy as unbounded (A) ignores cost, a longer prompt (B) adds expense for no stated need, and reducing frequency (C) changes the requirement rather than meeting it.",
       "ja": "モデルの選択は要件に合うかどうかの判断であり、単純で繰り返しの多いタスクは、小さいモデルで十分なことが最も多い領域です。精度を際限なく求めるとコストを無視することになり (A)、プロンプトを長くすると、必要性が示されていないのに費用が増えます (B)。頻度を下げるのは、要件を満たすのではなく要件を変えることです (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV020",
@@ -837,7 +856,8 @@
     "explanation": {
       "en": "Deep, multi-step reasoning over interacting constraints is where capability differences show. The other three are mechanical or single-signal tasks that a small model handles at a fraction of the cost.",
       "ja": "相互に影響する制約をふまえた、深い多段階の推論こそ、能力の差が表れる領域です。ほかの3つは機械的な、あるいは1つの手がかりで判断できるタスクで、小さいモデルがわずかなコストで処理できます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV021",
@@ -879,7 +899,8 @@
     "explanation": {
       "en": "With volume flat, cost per request must have grown, and context sent per call is the usual driver. Published price (A) would be a known change, key count (C) does not affect cost, and latency (D) is not billed.",
       "ja": "リクエスト数が横ばいなら、リクエストあたりのコストが増えたはずであり、その主な原因は通常、呼び出しごとに送るコンテキストです。公表価格の変更 (A) なら把握できているはずで、キーの数 (C) はコストに影響せず、レイテンシ (D) は課金されません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV022",
@@ -921,7 +942,8 @@
     "explanation": {
       "en": "Model choice is empirical and task-specific, which is what a representative evaluation establishes. Benchmarks (A) may not reflect the task, recency (B) is not a measurement, and defaulting to size (D) decides before evidence.",
       "ja": "モデルの選択は経験的で、タスクに固有の判断であり、代表的なサンプルでの評価がその根拠になります。ベンチマークはそのタスクを反映していないことがあり (A)、新しさは測定ではありません (B)。大きさで決めるのは、根拠を得る前に決めてしまうことです (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV023",
@@ -963,7 +985,8 @@
     "explanation": {
       "en": "When the path is known in advance, encoding it directly is cheaper, faster, and far easier to debug than letting a model rediscover it each run. Runtime decisions (A, B) add nondeterminism with no benefit, and a single prompt (C) removes the checkpoints between steps.",
       "ja": "手順が事前にわかっている場合は、それを直接コードにするほうが、毎回モデルに手順を見つけ直させるより安く速く、はるかにデバッグしやすくなります。実行時に決める方法 (A, B) は利点のない非決定性を持ち込み、1つのプロンプトにまとめるとステップ間のチェックポイントがなくなります (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV024",
@@ -1005,7 +1028,8 @@
     "explanation": {
       "en": "Agents earn their cost where the path must be discovered during execution. Length (B), tool count (C), and structured output (D) are all satisfied by a fixed workflow.",
       "ja": "エージェントがコストに見合うのは、実行中に手順を見つけていかなければならない場合です。長さ (B)、ツールの数 (C)、構造化された出力 (D) は、いずれも固定のワークフローで満たせます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV025",
@@ -1047,7 +1071,8 @@
     "explanation": {
       "en": "Delegation trades context for isolation, and quality falls when the handoff omits what the subtask needed. A larger model (A) cannot supply missing context, subagents are widely used in pipelines (C), and adding more (D) multiplies the same fault.",
       "ja": "委任はコンテキストと引き換えに分離を得るものであり、サブタスクに必要な情報が引き継ぎで抜けると品質が下がります。大きいモデルでも欠けたコンテキストは補えず (A)、サブエージェントはパイプラインで広く使われています (C)。数を増やすと同じ欠陥が増えるだけです (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV026",
@@ -1089,7 +1114,8 @@
     "explanation": {
       "en": "A step ceiling is a safety bound for the non-terminating case, which is the failure mode that matters. Successful runs (A) usually finish well inside the limit, and neither speed (B) nor prompt clarity (D) is what the limit governs.",
       "ja": "ステップ数の上限は、処理が終わらない場合に備えた安全のための上限であり、それこそが問題となる失敗のパターンです。成功する実行はたいてい上限よりかなり手前で終わり (A)、速度 (B) もプロンプトのわかりやすさ (D) も、この上限が制御するものではありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV027",
@@ -1131,7 +1157,8 @@
     "explanation": {
       "en": "A worked example makes the constraints concrete and demonstrates their interaction, which prose cannot. Emphasis (A) and repetition (B) restate without clarifying, and higher temperature (C) increases variance, which is the opposite of reliability.",
       "ja": "実際の例は制約を具体的にし、制約どうしの関係を示します。これは文章の説明ではできません。強調 (A) や繰り返し (B) は言い直すだけで明確にはならず、temperature を上げるとばらつきが増え、信頼性とは逆の結果になります (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV028",
@@ -1173,7 +1200,8 @@
     "explanation": {
       "en": "The system prompt is the designated place for persistent framing and keeps it separate from turn-specific content. Placing it in user turns (B, C, D) mixes configuration with input and invites drift.",
       "ja": "システムプロンプトは、継続して適用する前提を置くための場所であり、ターンごとの内容と分けておけます。ユーザーのターンに置くと (B, C, D)、設定と入力が混ざり、ドリフトを招きます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV029",
@@ -1215,7 +1243,8 @@
     "explanation": {
       "en": "Context is a budget rather than a free resource, and irrelevant material dilutes attention to what matters. More is not automatically better (A), the model does not reliably filter for you (C), and the effect is on quality as well as cost (D).",
       "ja": "コンテキストは無料の資源ではなく予算であり、無関係な情報は重要な部分への注意を薄めます。多ければ自動的に良くなるわけではなく (A)、モデルが確実に取捨選択してくれるわけでもありません (C)。影響はコストだけでなく品質にも及びます (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV030",
@@ -1257,7 +1286,8 @@
     "explanation": {
       "en": "A tool description is the model's only guide to selection and use, so it is where correctness is won or lost. Tool count (A) and declaration order (B) matter far less, and the return format (D) affects consumption rather than selection.",
       "ja": "ツールの説明は、モデルがツールを選んで使うための唯一の手がかりであり、正しく呼び出せるかどうかはここで決まります。ツールの数 (A) や宣言の順序 (B) の影響ははるかに小さく、戻り値の形式 (D) は、選択ではなく結果の扱いに影響します。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV031",
@@ -1299,7 +1329,8 @@
     "explanation": {
       "en": "Ambiguity between tools is a design problem in the interface and is fixed by making each tool distinct. Instructions (A) do not resolve genuine overlap, context size (B) is not the constraint, and ordering (C) does not clarify purpose.",
       "ja": "ツール間のあいまいさはインターフェースの設計の問題であり、各ツールをはっきり区別できるようにすることで解決します。指示 (A) では実際の重なりは解消せず、コンテキストの大きさ (B) は制約になっておらず、並び順 (C) では目的は明確になりません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV032",
@@ -1341,7 +1372,8 @@
     "explanation": {
       "en": "Feeding the error back keeps the model in the loop and lets it correct its arguments or choose another path. Raw errors (B) leak internals, blind retries (C) repeat the fault, and abandoning (D) discards recoverable runs.",
       "ja": "エラーを返すとモデルがループの中にとどまり、引数を直したり別の方法を選んだりできます。生のエラーは内部情報を漏らし (B)、やみくもな再試行は同じ失敗を繰り返し (C)、中止すると回復できた実行を捨てることになります (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV033",
@@ -1383,7 +1415,8 @@
     "explanation": {
       "en": "Retrieved content is untrusted input, and the durable defense is that the model's authority is limited by the surrounding system rather than by its own compliance. Prompt instructions (A), phrase filters (C), and model size (D) are all bypassable.",
       "ja": "取得したコンテンツは信頼できない入力です。持続的な防御とは、モデル自身が従うかどうかに頼るのではなく、周囲のシステムによってモデルの権限を制限することです。プロンプトの指示 (A)、文言のフィルタ (C)、モデルの大きさ (D) は、いずれもすり抜けられます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV034",
@@ -1425,7 +1458,8 @@
     "explanation": {
       "en": "Least privilege bounds the consequences of any mistake or manipulation, and it is enforced outside the prompt. Full credentials (A) and instruction-based restraint (B) rely on behavior rather than control, and an unscoped tool (D) removes the boundary.",
       "ja": "最小権限は、誤りや不正な操作による影響の範囲を限定し、プロンプトの外で強制されます。完全な認証情報 (A) や指示による抑制 (B) は、制御ではなく振る舞いに頼っています。範囲を限定しないツールは境界をなくします (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV035",
@@ -1467,7 +1501,8 @@
     "explanation": {
       "en": "Three hand-picked examples cannot distinguish a real improvement from noise, which is what an evaluation set exists to settle. Self-assessment (B) is not measurement, and shipping first (A, C) makes users the test set.",
       "ja": "手で選んだ3つの例では本当の改善とノイズを区別できず、それを判断するために評価セットがあります。自己評価は測定ではなく (B)、先にリリースすると (A, C) ユーザーをテストセットにすることになります。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV036",
@@ -1509,7 +1544,8 @@
     "explanation": {
       "en": "\"end_turn\" means the model has finished; \"tool_use\" is the signal to execute a tool and continue the loop\n\n[Supplement] max_tokens (C) matters only when the stop reason is \"max_tokens\"; a finished turn needs no resend.",
       "ja": "\"end_turn\" はモデルが応答を終えたことを意味します。\"tool_use\" が、ツールを実行してループを続けるべきことを示すシグナルです。\n\n【補足】max_tokens (C) が関係するのは停止理由が \"max_tokens\" の場合だけで、完了したターンを再送する必要はありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV037",
@@ -1551,7 +1587,8 @@
     "explanation": {
       "en": "Latency-tolerant bulk work is the Batches API's purpose: 50% of the cost within a 24-hour window\n\n[Supplement] Fanning out synchronous calls (A) pays full price for speed nobody needs, a smaller model with lower max_tokens (C) still pays synchronous rates and may cost quality, and a single request (D) cannot hold 200,000 descriptions.",
       "ja": "遅延を許容できる大量の処理は Batches API の用途です。24時間以内の処理期間で、コストは50%になります。\n\n【補足】同期呼び出しを分散しても (A)、誰も必要としない速度に通常の料金を払うことになります。小さいモデルと少ない max_tokens (C) も同期呼び出しの料金のままで、品質を損なうおそれがあります。1つのリクエスト (D) には200,000件の説明は収まりません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV038",
@@ -1593,7 +1630,8 @@
     "explanation": {
       "en": "Caching reuses a stable prefix, cutting time-to-first-token and per-request cost. Position matters: stable content first\n\n[Supplement] Abbreviating the prompt (B) risks losing meaning, which the question rules out, and sending it only on the first request (D) loses the content, because each Messages API call is stateless.",
       "ja": "キャッシュは安定したプレフィックスを再利用し、最初のトークンまでの時間とリクエストごとのコストを削減します。位置が重要で、固定の内容を先頭に置きます。\n\n【補足】略語で圧縮すると (B) 意味が失われるおそれがあり、設問の条件に反します。最初のリクエストでだけプロンプトを送ると (D)、Messages API の呼び出しはそれぞれ独立しているため、以降のリクエストでは内容が失われます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV039",
@@ -1635,7 +1673,8 @@
     "explanation": {
       "en": "Schema enforcement plus a validation-retry loop treats model output as untrusted input and lets the model self-correct\n\n[Supplement] Returning an empty object (A) hides the failure from downstream code, firmer instructions (B) reduce but do not eliminate missing fields, and inserting fields by regular expression (C) fabricates values the model never produced.",
       "ja": "スキーマの強制と検証・再試行のループを組み合わせると、モデルの出力を信頼できない入力として扱い、モデル自身に修正させることができます。\n\n【補足】空のオブジェクトを返すと (A)、失敗が後続のコードから見えなくなります。指示を強めても (B)、フィールドの欠落は減るだけでなくなりません。正規表現でフィールドを挿入すると (C)、モデルが出力していない値を作り出すことになります。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV040",
@@ -1677,7 +1716,8 @@
     "explanation": {
       "en": "Autonomy is justified when the path is unknown. A fixed path belongs in deterministic code that can be tested\n\n[Supplement] Agents are used in production (B), tool calling is a standard capability rather than an unreliable one (C), and context window size (D) is unrelated to whether the control flow should be fixed.",
       "ja": "自律性が正当化されるのは、手順がわからない場合です。固定された手順は、テストできる決定的なコードに置くべきです。\n\n【補足】エージェントは本番環境でも使われており (B)、ツールの呼び出しは不確かなものではなく標準的な機能です (C)。コンテキストウィンドウの大きさ (D) は、制御フローを固定すべきかどうかとは関係ありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV041",
@@ -1719,7 +1759,8 @@
     "explanation": {
       "en": "Subagents delegate and isolate context; that isolation is their main architectural value\n\n[Supplement] Running the same prompt twice (A) is a voting technique rather than delegation, subagents call the same API under the same limits and do not bypass them (C), and a fallback when the main model is unavailable (D) is a failover concern, not what subagents are for.",
       "ja": "サブエージェントは委任とコンテキストの分離を行います。その分離こそが、アーキテクチャ上の主な価値です。\n\n【補足】同じプロンプトを2回実行するのは (A)、委任ではなく多数決の手法です。サブエージェントも同じ制限のもとで同じ API を呼び出すため、制限を回避する手段にはなりません (C)。メインのモデルが使えないときの代替 (D) はフェイルオーバーの問題であり、サブエージェントの目的ではありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV042",
@@ -1761,7 +1802,8 @@
     "explanation": {
       "en": "Capability the agent does not hold cannot be misused. Prompts and confirmations are not enforcement\n\n[Supplement] A model known for instruction following (D) still relies on behavior rather than control.",
       "ja": "エージェントが持っていない機能は悪用できません。プロンプトや確認は強制力になりません。\n\n【補足】指示に従うことで知られるモデルでも (D)、制御ではなく振る舞いに頼っていることに変わりはありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV043",
@@ -1803,7 +1845,8 @@
     "explanation": {
       "en": "Pinning makes model behavior a controlled dependency so upgrades pass through evaluation\n\n[Supplement] Pinning changes neither the price (A) nor the context window (B), and its purpose is controlling behavior changes, not meeting an API requirement (C).",
       "ja": "固定すると、モデルの挙動を管理された依存関係として扱え、アップグレードは評価を通してから行えます。\n\n【補足】固定しても料金 (A) やコンテキストウィンドウ (B) は変わりません。固定する目的は挙動の変化を管理することであり、API の要件を満たすことではありません (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV044",
@@ -1845,7 +1888,8 @@
     "explanation": {
       "en": "An MCP server is a reusable, independently maintained capability that multiple clients share\n\n[Supplement] MCP supplies tools and context to an application that still calls the model, so it does not replace the Messages API (C), and servers can run locally or remotely in their own process (D).",
       "ja": "MCP サーバーは、複数のクライアントが共有する、再利用可能で独立して保守される機能です。\n\n【補足】MCP は、モデルを呼び出すアプリケーションにツールやコンテキストを提供するもので、Messages API の代わりにはなりません (C)。サーバーはローカルでもリモートでも、独立したプロセスとして動かせます (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV045",
@@ -1887,7 +1931,8 @@
     "explanation": {
       "en": "Context drift and bloat are managed by pruning, compaction, and isolation\n\n[Supplement] Higher temperature (A) adds variance rather than memory, repeating the system prompt (C) adds still more tokens to a nearly full context, and max_tokens (D) caps the output without shrinking the accumulated input.",
       "ja": "コンテキストのドリフトと肥大化は、削減、圧縮、分離で管理します。\n\n【補足】temperature を上げても (A) ばらつきが増えるだけで、記憶は改善しません。システムプロンプトを繰り返すと (C)、ほぼ満杯のコンテキストにさらにトークンが増えます。max_tokens (D) は出力の上限であり、蓄積した入力は減りません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV046",
@@ -1929,7 +1974,8 @@
     "explanation": {
       "en": "Few-shot examples fix format and edge-case behavior far better than more instructions\n\n[Supplement] Examples demonstrate behavior rather than supply missing facts (A), and they add input tokens, so they neither reduce latency (B) nor help when the context window is already too small (D).",
       "ja": "Few-shot の例は、指示を増やすよりはるかにうまく、形式と特殊なケースの振る舞いを安定させます。\n\n【補足】例は振る舞いを示すもので、足りない事実を補うものではありません (A)。また、例は入力トークンを増やすため、レイテンシを下げることはなく (B)、コンテキストウィンドウがすでに足りない場合の助けにもなりません (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV047",
@@ -1971,7 +2017,8 @@
     "explanation": {
       "en": "Injection defense is structural: separate untrusted content and apply least privilege to consequential tools\n\n[Supplement] A request in the system prompt (A) is not enforcement, higher temperature (B) makes behavior less reliable without blocking the attack, and keyword filtering (C) is trivially evaded by rewording.",
       "ja": "インジェクションへの防御は構造で行います。信頼できないコンテンツを分け、重大な影響を持つツールに最小権限を適用します。\n\n【補足】システムプロンプトで頼むこと (A) は強制力になりません。temperature を上げても (B)、攻撃は防げず振る舞いの信頼性が下がるだけです。キーワードのフィルタリング (C) は、言い換えで簡単にすり抜けられます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV048",
@@ -2013,7 +2060,8 @@
     "explanation": {
       "en": "Reduced cost, asynchronous window, custom_id correlation, and no multi-turn tool calling inside a batch\n\n[Supplement] One batch carries many requests, each identified by its own custom_id, so no dedicated endpoint per request is needed (D).",
       "ja": "コストの削減、非同期の処理期間、custom_id による対応付け、そしてバッチの中では複数ターンのツール呼び出しができないことが特徴です。\n\n【補足】1つのバッチに、それぞれ custom_id で識別される多数のリクエストをまとめて送るため、リクエストごとに専用のエンドポイントは必要ありません (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV049",
@@ -2055,7 +2103,8 @@
     "explanation": {
       "en": "Headless CI use means non-interactive invocation with structured, schema-validated output\n\n[Supplement] Screen-scraping the terminal (D) depends on display formatting, which is not a stable, machine-readable interface.",
       "ja": "CI でのヘッドレス利用では、構造化され、スキーマで検証された出力を返す非対話の呼び出しを使います。\n\n【補足】ターミナルの画面のスクレイピング (D) は表示の体裁に依存しており、安定した機械可読のインターフェースではありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV050",
@@ -2097,7 +2146,8 @@
     "explanation": {
       "en": "Traces localize the fault to the integration layer: correct reasoning over wrong inputs is a retrieval defect\n\n[Supplement] The output parser (D) acts after generation, but the traces show the wrong documents arrive before the model reasons.",
       "ja": "トレースによって、障害は統合層にあると特定されています。間違った入力に対して正しく推論しているなら、それは検索の欠陥です。\n\n【補足】出力パーサー (D) が働くのは生成のあとですが、トレースでは、モデルが推論する前の段階で間違ったドキュメントが届いています。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV051",
@@ -2139,7 +2189,8 @@
     "explanation": {
       "en": "A large unchanging prefix repeated per call is what caching addresses, without losing any instruction. Shortening (A) sacrifices capability, a cheaper model (B) trades quality, and fewer requests (D) changes the product",
       "ja": "呼び出しごとに繰り返される、大きく変化しないプレフィックスこそキャッシュが対処するもので、指示を1つも失いません。短くすると能力が犠牲になり (A)、安いモデルは品質と引き換えになり (B)、リクエストを減らすと製品が変わってしまいます (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV052",
@@ -2181,7 +2232,8 @@
     "explanation": {
       "en": "Decoupling acceptance from completion satisfies the latency contract without degrading the answer. Truncation (B) and a minimal model (C) sacrifice the result, and the timeout (D) is the stated constraint",
       "ja": "受付と完了を切り離すと、答えの質を落とさずにレイテンシの約束を守れます。切り詰め (B) や最小のモデル (C) は結果を犠牲にし、タイムアウト (D) は設問で示された制約そのものです。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV053",
@@ -2223,7 +2275,8 @@
     "explanation": {
       "en": "That stop reason reports that generation hit the output ceiling. An oversized input (A) fails before generation, and neither a malformed request (B) nor a refusal (C) produces this reason",
       "ja": "その停止理由は、生成が出力の上限に達したことを示します。入力が大きすぎる場合は生成の前に失敗し (A)、不正な形式のリクエスト (B) も拒否 (C) も、この停止理由にはなりません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV054",
@@ -2265,7 +2318,8 @@
     "explanation": {
       "en": "Tools should return what the task requires, which preserves context for reasoning. A larger window (A) delays the problem, a second call (C) adds cost and failure surface, and calling less often (D) does not change the payload",
       "ja": "ツールはタスクに必要なものを返すべきで、そうすれば推論のためのコンテキストが残ります。大きなウィンドウは問題を先送りするだけで (A)、2回目の呼び出しはコストと失敗の要因を増やし (C)、呼び出しを減らしても返る量は変わりません (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV055",
@@ -2307,7 +2361,8 @@
     "explanation": {
       "en": "Rate limits and transient server errors are the recoverable class. An invalid parameter (A) will fail identically, and disagreement (C) or length (D) are not transport failures",
       "ja": "レート制限と一時的なサーバーエラーは、回復できる種類のエラーです。無効なパラメータ (A) は何度やっても同じように失敗し、答えへの不同意 (C) や長さ (D) は通信の失敗ではありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV056",
@@ -2349,7 +2404,8 @@
     "explanation": {
       "en": "Large, uniform, latency-tolerant work is exactly the batch case, and it is materially cheaper. Streaming (A) serves interactive use, the largest model (B) raises cost, and concurrency (C) does not change unit price",
       "ja": "大量で均一で、遅延を許容できる処理は、まさにバッチの用途であり、コストが大幅に下がります。ストリーミングは対話的な用途のためのもので (A)、最大のモデルはコストを上げ (B)、同時実行数を増やしても単価は変わりません (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV057",
@@ -2391,7 +2447,8 @@
     "explanation": {
       "en": "Where the requirement is met, the cheaper option is correct, and changing inputs are handled by re-evaluating. Insurance against hypothetical change (B), alternation (C), and recency (D) all spend without benefit",
       "ja": "要件を満たしているなら安い選択肢が正解であり、入力が変わったときは再評価で対応します。仮定の変化への保険 (B)、交互に使うこと (C)、新しさ (D) は、いずれも利点なしに費用をかけるだけです。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV058",
@@ -2433,7 +2490,8 @@
     "explanation": {
       "en": "Multi-step reasoning under interacting constraints is where capability differences show. A small model (A) and splitting (B) both fragment the reasoning, and prompt length (D) does not add capability",
       "ja": "相互に影響する制約のもとでの多段階の推論こそ、能力の差が表れる領域です。小さいモデル (A) も分割 (B) も推論を細切れにし、プロンプトの長さ (D) で能力は上がりません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV059",
@@ -2475,7 +2533,8 @@
     "explanation": {
       "en": "Overlapping tools make selection ambiguous, which is where agents go wrong. Overlap does not improve speed (A), reduce cost (B), or help error handling (C)",
       "ja": "ツールが重なっていると選択があいまいになり、そこでエージェントは間違えます。重なりによって速度が上がることも (A)、コストが下がることも (B)、エラー処理が良くなることもありません (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV060",
@@ -2517,7 +2576,8 @@
     "explanation": {
       "en": "A defined success condition ends the loop correctly, and the ceiling bounds the failure case. A timeout alone (A) does not recognize success, the model's own judgment (B) is not a guarantee, and exhausting context (D) is a failure rather than a termination",
       "ja": "定義された成功条件でループを正しく終え、上限で失敗時の範囲を限定します。タイムアウトだけでは成功を認識できず (A)、モデル自身の判断は保証になりません (B)。コンテキストを使い切るのは終了ではなく失敗です (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV061",
@@ -2559,7 +2619,8 @@
     "explanation": {
       "en": "The system prompt is designed for persistent framing across the exchange. Placing it in user turns (A, C) mixes configuration with input, and tool descriptions (D) govern tool selection",
       "ja": "システムプロンプトは、やり取り全体にわたって継続する前提を置くために設計されています。ユーザーのターンに置くと (A, C) 設定と入力が混ざり、ツールの説明 (D) はツールの選択を左右するものです。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV062",
@@ -2601,7 +2662,8 @@
     "explanation": {
       "en": "An example defines the target unambiguously, which is what formatting consistency needs. Higher temperature (B) increases variance, a vague adjective (C) does not specify, and a larger model (D) does not know your format",
       "ja": "例は目標をあいまいさなく定義し、それこそが形式をそろえるために必要なものです。temperature を上げるとばらつきが増え (B)、あいまいな形容詞では仕様にならず (C)、大きいモデルでもあなたの形式を知っているわけではありません (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV063",
@@ -2643,7 +2705,8 @@
     "explanation": {
       "en": "The description is the model's only basis for choosing and calling the tool correctly. Brevity (B) is secondary to clarity, and implementation detail (C) and naming (D) do not guide selection",
       "ja": "説明は、モデルがツールを正しく選んで呼び出すための唯一の根拠です。短さ (B) は明確さより二の次で、実装の詳細 (C) や名前 (D) は選択の手がかりになりません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV064",
@@ -2685,7 +2748,8 @@
     "explanation": {
       "en": "The durable control is that the model cannot exceed its granted permissions regardless of what the content says. Prompt instructions (A) and phrase filters (C) are bypassable, and context size (D) is irrelevant",
       "ja": "持続的な制御とは、コンテンツに何が書かれていても、モデルが与えられた権限を超えられないようにすることです。プロンプトの指示 (A) や文言のフィルタ (C) はすり抜けられ、コンテキストの大きさ (D) は関係ありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV065",
@@ -2727,7 +2791,8 @@
     "explanation": {
       "en": "Five hand-picked cases cannot separate a real gain from noise, which is what an evaluation set settles. Self-comparison (B) is not measurement, and shipping first (A, D) makes users the test",
       "ja": "手で選んだ5つのケースでは、本当の改善とノイズを区別できず、それを判断するのが評価セットです。自己比較は測定ではなく (B)、先にリリースすると (A, D) ユーザーをテストにすることになります。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV066",
@@ -2769,7 +2834,8 @@
     "explanation": {
       "en": "Authentication failures point at the credential rather than the payload. A transient fault (A) presents differently, and neither prompt length (B) nor deprecation (D) produces an auth error",
       "ja": "認証の失敗は、ペイロードではなく認証情報に原因があることを示しています。一時的な障害 (A) は別の形で現れ、プロンプトの長さ (B) も非推奨化 (D) も認証エラーにはなりません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV067",
@@ -2811,7 +2877,8 @@
     "explanation": {
       "en": "Correlation exists for traceability, which is what debugging asynchronous or batched work depends on. It does not affect cost (B) or accuracy (C), and it is a design practice rather than a requirement (D)",
       "ja": "対応付けは追跡のためにあり、非同期の処理やバッチ処理のデバッグはそれに頼っています。コスト (B) や精度 (C) には影響せず、要件ではなく設計上のプラクティスです (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV068",
@@ -2853,7 +2920,8 @@
     "explanation": {
       "en": "A tool-use stop is a handoff, and the loop continues once the result is returned. Retrying (A) repeats the request, returning partial text (B) discards the work, and the token limit (C) is unrelated",
       "ja": "tool use による停止は引き継ぎであり、結果を返せばループが続きます。再試行は同じリクエストを繰り返すだけで (A)、途中のテキストを返すと作業が無駄になり (B)、トークンの上限は関係ありません (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV069",
@@ -2895,7 +2963,8 @@
     "explanation": {
       "en": "A queue smooths demand against a rate-limited dependency. It does not change accuracy (A) or token counts (C), and retries remain necessary (D)",
       "ja": "キューは、レート制限のある依存先に対して需要を平準化します。精度 (A) やトークン数 (C) は変わらず、再試行は引き続き必要です (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV070",
@@ -2937,7 +3006,8 @@
     "explanation": {
       "en": "A well-formed but wrong answer points at what the model was told, not how it was delivered. Transport (A), limits (C), and output caps (D) produce failures of delivery rather than of meaning",
       "ja": "形式は正しいのに答えが間違っている場合は、どう届けたかではなく、モデルに何を伝えたかに原因があります。通信 (A)、制限 (C)、出力の上限 (D) は、意味ではなく配信の失敗を引き起こすものです。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV071",
@@ -2979,7 +3049,8 @@
     "explanation": {
       "en": "Unused capacity is paid for in cost and time. A larger window does not itself improve accuracy (A), reduce rate limiting (B), or make structure more reliable (C)",
       "ja": "使わない容量にも、コストと時間を払うことになります。ウィンドウが大きいこと自体で、精度が上がること (A)、レート制限が減ること (B)、構造の信頼性が上がること (C) はありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV072",
@@ -3021,7 +3092,8 @@
     "explanation": {
       "en": "The decision is evidence-led against a defined bar. Budget (B), volume (C), and latency (D) create pressure to look, but they do not establish that quality holds",
       "ja": "判断は、定めた基準に照らした根拠に基づいて行います。予算 (B)、量 (C)、レイテンシ (D) は検討するきっかけにはなりますが、品質が保たれることを示すものではありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV073",
@@ -3063,7 +3135,8 @@
     "explanation": {
       "en": "Durable state must be explicit, because context is finite and compaction is lossy. Relying on the window (A) fails at length, temperature (B) is unrelated, and restarting (D) loses the decision",
       "ja": "コンテキストには限りがあり、圧縮では情報が失われるため、持続させる状態は明示的にしておかなければなりません。ウィンドウに頼ると長くなったときに失敗し (A)、temperature は関係なく (B)、再起動すると判断が失われます (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV074",
@@ -3105,7 +3178,8 @@
     "explanation": {
       "en": "Who decides the next step is the distinction that matters. Length (A) is incidental, agents do use tools (B), and workflows do call the model (C)",
       "ja": "重要な違いは、次のステップを誰が決めるかです。長さ (A) は付随的なもので、エージェントはツールを使い (B)、ワークフローもモデルを呼び出します (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV075",
@@ -3147,7 +3221,8 @@
     "explanation": {
       "en": "Contradictory signals produce inconsistent behavior rather than a defined precedence. Neither the instruction (A) nor the example (B) reliably wins, and the request is not rejected (D)",
       "ja": "矛盾するシグナルは、決まった優先順位ではなく一貫しない振る舞いを生みます。指示 (A) も例 (B) も確実に優先されるわけではなく、リクエストが拒否されることもありません (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV076",
@@ -3189,7 +3264,8 @@
     "explanation": {
       "en": "Material at the edges of a long input is attended to more reliably than material buried in the middle. Position is not neutral (A) or advantageous here (C), and it does not error (D)",
       "ja": "長い入力では、中ほどに埋もれた内容より、端にある内容のほうが確実に注意を向けられます。位置は中立ではなく (A)、ここでは有利にも働かず (C)、エラーにもなりません (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV077",
@@ -3231,7 +3307,8 @@
     "explanation": {
       "en": "Returning a handle keeps context free when the payload is only needed for a later call. Always returning everything (B) or nothing (C) ignores the task, and the rule is not about writes (D)",
       "ja": "データがあとの呼び出しにしか必要ない場合は、ハンドルを返せばコンテキストを空けておけます。常にすべてを返す (B)、あるいは何も返さない (C) のは、タスクを無視しています。この原則は書き込みに関するものではありません (D)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV078",
@@ -3273,7 +3350,8 @@
     "explanation": {
       "en": "A new tool surface most often degrades selection through overlap and unclear descriptions. Uptime (B) and latency (D) present as errors or slowness, and the model did not change (C)",
       "ja": "新しいツール群は、重なりや不明確な説明によって、ツールの選択を悪化させることが最も多いです。稼働率 (B) やレイテンシ (D) の問題はエラーや遅さとして現れ、モデルは変わっていません (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV079",
@@ -3315,7 +3393,8 @@
     "explanation": {
       "en": "Anything rendered into a page is escaped regardless of source, since output can be influenced by input. Assuming safety (A) and instructing the model (C) are not controls, and model size (D) is irrelevant",
       "ja": "出力は入力の影響を受けうるため、ページに描画するものは出どころにかかわらずエスケープします。安全だと仮定すること (A) やモデルへの指示 (C) は制御にならず、モデルの大きさ (D) は関係ありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV080",
@@ -3357,7 +3436,8 @@
     "explanation": {
       "en": "Regressions are silent by definition and are caught by continuously testing what must not break. Latency (A), limits (B), and cost (D) are operational signals rather than correctness",
       "ja": "回帰はそもそも気づかれずに起きるものであり、壊れてはいけないものを継続的にテストすることで見つけます。レイテンシ (A)、制限 (B)、コスト (D) は、正しさではなく運用上のシグナルです。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV081",
@@ -3400,7 +3480,8 @@
     "explanation": {
       "en": "stop_reason \"tool_use\" means the model paused to wait for a tool result, so the wrapper must run the tool and continue the conversation with a tool_result block whose tool_use_id matches the request (D). Treating the reply as final (A) is exactly the bug users see: the model announced a lookup it never got to finish. A higher max_tokens (B) addresses stop_reason \"max_tokens\", not this one. Retrying the identical request (C) ignores what the model asked for, and the same input tends to produce the same tool call again.",
       "ja": "stop_reason が \"tool_use\" であることは、モデルがツールの結果を待って一時停止したことを意味します。そのため、ラッパーはツールを実行し、要求と一致する tool_use_id を持つ tool_result ブロックで会話を続けなければなりません (D)。応答を最終結果として扱うこと (A) こそ、利用者が目にしている不具合です。モデルは調べると告げたまま、それを終えられていません。max_tokens を増やすこと (B) は stop_reason が \"max_tokens\" の場合の対処で、今回のケースではありません。同じリクエストの再試行 (C) はモデルの要求を無視しており、同じ入力からはまた同じツール呼び出しが返りがちです。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV082",
@@ -3443,7 +3524,8 @@
     "explanation": {
       "en": "A subagent works from its own fresh context and sees only what the delegating agent passes to it. The date rule lived in the main conversation, so the handoff must carry it (A). The subagent already uses the same model as before, so a larger model (B) does not explain the change. The same search tool produced correct results before delegation was added, so the tool (C) is not the cause. Removing the subagent (D) brings back the context bloat that delegation was added to prevent.",
       "ja": "サブエージェントは自分専用の新しいコンテキストで動き、委任元のエージェントが渡したものしか見えません。日付のルールはメインの会話にあったため、引き継ぎでそれを渡す必要があります (A)。サブエージェントはすでに以前と同じモデルを使っているので、大きなモデル (B) では変化を説明できません。同じ検索ツールで委任の導入前は正しい結果が出ていたので、ツール (C) は原因ではありません。サブエージェントを外すと (D)、委任によって防ごうとしたコンテキストの肥大化が戻ってきます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV083",
@@ -3486,7 +3568,8 @@
     "explanation": {
       "en": "Prompt caching matches the prompt as a prefix, up to and including the block marked with cache_control, so a change anywhere before the breakpoint means the stored entry no longer matches. A timestamp at the very top changes on every request, so the policy block behind it is never read from cache. Putting the stable policy first and the variable lines after it fixes this (C). A breakpoint after the question (B) creates a new entry for every distinct question. The Messages API is stateless, so content sent in an earlier request (D) is not part of later ones. The size of the policy block (A) is not what prevents the cache reads here.",
       "ja": "プロンプトキャッシュは、cache_control を付けたブロックまでを含むプレフィックスとしてプロンプトを照合するため、ブレークポイントより前のどこかが変わると、保存されたエントリと一致しなくなります。先頭のタイムスタンプはリクエストごとに変わるので、その後ろのポリシーのブロックはキャッシュから読み取られません。変化しないポリシーを先頭に置き、変化する行をその後ろに置けば解決します (C)。ブレークポイントを質問の後ろに置くと (B)、質問が違うたびに新しいエントリが作られます。Messages API はステートレスなので、以前のリクエストで送った内容 (D) は後のリクエストに含まれません。ポリシーのブロックの大きさ (A) は、ここでキャッシュが読み取られない原因ではありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV084",
@@ -3529,7 +3612,8 @@
     "explanation": {
       "en": "The Message Batches API charges 50 percent of standard prices, and most batches finish within an hour, but results are only guaranteed once the batch completes or after 24 hours. That fits the routine invoices with three days of slack, while the disputed invoices need an answer during a live call, so they go through standard calls (A). Batching the disputed invoices too (B) is simpler to run but cannot promise an answer during the call. Standard calls (C) pay full price, and a smaller model gives up quality the task never asked to trade. Option (D) reverses the two paths, and streaming does not change the price.",
       "ja": "Message Batches API の料金は通常の50%で、ほとんどのバッチは1時間以内に終わりますが、結果を取得できるのはバッチの完了時か24時間後であり、それより早い保証はありません。3日の余裕がある通常の請求書にはこれが合い、通話中に答えが必要な係争中の請求書は通常の呼び出しで処理します (A)。係争中の請求書までバッチにすると (B)、運用は単純になりますが、通話中に答えが出ることを保証できません。通常の呼び出し (C) は正規の料金がかかり、小さいモデルにすると、このタスクが求めていない品質の低下を受け入れることになります。(D) は2つの経路が逆であり、ストリーミングにしても料金は変わりません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV085",
@@ -3572,7 +3656,8 @@
     "explanation": {
       "en": "A schema turns the expected types into a contract instead of a request, and validating the parsed result with the error fed back on failure lets the model correct itself; with strict tool use, the schema is also enforced when the output is generated (B). Stripping characters (A) silently turns text into numbers that may be wrong, for example \"1,200\" or \"12 boxes of 10\". Stronger wording and a lower temperature (C) are what the team already tried, and they only reduced the failures. Skipping records (D) hides data loss and delays the shipments until someone reviews the log.",
       "ja": "スキーマを使うと、期待する型が依頼ではなく契約になります。さらに解析結果を検証し、失敗時にエラーを返せば、モデル自身が修正できます。strict tool use を使えば、出力の生成時にもスキーマが強制されます (B)。文字を取り除く方法 (A) は、\"1,200\" や \"12 boxes of 10\" のように、間違っているかもしれない数値へ気づかないまま変換してしまいます。表現を強めて temperature を下げること (C) はチームがすでに試した方法で、失敗が減っただけでした。レコードをスキップすると (D)、データの欠落が隠れ、誰かがログを確認するまで出荷処理が遅れます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV086",
@@ -3615,7 +3700,8 @@
     "explanation": {
       "en": "Immediate retries from 40 workers arrive in synchronized waves and keep the load above the limit. Exponential backoff with jitter spreads the retries out, the retry-after header, when a 429 carries one, says how long to wait, and a cap keeps the failure predictable (B). Skipping records (A) throws away work that would succeed a moment later. More immediate retries (C) add load to the exact condition causing the 429 responses. Spreading the load over more keys (D) works around the limit instead of reducing the load the job sends.",
       "ja": "40個のワーカーからの即時の再試行は足並みのそろった波となって届き、負荷を制限より上に保ち続けます。ジッター付きの指数バックオフは再試行を分散させ、429 に retry-after ヘッダーが付いていればその値が待つべき時間を示し、上限を設ければ失敗するときも予測どおりに失敗します (B)。レコードを飛ばすと (A)、少し待てば成功した処理を捨てることになります。即時の再試行を増やすと (C)、429 を引き起こしている状況そのものに負荷を上乗せします。キーを増やして負荷を分散するのは (D)、ジョブが送る負荷を減らすのではなく、制限を回避しようとするものです。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV087",
@@ -3658,7 +3744,8 @@
     "explanation": {
       "en": "A response that stops cleanly in mid-sentence, only when the output is long, matches the output reaching the max_tokens limit, which the response reports as stop_reason \"max_tokens\"; the fix is to raise the limit or continue the response (A). A dropped connection (B) shows up as an error, not as a clean response. An input too large for the context window (C) fails before generation instead of cutting off the output. Nothing in the symptoms points to the model version (D).",
       "ja": "応答がエラーなく文の途中で止まり、それが出力の長いときだけ起きるという症状は、出力が max_tokens の上限に達したことと一致し、その場合の応答は stop_reason \"max_tokens\" を返します。対処は上限を引き上げるか、応答を続けさせることです (A)。接続が切れた場合 (B) は、正常な応答ではなくエラーとして現れます。入力がコンテキストウィンドウに対して大きすぎる場合 (C) は、出力が切れるのではなく生成の前に失敗します。症状のどこにも、モデルのバージョン (D) を疑う根拠はありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV088",
@@ -3702,7 +3789,8 @@
     "explanation": {
       "en": "The partner's 3-second limit and the 15 to 40 seconds of generation can both be met only by separating acceptance from completion: acknowledge the webhook as soon as the ticket is queued (B), and deliver the draft later through the partner's API (D). A longer timeout on your server (A) does not change the partner's 3-second limit, so deliveries would still fail and be resent. A smaller model with a lower max_tokens (C) gives up the draft quality that the requirement asks for.",
       "ja": "パートナーの3秒の制限と15〜40秒の生成時間を両方満たすには、受付と完了を切り離すしかありません。チケットをキューに入れたらすぐに Webhook へ受付を返し (B)、下書きはあとからパートナーの API で届けます (D)。自分のサーバーのタイムアウトを延ばしても (A)、パートナーの3秒の制限は変わらないため、配信は失敗して再送され続けます。小さいモデルと少ない max_tokens にすると (C)、要件が求める下書きの質を手放すことになります。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV089",
@@ -3745,7 +3833,8 @@
     "explanation": {
       "en": "The demand exceeds the limit for one hour a week while average traffic fits comfortably, which is the case a queue is for: it absorbs the burst and feeds requests to Claude at a sustainable rate, so nothing is dropped (C). A higher tier (A) is a reasonable step in general, but it sizes capacity for a one-hour peak and leaves the design as fragile as before. More retries in the handler (B) add load during the burst and still drop requests that run out of attempts. Customer questions differ from one another, so caching answers (D) does not remove the calls.",
       "ja": "需要が制限を超えるのは週に1時間だけで、平均のトラフィックは余裕を持って収まっています。これはまさにキューの用途で、急な集中を吸収し、持続できる速さで Claude にリクエストを送るため、取りこぼしがなくなります (C)。より高い階層 (A) は一般的には妥当な手段ですが、1時間のピークに合わせて容量を確保するもので、設計の弱さはそのまま残ります。ハンドラーの再試行を増やすと (B)、集中時の負荷が増え、試行回数を使い切ったリクエストはやはり失われます。顧客の質問はそれぞれ異なるので、回答をキャッシュしても (D) 呼び出しはなくなりません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV090",
@@ -3788,7 +3877,8 @@
     "explanation": {
       "en": "Print mode (-p) runs Claude Code without interaction, --output-format json returns structured output, and --json-schema returns validated JSON matching a schema, so the bot reads fields rather than wording (A). Driving an interactive session and reading the transcript (B) depends on terminal formatting rather than a machine-readable interface. Searching plain text for phrases (C) breaks as soon as the wording changes, which the requirement rules out. Plan mode with a human approver (D) needs someone to watch, but nobody watches the job.",
       "ja": "print モード (-p) は Claude Code を非対話で実行し、--output-format json は構造化された出力を返し、--json-schema はスキーマに合った検証済みの JSON を返します。そのため、ボットは言い回しではなくフィールドを読めます (A)。対話セッションを操作して記録を読む方法 (B) は、機械可読のインターフェースではなくターミナルの体裁に依存します。プレーンテキストから文言を探す方法 (C) は、言い回しが変わった時点で壊れ、要件に反します。人の承認者を置くプランモード (D) は誰かが見ている必要がありますが、このジョブは誰も見ていません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV091",
@@ -3831,7 +3921,8 @@
     "explanation": {
       "en": "Every current Claude model ID is a pinned snapshot, and Anthropic advises testing applications with newer models well before the current model's retirement date. Keeping production pinned while evaluating the new model on your own claims, and switching after the review, satisfies the audit rule and still lets the team adopt improvements (D). Following whichever model is newest (A) puts unreviewed changes into production, which the auditors forbid. Setting the new model aside (B) only postpones the migration until a retirement date forces it on a deadline. Switching now (C) skips the evaluation and review that the audit rule requires.",
       "ja": "現在の Claude のモデル ID はすべて固定されたスナップショットであり、Anthropic は、現在のモデルの提供終了日よりかなり前に新しいモデルでアプリケーションをテストするよう勧めています。本番を固定したまま自社の請求で新しいモデルを評価し、レビュー後に切り替えれば、監査のルールを守りつつ改善も取り入れられます (D)。常に最新のモデルに追従すると (A)、レビューされていない変更が本番に出ることになり、監査担当者が禁じていることに反します。新しいモデルを見送ると (B)、移行を先送りするだけで、提供終了日が来たときに期限付きで移行を迫られます。今すぐ切り替えると (C)、監査のルールが求める評価とレビューを飛ばすことになります。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV092",
@@ -3874,7 +3965,8 @@
     "explanation": {
       "en": "Model choice is a fit-to-requirement decision: the requirement is 94%, the current setup exceeds it, and a short, repetitive labeling task is where a smaller model often suffices, so measuring one on the labeled sample comes first (C). Keeping the most capable model (A) treats accuracy beyond the requirement as worth any price. Running the job less often (B) changes the requirement instead of meeting it, since tags would arrive a month late. Routing by the model's own confidence to a keyword classifier (D) relies on self-reported confidence and an untested classifier.",
       "ja": "モデルの選択は要件に合うかどうかの判断です。要件は94%で現在の構成はそれを上回っており、短く繰り返しの多いラベル付けは小さいモデルで十分なことが多い領域なので、まずラベル付きのサンプルで測定します (C)。最も高性能なモデルを使い続けると (A)、要件を超える精度にいくらでも費用を払うことになります。処理の頻度を下げると (B)、ラベルが1か月遅れて届くため、要件を満たすのではなく要件を変えることになります。モデル自身の確信度でキーワード分類器に振り分ける方法 (D) は、自己申告の確信度と、テストされていない分類器に頼っています。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV093",
@@ -3918,7 +4010,8 @@
     "explanation": {
       "en": "With conversation volume and model unchanged, the cost per conversation must have grown, and input is the usual driver: the usage object reports input_tokens for each request, which shows how the resent history accumulates (A), and long tool results stay in the history and are paid for again on every later turn (C). Latency (B) is not what is billed, and it does not show which part of the input grew. The number of keys or workspaces (D) does not change the price of a token.",
       "ja": "会話の件数とモデルが変わっていないなら、会話あたりのコストが増えたはずであり、その主な原因は通常、入力です。usage オブジェクトはリクエストごとの input_tokens を報告するので、再送される履歴が積み上がる様子がわかります (A)。また、長いツールの結果は履歴に残り、以降のターンのたびに再び料金がかかります (C)。レイテンシ (B) は課金の対象ではなく、入力のどの部分が増えたかも示しません。キーやワークスペースの数 (D) によって、トークンの単価は変わりません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV094",
@@ -3961,7 +4054,8 @@
     "explanation": {
       "en": "Anthropic's model selection guidance is to build benchmark tests specific to your use case and test with your actual prompts and data, and the 300 lawyer-checked leases are exactly that set (B). A public reasoning benchmark (A) may not reflect clause extraction from scanned leases. A model's description of its own method (C) is not a measurement of its accuracy. Keeping the current model without testing (D) ignores the latency problem customers already report, which the new model might solve.",
       "ja": "Anthropic のモデル選択のガイドでは、自分のユースケースに合わせたベンチマークテストを作り、実際のプロンプトとデータでテストするよう勧めています。弁護士が確認した300件の契約書は、まさにそのためのセットです (B)。公開されている推論のベンチマーク (A) は、スキャンした契約書からの条項抽出を反映していないことがあります。モデルが自分の方法を説明しても (C)、精度を測ったことにはなりません。テストせずに現在のモデルを使い続けると (D)、顧客がすでに訴えているレイテンシの問題を無視することになり、新しいモデルでそれが解決する可能性も確かめられません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV095",
@@ -4004,7 +4098,8 @@
     "explanation": {
       "en": "The context is filled with stale tool output, so the fix is context hygiene: clear or summarize old tool results (the API offers context editing and compaction for this), keep the decisions and constraints in a compact record, and isolate bulky log analysis in subagents (C). A larger window (A) delays the same failure and raises the cost of every step. Restating constraints after every call (B) adds still more tokens to a context that is already nearly full. Fresh sessions without history (D) throw away the user's constraints along with the clutter.",
       "ja": "コンテキストが古いツールの出力で埋まっているので、対策はコンテキストの整理です。古いツールの結果を消去または要約し（API にはそのための context editing と compaction があります）、判断と制約を簡潔な記録として残し、かさばるログの分析はサブエージェントに分離します (C)。大きなウィンドウにしても (A)、同じ失敗を先送りし、ステップごとのコストが上がるだけです。呼び出しのたびに制約を言い直すと (B)、ほぼ満杯のコンテキストにさらにトークンが増えます。履歴なしの新しいセッションでは (D)、不要な情報と一緒にユーザーの制約も失われます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV096",
@@ -4048,7 +4143,8 @@
     "explanation": {
       "en": "Injection defense is structural. Delivering third-party content inside tool results, separate from instructions, is Anthropic's documented guidance (B), and least privilege with an approval step and a recipient allowlist means a successful injection still cannot send anything (D). A rule in the system prompt (A) is an instruction, not an enforcement mechanism, and it can be overridden by cleverly written email text. A more instruction-following model (C) does not remove the attack surface and can even be more susceptible to injected instructions.",
       "ja": "インジェクションへの防御は構造で行います。第三者のコンテンツを指示と分けて tool_result の中で渡すことは、Anthropic が文書で示している方法です (B)。また、承認の手順と宛先の許可リストによる最小権限があれば、インジェクションが成功しても何も送れません (D)。システムプロンプトのルール (A) は指示であって強制の仕組みではなく、巧妙に書かれたメールの文面で覆される可能性があります。指示に従いやすいモデル (C) にしても攻撃対象はなくならず、注入された指示の影響をかえって受けやすくなることさえあります。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV097",
@@ -4091,7 +4187,8 @@
     "explanation": {
       "en": "Model output can be shaped by its input, and this input is editable by anyone, so anything rendered into a page must be escaped or sanitized regardless of where it came from (C). An instruction to the model (A) influences behavior but is not a control, and injected text can override it. Trusting output because it came from your own integration (B) ignores that the source page is untrusted. Scanning for script tags (D) misses other forms of markup and event handlers, and the output still reaches the page unescaped.",
       "ja": "モデルの出力は入力の影響を受けることがあり、その入力は誰でも編集できるものです。そのため、ページに描画するものは、出どころにかかわらずエスケープまたはサニタイズしなければなりません (C)。モデルへの指示 (A) は振る舞いに影響しても制御にはならず、注入されたテキストで覆される可能性があります。自社の連携から得た出力だから信頼するという考え方 (B) は、元のページが信頼できないことを見落としています。script タグを探す方法 (D) は、ほかの形式のマークアップやイベントハンドラーを見逃し、出力がエスケープされずにページに届くことも変わりません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV098",
@@ -4134,7 +4231,8 @@
     "explanation": {
       "en": "The tools overlap in purpose and their descriptions are too thin to tell them apart. Anthropic's tool guidance is to consolidate related operations into fewer tools and to write detailed descriptions, which removes the ambiguity at its source (A). A prompt line and a preference list (B) do not make overlapping tools distinct. Splitting the server (C) leaves the agent with the same 36 tools. Namespacing (D) is a good practice in general, but a prefix shows ownership, not which of four similar search tools fits the request.",
       "ja": "ツールの目的が重なっており、説明も短すぎて区別できません。Anthropic のツールのガイドでは、関連する操作を少数のツールにまとめ、詳しい説明を書くよう勧めており、これであいまいさの根本が取り除かれます (A)。プロンプトの1行と優先順位のリスト (B) では、重なったツールは区別できるようになりません。サーバーを分けても (C)、エージェントから見えるツールは同じ36個です。名前空間を付けること (D) は一般的には良いプラクティスですが、接頭辞が示すのは持ち主であって、似た4つの検索ツールのどれが要求に合うかではありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV099",
@@ -4177,7 +4275,8 @@
     "explanation": {
       "en": "Returning the failure as a tool_result with is_error set to true keeps the model in the loop: it learns the call failed and can try again or answer with the order-history tool instead (D). Retrying without a limit inside the handler (A) can leave the customer waiting indefinitely when the outage lasts. A raw stack trace (B) leaks internal details and does not help the customer. An empty result with no message (C) hides the failure, so the model may answer as if inventory data were simply absent.",
       "ja": "失敗を is_error を true にした tool_result として返すと、モデルはループの中にとどまり、呼び出しが失敗したことを知ったうえで、もう一度試すか、注文履歴のツールで答えることができます (D)。ハンドラーの中で上限なく再試行すると (A)、障害が長引いたときに顧客をいつまでも待たせることになります。生のスタックトレース (B) は内部の情報を漏らし、顧客の役にも立ちません。メッセージのない空の結果 (C) は失敗を隠すため、モデルは在庫データが単に存在しないかのように答えるおそれがあります。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV100",
@@ -4220,7 +4319,8 @@
     "explanation": {
       "en": "Anthropic's tool guidance is to return semantic, stable identifiers and only the fields Claude needs for its next step; a separate detail tool keeps the full record available when it is actually needed (B). A larger window (A) postpones the problem and keeps paying for 9,000 unused tokens per lookup. A second summarizing call (C) adds cost, latency, and another point of failure for data the agent mostly does not use. Telling the agent to ignore fields (D) does not stop those tokens from filling the context.",
       "ja": "Anthropic のツールのガイドでは、意味のある安定した識別子と、Claude が次のステップに必要とするフィールドだけを返すよう勧めています。別の詳細ツールがあれば、本当に必要なときはレコード全体を取得できます (B)。大きなウィンドウにしても (A)、問題を先送りし、検索のたびに使わない9,000トークン分の料金を払い続けることになります。要約のための2回目の呼び出し (C) は、エージェントがほとんど使わないデータのために、コスト、レイテンシ、失敗の要因を増やします。フィールドを無視するよう伝えても (D)、それらのトークンがコンテキストを埋めることは止められません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV101",
@@ -4263,7 +4363,8 @@
     "explanation": {
       "en": "Hooks are shell commands that Claude Code runs at fixed points in its lifecycle, so a PostToolUse hook on Edit and Write formats every edited file without depending on the model to remember (C). CLAUDE.md is treated as context rather than enforced configuration, so louder wording (A) still leaves compliance to the model. A slash command run before commits (B) moves the step to developers, who can forget it just as the model does. A self-reported checklist (D) relies on the model's own account of what it did.",
       "ja": "フックは、Claude Code がライフサイクルの決まった時点で実行するシェルコマンドです。そのため、Edit と Write に対する PostToolUse フックを設定すれば、モデルが覚えているかどうかに頼らず、編集したすべてのファイルをフォーマットできます (C)。CLAUDE.md は強制される設定ではなくコンテキストとして扱われるので、表現を強めても (A)、守るかどうかはモデル次第のままです。コミット前に実行するスラッシュコマンド (B) は手順を開発者に移すだけで、開発者もモデルと同じように忘れることがあります。自己申告のチェックリスト (D) は、モデル自身の報告に頼っています。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV102",
@@ -4306,7 +4407,8 @@
     "explanation": {
       "en": "Anthropic's hosting guidance says that if you do not need to run the agent loop on your own infrastructure, you should consider Managed Agents, where Anthropic hosts the agent loop and sandbox for long-running work; the feature is currently in beta (B). The Agent SDK (A) is a strong option in general, but self-hosting it means operating the containers, sessions, and scaling the team cannot staff. A custom loop (C) adds even more to build and run. The Message Batches API (D) processes independent Messages requests at lower cost; it does not run a multi-step agent with tools and a sandbox.",
       "ja": "Anthropic のホスティングのガイドには、エージェントループを自分のインフラで動かす必要がなければ Managed Agents を検討するよう書かれています。Managed Agents では、長時間の作業のためのエージェントループとサンドボックスを Anthropic がホストします。この機能は現在ベータ版です (B)。Agent SDK (A) は一般的には有力な選択肢ですが、セルフホストすると、チームが人を割けないコンテナ、セッション、拡張の運用が必要になります。カスタムのループ (C) は、作って運用するものがさらに増えます。Message Batches API (D) は独立した Messages のリクエストを低コストで処理するもので、ツールとサンドボックスを使う多段階のエージェントを動かすものではありません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV103",
@@ -4349,7 +4451,8 @@
     "explanation": {
       "en": "Base64 images are included in full in the payload on every turn, and images above the size limits are downscaled before processing anyway, so resizing before sending cuts request size and latency without losing what the model actually sees (D); uploading once through the Files API and referencing the file_id is another way to avoid resending the bytes. OCR (A) captures text, but water stains and cracks are visual, so accuracy would suffer. The docs recommend images before text, not after (B). A smaller model (C) trades away quality and leaves the oversized payload in every request.",
       "ja": "base64 の画像は毎ターン、ペイロードに丸ごと含まれ、サイズの上限を超える画像は処理の前にどのみち縮小されます。そのため、送る前にリサイズすれば、モデルが実際に見る内容を損なわずにリクエストのサイズとレイテンシを減らせます (D)。Files API で一度アップロードして file_id で参照するのも、バイト列の再送を避ける方法です。OCR (A) が拾うのは文字ですが、水染みやひび割れは見た目の情報なので、精度が落ちます。ドキュメントが勧めているのは画像をテキストの前に置くことで、後ろではありません (B)。小さいモデル (C) は品質を犠牲にし、大きすぎるペイロードも毎回のリクエストに残ります。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV104",
@@ -4392,7 +4495,8 @@
     "explanation": {
       "en": "In a stream, the deltas of a tool_use block are partial JSON strings; the documented approach is to accumulate them and parse once the content_block_stop event arrives, or to use the SDK's streaming helpers (A). Dropping fragments that fail to parse (B) discards most of the arguments. Tool input can be read from a stream, so turning streaming off (C) gives up incremental text for no reason. Asking for short arguments (D) does not guarantee that any argument arrives in a single delta.",
       "ja": "ストリームでは、tool_use ブロックのデルタは部分的な JSON の文字列です。ドキュメントに書かれている方法は、それを蓄積して content_block_stop イベントが届いたら解析するか、SDK のストリーミング用ヘルパーを使うことです (A)。解析に失敗した断片を捨てると (B)、引数のほとんどが失われます。ツールの入力はストリームから読めるので、ストリーミングを無効にすると (C)、少しずつテキストを表示する利点を理由もなく手放すことになります。短い引数を求めても (D)、引数が1つのデルタで届く保証にはなりません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV105",
@@ -4436,7 +4540,8 @@
     "explanation": {
       "en": "The Files API lets you upload a file once and reference it by file_id instead of re-uploading the content, which removes the large payload from every request (A). Because uploaded files are scoped to the whole workspace, the docs warn never to accept file_id values from end users or other untrusted sources, so the server must resolve the file_id from its own records (D). Sending base64 alongside an upload (B) keeps the large payload and gains nothing. Accepting a file_id from the client (C) would let one customer reference another customer's handbook.",
       "ja": "Files API では、ファイルを一度アップロードし、内容を送り直す代わりに file_id で参照できるので、毎回のリクエストから大きなペイロードがなくなります (A)。アップロードしたファイルはワークスペース全体が範囲になるため、ドキュメントでは、エンドユーザーなど信頼できない送り手からの file_id を受け付けないよう警告しています。そのため、サーバーが自分の記録から file_id を決めなければなりません (D)。アップロードと並行して base64 も送ると (B)、大きなペイロードが残るだけで何も得られません。クライアントから file_id を受け付けると (C)、ある顧客が別の顧客のハンドブックを参照できてしまいます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV106",
@@ -4479,7 +4584,8 @@
     "explanation": {
       "en": "The token counting endpoint returns the input token count for a message before you send it, and it is free to use (within its own rate limits), so the service can warn users accurately without paying for a model call (C). A characters-divided-by-four estimate (A) is a common rule of thumb, but it varies by language and content, so the warning would be unreliable near the limit. Waiting for the error (B) is the current behavior the team wants to avoid. Summarizing first (D) adds the extra model calls the team ruled out and changes what users asked about.",
       "ja": "トークンカウントのエンドポイントは、メッセージを送る前に入力のトークン数を返し、（専用のレート制限の範囲内で）無料で使えます。そのため、モデル呼び出しの料金を払わずに、正確にユーザーへ警告できます (C)。文字数を4で割る見積もり (A) はよく使われる目安ですが、言語や内容によってずれるため、上限付近では警告が当てになりません。エラーを待つ方法 (B) は、チームが避けたい今の挙動そのものです。先に要約する方法 (D) は、チームが除外した追加のモデル呼び出しを増やし、ユーザーが質問した対象も変えてしまいます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV107",
@@ -4522,7 +4628,8 @@
     "explanation": {
       "en": "With citations enabled on document blocks, the response returns the cited text together with its location, such as page numbers for PDFs, so the passage and page come from the document rather than from the model's recollection (B). Stronger instructions and a lower temperature (A) reduce variation but still leave the quote and page to the model. A self-reported confidence score (C) is not evidence that a quote is exact. Asking page by page (D) multiplies the cost, loses answers that span pages, and still lets the model reword the passage.",
       "ja": "ドキュメントブロックで引用（citations）を有効にすると、応答は引用されたテキストとその位置（PDF ならページ番号など）を返します。そのため、箇所とページはモデルの記憶ではなく文書そのものから得られます (B)。指示を強めて temperature を下げても (A)、ばらつきが減るだけで、引用とページは依然としてモデル任せです。自己申告の確信度 (C) は、引用が正確であることの証拠になりません。ページごとに尋ねると (D)、コストが何倍にもなり、ページをまたぐ回答が失われ、モデルが箇所を言い換えることも防げません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV108",
@@ -4565,7 +4672,8 @@
     "explanation": {
       "en": "Project instructions in ./CLAUDE.md are shared with the team through source control, while ~/.claude/CLAUDE.md holds personal preferences for all projects and CLAUDE.local.md holds personal, project-specific preferences that stay out of version control (D). A comment naming the developer (A) is still loaded for everyone, and Claude has no reliable way to tell who is running it. Moving the team conventions into personal files (B) loses the shared rules the whole team must follow. A CLAUDE.md in a subfolder (C) is still committed and still affects anyone working in that folder.",
       "ja": "./CLAUDE.md のプロジェクトの指示はソース管理を通じてチームで共有されます。一方、~/.claude/CLAUDE.md はすべてのプロジェクトに共通の個人の設定を、CLAUDE.local.md はバージョン管理に入れないプロジェクト固有の個人の設定を置く場所です (D)。開発者の名前を書いたコメント (A) も全員に読み込まれ、Claude には誰が実行しているかを確実に知る方法がありません。チームの規約を個人のファイルに移すと (B)、チーム全体が従うべき共通のルールが失われます。サブフォルダの CLAUDE.md (C) もコミットされるので、そのフォルダで作業する人全員に影響します。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV109",
@@ -4609,7 +4717,8 @@
     "explanation": {
       "en": "A key derived from the job ID stays the same across redeliveries, so the ticket system recognizes and ignores the repeated post (B), and saving the draft before posting lets a redelivered job reuse it instead of paying for a new generation (C). Turning off redelivery (A) prevents duplicates by losing jobs whenever a worker crashes, which trades one failure for another. A fresh random key on every attempt (D) defeats the purpose of the header, since the second post looks like a new request.",
       "ja": "ジョブ ID から作ったキーは再配信されても同じなので、チケットシステムは繰り返しの投稿を認識して無視します (B)。また、投稿前に下書きを保存しておけば、再配信されたジョブはそれを再利用でき、新しい生成の料金を払わずに済みます (C)。再配信を無効にすると (A)、ワーカーがクラッシュするたびにジョブが失われることで重複を防ぐことになり、ある失敗を別の失敗に置き換えるだけです。試行のたびに新しいランダムなキーを使うと (D)、2回目の投稿が新しいリクエストに見えるため、ヘッダーの意味がなくなります。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV110",
@@ -4652,7 +4761,8 @@
     "explanation": {
       "en": "Claude Code's best practices recommend running /clear between unrelated tasks, so the next task does not keep paying for the previous one's history and the context stays focused (A). A note in CLAUDE.md (B) adds instructions to every future session while the old history still fills this one. A larger window (C) keeps the irrelevant history in play and costs more per response. Asking Claude to forget (D) is not a mechanism; the history is still sent with every request.",
       "ja": "Claude Code のベストプラクティスでは、無関係なタスクの間に /clear を実行するよう勧めています。そうすれば、次のタスクが前のタスクの履歴の分を払い続けることがなく、コンテキストも絞られます (A)。CLAUDE.md へのメモ (B) は今後のすべてのセッションに指示を増やす一方、古い履歴はこのセッションを埋めたままです。大きなウィンドウ (C) は無関係な履歴を残したままで、応答ごとのコストも上がります。忘れるよう頼むこと (D) は仕組みではなく、履歴は毎回のリクエストで送られ続けます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV111",
@@ -4695,7 +4805,8 @@
     "explanation": {
       "en": "A project skill lives in .claude/skills/<name>/SKILL.md and is committed so the whole team gets it; Claude uses a skill when it is relevant, and unlike CLAUDE.md content, a skill's body loads only when it is used (D). Putting the procedure in CLAUDE.md (A) shares it but adds the full text to every session, which the team wants to avoid. A wiki page (B) keeps the manual pasting that let the copies drift. Personal skills (C) load on demand, but each developer keeps a separate copy, so the drift continues.",
       "ja": "プロジェクトのスキルは .claude/skills/<name>/SKILL.md に置き、コミットすればチーム全員が使えます。Claude は関連するときにスキルを使い、CLAUDE.md の内容とは違って、スキルの本文は使われるときにだけ読み込まれます (D)。手順を CLAUDE.md に入れると (A)、共有はできますが、チームが避けたいとしている、すべてのセッションへの全文の追加が起きます。Wiki ページ (B) では、コピーのずれを生んだ手作業の貼り付けが残ります。個人のスキル (C) も必要なときに読み込まれますが、開発者ごとに別のコピーを持つため、ずれは続きます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV112",
@@ -4738,7 +4849,8 @@
     "explanation": {
       "en": "Subagents are Markdown files with YAML frontmatter; one in .claude/agents belongs to the project and can be committed, its description tells Claude when to delegate, its tools field limits what it can use, and it works in its own context so the scan output stays out of the main session (A). A CLAUDE.md section (B) is guidance rather than a tool restriction, and the scan output lands in the main session. Subagents in ~/.claude/agents (C) apply to one developer's projects, so the definitions are not shared and can drift. A slash command that prints a checklist (D) neither restricts tools nor isolates the output.",
       "ja": "サブエージェントは YAML のフロントマターを持つ Markdown ファイルです。.claude/agents に置いたものはプロジェクトに属してコミットでき、description は Claude がいつ委任するかを決め、tools のフィールドは使えるツールを制限します。また、サブエージェントは自分のコンテキストで動くので、スキャン出力はメインのセッションに入りません (A)。CLAUDE.md の節 (B) は指針であってツールの制限ではなく、スキャン出力もメインのセッションに入ります。~/.claude/agents のサブエージェント (C) は1人の開発者のプロジェクトにだけ適用されるため、定義は共有されず、ずれていく可能性があります。チェックリストを表示するスラッシュコマンド (D) は、ツールを制限せず、出力も分離しません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV113",
@@ -4781,7 +4893,8 @@
     "explanation": {
       "en": "The effort parameter controls how many tokens Claude spends on a response, and thinking tokens are billed as output tokens, so lowering effort for the simple, high-volume classifier saves cost and latency while raising it for the complex planner buys deeper reasoning where it matters (B). Extended thinking with budget_tokens (A) is a legacy feature, and Claude 4.7 and later models reject requests that use it. Raising effort for both (C) increases the classifier's cost, which is already over budget, for accuracy it does not need. Running the classifier once a day (D) changes what the product does instead of tuning the model settings.",
       "ja": "effort パラメータは Claude が応答に使うトークンの量を制御し、思考のトークンは出力トークンとして課金されます。そのため、単純で大量の分類では effort を下げてコストとレイテンシを減らし、複雑なプランナーでは effort を上げて、必要なところで深い推論を得ます (B)。budget_tokens を使う拡張思考 (A) はレガシー機能で、Claude 4.7 以降のモデルはこれを使うリクエストを拒否します。両方で effort を上げると (C)、すでに予算を超えている分類のコストが、必要のない精度のために増えます。分類を1日1回にすると (D)、モデルの設定を調整するのではなく、製品の動作そのものを変えることになります。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV114",
@@ -4824,7 +4937,8 @@
     "explanation": {
       "en": "Even with temperature set to 0, results are not fully deterministic, and identical inputs can produce different outputs across API calls; a two-point gap from a single run is within that noise, so the team needs repeated runs and a comparison of distributions (C). Temperature 0 and a fixed order (A) still do not make outputs identical, which the rerun has already shown. Shipping on the first result (B) treats one noisy run as a measurement. Ten hand-picked contracts (D) make the sample smaller and less representative, which makes the noise worse.",
       "ja": "temperature を0にしても結果は完全には決定的にならず、同じ入力でも API の呼び出しごとに異なる出力が返ることがあります。1回の実行での2件の差はそのばらつきの範囲内なので、繰り返し実行して分布を比べる必要があります (C)。temperature 0 と順番の固定 (A) でも出力は同じにならないことを、再実行がすでに示しています。最初の結果でリリースすると (B)、ばらつきのある1回の実行を測定として扱うことになります。手で選んだ10件 (D) はサンプルを小さく偏ったものにし、ばらつきをかえって大きくします。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV115",
@@ -4867,7 +4981,8 @@
     "explanation": {
       "en": "By default a cache entry lives for five minutes and is refreshed each time it is used; with questions arriving 15 to 30 minutes apart, each entry expires first, so the next request writes it again (D). The documented size limit works the other way: prompts shorter than a minimum length cannot be cached, so a 20,000-token rulebook is not too long (A). Caching matches the prefix up to the block marked with cache_control, which is why the stable rulebook is the right place for it (B). Cache reads are reported in cache_read_input_tokens, which is why that field is the one to check (C).",
       "ja": "既定では、キャッシュのエントリの有効期間は5分で、使われるたびに延長されます。質問が15〜30分おきに届くため、各エントリは先に期限切れになり、次のリクエストがそれを書き直します (D)。ドキュメントにあるサイズの制限は逆向きで、最小の長さより短いプロンプトはキャッシュできません。20,000トークンの規則集が長すぎることはありません (A)。キャッシュは cache_control を付けたブロックまでのプレフィックスを照合するので、変化しない規則集に付けるのが正しい位置です (B)。キャッシュの読み取りは cache_read_input_tokens に計上されるので、確認すべきフィールドはまさにそれです (C)。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV116",
@@ -4910,7 +5025,8 @@
     "explanation": {
       "en": "The official SDK retries transient failures such as connection errors, rate limits, and 5xx errors twice by default with exponential backoff, honoring retry-after when present, and max_retries configures or disables this; wrapping it in a five-attempt loop multiplies the attempts to as many as 18 per request (A). The SDK does retry rate limits, so more custom retries (B) add to the problem. Immediate retries (C) add load during the very condition that causes the errors. The SDK retries transient failures rather than every exception, and retrying without a limit (D) would never let a failing request end.",
       "ja": "公式 SDK は、接続エラー、レート制限、5xx エラーなどの一時的な失敗を、既定で2回、指数バックオフで再試行し、retry-after があればそれに従います。max_retries でこの動作を調整または無効にできます。これを5回のループで囲むと、試行回数はリクエストあたり最大18回に掛け合わされます (A)。SDK はレート制限を再試行するので、自前の再試行を増やすと (B) 問題を悪化させます。すぐに再試行すると (C)、エラーの原因となっている状況そのものに負荷を加えます。SDK が再試行するのはあらゆる例外ではなく一時的な失敗であり、上限なく再試行すると (D)、失敗するリクエストがいつまでも終わりません。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV117",
@@ -4953,7 +5069,8 @@
     "explanation": {
       "en": "The model cannot tell where the sample clauses end and the contract begins. XML tags help Claude parse complex prompts unambiguously, and naming the tags in the instructions makes clear which content to check (B). Removing the samples (A) gives up the examples that define an acceptable clause instead of fixing the boundary. Putting a long document first (C) is good practice in general, but plain paragraphs in a new order still leave the boundary between samples and contract unmarked. A higher temperature (D) adds variation rather than structure.",
       "ja": "モデルには、サンプル条項がどこで終わり、契約書がどこから始まるのかがわかりません。XML タグは Claude が複雑なプロンプトをあいまいさなく解析するのに役立ち、指示の中でタグの名前を挙げれば、どの内容をチェックすべきかが明確になります (B)。サンプルを取り除くと (A)、境界を直すのではなく、許容できる条項を定義する例を手放すことになります。長い文書を先頭に置くこと (C) は一般的には良い方法ですが、普通の段落を並べ替えただけでは、サンプルと契約書の境界は示されないままです。temperature を上げても (D)、構造ではなくばらつきが増えるだけです。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV118",
@@ -4996,7 +5113,8 @@
     "explanation": {
       "en": "Anthropic's guidance is to call the Claude API from your own back end, not from code that runs in users' browsers, since anyone can read a key in a page's code; keys belong in a secrets manager and can be scoped to a specific workspace, which also keeps this product away from the internal tools (D). Obfuscation (A) still ships the key to every visitor. Weekly rotation (B) is a good habit in general, but every new key is exposed the same way as soon as it ships. Asking users for their own keys (C) changes the product and pushes key handling onto users.",
       "ja": "Anthropic のガイドでは、ページのコードにあるキーは誰でも読めるため、ユーザーのブラウザで動くコードではなく自分のバックエンドから Claude API を呼び出すよう勧めています。キーはシークレットマネージャーに保管し、特定のワークスペースに限定でき、それによってこの製品を社内ツールから切り離せます (D)。難読化しても (A)、キーはすべての訪問者に配られたままです。毎週のローテーション (B) は一般的には良い習慣ですが、新しいキーもリリースした時点で同じようにさらされます。ユーザーに自分のキーを求めると (C)、製品の形が変わり、キーの管理をユーザーに押し付けることになります。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV119",
@@ -5040,7 +5158,8 @@
     "explanation": {
       "en": "A single assistant turn can contain several tool_use blocks, and the documented pattern is to return one tool_result for each of them, all together in the next user message (A), matching each result to its call with tool_use_id (C). Ignoring the extra tool_use blocks (B) leaves the model's requests unanswered. Merging the outputs into one text block (D) loses the link between each result and the call that produced it.",
       "ja": "1つのアシスタントのターンには複数の tool_use ブロックが含まれることがあり、ドキュメントに書かれたパターンは、そのそれぞれに対して tool_result を1つずつ返し、すべてを次のユーザーメッセージにまとめて送ること (A)、そして tool_use_id で各結果をその呼び出しと対応付けることです (C)。余分な tool_use ブロックを無視すると (B)、モデルの要求に答えないままになります。出力を1つのテキストブロックに統合すると (D)、各結果とそれを生んだ呼び出しとのつながりが失われます。"
-    }
+    },
+    "scenario_id": null
   },
   {
     "id": "DV120",
@@ -5083,6 +5202,7 @@
     "explanation": {
       "en": "Project-scoped MCP servers are stored in .mcp.json at the project root, which is meant to be checked into version control so the whole team gets the same configuration, and values such as tokens can be pulled from environment variables instead of being written into the file (B). Local scope (A) keeps each setup private to one developer, so copying a wiki command still drifts and misses new hires. Writing tokens into the committed file (C) leaks every developer's credentials. A shared machine with user scope (D) does not reach developers' own environments and shares one person's access with everyone.",
       "ja": "プロジェクトスコープの MCP サーバーはプロジェクトのルートの .mcp.json に保存され、このファイルはバージョン管理にチェックインしてチーム全員が同じ設定を使うためのものです。トークンなどの値は、ファイルに書き込む代わりに環境変数から取り込めます (B)。ローカルスコープ (A) では設定が開発者1人だけのものになるので、Wiki のコマンドをコピーしてもずれが生じ、新しく入った人にも届きません。コミットするファイルにトークンを書き込むと (C)、全開発者の認証情報が漏れます。ユーザースコープの共有マシン (D) は開発者自身の環境に届かず、1人のアクセス権を全員で共有することになります。"
-    }
+    },
+    "scenario_id": null
   }
 ]
