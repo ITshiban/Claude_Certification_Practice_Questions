@@ -1,0 +1,632 @@
+[
+  {
+    "id": "AP051",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 1,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A client requires that inference run inside their own AWS account. What does this determine?",
+      "ja": "顧客は、推論を自社の AWS アカウント内で実行することを求めています。この要件によって何が決まりますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The model family only",
+        "ja": "モデルファミリーだけ"
+      },
+      {
+        "key": "B",
+        "en": "That a data processing agreement is sufficient",
+        "ja": "データ処理契約で十分であること"
+      },
+      {
+        "key": "C",
+        "en": "Deployment through Amazon Bedrock in the client's account and region",
+        "ja": "顧客のアカウントとリージョンの Amazon Bedrock を通じたデプロイ"
+      },
+      {
+        "key": "D",
+        "en": "That request logging must be disabled",
+        "ja": "リクエストのログ記録を無効にする必要があること"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Running inside the client's own cloud boundary is what the requirement describes. A contract (B) and logging settings (D) do not keep the data in the account, and the model family (A) is a separate choice",
+      "ja": "顧客自身のクラウドの境界内で実行することが、この要件の意味です。契約 (B) やログ設定 (D) ではデータをそのアカウント内に留められず、モデルファミリー (A) は別の選択です。"
+    }
+  },
+  {
+    "id": "AP052",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 2,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "An enterprise standardised on Google Cloud wants identity and audit handled by existing controls. What follows?",
+      "ja": "Google Cloud に標準化した企業が、既存の制御で ID と監査を扱いたいと考えています。どの対応が導かれますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Deploy through Vertex AI so the platform's identity, billing, and audit apply",
+        "ja": "Vertex AI を通じてデプロイし、そのプラットフォームの ID、課金、監査を適用する"
+      },
+      {
+        "key": "B",
+        "en": "Use the Claude API and rebuild the controls",
+        "ja": "Claude API を使い、制御を作り直す"
+      },
+      {
+        "key": "C",
+        "en": "Use Bedrock for feature parity",
+        "ja": "機能をそろえるために Bedrock を使う"
+      },
+      {
+        "key": "D",
+        "en": "Let each team decide",
+        "ja": "各チームに判断を任せる"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Aligning with the governed platform makes existing controls apply without duplication. Rebuilding (B) drifts, a different cloud (C) creates a second control plane, and per-team choice (D) removes governance",
+      "ja": "統制されたプラットフォームに合わせれば、既存の制御を重複なく適用できます。作り直すと (B) 制御にずれが生じ、別のクラウド (C) は第2のコントロールプレーンを作り、チームごとの選択 (D) はガバナンスを失わせます。"
+    }
+  },
+  {
+    "id": "AP053",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 3,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "What is the main architectural benefit of routing all model traffic through one internal service?",
+      "ja": "モデルへのすべての通信を1つの社内サービスに経由させることの、アーキテクチャ上の主な利点は何ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Lower token prices",
+        "ja": "トークンの単価が下がる"
+      },
+      {
+        "key": "B",
+        "en": "It removes the need for evaluation",
+        "ja": "評価が不要になる"
+      },
+      {
+        "key": "C",
+        "en": "It guarantees lower latency",
+        "ja": "レイテンシの低下が保証される"
+      },
+      {
+        "key": "D",
+        "en": "Authentication, rate limiting, logging, and routing are applied consistently in one place",
+        "ja": "認証、レート制限、ログ記録、ルーティングを1か所で一貫して適用できる"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "A single integration point is where cross-cutting concerns are enforced and changed once. It does not change unit price (A), remove evaluation (B), or reduce latency (C)",
+      "ja": "1つの統合点で横断的な関心事を強制し、一度の変更で反映できます。単価を変える (A)、評価を不要にする (B)、レイテンシを減らす (C) という効果はありません。"
+    }
+  },
+  {
+    "id": "AP054",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 4,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Two designs both satisfy the requirement; one is materially simpler. What decides?",
+      "ja": "2つの設計がどちらも要件を満たし、一方は大幅に単純です。判断の基準は何ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The more capable design, since headroom is valuable",
+        "ja": "余力には価値があるので、より高機能な設計にする"
+      },
+      {
+        "key": "B",
+        "en": "Whether any stated requirement needs the extra capability, against the ongoing cost of complexity",
+        "ja": "明示された要件に追加機能が必要かどうかを、複雑さに伴う継続的なコストと比較する"
+      },
+      {
+        "key": "C",
+        "en": "Whichever the team prefers to build",
+        "ja": "チームが作りたい方にする"
+      },
+      {
+        "key": "D",
+        "en": "The one with more components, for flexibility",
+        "ja": "柔軟性のために、構成要素が多い方にする"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Complexity is paid for continuously, so it must be bought by a real requirement. Headroom (A), preference (C), and speculative flexibility (D) pay that cost without justification",
+      "ja": "複雑さには継続的なコストがかかるため、実際の要件によって正当化される必要があります。余力 (A)、好み (C)、将来を見越した柔軟性 (D) では、そのコストの根拠になりません。"
+    }
+  },
+  {
+    "id": "AP055",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 5,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A required compliance control depends on the model behaving correctly. What is the correct judgment?",
+      "ja": "必須のコンプライアンス上の制御が、モデルが正しく振る舞うことに依存しています。正しい判断はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Acceptable if measured accuracy is very high",
+        "ja": "測定した精度が非常に高ければ許容できる"
+      },
+      {
+        "key": "B",
+        "en": "Not acceptable: a required control must be enforced deterministically outside the model",
+        "ja": "許容できない。必須の制御はモデルの外で決定的に強制する必要がある"
+      },
+      {
+        "key": "C",
+        "en": "Acceptable with a documented residual risk",
+        "ja": "残余リスクを文書化すれば許容できる"
+      },
+      {
+        "key": "D",
+        "en": "Acceptable if a larger model is used",
+        "ja": "より大きいモデルを使えば許容できる"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "A control that must hold needs a guarantee, which probabilistic behavior cannot supply. High accuracy (A), documentation (C), and model size (D) do not convert a tendency into a guarantee",
+      "ja": "必ず成立しなければならない制御には保証が必要であり、確率的な振る舞いでは保証できません。高精度 (A)、文書化 (C)、モデルの大きさ (D) は、傾向を保証に変えません。"
+    }
+  },
+  {
+    "id": "AP056",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 6,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Where should the boundary of automation be drawn in a solution that makes customer-affecting decisions?",
+      "ja": "顧客に影響する意思決定を行うソリューションでは、自動化の境界をどこに置くべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Wherever the model performs well in testing",
+        "ja": "テストでモデルの性能が良好な範囲"
+      },
+      {
+        "key": "B",
+        "en": "As far as the budget allows",
+        "ja": "予算が許す範囲いっぱい"
+      },
+      {
+        "key": "C",
+        "en": "At whatever the client requests",
+        "ja": "顧客が求める範囲"
+      },
+      {
+        "key": "D",
+        "en": "Where accountability for the decision sits, keeping those decisions with a person",
+        "ja": "意思決定の説明責任があるところに境界を置き、その判断を人に残す"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Accountability determines what may be automated at all, and that boundary is an architectural decision. Test performance (A), budget (B), and unexamined requests (C) do not address responsibility",
+      "ja": "説明責任によって、そもそも何を自動化できるかが決まり、その境界はアーキテクチャ上の判断です。テスト性能 (A)、予算 (B)、検討していない要求 (C) では責任を扱えません。"
+    }
+  },
+  {
+    "id": "AP057",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 7,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "What must exist before a solution is declared production-ready?",
+      "ja": "ソリューションを本番運用可能と宣言する前に、何が必要ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A defined success criterion and measured performance against representative data",
+        "ja": "定義された成功基準と、代表性のあるデータに対する性能測定"
+      },
+      {
+        "key": "B",
+        "en": "A successful demonstration",
+        "ja": "成功したデモ"
+      },
+      {
+        "key": "C",
+        "en": "Sign-off from the engineering team",
+        "ja": "エンジニアリングチームの承認"
+      },
+      {
+        "key": "D",
+        "en": "A completed cost model",
+        "ja": "完成したコストモデル"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Readiness is a measured claim against a stated bar. A demonstration (B), consensus (C), and cost (D) do not establish whether it works",
+      "ja": "本番運用可能という主張は、明示された基準に対して測定するものです。デモ (B)、合意 (C)、コスト (D) では、実際に機能するかを確かめられません。"
+    }
+  },
+  {
+    "id": "AP058",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 8,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "An evaluation set contains only cases the system already handles. What is the effect?",
+      "ja": "評価セットに、システムがすでに処理できるケースしか含まれていません。どのような影響がありますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It provides a reliable quality measure",
+        "ja": "信頼できる品質測定になる"
+      },
+      {
+        "key": "B",
+        "en": "It is fine if it is large",
+        "ja": "件数が多ければ問題ない"
+      },
+      {
+        "key": "C",
+        "en": "It overstates performance and conceals the failures that matter",
+        "ja": "性能を過大評価し、重要な失敗を隠す"
+      },
+      {
+        "key": "D",
+        "en": "It matters only in regulated contexts",
+        "ja": "規制対象の状況でだけ問題になる"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "An unrepresentative sample measures the wrong distribution, and size does not correct bias. It is not reliable (A), scale does not fix it (B), and the problem is general (D)",
+      "ja": "代表性のない標本は誤った分布を測定し、件数を増やしても偏りは直りません。信頼できる測定ではなく (A)、規模では修正できず (B)、この問題は一般的に生じます (D)。"
+    }
+  },
+  {
+    "id": "AP059",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 9,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "How should a request to log every prompt and response for audit be handled?",
+      "ja": "監査のためにすべてのプロンプトと応答を記録してほしいという依頼に、どう対応すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Implement it, since audit takes precedence",
+        "ja": "監査が優先されるので実装する"
+      },
+      {
+        "key": "B",
+        "en": "Decline, because logging creates risk",
+        "ja": "ログ記録はリスクを生むので断る"
+      },
+      {
+        "key": "C",
+        "en": "Log responses but not prompts",
+        "ja": "応答を記録し、プロンプトは記録しない"
+      },
+      {
+        "key": "D",
+        "en": "Establish what the audit requires, because prompts and responses may contain personal or confidential data",
+        "ja": "プロンプトと応答には個人データや機密データが含まれ得るため、監査に何が必要かを明らかにする"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Audit and data protection are both real, and the design must serve the audit purpose without retaining more than warranted. Blanket action (A) or refusal (B) ignores one side, and an arbitrary split (C) is unjustified",
+      "ja": "監査とデータ保護のどちらも重要であり、正当な範囲を超えて保持せずに監査目的を満たす設計が必要です。一律の実施 (A) や拒否 (B) は片方を無視し、恣意的な切り分け (C) にも根拠がありません。"
+    }
+  },
+  {
+    "id": "AP060",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 10,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Who is accountable when an automated Claude workflow produces a harmful decision?",
+      "ja": "自動化された Claude のワークフローが有害な意思決定を行った場合、誰が説明責任を負いますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The model provider",
+        "ja": "モデルの提供者"
+      },
+      {
+        "key": "B",
+        "en": "The engineer who wrote the prompt",
+        "ja": "プロンプトを書いたエンジニア"
+      },
+      {
+        "key": "C",
+        "en": "The organization that deployed it",
+        "ja": "そのワークフローを導入した組織"
+      },
+      {
+        "key": "D",
+        "en": "No one, because the decision was automated",
+        "ja": "意思決定は自動化されているため、誰も負わない"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Deploying an automated decision means owning its outcomes. The provider (A) supplies a capability, individual authorship (B) does not transfer organizational responsibility, and automation does not remove accountability (D)",
+      "ja": "自動化された意思決定を導入することは、その結果に責任を持つことです。提供者 (A) は能力を提供しますが、個人が作成したこと (B) で組織の責任は移らず、自動化によって説明責任はなくなりません (D)。"
+    }
+  },
+  {
+    "id": "AP061",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 11,
+    "scenario_id": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "A sponsor asks for one number that shows whether the solution is working. What is the right response?",
+      "ja": "スポンサーが、ソリューションが機能しているかを示す数値を1つ求めています。適切な対応はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Give the headline accuracy figure",
+        "ja": "全体の精度の数値を示す"
+      },
+      {
+        "key": "B",
+        "en": "Give the measure tied to the decision they face, and state what it does not cover",
+        "ja": "相手が直面している判断に結びつく指標を示し、その指標が扱わない範囲を伝える"
+      },
+      {
+        "key": "C",
+        "en": "Explain that this cannot be reduced to a number",
+        "ja": "1つの数値にはできないと説明する"
+      },
+      {
+        "key": "D",
+        "en": "Give the model's benchmark score",
+        "ja": "モデルのベンチマークスコアを示す"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "A useful metric matches the decision and is honest about its limits. A bare accuracy figure (A) and a benchmark (D) can mislead, and refusing (C) fails the sponsor",
+      "ja": "役立つ指標は判断に対応し、その限界を正直に示します。精度の数値だけ (A) やベンチマーク (D) は誤解を招き得る一方、拒否するだけ (C) ではスポンサーの役に立ちません。"
+    }
+  },
+  {
+    "id": "AP062",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 12,
+    "scenario_id": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "A ten-user pilot is about to expand to two thousand users. What should the architect raise first?",
+      "ja": "10人のパイロット運用を2,000人に拡大しようとしています。アーキテクトは最初に何を取り上げるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Which assumptions held at ten users and may not hold at two thousand",
+        "ja": "10人では成り立った前提のうち、2,000人では成り立たない可能性があるもの"
+      },
+      {
+        "key": "B",
+        "en": "License cost",
+        "ja": "ライセンス費用"
+      },
+      {
+        "key": "C",
+        "en": "Whether a larger model is needed",
+        "ja": "より大きいモデルが必要かどうか"
+      },
+      {
+        "key": "D",
+        "en": "The training rollout plan",
+        "ja": "研修の展開計画"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Scale invalidates assumptions about inputs, support, and edge cases, and surfacing those is the architect's contribution. Cost (B), model size (C), and training (D) follow from knowing what breaks",
+      "ja": "規模が変わると入力、サポート、例外的なケースについての前提が崩れます。それを明らかにすることがアーキテクトの貢献です。コスト (B)、モデルの大きさ (C)、研修 (D) は、何が破綻するかを把握したあとに検討します。"
+    }
+  },
+  {
+    "id": "AP063",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 13,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "How should a model be chosen for a solution containing several distinct tasks?",
+      "ja": "異なる複数のタスクを含むソリューションでは、モデルをどのように選ぶべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Match each task to the smallest model meeting its requirement, and evaluate the choices",
+        "ja": "各タスクの要件を満たす最小のモデルを割り当て、その選択を評価する"
+      },
+      {
+        "key": "B",
+        "en": "One model everywhere, for simplicity",
+        "ja": "単純さのために、すべてで1つのモデルを使う"
+      },
+      {
+        "key": "C",
+        "en": "The largest model everywhere, for safety",
+        "ja": "安全性のために、すべてで最大のモデルを使う"
+      },
+      {
+        "key": "D",
+        "en": "The newest model everywhere",
+        "ja": "すべてで最新のモデルを使う"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Different tasks have different requirements, and matching each keeps cost proportionate on evidence. Uniform choices (B, C, D) optimise for convenience rather than fit",
+      "ja": "タスクごとに要件は異なり、それぞれに合わせることで、根拠に基づいてコストを適切に保てます。一律の選択 (B, C, D) は、適合性ではなく都合のよさを優先しています。"
+    }
+  },
+  {
+    "id": "AP064",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 14,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "How should the context window be treated in a production design?",
+      "ja": "本番の設計では、コンテキストウィンドウをどのように扱うべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "As capacity to fill as completely as possible",
+        "ja": "できる限り埋めるべき容量として扱う"
+      },
+      {
+        "key": "B",
+        "en": "As a budget allocated deliberately between instructions, retrieved material, and working state",
+        "ja": "指示、検索した資料、作業状態の間で意図的に割り当てる予算として扱う"
+      },
+      {
+        "key": "C",
+        "en": "As a concern only for long documents",
+        "ja": "長い文書だけに関わる課題として扱う"
+      },
+      {
+        "key": "D",
+        "en": "As a setting to increase whenever quality drops",
+        "ja": "品質が落ちたらいつでも増やす設定として扱う"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Context is scarce and its allocation drives quality, so it is designed. Filling it (A) dilutes, it matters beyond long documents (C), and enlarging it (D) does not fix allocation",
+      "ja": "コンテキストは限られており、その割り当てが品質を左右するため、設計が必要です。埋め尽くすと (A) 内容が薄まり、長い文書以外にも重要で (C)、拡大するだけ (D) では割り当ての問題は解決しません。"
+    }
+  },
+  {
+    "id": "AP065",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 15,
+    "scenario_id": null,
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "An organization wants consistent Claude Code practice across dozens of repositories. What is most durable?",
+      "ja": "ある組織が、数十のリポジトリにまたがって Claude Code の使い方を統一したいと考えています。最も長続きする方法はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A policy document circulated once",
+        "ja": "一度だけ配布するポリシー文書"
+      },
+      {
+        "key": "B",
+        "en": "A single training session",
+        "ja": "1回の研修"
+      },
+      {
+        "key": "C",
+        "en": "Committed project memory and shared skills in each repository, reviewed like code",
+        "ja": "各リポジトリにプロジェクトメモリと共有スキルをコミットし、コードと同様にレビューする"
+      },
+      {
+        "key": "D",
+        "en": "Requiring approval for every use",
+        "ja": "使用のたびに承認を求める"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Conventions persist when they live in the repository and are reviewed with the work. Policies (A) and training (B) fade, and per-use approval (D) adds friction without conveying practice",
+      "ja": "規約はリポジトリ内に置かれ、作業とともにレビューされると定着します。ポリシー (A) や研修 (B) は薄れ、毎回の承認 (D) は実践を伝えずに手間を増やします。"
+    }
+  }
+]

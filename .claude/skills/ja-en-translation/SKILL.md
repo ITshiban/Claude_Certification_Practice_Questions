@@ -139,6 +139,27 @@ Haiku, Sonnet, Opus, Claude Code, API, temperature
 | CCAR-P | Stakeholder Communication & Lifecycle Management | ステークホルダーとのコミュニケーションとライフサイクル管理 |
 | CCAR-P | Developer Productivity & Operational Enablement | 開発者の生産性と運用の支援 |
 
+### Architect で使う用語
+| 英語 | 日本語 |
+|---|---|
+| coordinator / orchestrator | コーディネーター / オーケストレーター |
+| observability | 可観測性 |
+| retrieval-augmented generation / RAG | 検索拡張生成（RAG）。以降は RAG |
+| service-level agreement / SLA | サービスレベル合意（SLA）。以降は SLA |
+| progressive discovery | 段階的な発見 |
+| chunking | チャンク分割 |
+| embedding | 埋め込み |
+| de-identification | 非識別化 |
+| protected health information / PHI | 保護対象の保健情報（PHI） |
+| tokenize (identifiers) | トークン化する |
+| data residency | データの所在 |
+| control plane | コントロールプレーン |
+| rubric | ルーブリック |
+| compensating control | 補完的な制御 |
+| cross-cutting concerns | 横断的な関心事 |
+
+オーケストレーション、構造化出力、Few-shot、コンテキストエンジニアリングなどは上の共通表の訳語をそのまま使う。問題とシナリオのタイトル・本文を日英でそろえ、出典から取り込む英語は変更しない。
+
 ## 新しい用語が出たとき
 - 上の表にない専門用語は、訳語案を提示してから使う
 - 採用した訳語はこの用語集に追記する

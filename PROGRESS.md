@@ -227,10 +227,14 @@ DV101 D1 フックで決定的な処理 / DV102 D1 Agent SDK の自前運用と�
 | CCAR-F 8 | merge と validate | 完了（承認済み。CCAR-F 120問・エラー0件・警告0件） |
 | CCAR-P 1 | practice（35問）AP001–AP035 | 完了（承認済み） |
 | CCAR-P 2 | mock1（15問）AP036–AP050 | 完了（報告済み・承認待ち） |
-| CCAR-P 3〜4 | mock2・mock3（各15問）AP051–AP080 | 未着手 |
-| CCAR-P 5 | オリジナルの計画（承認が必要） | 未着手 |
-| CCAR-P 6〜8 | 難化版 AP081–AP100、新規 AP101–AP120、merge と validate | 未着手 |
-| Phase 4 | 検証・テスト・ドキュメント・スキル | 未着手 |
+| CCAR-P 3 | mock2（15問）AP051–AP065 | 完了（2026-11-10 報告） |
+| CCAR-P 4 | mock3（15問）AP066–AP080 | 完了（2026-11-10 報告） |
+| CCAR-P 5 | オリジナルの計画（承認が必要） | docs/ccar-p-original-plan.md の配分・40問の論点を2026-11-10にユーザー承認済み |
+| CCAR-P 6 前半 | 難化版 AP081–AP090 | 完了（2026-11-10 報告） |
+| CCAR-P 6 後半 | 難化版 AP091–AP100 | 完了（2026-11-10 報告） |
+| CCAR-P 7 前半 | 新規 AP101–AP110 | 完了（2026-11-10 報告） |
+| CCAR-P 7 後半〜8 | 新規 AP111–AP120、merge と validate | 完了（2026-11-10、120問・検証エラー0件・警告0件） |
+| Phase 4 | 検証・テスト・ドキュメント・スキル | コード・検証・文書更新完了（2026-11-14）。実画面の最終確認は接続・操作承認タイムアウトにより未完了 |
 
 ## Architect Phase 1 のメモ
 - src/exams.js：ccar-f・ccar-p を追加（originalRules は CCDV-F と共通の ORIGINAL_RULES）。scenarioFile(exam) を追加
@@ -342,3 +346,182 @@ DV101 D1 フックで決定的な処理 / DV102 D1 Agent SDK の自前運用と�
 - mock1：15問（依頼の件数と一致）。シナリオなし（scenario_id: null）。Why が短いため14問に補足（Q13 は Why が全誤答を内容で否定しているため補足なし）。内容で否定済みの誤答は対象外（Q1 の A・B、Q6 の A・B、Q7 の B、Q8 の A・D、Q12 の A、Q15 の B）
 - mock1 のドメイン別：D1 2 / D2 1 / D3 3 / D4 3 / D5 3 / D6 2 / D7 1。正解は A→B→C→D の順に循環（原文のまま）
 - mock1 は practice と論点が近い問題が多い（例：AP039≒AP006 ルーブリック、AP040≒AP007 回帰と A/B、AP041≒AP008 PHI の非識別化、AP045≒AP005 ワークフロー）。原文のまま取り込み、オリジナルの計画で重複を避ける材料にする
+
+### CCAR-P mock2（2026-11-10）
+- 原文：https://raw.githubusercontent.com/Amey-Thakur/CLAUDE-CERTIFICATIONS/main/architect-professional/mock-exam-2.md を取得。AP051〜AP065 の15問を追加。英語の問題文・選択肢・解説、正解、ドメインを保持し、日本語訳を追加。全問 single、scenario_id: null。Why が全誤答を内容で否定しているため補足なし。
+- mock2 のドメイン別：D1 3 / D2 2 / D3 3 / D4 2 / D5 2 / D6 2 / D7 1。正解位置 A4 / B4 / C4 / D3。
+- 取り込み済み65問のドメイン別：D1 11（16.9%）/ D2 6（9.2%）/ D3 14（21.5%）/ D4 11（16.9%）/ D5 9（13.8%）/ D6 8（12.3%）/ D7 6（9.2%）。D2 は配点より3.8pt少なく、オリジナルの配分案で調整する。
+- 既存問題と近い論点：AP051≒AP001（AWS 境界）、AP053≒AP004（共通の統合層）、AP054≒AP005・AP045（要件と複雑さ）、AP057≒AP006（測定する成功基準）、AP059≒AP010（監査とデータ最小化）。原文のまま保持し、オリジナルの重複回避に使う。
+- merge 実施。公開データと index.json を65問へ更新。他の3試験に差分なし。
+- validate：他の3試験はエラー0件、オリジナル警告0件。CCAR-P は件数不足3件のみ（合計65/120、mock3 0/15、original 0/40）。追加分の構造・英日・正解のエラーなし。試験をまたぐID重複なし。
+- npm test：4ファイル86件成功。npm run build 成功。
+- docs/architect-plan.md の「各ステップで止まって報告する」に従って区切る。次は mock3 AP066〜AP080。その後、80問を集計してオリジナル40問の配分案の承認を得る。今回はコミット・push は実施していない。
+
+### CCAR-P mock3（2026-11-10）
+- 原文：https://raw.githubusercontent.com/Amey-Thakur/CLAUDE-CERTIFICATIONS/main/architect-professional/mock-exam-3.md を取得。AP066〜AP080 の15問を追加。英語の問題文・選択肢・解説、正解、ドメインを原文どおり保持し、日本語訳を追加した。全問 single、scenario_id: null。Why が各誤答を内容で否定しているため補足なし。
+- mock3 のドメイン別：D1 2 / D2 2 / D3 3 / D4 2 / D5 2 / D6 2 / D7 2。正解位置 A4 / B4 / C4 / D3。
+- 重複回避の材料：AP067≒AP015（クラウドへの結合と移行）、AP069≒AP009（精度要件の具体化）、AP071≒AP024・AP059（データ保持）、AP074≒AP023（変更時の再評価）、AP076≒AP029（引き継ぎ）、AP078≒AP032（プロンプトの管理）、AP079≒AP034（開発支援の成果）、AP080≒AP035（既存コードのコンテキスト）。原文を変更せず取り込んだ。
+- 取り込み80問：D1 13（16.25%）/ D2 8（10%）/ D3 17（21.25%）/ D4 13（16.25%）/ D5 11（13.75%）/ D6 10（12.5%）/ D7 8（10%）。全問 single。D2 は配点より3pt少なく、D7 は3pt多い。残り40問の配分案で調整する。
+- mock1〜3 の英語問題文の平均は97.6444文字。オリジナルの許容範囲は166〜488文字（1.7〜5.0倍）、目標245〜390文字（2.5〜4倍）。
+- merge 実施。public/questions/ccar-p.json と index.json を80問に更新。他の3試験の公開ファイルに差分なし。
+- validate：CCAO-F 100問、CCDV-F 120問、CCAR-F 120問はエラー0件。CCDV-F・CCAR-F のオリジナル警告0件。CCAR-P は件数不足2件のみ（合計80/120、original 0/40）。取り込み80問の構造・英日・正解にエラーなし、試験をまたぐID重複なし。
+- npm test：4ファイル86件成功。npm run build 成功。
+- 各ステップで報告する既存計画に従い、mock3 完了で区切る。次はオリジナル40問（難化版20・新規20）の論点とドメイン配分の計画を提示し、承認後に10問ずつ作成する。コミット・push はしていない。
+
+### CCAR-P 難化版 AP081〜AP090（2026-11-10）
+- ユーザーの「OK」により docs/ccar-p-original-plan.md の40問計画を承認済みとして開始。original.json に日英10問を追加。source: original、source_url/source_number/scenario_id: null、based_on に元ID。既存80問と他試験のデータは変更していない。
+- 追加分は D1 4 / D2 4 / D3 2。AP083・AP087 は multiple（各2正解、日英で2つ選ぶ旨を明記）。回答者の立場の設定は5/10問。正解位置は元問題から全問変更。
+
+| ID | 元ID | D | 英語問題文 | mock平均比 | 選択肢の長さの差 | 正解 |
+|---|---|---:|---:|---:|---:|---|
+| AP081 | AP004 | 1 | 332文字 | 3.40倍 | 2.6% | A |
+| AP082 | AP005 | 1 | 346文字 | 3.54倍 | 2.7% | B |
+| AP083 | AP018 | 1 | 344文字 | 3.52倍 | 1.8% | B,D |
+| AP084 | AP070 | 1 | 319文字 | 3.27倍 | 3.5% | C |
+| AP085 | AP030 | 2 | 335文字 | 3.43倍 | 0.9% | D |
+| AP086 | AP031 | 2 | 335文字 | 3.43倍 | 2.7% | A |
+| AP087 | AP046 | 2 | 330文字 | 3.38倍 | 2.6% | B,C |
+| AP088 | AP077 | 2 | 335文字 | 3.43倍 | 6.1% | D |
+| AP089 | AP002 | 3 | 328文字 | 3.36倍 | 7.7% | B |
+| AP090 | AP014 | 3 | 329文字 | 3.37倍 | 3.6% | C |
+
+根拠（2026-11-10に公式資料を閲覧。業務上の制約と数値は設問固有の仮定）：
+- AP081：https://www.anthropic.com/research/building-effective-agents （必要最小限の構成、検索で拡張した単一呼び出し、ワークフローとエージェントの区別）。
+- AP082：同資料の事前に定めたコード経路によるワークフローと、既知の手順に対する予測可能性。決定的なのは段階の制御であり、生成文そのものではない。
+- AP083：https://code.claude.com/docs/en/agent-sdk/permissions （実行前の許可・拒否というアプリ側の制御の例）、https://www.postgresql.org/docs/current/transaction-iso.html （同時トランザクションと整合性）。特定のSDKやDBを正解に要求せず、必須の承認・上限を実行層で保証する一般設計を問う。合計の確認と確定の間に別の送金が割り込む競合を含めた。
+- AP084：https://json-schema.org/understanding-json-schema/reference/null （null の明示的な意味）、https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools （入力スキーマと動作の説明）、https://learn.microsoft.com/en-us/azure/architecture/patterns/asynchronous-request-reply （再送・重複処理を含む非同期の契約）。システム境界の契約への適用は設計上の推論。
+- AP085：https://platform.claude.com/docs/en/about-claude/models/choosing-a-model （能力・速度・費用を基準に実データで評価して選ぶ）。S/L と費用単位は架空の測定結果。1+8=9 の組合せが品質・予算を満たすことを確認。
+- AP086：https://www.anthropic.com/research/effective-context-engineering-for-ai-agents （コンテキストを有限の資源として扱い、関連情報を選別する）。
+- AP087：https://platform.claude.com/docs/en/build-with-claude/prompt-caching （完全一致のプレフィックス、安定した内容を先頭に置く、可変部分より前の明示的なブレークポイント）。最小量・有効期間を設問で満たすことにして論点を限定。
+- AP088：https://platform.claude.com/docs/en/test-and-evaluate/develop-tests （実タスクを反映した評価データと代表性）。固定スナップショット・未変更の構成・従来データの合格を示し、単なる自然劣化ではなく入力の変化を検証する設計上の判断を問う。
+- AP089：https://www.anthropic.com/research/contextual-retrieval （文書のチャンク分割・埋め込み・検索と、根拠を加える生成というRAGの構成）。更新後の誤検索に対して変更された検索層を優先調査するという既存AP002の論点を難化。復旧版の整合性確認は一般的な変更管理上の判断。
+- AP090：https://learn.microsoft.com/en-us/azure/architecture/patterns/asynchronous-request-reply （受付と長時間処理の分離、状態照会）。コールバック不可・固定タイムアウトを明示し、ストリーミングや短縮回答との違いを問う。
+
+- merge 後の CCAR-P は90問：practice 35 / mock1 15 / mock2 15 / mock3 15 / original 10。ドメイン別 D1 17（18.9%）/ D2 12（13.3%）/ D3 19（21.1%）/ D4 13（14.4%）/ D5 11（12.2%）/ D6 10（11.1%）/ D7 8（8.9%）。残り30問を計画どおり追加して最終比率を調整する。
+- validate：CCAR-P は件数不足2件のみ（合計90/120、original 10/40）。オリジナルの警告0件、正解が単独で最長は1/10（10%）、正解位置 A2/B4/C3/D3（12正解枠中16.7%/33.3%/25%/25%）。based_on・同一ドメイン・英日参照記号・ID重複のエラーなし。
+- 他の3試験は検証エラー0件、CCDV-F・CCAR-F のオリジナル警告0件。他の3試験の公開データに差分なし。npm test は4ファイル86件成功、npm run build 成功、git diff --check 成功。
+- 承認済み計画の10問単位の報告に従い、ここで区切る。次は AP091〜AP100。コミット・push は実施していない。
+
+### CCAR-P 難化版 AP091〜AP100（2026-11-10）
+- original.json に日英10問を追加。全問 scenario_id: null、based_on は計画どおり、元と同じドメイン。AP091 は multiple（2正解、日英で2つ選ぶ旨を明記）、他9問は single。元の正解位置を全問で変更し、回答者の立場を5/10問に設定した。
+- 難化版20問のドメイン別は D1 4 / D2 4 / D3 3 / D4 3 / D5 3 / D6 3 / D7 0。承認済み配分どおり。既存80問の内容・正解と、他試験のデータに変更なし。
+
+| ID | 元ID | D | 英語問題文 | mock平均比 | 選択肢の長さの差 | 正解 |
+|---|---|---:|---:|---:|---:|---|
+| AP091 | AP050 | 3 | 361文字 | 3.70倍 | 3.6% | C,D |
+| AP092 | AP006 | 4 | 349文字 | 3.57倍 | 2.7% | B |
+| AP093 | AP007 | 4 | 315文字 | 3.23倍 | 3.6% | D |
+| AP094 | AP048 | 4 | 328文字 | 3.36倍 | 1.8% | A |
+| AP095 | AP008 | 5 | 355文字 | 3.64倍 | 1.8% | B |
+| AP096 | AP025 | 5 | 341文字 | 3.49倍 | 4.5% | C |
+| AP097 | AP072 | 5 | 347文字 | 3.55倍 | 2.7% | D |
+| AP098 | AP009 | 6 | 330文字 | 3.38倍 | 3.6% | A |
+| AP099 | AP028 | 6 | 313文字 | 3.21倍 | 4.3% | B |
+| AP100 | AP047 | 6 | 335文字 | 3.43倍 | 4.2% | C |
+
+根拠（2026-11-10に公式・一次資料を閲覧。規制の細かな条文には依存させず、組織の制約は設問で定義）：
+- AP091：https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html （最小権限・リクエストごとの認可）、https://code.claude.com/docs/en/agent-sdk/permissions （実行前の許可と拒否の例）。SDK固有の設定ではなく、禁止された削除の排除と正確な変更への監督者承認を問う。
+- AP092：https://platform.claude.com/docs/en/test-and-evaluate/develop-tests （定義した定性的尺度、ルーブリック、コード・人・モデルの採点手段）。許容できる言い換えと致命的な省略を区別する例を合意して、人の判断に採点を合わせる設計。
+- AP093：同評価資料（事前の成功基準、実タスク・例外ケース、A/Bによる比較）。既存AP007のオフライン回帰→限定した本番比較という論点を、安全性・遅延・事前基準の制約で難化した。重大な承認に対する保護策が本番テストにも必要であることを解説。
+- AP094：https://opentelemetry.io/docs/concepts/signals/traces/ （処理単位、時間、親子関係、属性による分散トレース）。元AP048の検索・ツール・判断点の追跡を、生の顧客文を保存できない制約下に適用。保持できる参照や秘匿処理もポリシーを満たす必要がある。
+- AP095：https://presidio.dataprivacystack.org/ （PIIの検出・非識別化、自動検出だけではすべての識別情報を発見できないこと）。旧 https://microsoft.github.io/presidio/ から転送先を確認。設問では製品を指定せず、モデル送信前の検証・不確かな入力の保留・院内の対応表を問う。通信の暗号化や出力だけの除去では入力の開示を防げない。
+- AP096：https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks （間接的なインジェクション、ツール結果は信頼できないデータ、最小権限）。関連する出典でも社内の権限境界を変更できず、一般的な確認操作でも禁止された送信は許可されない。
+- AP097：https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations （出典の根拠に照らした主張の検証）、既存AP072の独立した照合という論点。モデル同士の一致は独立した事実の裏付けにならない。正とする購入・保証記録への照合と不一致の実行前エスカレーションは、この設問の高影響な業務に適用した設計上の判断。
+- AP098：https://platform.claude.com/docs/en/test-and-evaluate/develop-tests （具体的・測定可能・達成可能・関連性のある成功基準、複数次元の測定）。既存AP009に沿い、測定した工程全体の成果と費用を示して基準を合意する。人の確認も完全ではないと明示し、自動化対象だけへの分母の変更や将来改善の保証を誤答とした。
+- AP099：https://learn.microsoft.com/en-us/azure/well-architected/performance-efficiency/performance-test （本番に近い条件での処理能力・負荷・性能の検証）、上記評価資料の実際の入力分布。既存AP028の入力・支援・例外の前提を再確認する判断を、部門追加とヘルプデスクへの移行に適用。段階展開と責任分担はその運用制約に対する設計案。
+- AP100：https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record （文脈、代替案、理由、制約、トレードオフ）。配置の選択そのものの優劣ではなく、同品質の2案で社内ポリシーがコストより優先された理由を記録する判断。
+
+- merge 後の CCAR-P は100問：practice 35 / mock1 15 / mock2 15 / mock3 15 / original 20。ドメイン別 D1 17（17%）/ D2 12（12%）/ D3 20（20%）/ D4 16（16%）/ D5 14（14%）/ D6 13（13%）/ D7 8（8%）。完成時の配分は計画を維持。
+- validate：CCAR-P は件数不足2件のみ（合計100/120、original 20/40）。オリジナル警告0件、正解が単独で最長は1/20（5%）。正解位置 A4/B7/C6/D6（23正解枠中17.4%/30.4%/26.1%/26.1%）。ID重複、日英の欠落・参照記号、based_on・同一ドメインのエラーなし。
+- CCAO-F 100問・CCDV-F 120問・CCAR-F 120問は検証エラー0件、CCDV-F・CCAR-F のオリジナル警告0件。他の3試験の公開ファイルに差分なし。npm test は4ファイル86件成功、npm run build と git diff --check 成功。
+- 計画の10問単位の報告に従ってここで区切る。次は新規 AP101〜AP110（based_on: null）。コミット・push は実施していない。
+
+### CCAR-P 新規 AP101〜AP110（2026-11-10）
+- original.json に新規10問を日英で追加。全問 based_on: null、scenario_id: null。D1 3 / D2 4 / D3 3、計画どおり。AP101・AP108 は multiple（2正解、日英で2つ選ぶ旨を明記）。回答者の立場を5/10問に設定。既存問題と他試験の内容は変更していない。
+- 出典リポジトリの architect-professional/exam-guide.pdf を再取得し、pypdf でテキスト抽出して Section 6 を再確認。D1 の複数エージェント・分解・業務価値とSLA、D2 のプロンプト・コンテキスト管理、D3 の認証と認可・検索方式とデータ形状・MCP/API等のプロトコル選択に対応。抽出は成功、初回のコンソール表示だけが文字コードの制約で失敗したため、保存済みテキストを rg で確認した。PDFの見た目は変更していない。
+
+| ID | D | 英語問題文 | mock平均比 | 選択肢の長さの差 | 正解 | 既存論点との区別 |
+|---|---:|---:|---:|---:|---|---|
+| AP101 | 1 | 322文字 | 3.30倍 | 2.7% | A,C | 独立した並行調査の分担と、根拠・矛盾を保った合流 |
+| AP102 | 1 | 346文字 | 3.54倍 | 7.7% | D | 依存先の障害を隔離し、正常機能を維持する縮退設計 |
+| AP103 | 1 | 344文字 | 3.52倍 | 5.1% | A | 期限内の必須成果と、遅くてもよい任意機能の分解。全処理の非同期受付ではない |
+| AP104 | 2 | 351文字 | 3.59倍 | 8.2% | B | 正当な利用者の文体要求と免除不可のルールの整合。外部文書の攻撃とは別 |
+| AP105 | 2 | 352文字 | 3.60倍 | 7.8% | D | 推論時に与えるFew-shotの例の偏り。評価セットの代表性とは別 |
+| AP106 | 2 | 316文字 | 3.24倍 | 4.3% | C | 型だけのスキーマ適合と、フィールド間の業務的意味の検証を区別 |
+| AP107 | 2 | 316文字 | 3.24倍 | 3.5% | A | 圧縮時の状態の忠実性。コンテキストの容量配分とは別 |
+| AP108 | 3 | 348文字 | 3.56倍 | 5.2% | A,D | 読取対象の文書認可と信頼できる範囲の決定。更新ツールの権限とは別 |
+| AP109 | 3 | 326文字 | 3.34倍 | 5.2% | C | IDの一致と意味検索の組合せ。更新障害の調査とは別 |
+| AP110 | 3 | 328文字 | 3.36倍 | 0.9% | B | 既存APIの責任を保つMCPアダプター。ツール数の削減ではなく連携方式の選択 |
+
+根拠（2026-11-10に公式・一次資料を閲覧。業務の制約・数値は設問固有）：
+- AP101：https://www.anthropic.com/research/building-effective-agents （並行化、分担と統合）、https://www.anthropic.com/research/effective-context-engineering-for-ai-agents （専門サブエージェントと統合）。未解消の矛盾の保持は設問の報告要件。モデルの多数決を事実の裏付けとしない。
+- AP102：https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker （失敗する依存先への繰り返し呼び出しを遮断し、他機能への連鎖を防ぐ）。現行在庫確認がない予約の保留は設問の制約から導く。
+- AP103：上記 building-effective-agents の分解と遅延・費用のトレードオフ、https://learn.microsoft.com/en-us/azure/architecture/patterns/priority-queue （業務上の優先度・サービスレベルに応じた処理）。任意の調査を応答経路から外す案は、この設問の独立性・期限・利用者の合意から導く設計。
+- AP104：https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices （明確な指示、役割とプロンプトの構造）、上記 context-engineering の明確なシステム指示。必須ルールと可変の文体の区別を明示する。プロンプトだけでの強制保証は主張しない。
+- AP105：上記 prompting-best-practices の Use examples effectively （実タスクに関連し、例外を含めて多様で、意図しないパターンを避ける例）。急ぐ単語と業務影響を分ける境界例を問う。
+- AP106：https://platform.claude.com/docs/en/build-with-claude/structured-outputs （JSONとスキーマに沿った出力）。設問が定めた型だけのスキーマは金額の算術や日付順を保証しないため、コードで業務ルールを検査するという設計上の推論。矛盾を通すための値の捏造は認めない。
+- AP107：上記 context-engineering の Compaction と Structured note-taking （重要な決定・未解決事項を保ち、過度な圧縮による情報損失に注意する）。更新済み値・仮説・検証済みの事実を状態つきで区別し、忠実性を照合する。
+- AP108：https://learn.microsoft.com/en-us/azure/search/search-security-trimming-for-azure-search （文書単位の検索フィルター）、https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html （各リクエストの認可と信頼できる実行場所）。検索フィルターに渡すID文字列だけでは認証・認可にならないことに注意。モデルの引数を信頼せず、検索と結果キャッシュの双方に認可範囲を適用する設計。
+- AP109：https://www.anthropic.com/research/contextual-retrieval （識別子に対する字句検索と、意味検索の組合せ）。特定の精度や取得件数を保証せず、両クエリ群で実測する。
+- AP110：https://modelcontextprotocol.io/docs/2026-07-28/getting-started/intro （AIアプリと外部システムをつなぐ共通プロトコル）、上記 OWASP の認可。MCPで既存APIを包むのは、既存クライアントを維持し業務ルールを複製しないという設問の制約に適用した設計案。MCP自体が利用者のアクセス権を付与すると主張しない。
+
+- merge 後の CCAR-P は110問：practice 35 / mock1 15 / mock2 15 / mock3 15 / original 30（難化版20、新規10）。D1 20（18.2%）/ D2 16（14.5%）/ D3 23（20.9%）/ D4 16（14.5%）/ D5 14（12.7%）/ D6 13（11.8%）/ D7 8（7.3%）。残りはD4 3 / D5 3 / D6 4で計画どおり120問となる。
+- validate：CCAR-P は件数不足2件のみ（合計110/120、original 30/40）。オリジナル警告0件、正解が単独で最長は3/30（10%）、正解位置A8/B9/C9/D9（35正解枠中22.9%/25.7%/25.7%/25.7%）。ID重複、日英・解説参照記号、based_on のエラーなし。
+- 他3試験は検証エラー0件、CCDV-F・CCAR-F のオリジナル警告0件。他3試験の公開データに差分なし。npm test は4ファイル86件成功、npm run build と git diff --check 成功。
+- 計画の10問単位の報告に従って区切る。次は最後の新規 AP111〜AP120。コミット・push は実施していない。
+
+### CCAR-P 新規 AP111〜AP120・Phase 3 完了（2026-11-10）
+- 最後の新規10問を日英で追加。based_on: null、scenario_id: null、D4 3 / D5 3 / D6 4。AP115 は multiple（2正解、日英で2つ選ぶ旨を明記）。この10問は回答者の立場を5問に設定し、オリジナル全体で20/40問となった。
+- 前回取得した試験ガイド Section 6 の D4（評価・性能指標）、D5（公平性・リスク・ガバナンス）、D6（要件探索・期待値とSLA・ライフサイクル）を再確認。下記論点は既存問題と中心となる判断を分けた。
+
+| ID | D | 英語問題文 | mock平均比 | 選択肢の長さの差 | 正解 | 中心論点 |
+|---|---:|---:|---:|---:|---|---|
+| AP111 | 4 | 325文字 | 3.33倍 | 6.0% | A | 調整用データと未使用の最終評価データの分離 |
+| AP112 | 4 | 301文字 | 3.08倍 | 6.0% | D | タスク構成を合わせた遅延分布と費用の測定 |
+| AP113 | 4 | 321文字 | 3.29倍 | 5.3% | B | 検証済み根拠を使う生成テストと検索テストの分離 |
+| AP114 | 5 | 347文字 | 3.55倍 | 4.2% | C | 小集団の不利益と不確実性を考慮した公平性の調査 |
+| AP115 | 5 | 332文字 | 3.40倍 | 7.8% | A,C | 漏えいした権限の失効・隔離と、証拠保全・責任者への引き継ぎ |
+| AP116 | 5 | 324文字 | 3.32倍 | 2.6% | D | 保持期間と区別した、二次利用目的の承認 |
+| AP117 | 6 | 318文字 | 3.26倍 | 3.3% | B | 相反する要件を責任者と整理し、成果の定義を合意 |
+| AP118 | 6 | 321文字 | 3.29倍 | 4.2% | A | 言語追加の影響評価と、範囲・費用・日程の変更管理 |
+| AP119 | 6 | 309文字 | 3.16倍 | 8.3% | C | 廃止期限を前提とした責任者・検証・段階移行・終了条件 |
+| AP120 | 6 | 299文字 | 3.06倍 | 5.9% | D | 測定範囲・95%目標・失敗の扱い・責任分担を含むSLAの合意 |
+
+根拠（2026-11-10に公式・一次資料を確認。業務条件と数値は設問固有）：
+- AP111：https://platform.claude.com/docs/en/test-and-evaluate/develop-tests （ホールドアウトセットと代表性）。調整に繰り返し使った評価の点数を、独立した最終判定の証拠としないという評価設計。並べ替えや採点者変更では未使用データにならない。
+- AP112：同評価資料の品質・遅延・費用の多次元測定、https://sre.google/sre-book/service-level-objectives/ （平均と分布・パーセンタイル）。AP120の約束の定義とは区別し、設計候補を比較する測定方法を問う。
+- AP113：https://www.anthropic.com/research/contextual-retrieval （検索と生成の構成、検索性能の評価）、上記評価資料のタスク別評価。既知の正しいコンテキストで生成を測る実験は、検索段階と生成段階の原因を切り分けるための設計上の推論。最近の更新に原因を限定した既存AP089とは別。
+- AP114：https://airc.nist.gov/airmf-resources/airmf/5-sec-core/ の MEASURE 2.11、https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf の MS-2.11-002 （集団・小集団ごとの性能と不利益の評価。検索結果で一次資料の該当記述を確認）。初めに試した characteristics ページは取得できなかったため根拠に使っていない。少ない標本から差別を断定せず、十分なデータと原因調査・軽減策の測定を行う。
+- AP115：https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html （侵害が疑われる秘密の失効、露出後の対応）。公開コピーの削除だけでは失効にならない。証拠は保護して保全し、実行中の攻撃経路を残したまま新しい認証情報を発行するだけでは不十分。
+- AP116：https://www.nist.gov/privacy-framework （組織のプライバシーリスク管理）、試験ガイドD5。具体的な承認手順の結論は、設問で定めた新目的のレビュー義務から導く。法令の条文や保持期間内なら二次利用自由という仮定には依存しない。
+- AP117：試験ガイドD6の structured discovery / requirement gathering と期待値の合意、上記評価資料の達成可能で関連性のある成功基準。異なる責任者が持つ制約を、実装前に明示して合意するという設計上の判断。
+- AP118：試験ガイドD6の feedback loops・反復、https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record （制約・選択肢・影響）、https://learn.microsoft.com/en-us/azure/well-architected/operational-excellence/safe-deployments （品質で判定する変更）。一般的なモデルの多言語能力と、業務の評価・支援体制の準備を区別する。
+- AP119：試験ガイドD6の lifecycle、上記 safe-deployments の段階的変更とリスク管理。期限と互換性変更は設問の仮定であり、特定製品の廃止情報ではない。依存先廃止後に旧版へのロールバックはできないため、実行可能な代替手順を合意する。
+- AP120：https://sre.google/sre-book/service-level-objectives/ 、https://learn.microsoft.com/en-us/azure/well-architected/reliability/metrics （業務関係者との測定可能な目標）。提供元の推論平均とユーザーの工程全体の95%目標を区別し、測定期間・失敗・担当責任を合意する。
+
+完成結果：
+
+| 試験 | 合計 | practice/mock1/mock2/mock3/original | 検証エラー | オリジナル警告 |
+|---|---:|---|---:|---:|
+| CCAO-F | 100 | 35/15/15/15/20 | 0 | 対象外 |
+| CCDV-F | 120 | 35/15/15/15/40 | 0 | 0 |
+| CCAR-F | 120 | 35/15/15/15/40 | 0 | 0 |
+| CCAR-P | 120 | 35/15/15/15/40 | 0 | 0 |
+
+- CCAR-P最終配分：D1 20（16.67%）/ D2 16（13.33%）/ D3 23（19.17%）/ D4 19（15.83%）/ D5 17（14.17%）/ D6 17（14.17%）/ D7 8（6.67%）。承認済み計画どおりで、配点比率との差は最大0.34pt未満。
+- オリジナル40問：難化版20・新規20、複数選択6問（AP083/087/091/101/108/115）。正解位置A11/B11/C12/D12（全46枠の23.9%/23.9%/26.1%/26.1%）。正解が単独で最長は8/40（20%）、基準30%以下。全40問の文章量・選択肢の長さ・正解位置の警告0件。
+- 全試験のID重複0件。based_on の参照、ドメイン、英日・解説の選択肢記号の検証エラー0件。CCAR-Pは114問 single / 6問 multiple。merge で公開ファイルとindexを120問へ更新し、他3試験の公開データに差分なし。
+- npm run validate 全体成功（エラー合計0件）、npm test は4ファイル86件成功、npm run build と git diff --check 成功。
+- CCAR-P問題データの作成（Phase 3）は完了。計画のステップ報告としてここで区切る。次は Phase 4 の未完了作業（シナリオ参照の検証拡充、画面の完了条件確認、README・出典表示・スキル更新など）。今回の成功だけでPhase 4全体が完了したとは扱わない。コミット・push は実施していない。
+
+### Architect Phase 4（2026-11-14）
+- scripts/validate-questions.mjs にシナリオの検証を追加。結合問題の scenario_id を必須とし、null または同じ試験のIDだけを許可。シナリオの配列・オブジェクト形式、ID重複、日英のタイトル・本文、source/source_url/source_note、未使用シナリオを検出する。CLIは各試験の scenarioFile を読み込み、問題と一緒に検証する。
+- tests/validate.test.js を4試験へ拡張。実データの全件検証、3試験のオリジナル警告、全試験をまたぐID重複、他試験シナリオ参照・重複・未使用・日英と出典の欠落・参照の不正な型の回帰テストを追加。
+- tests/exams.test.js を4試験×5/10/20問の12通りに拡張。出題と採点に加え、回答ごとに実データのクールを保存形式へ変換・読み戻し、選択肢順・進行状態・履歴が保たれ、他試験の記録が変わらないことを確認。これはロジックの統合テストであり、実画面の操作確認ではない。
+- 実データの全11シナリオで、シナリオ単独およびドメイン・出典との組合せの絞り込みを確認。難化版・新規の絞り込みもCCDV-F・CCAR-F・CCAR-Pで検証。既存のv1→v2→v3、v2→v3の記録・インポートの引き継ぎテストは維持し、成功。
+- READMEを4試験・シナリオ形式・絞り込み・schemaVersion 3・保存移行・検証内容に更新。public/THIRD_PARTY_NOTICES.txtにArchitect両試験、mock1由来のシナリオ、独自問題、公式ガイドを自分の言葉で書いたシナリオの区別を追記。MITライセンス本文は維持。
+- ローカルの4スキル（quiz-question-writer / question-data-check / react-conventions / ja-en-translation）を更新。Architectの範囲とID、シナリオ、3試験共通のoriginalルール、schemaVersion 3、用語集を反映。将来変わるモデル仕様の断定例は、作成時に公式資料を確認する指示へ整理した。
+- 最終チェック：npm test は4ファイル105件成功、npm run validate は全4試験エラー0件・オリジナル警告0件、npm run build 成功、git diff --check 成功。CCAO-F 100 / CCDV-F 120 / CCAR-F 120 / CCAR-P 120。問題本文・選択肢・正解や保存データの形式・キーはこのPhaseで変更していない。
+- 実画面の確認は未完了。ローカル開発サーバーを127.0.0.1:5174で起動し、CUAのChromeタブ作成を試みたが「The browser access host is unavailable」。利用可能なChromeウィンドウを選び直しても「Computer Use app approval timed out」で操作できなかった。接続が復旧するまで画面の完了条件を確認済みと扱わない。作業用サーバーは停止した。
+- 次に残る確認：実際のブラウザで4試験×5/10/20問を最後まで操作、CCAR-Fのシナリオ本文の出題中の表示・折りたたみと復習での閉じた表示、日本語/英語・375px幅、既存記録を引き継いだ画面。以前のPhase 1の画面確認記録はあるが、完成データでの今回の確認の代わりにはしない。
+- 作業内容はローカルに保存済み。Phase 4全体は実画面確認を残す。コミット・push は実施していない。

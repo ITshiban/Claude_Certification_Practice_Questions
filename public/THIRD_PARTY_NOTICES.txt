@@ -22,6 +22,26 @@ Included material / 含まれるもの:
 - data/questions/ccdv-f/mock3.json (DV066-DV080): mock-exam-3.md, questions 1-15
 - public/questions/ccdv-f.json (the merged file served by the app / アプリが読み込む結合済みファイル)
 
+[CCAR-F] architect-foundations
+- data/questions/ccar-f/practice.json (AF001-AF035): practice-questions.md, questions 1-35
+- data/questions/ccar-f/mock1.json (AF036-AF050): mock-exam-1.md, questions 1-15
+- data/questions/ccar-f/mock2.json (AF051-AF065): mock-exam-2.md, questions 1-15
+- data/questions/ccar-f/mock3.json (AF066-AF080): mock-exam-3.md, questions 1-15
+- data/questions/ccar-f/scenarios.json (AFS07-AFS11): mock-exam-1.md, scenarios A-E
+- public/questions/ccar-f.json and ccar-f-scenarios.json: merged public files
+- AFS01-AFS06 are written in our own words based on the public scenarios in the
+  Anthropic exam guide mirrored at architect-foundations/exam-guide.pdf.
+  They are distinct from the MIT-licensed maintainer-authored mock scenarios above.
+  AFS01〜AFS06 は公式試験ガイドの公開シナリオをもとに独自の言葉で作成しました。
+  上記のMITライセンスの模擬試験シナリオとは区別しています。
+
+[CCAR-P] architect-professional
+- data/questions/ccar-p/practice.json (AP001-AP035): practice-questions.md, questions 1-35
+- data/questions/ccar-p/mock1.json (AP036-AP050): mock-exam-1.md, questions 1-15
+- data/questions/ccar-p/mock2.json (AP051-AP065): mock-exam-2.md, questions 1-15
+- data/questions/ccar-p/mock3.json (AP066-AP080): mock-exam-3.md, questions 1-15
+- public/questions/ccar-p.json: merged public file
+
 Modifications / 変更点:
 - Japanese translations were added. The English question text, choices, and answers are unchanged.
   日本語訳を追加しました。英語の問題文・選択肢・正解は変更していません。
@@ -30,6 +50,11 @@ Modifications / 変更点:
   模擬試験の一部の問題に、誤答の説明を補足として追加しました（"[Supplement]" / "【補足】" と表示）。
 
 Original questions / 本アプリ独自の問題:
+- AF081-AF120 (data/questions/ccar-f/original.json)
+- AP081-AP120 (data/questions/ccar-p/original.json)
+- AF081-AF100 and AP081-AP100 are newly written harder variants on the topics
+  identified by based_on; AF101-AF120 and AP101-AP120 cover additional decision points.
+  難化版は based_on の問題と同じ論点で新しく執筆し、新規問題は追加の判断を扱います。
 - Q081-Q100 (data/questions/ccao-f/original.json)
 - DV081-DV120 (data/questions/ccdv-f/original.json). DV081-DV100 are new questions written for this app
   on the same topics as the source questions recorded in their "based_on" field; their text is not taken

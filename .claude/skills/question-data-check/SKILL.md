@@ -17,16 +17,19 @@ description: 問題データ（data/questions/<試験>/ の出典別JSON や pub
    - 出典別件数（期待値は src/exams.js の expectedSources）
      - CCAO-F：practice 35 / mock1 15 / mock2 15 / mock3 15 / original 20、合計100
      - CCDV-F：practice 35 / mock1 15 / mock2 15 / mock3 15 / original 40、合計120
+   - CCAR-F・CCAR-P：practice 35 / mock1 15 / mock2 15 / mock3 15 / original 40、各120
+   - scenario_id：結合ファイルには必須。null または同じ試験のシナリオID。別試験への参照・空文字・不正な型はエラー
+   - シナリオ：ID重複なし、日英のタイトルと本文・出典・URL・注記あり、少なくとも1問から参照される。シナリオなしの試験の公開ファイルは空配列
    - ID 重複なし（試験の中と、試験をまたいだ重複の両方）
    - exam がフォルダ名と一致している
    - answer がすべて choices の key に存在する
    - single は answer 1つ、multiple は answer 2つ（multiple は問題文に Choose two / 2つ選べ）
    - question / choices / explanation に en と ja の欠落がない
-   - domain がその試験のドメイン番号の範囲内（CCAO-F は 1〜7、CCDV-F は 1〜8）
+   - domain がその試験のドメイン番号の範囲内（CCAO-F 1〜7、CCDV-F 1〜8、CCAR-F 1〜5、CCAR-P 1〜7）
    - 解説の選択肢記号（(B) / (B, C) / **B**）が英日で一致している
-   - based_on：CCDV-F の original には必須（難化版は元の ID、新規は null）。参照先が同じ試験に存在し、original ではなく、同じドメインである。それ以外の問題には付いていない
+   - based_on：CCDV-F・CCAR-F・CCAR-P の original には必須（難化版は元の ID、新規は null）。参照先が同じ試験に存在し、original ではなく、同じドメインである。それ以外の問題には付いていない
 5. ドメイン別件数と配点比率の差を確認し、差が大きいドメインがあれば報告する
-6. CCDV-F のオリジナル問題の警告一覧を確認する（エラーにはならない）
+6. CCDV-F・CCAR-F・CCAR-P のオリジナル問題の警告一覧を確認する（エラーにはならない）
    - 問題文の長さが mock 平均の 1.7〜5.0 倍の範囲外
    - 選択肢の長さの差が 20% 超
    - 正解が単独で最長の選択肢になっている問題の割合が 30% 超

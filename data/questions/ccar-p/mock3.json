@@ -1,0 +1,632 @@
+[
+  {
+    "id": "AP066",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 1,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A client will not accept a solution whose behavior cannot be explained to their auditor. What does this constrain?",
+      "ja": "顧客は、監査担当者に振る舞いを説明できないソリューションを受け入れません。これは何を制約しますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The model family only",
+        "ja": "モデルファミリーだけ"
+      },
+      {
+        "key": "B",
+        "en": "The cost model",
+        "ja": "コストモデル"
+      },
+      {
+        "key": "C",
+        "en": "The architecture, which must make decisions traceable and the controls inspectable",
+        "ja": "意思決定を追跡でき、制御を点検できるようにする必要があるアーキテクチャ"
+      },
+      {
+        "key": "D",
+        "en": "The deployment region",
+        "ja": "デプロイ先のリージョン"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Auditability is an architectural property covering tracing and inspectable controls. Model family (A), cost (B), and region (D) do not by themselves make behavior explicable",
+      "ja": "監査可能性は、トレースと点検可能な制御を含むアーキテクチャ上の性質です。モデルファミリー (A)、コスト (B)、リージョン (D) だけで振る舞いを説明可能にすることはできません。"
+    }
+  },
+  {
+    "id": "AP067",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 2,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "What is the main risk of building directly against a single cloud's model service with no abstraction?",
+      "ja": "抽象化を設けず、単一のクラウドのモデルサービスに直接依存して構築することの主なリスクは何ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Moving later becomes expensive, because the coupling reaches into application code",
+        "ja": "結合がアプリケーションコードにまで及ぶため、後から移行するコストが高くなる"
+      },
+      {
+        "key": "B",
+        "en": "Higher token cost",
+        "ja": "トークンコストが高くなる"
+      },
+      {
+        "key": "C",
+        "en": "Lower accuracy",
+        "ja": "精度が低くなる"
+      },
+      {
+        "key": "D",
+        "en": "Slower responses",
+        "ja": "応答が遅くなる"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Coupling determines the cost of change, which is the architectural concern. Cost (B), accuracy (C), and latency (D) are not consequences of the coupling itself",
+      "ja": "結合は変更のコストを左右し、それがアーキテクチャ上の懸念です。コスト (B)、精度 (C)、レイテンシ (D) は、結合そのものから生じる結果ではありません。"
+    }
+  },
+  {
+    "id": "AP068",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 3,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A solution must serve users in two regions with different data residency rules. What follows?",
+      "ja": "ソリューションは、データの所在に関するルールが異なる2つのリージョンのユーザーに対応する必要があります。どの対応が導かれますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "One deployment in the cheaper region",
+        "ja": "安い方のリージョンに1つだけデプロイする"
+      },
+      {
+        "key": "B",
+        "en": "A single deployment with encryption in transit",
+        "ja": "通信中の暗号化を用いて1つだけデプロイする"
+      },
+      {
+        "key": "C",
+        "en": "Whichever region has the lowest latency",
+        "ja": "レイテンシが最も低いリージョンにする"
+      },
+      {
+        "key": "D",
+        "en": "Separate deployments whose data stays within each region's boundary",
+        "ja": "各リージョンの境界内にデータが留まるように、別々にデプロイする"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Residency is satisfied by keeping the data within each boundary. A single deployment (A, B) moves data across it, and latency (C) does not address the rule",
+      "ja": "データの所在に関する要件は、それぞれの境界内にデータを留めることで満たします。単一のデプロイ (A, B) は境界を越えてデータを移動させ、レイテンシ (C) ではルールに対応できません。"
+    }
+  },
+  {
+    "id": "AP069",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 4,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A requirement is stated as make it as accurate as possible. What should the architect do?",
+      "ja": "要件が「できる限り正確にする」と示されています。アーキテクトは何をすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Choose the largest model and optimise from there",
+        "ja": "最大のモデルを選び、そこから最適化する"
+      },
+      {
+        "key": "B",
+        "en": "Establish the accuracy the use case actually needs and what an error costs",
+        "ja": "ユースケースが実際に必要とする精度と、誤りに伴うコストを明らかにする"
+      },
+      {
+        "key": "C",
+        "en": "Build the most complex design the budget allows",
+        "ja": "予算が許す限り複雑な設計を構築する"
+      },
+      {
+        "key": "D",
+        "en": "Defer the question until after the pilot",
+        "ja": "パイロット運用のあとまで検討を延期する"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "An unbounded requirement cannot be designed against or verified, so it must be made concrete. Defaulting to maximum capability (A, C) spends without a target, and deferring (D) leaves the design unanchored",
+      "ja": "上限のない要件では設計も検証もできないため、具体化する必要があります。最大の能力を前提にする (A, C) と目標なく費用を使い、延期する (D) と設計の拠り所がなくなります。"
+    }
+  },
+  {
+    "id": "AP070",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 5,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Two components each work correctly but the system fails intermittently at their boundary. What does this suggest?",
+      "ja": "2つの構成要素はそれぞれ正しく動作していますが、両者の境界でシステムが断続的に失敗します。何が示唆されますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "One component needs a larger model",
+        "ja": "片方の構成要素に、より大きいモデルが必要である"
+      },
+      {
+        "key": "B",
+        "en": "The contract between them is underspecified, particularly for edge and error cases",
+        "ja": "両者の間の契約、特に例外的なケースやエラー時の取り決めの定義が不十分である"
+      },
+      {
+        "key": "C",
+        "en": "The system needs more components",
+        "ja": "システムに、さらに構成要素が必要である"
+      },
+      {
+        "key": "D",
+        "en": "The failure is transient and can be retried",
+        "ja": "失敗は一時的なもので、再試行できる"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Boundary failures between correct components point at the contract. Capability (A) and more components (C) do not define the interface, and retrying (D) hides it",
+      "ja": "正しく動く構成要素間の境界での失敗は、契約の問題を示します。能力 (A) や構成要素の追加 (C) ではインターフェースは定義されず、再試行 (D) は問題を隠します。"
+    }
+  },
+  {
+    "id": "AP071",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 6,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A design proposes storing every model interaction indefinitely. What should the architect raise?",
+      "ja": "ある設計では、モデルとのすべてのやり取りを無期限に保存することが提案されています。アーキテクトは何を取り上げるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Nothing, retention is always safer",
+        "ja": "保持する方が常に安全なので、何も取り上げない"
+      },
+      {
+        "key": "B",
+        "en": "That storage is expensive",
+        "ja": "ストレージが高価であること"
+      },
+      {
+        "key": "C",
+        "en": "That it will slow the system",
+        "ja": "システムが遅くなること"
+      },
+      {
+        "key": "D",
+        "en": "Why the data is needed, for how long, and what obligations retention creates",
+        "ja": "なぜそのデータが必要で、どれだけの期間必要か、保持によってどのような義務が生じるか"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Retention creates obligations and risk, so purpose and duration must justify it. Treating retention as free of risk (A) is the error, and cost (B) and speed (C) are minor by comparison",
+      "ja": "保持には義務とリスクが伴うため、目的と期間による正当化が必要です。保持にはリスクがないとみなすこと (A) が誤りであり、コスト (B) や速度 (C) はそれに比べて小さい問題です。"
+    }
+  },
+  {
+    "id": "AP072",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 7,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "How should a solution handle the case where the model is confident and wrong?",
+      "ja": "モデルが自信を持って誤るケースを、ソリューションではどのように扱うべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Design so that consequential outputs are verified against something independent of the model",
+        "ja": "重大な影響を与える出力を、モデルから独立したものに照らして検証する設計にする"
+      },
+      {
+        "key": "B",
+        "en": "Trust the confidence signal",
+        "ja": "自信のシグナルを信頼する"
+      },
+      {
+        "key": "C",
+        "en": "Ask the model to double-check",
+        "ja": "モデルに再確認を求める"
+      },
+      {
+        "key": "D",
+        "en": "Use two models and take the agreement",
+        "ja": "2つのモデルを使い、一致した結果を採用する"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Independence is what catches confident error. Confidence (B) is not evidence, self-checking (C) is not independent, and two models can agree and both be wrong (D)",
+      "ja": "自信のある誤りを見つけるには独立性が必要です。自信 (B) は証拠ではなく、自己確認 (C) は独立しておらず、2つのモデルが一致していても両方とも間違っていることがあります (D)。"
+    }
+  },
+  {
+    "id": "AP073",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 8,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "An evaluation shows 94% accuracy. What else must be known before this is actionable?",
+      "ja": "評価では精度が94%でした。この結果を判断に使うには、ほかに何を知る必要がありますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The model version only",
+        "ja": "モデルのバージョンだけ"
+      },
+      {
+        "key": "B",
+        "en": "The token cost of the evaluation",
+        "ja": "評価に使ったトークンのコスト"
+      },
+      {
+        "key": "C",
+        "en": "What the 6% look like, and what each failure costs",
+        "ja": "残り6%がどのような失敗で、それぞれの失敗にどれだけのコストがかかるか"
+      },
+      {
+        "key": "D",
+        "en": "How long the evaluation took",
+        "ja": "評価にかかった時間"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "A headline rate is only meaningful alongside the shape and cost of the failures. Version (A), cost (B), and duration (D) do not describe the risk",
+      "ja": "全体の比率は、失敗の性質とコストを合わせて初めて意味を持ちます。バージョン (A)、コスト (B)、所要時間 (D) は、そのリスクを示しません。"
+    }
+  },
+  {
+    "id": "AP074",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 9,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "What should happen when a model version is updated beneath a production solution?",
+      "ja": "本番ソリューションが利用するモデルのバージョンが更新されるとき、何をすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Nothing, versions are compatible",
+        "ja": "バージョンには互換性があるので、何もしない"
+      },
+      {
+        "key": "B",
+        "en": "Increase monitoring for a week",
+        "ja": "1週間、監視を強化する"
+      },
+      {
+        "key": "C",
+        "en": "Roll back automatically if complaints rise",
+        "ja": "苦情が増えたら自動的にロールバックする"
+      },
+      {
+        "key": "D",
+        "en": "Re-run the evaluation suite before the change reaches production traffic",
+        "ja": "変更が本番トラフィックに適用される前に、評価スイートを再実行する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "A change to the thing that determines behavior invalidates prior measurement. Assuming compatibility (A) is unsafe, and monitoring (B) or reacting to complaints (C) detects after users are affected",
+      "ja": "振る舞いを決めるものが変わると、以前の測定はそのままでは有効でなくなります。互換性を仮定する (A) のは安全でなく、監視 (B) や苦情への対応 (C) はユーザーに影響したあとに検出する方法です。"
+    }
+  },
+  {
+    "id": "AP075",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 10,
+    "scenario_id": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "A stakeholder asks why the solution cannot simply be fully automated. What is the most useful answer?",
+      "ja": "ステークホルダーが、ソリューションを単純に完全自動化できない理由を尋ねています。最も役立つ答えはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "That the technology is not ready",
+        "ja": "技術がまだ準備できていないこと"
+      },
+      {
+        "key": "B",
+        "en": "That automation is always risky",
+        "ja": "自動化は常に危険であること"
+      },
+      {
+        "key": "C",
+        "en": "Which specific decisions carry accountability or are unverifiable, and what automating them would risk",
+        "ja": "どの具体的な意思決定に説明責任が伴うか、または検証できないかと、それらを自動化するリスク"
+      },
+      {
+        "key": "D",
+        "en": "That the budget does not allow it",
+        "ja": "予算では実現できないこと"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "A specific, reasoned boundary is actionable and can be revisited. Generic claims about readiness (A) or risk (B) are not, and budget (D) is not the reason",
+      "ja": "具体的で理由のある境界は、対応につなげられ、見直すこともできます。準備状況 (A) やリスク (B) についての一般論ではそうならず、予算 (D) はその理由ではありません。"
+    }
+  },
+  {
+    "id": "AP076",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 11,
+    "scenario_id": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "What should be handed over with a solution so it survives its first year?",
+      "ja": "ソリューションが最初の1年間を乗り切れるように、何を一緒に引き渡すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The source code",
+        "ja": "ソースコード"
+      },
+      {
+        "key": "B",
+        "en": "The evaluation suite, the criteria, the owner, and the routine for re-checking",
+        "ja": "評価スイート、基準、責任者、再確認の定期的な手順"
+      },
+      {
+        "key": "C",
+        "en": "A recorded demonstration",
+        "ja": "録画したデモ"
+      },
+      {
+        "key": "D",
+        "en": "A list of prompts used",
+        "ja": "使用したプロンプトの一覧"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Continuity depends on being able to measure and maintain, with someone responsible. Code (A), a demonstration (C), and prompts (D) are artefacts without the means to verify them",
+      "ja": "継続性には、責任を持つ人がいて、測定と保守をできることが必要です。コード (A)、デモ (C)、プロンプト (D) だけでは、それらを検証する手段がない成果物にとどまります。"
+    }
+  },
+  {
+    "id": "AP077",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 12,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A team reports the solution has become worse, but nothing was deployed. What is the most likely explanation?",
+      "ja": "チームから、何もデプロイしていないのにソリューションが悪化したとの報告がありました。最も可能性が高い説明はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The inputs or the surrounding usage changed",
+        "ja": "入力または周囲の利用状況が変わった"
+      },
+      {
+        "key": "B",
+        "en": "The model degraded on its own",
+        "ja": "モデルがひとりでに劣化した"
+      },
+      {
+        "key": "C",
+        "en": "The prompts wore out",
+        "ja": "プロンプトが使い古された"
+      },
+      {
+        "key": "D",
+        "en": "The evaluation was wrong originally",
+        "ja": "元の評価が間違っていた"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Behavior changes with what is fed to it, and distribution drift is the usual cause. Models do not degrade unprompted (B), prompts do not wear out (C), and the original evaluation is not the first suspect (D)",
+      "ja": "振る舞いは与えられるものに応じて変化し、通常の原因は分布のドリフトです。モデルが理由なく劣化するわけではなく (B)、プロンプトは使い古されず (C)、元の評価は最初に疑う対象ではありません (D)。"
+    }
+  },
+  {
+    "id": "AP078",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 13,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "How should prompts that determine production behavior be managed?",
+      "ja": "本番での振る舞いを決めるプロンプトは、どのように管理すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Versioned, owned, reviewed, and evaluated on change, like code",
+        "ja": "コードと同様に、バージョンを管理し、責任者を定め、変更時にレビューと評価を行う"
+      },
+      {
+        "key": "B",
+        "en": "Edited in place when someone notices a problem",
+        "ja": "誰かが問題に気づいたら、その場で書き換える"
+      },
+      {
+        "key": "C",
+        "en": "Kept in a shared document for easy editing",
+        "ja": "簡単に編集できるように共有文書に置く"
+      },
+      {
+        "key": "D",
+        "en": "Frozen after launch",
+        "ja": "公開後は固定する"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Anything that determines production behavior needs the lifecycle of code. Ad hoc edits (B) and open documents (C) invite unreviewed change, and freezing (D) blocks improvement",
+      "ja": "本番の振る舞いを決めるものには、コードと同じライフサイクルが必要です。その場での編集 (B) や自由に編集できる文書 (C) はレビューされない変更を招き、固定 (D) は改善を妨げます。"
+    }
+  },
+  {
+    "id": "AP079",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 14,
+    "scenario_id": null,
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "An organization asks how to measure whether Claude Code is worth the license cost. What should be measured?",
+      "ja": "組織から、Claude Code にライセンス費用に見合う価値があるか、どう測るかを尋ねられました。何を測るべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Number of tool invocations",
+        "ja": "ツール呼び出しの回数"
+      },
+      {
+        "key": "B",
+        "en": "Change in the delivery outcomes the tooling was adopted to improve",
+        "ja": "そのツールの導入によって改善しようとした、開発・提供の成果の変化"
+      },
+      {
+        "key": "C",
+        "en": "Number of users onboarded",
+        "ja": "利用を開始したユーザーの数"
+      },
+      {
+        "key": "D",
+        "en": "Hours spent in the tool",
+        "ja": "ツール内で過ごした時間"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Value is the outcome moved, not the activity generated. Invocations (A), onboarding (C), and time in tool (D) measure usage rather than benefit",
+      "ja": "価値は、生み出された活動量ではなく、成果の変化にあります。呼び出し (A)、利用開始 (C)、ツール内の時間 (D) は、便益ではなく利用を測っています。"
+    }
+  },
+  {
+    "id": "AP080",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 15,
+    "scenario_id": null,
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "What most often blocks a team from getting good results from Claude Code on an existing codebase?",
+      "ja": "既存のコードベースで Claude Code から良い結果を得るうえで、チームの妨げとなることが最も多いものはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The size of the repository",
+        "ja": "リポジトリの大きさ"
+      },
+      {
+        "key": "B",
+        "en": "The programming language",
+        "ja": "プログラミング言語"
+      },
+      {
+        "key": "C",
+        "en": "The absence of committed context describing the conventions and structure",
+        "ja": "規約と構造を説明する、コミット済みのコンテキストがないこと"
+      },
+      {
+        "key": "D",
+        "en": "The number of contributors",
+        "ja": "貢献者の人数"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Missing project context is the usual cause, and it is the one the team can fix. Size (A), language (B), and contributor count (D) do not by themselves prevent good results",
+      "ja": "プロジェクトのコンテキストの欠落は通常の原因であり、チームが修正できるものです。大きさ (A)、言語 (B)、貢献者数 (D) だけで良い結果が妨げられるわけではありません。"
+    }
+  }
+]

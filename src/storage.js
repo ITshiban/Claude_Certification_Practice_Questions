@@ -120,7 +120,7 @@ export function migrate(data) {
 }
 
 /**
- * JSON 文字列を保存データとして解釈する（v1 のデータ・エクスポートファイルは v2 に変換する）。
+ * JSON 文字列を保存データとして解釈する（v1・v2 のデータは現在の v3 に変換する）。
  * 戻り値: { data } または { error: "corrupt" | "newer" | "invalid" }
  */
 export function parseData(text) {

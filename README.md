@@ -10,8 +10,10 @@ Claude の認定試験の練習用に作った、1問1答形式の Web アプリ
 |---|---|---|---|
 | Claude Certified Associate – Foundations | CCAO-F | 100問（Q001〜Q100） | サイト由来 80問、オリジナル 20問 |
 | Claude Certified Developer – Foundations | CCDV-F | 120問（DV001〜DV120） | サイト由来 80問、オリジナル 40問（難化版 20問・新規 20問） |
+| Claude Certified Architect – Foundations | CCAR-F | 120問（AF001〜AF120） | サイト由来 80問、オリジナル 40問（難化版 20問・新規 20問） |
+| Claude Certified Architect – Professional | CCAR-P | 120問（AP001〜AP120） | サイト由来 80問、オリジナル 40問（難化版 20問・新規 20問） |
 
-CCDV-F の「難化版」は、サイトの問題と同じ論点で状況設定を変えて難しくした問題、「新規」はサイトの問題と論点が重ならない問題です。
+「難化版」は、サイトの問題と同じ論点で状況設定を変えて難しくした問題、「新規」はサイトの問題と中心となる判断を分けた問題です。CCAR-F には複数の問題で共通の状況を扱うシナリオがあり、問題の上で開閉できます。
 
 ## 使い方
 
@@ -22,7 +24,7 @@ CCDV-F の「難化版」は、サイトの問題と同じ論点で状況設定�
 ### 学習方法
 
 1. **試験を選ぶ**：開くと最初に試験の選択画面が出ます。前回選んだ試験は枠で強調されます。学習中もヘッダーの「試験を切り替え」で戻れます
-2. **ホームで条件を選んで「開始」**：出題数（5 / 10 / 20問）、出題モード、ドメイン、出典を選びます。設定は試験ごとに保存されます
+2. **ホームで条件を選んで「開始」**：出題数（5 / 10 / 20問）、出題モード、ドメイン、出典を選びます。シナリオのある試験ではシナリオでも絞り込めます。設定は試験ごとに保存されます
 3. **1問ずつ回答**：回答するとすぐに正誤と解説が表示されます。「2つ選べ」の問題は、2つとも合っていれば正解です
 4. **結果画面で復習**：最後にスコアと全問題の解説を確認できます
 
@@ -58,7 +60,7 @@ npm test           # Vitest（採点・出題・試験ごとの絞り込み・�
 npm run validate   # 全試験の問題データ（public/questions/*.json）の検証
 ```
 
-`validate` は試験ごとに、出典別件数、ID の重複（試験をまたいだ重複も含む）、ドメインの範囲、日英の欠落、based_on の参照先などを確かめ、エラーがあれば終了コード1で止まります。CCDV-F のオリジナル問題は、作成ルール（問題文の長さ、選択肢の長さの差、正解が最長の選択肢になっている割合、正解位置の分布）から外れたものを**警告**として一覧表示します（エラーにはしません）。
+`validate` は全4試験について、出典別件数、試験内・試験間の問題ID重複、ドメイン、日英の欠落、based_on の参照先、シナリオの形式・重複ID・同じ試験内の参照・未使用を確かめます。エラーがあれば終了コード1で止まります。CCDV-F・CCAR-F・CCAR-P のオリジナル問題は、文章量、選択肢の長さの差、正解が最長になる割合、正解位置の分布を**警告**として一覧表示します（エラーにはしません）。データを編集したら先に `npm run merge` を実行してください。
 
 ## 問題データのフォルダ構成
 
@@ -68,12 +70,16 @@ data/questions/                 # 出典別の問題データ（編集するの�
 │   ├── practice.json           # Q001〜Q035
 │   ├── mock1.json / mock2.json / mock3.json   # Q036〜Q080
 │   └── original.json           # Q081〜Q100
-└── ccdv-f/
-    ├── practice.json           # DV001〜DV035
-    ├── mock1.json / mock2.json / mock3.json   # DV036〜DV080
-    └── original.json           # DV081〜DV100（難化版）、DV101〜DV120（新規）
+├── ccdv-f/
+│   ├── practice.json           # DV001〜DV035
+│   ├── mock1.json / mock2.json / mock3.json   # DV036〜DV080
+│   └── original.json           # DV081〜DV100（難化版）、DV101〜DV120（新規）
+├── ccar-f/                     # AF001〜AF120（practice 35、mock 各15、original 40）
+│   └── scenarios.json         # AFS01〜AFS11 のタイトル・本文・出典
+└── ccar-p/                     # AP001〜AP120（practice 35、mock 各15、original 40）
 public/questions/               # npm run merge で生成（直接編集しない）
-├── ccao-f.json / ccdv-f.json   # 試験ごとの結合ファイル。アプリは選んだ試験のファイルだけを読み込む
+├── ccao-f.json / ccdv-f.json / ccar-f.json / ccar-p.json
+├── <試験>-scenarios.json       # シナリオのない試験は空配列
 └── index.json                  # 試験ごとの問題数（試験選択画面で使う）
 ```
 
@@ -88,6 +94,7 @@ public/questions/               # npm run merge で生成（直接編集しな�
      "source_url": null,
      "source_number": null,
      "based_on": null,
+     "scenario_id": null,
      "domain": 2,
      "type": "single",
      "question": { "en": "...", "ja": "..." },
@@ -102,11 +109,12 @@ public/questions/               # npm run merge で生成（直接編集しな�
    }
    ```
 
-   - `id`：試験をまたいで重複しない値（CCAO-F は `Q`、CCDV-F は `DV` で始める）
+   - `id`：試験をまたいで重複しない値（CCAO-F は `Q`、CCDV-F は `DV`、CCAR-F は `AF`、CCAR-P は `AP` で始める）
    - `source`：practice / mock1 / mock2 / mock3 / original
-   - `based_on`：CCDV-F の original にだけ付ける。難化版は元の問題の ID、新規は null。ほかの問題には付けない
+   - `based_on`：CCDV-F・CCAR-F・CCAR-P の original に付ける。難化版は同じ試験・同じドメインの元問題ID、新規は null。ほかの問題には付けない
+   - `scenario_id`：同じ試験の `scenarios.json` のID。シナリオがなければ null（出典データで省略した場合も merge が null を付ける）
    - `exam`：書かない（`npm run merge` がフォルダ名から付ける）
-   - `domain`：その試験のドメイン番号（CCAO-F は 1〜7、CCDV-F は 1〜8。[src/exams.js](src/exams.js) を参照）
+   - `domain`：その試験のドメイン番号。[src/exams.js](src/exams.js) を参照
    - `type`：single（正解1つ）/ multiple（正解2つ。問題文に「(Choose two.)」「（2つ選べ）」を入れる）
    - 解説で選択肢に触れるときは `(B)`、`(B, C)`、`**B**` の形式で書きます。表示時に表示番号へ置き換わります
 
@@ -121,6 +129,25 @@ public/questions/               # npm run merge で生成（直接編集しな�
 
 ## 試験の追加方法
 
+### シナリオの形式
+
+`data/questions/<試験>/scenarios.json` に次のオブジェクトの配列を保存します。シナリオがなければファイルは省略でき、merge が公開用に空配列を作ります。
+
+```json
+{
+  "id": "AFS01",
+  "title": { "en": "...", "ja": "..." },
+  "body": { "en": "...", "ja": "..." },
+  "source": "guide",
+  "source_url": "https://example.com/guide",
+  "source_note": "公開シナリオをもとに作成"
+}
+```
+
+`source` は `guide` またはその試験の出典キーです。全シナリオに日英のタイトル・本文、出典URLと注記が必要で、少なくとも1問から参照される必要があります。出題画面では開いた状態、復習画面では閉じた状態で表示します。内容が似ていても別出典のシナリオは別IDとし、重複の可能性を `PROGRESS.md` に残します。
+
+### 新しい試験の登録
+
 1. [src/exams.js](src/exams.js) の `EXAMS` に1項目追加します（試験コード、表示名、問題ファイルのパス、出典のリンク、ドメインと配点、出典グループ、出典別の件数）
 2. `data/questions/<試験のキー>/` を作り、出典別の JSON を置きます
 3. `npm run merge` と `npm run validate` を実行します
@@ -133,17 +160,21 @@ localStorage のキー `ccaof-quiz:v1` に、次の形で保存します（キ�
 
 ```json
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "lang": "ja",
   "currentExam": "ccao-f",
   "exams": {
     "ccao-f": { "settings": {}, "statuses": {}, "history": [], "currentSession": null },
-    "ccdv-f": { "settings": {}, "statuses": {}, "history": [], "currentSession": null }
+    "ccdv-f": { "settings": {}, "statuses": {}, "history": [], "currentSession": null },
+    "ccar-f": { "settings": {}, "statuses": {}, "history": [], "currentSession": null },
+    "ccar-p": { "settings": {}, "statuses": {}, "history": [], "currentSession": null }
   }
 }
 ```
 
-schemaVersion 1（CCAO-F だけの記録）のデータやエクスポートファイルは、読み込み時に [src/storage.js](src/storage.js) の `MIGRATIONS` で v2 に変換し、CCAO-F の記録として引き継ぎます。
+上は構造の略記です。`settings` には `count`・`mode`・`domains`・`sources`・`scenarios` が入ります。`scenarios: null` は絞り込みなし、IDの配列は選択したシナリオ、配列中の `none` は「シナリオなし」です。
+
+schemaVersion 1（CCAO-F だけの記録）は v2 → v3 の順に、schemaVersion 2 は v3 に変換します。[src/storage.js](src/storage.js) の `MIGRATIONS` でシナリオの設定を補い、既存の回答履歴・正誤・進行中のクールを引き継ぎます。追加試験の記録は初期値で補います。
 
 ## デプロイ（GitHub Pages）
 
