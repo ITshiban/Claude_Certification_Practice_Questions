@@ -2148,5 +2148,3061 @@
       "en": "Least privilege plus approval gates on writes reduces the surface rather than monitoring it\n\n[Supplement] A longer system prompt about caution (C) is a request rather than a control, and business-hours operation (D) narrows the window without reducing what the agent can do.",
       "ja": "最小権限と書き込みへの承認の関門は、監視するのではなく、攻撃や誤りの入り口そのものを減らします。\n\n【補足】慎重さについての長いシステムプロンプト (C) は制御ではなく依頼であり、営業時間内だけの運用 (D) は危険な時間を狭めるだけで、エージェントができることは減りません。"
     }
+  },
+  {
+    "id": "AP051",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 1,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A client requires that inference run inside their own AWS account. What does this determine?",
+      "ja": "顧客は、推論を自社の AWS アカウント内で実行することを求めています。この要件によって何が決まりますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The model family only",
+        "ja": "モデルファミリーだけ"
+      },
+      {
+        "key": "B",
+        "en": "That a data processing agreement is sufficient",
+        "ja": "データ処理契約で十分であること"
+      },
+      {
+        "key": "C",
+        "en": "Deployment through Amazon Bedrock in the client's account and region",
+        "ja": "顧客のアカウントとリージョンの Amazon Bedrock を通じたデプロイ"
+      },
+      {
+        "key": "D",
+        "en": "That request logging must be disabled",
+        "ja": "リクエストのログ記録を無効にする必要があること"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Running inside the client's own cloud boundary is what the requirement describes. A contract (B) and logging settings (D) do not keep the data in the account, and the model family (A) is a separate choice",
+      "ja": "顧客自身のクラウドの境界内で実行することが、この要件の意味です。契約 (B) やログ設定 (D) ではデータをそのアカウント内に留められず、モデルファミリー (A) は別の選択です。"
+    }
+  },
+  {
+    "id": "AP052",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 2,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "An enterprise standardised on Google Cloud wants identity and audit handled by existing controls. What follows?",
+      "ja": "Google Cloud に標準化した企業が、既存の制御で ID と監査を扱いたいと考えています。どの対応が導かれますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Deploy through Vertex AI so the platform's identity, billing, and audit apply",
+        "ja": "Vertex AI を通じてデプロイし、そのプラットフォームの ID、課金、監査を適用する"
+      },
+      {
+        "key": "B",
+        "en": "Use the Claude API and rebuild the controls",
+        "ja": "Claude API を使い、制御を作り直す"
+      },
+      {
+        "key": "C",
+        "en": "Use Bedrock for feature parity",
+        "ja": "機能をそろえるために Bedrock を使う"
+      },
+      {
+        "key": "D",
+        "en": "Let each team decide",
+        "ja": "各チームに判断を任せる"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Aligning with the governed platform makes existing controls apply without duplication. Rebuilding (B) drifts, a different cloud (C) creates a second control plane, and per-team choice (D) removes governance",
+      "ja": "統制されたプラットフォームに合わせれば、既存の制御を重複なく適用できます。作り直すと (B) 制御にずれが生じ、別のクラウド (C) は第2のコントロールプレーンを作り、チームごとの選択 (D) はガバナンスを失わせます。"
+    }
+  },
+  {
+    "id": "AP053",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 3,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "What is the main architectural benefit of routing all model traffic through one internal service?",
+      "ja": "モデルへのすべての通信を1つの社内サービスに経由させることの、アーキテクチャ上の主な利点は何ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Lower token prices",
+        "ja": "トークンの単価が下がる"
+      },
+      {
+        "key": "B",
+        "en": "It removes the need for evaluation",
+        "ja": "評価が不要になる"
+      },
+      {
+        "key": "C",
+        "en": "It guarantees lower latency",
+        "ja": "レイテンシの低下が保証される"
+      },
+      {
+        "key": "D",
+        "en": "Authentication, rate limiting, logging, and routing are applied consistently in one place",
+        "ja": "認証、レート制限、ログ記録、ルーティングを1か所で一貫して適用できる"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "A single integration point is where cross-cutting concerns are enforced and changed once. It does not change unit price (A), remove evaluation (B), or reduce latency (C)",
+      "ja": "1つの統合点で横断的な関心事を強制し、一度の変更で反映できます。単価を変える (A)、評価を不要にする (B)、レイテンシを減らす (C) という効果はありません。"
+    }
+  },
+  {
+    "id": "AP054",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 4,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Two designs both satisfy the requirement; one is materially simpler. What decides?",
+      "ja": "2つの設計がどちらも要件を満たし、一方は大幅に単純です。判断の基準は何ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The more capable design, since headroom is valuable",
+        "ja": "余力には価値があるので、より高機能な設計にする"
+      },
+      {
+        "key": "B",
+        "en": "Whether any stated requirement needs the extra capability, against the ongoing cost of complexity",
+        "ja": "明示された要件に追加機能が必要かどうかを、複雑さに伴う継続的なコストと比較する"
+      },
+      {
+        "key": "C",
+        "en": "Whichever the team prefers to build",
+        "ja": "チームが作りたい方にする"
+      },
+      {
+        "key": "D",
+        "en": "The one with more components, for flexibility",
+        "ja": "柔軟性のために、構成要素が多い方にする"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Complexity is paid for continuously, so it must be bought by a real requirement. Headroom (A), preference (C), and speculative flexibility (D) pay that cost without justification",
+      "ja": "複雑さには継続的なコストがかかるため、実際の要件によって正当化される必要があります。余力 (A)、好み (C)、将来を見越した柔軟性 (D) では、そのコストの根拠になりません。"
+    }
+  },
+  {
+    "id": "AP055",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 5,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A required compliance control depends on the model behaving correctly. What is the correct judgment?",
+      "ja": "必須のコンプライアンス上の制御が、モデルが正しく振る舞うことに依存しています。正しい判断はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Acceptable if measured accuracy is very high",
+        "ja": "測定した精度が非常に高ければ許容できる"
+      },
+      {
+        "key": "B",
+        "en": "Not acceptable: a required control must be enforced deterministically outside the model",
+        "ja": "許容できない。必須の制御はモデルの外で決定的に強制する必要がある"
+      },
+      {
+        "key": "C",
+        "en": "Acceptable with a documented residual risk",
+        "ja": "残余リスクを文書化すれば許容できる"
+      },
+      {
+        "key": "D",
+        "en": "Acceptable if a larger model is used",
+        "ja": "より大きいモデルを使えば許容できる"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "A control that must hold needs a guarantee, which probabilistic behavior cannot supply. High accuracy (A), documentation (C), and model size (D) do not convert a tendency into a guarantee",
+      "ja": "必ず成立しなければならない制御には保証が必要であり、確率的な振る舞いでは保証できません。高精度 (A)、文書化 (C)、モデルの大きさ (D) は、傾向を保証に変えません。"
+    }
+  },
+  {
+    "id": "AP056",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 6,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Where should the boundary of automation be drawn in a solution that makes customer-affecting decisions?",
+      "ja": "顧客に影響する意思決定を行うソリューションでは、自動化の境界をどこに置くべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Wherever the model performs well in testing",
+        "ja": "テストでモデルの性能が良好な範囲"
+      },
+      {
+        "key": "B",
+        "en": "As far as the budget allows",
+        "ja": "予算が許す範囲いっぱい"
+      },
+      {
+        "key": "C",
+        "en": "At whatever the client requests",
+        "ja": "顧客が求める範囲"
+      },
+      {
+        "key": "D",
+        "en": "Where accountability for the decision sits, keeping those decisions with a person",
+        "ja": "意思決定の説明責任があるところに境界を置き、その判断を人に残す"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Accountability determines what may be automated at all, and that boundary is an architectural decision. Test performance (A), budget (B), and unexamined requests (C) do not address responsibility",
+      "ja": "説明責任によって、そもそも何を自動化できるかが決まり、その境界はアーキテクチャ上の判断です。テスト性能 (A)、予算 (B)、検討していない要求 (C) では責任を扱えません。"
+    }
+  },
+  {
+    "id": "AP057",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 7,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "What must exist before a solution is declared production-ready?",
+      "ja": "ソリューションを本番運用可能と宣言する前に、何が必要ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A defined success criterion and measured performance against representative data",
+        "ja": "定義された成功基準と、代表性のあるデータに対する性能測定"
+      },
+      {
+        "key": "B",
+        "en": "A successful demonstration",
+        "ja": "成功したデモ"
+      },
+      {
+        "key": "C",
+        "en": "Sign-off from the engineering team",
+        "ja": "エンジニアリングチームの承認"
+      },
+      {
+        "key": "D",
+        "en": "A completed cost model",
+        "ja": "完成したコストモデル"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Readiness is a measured claim against a stated bar. A demonstration (B), consensus (C), and cost (D) do not establish whether it works",
+      "ja": "本番運用可能という主張は、明示された基準に対して測定するものです。デモ (B)、合意 (C)、コスト (D) では、実際に機能するかを確かめられません。"
+    }
+  },
+  {
+    "id": "AP058",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 8,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "An evaluation set contains only cases the system already handles. What is the effect?",
+      "ja": "評価セットに、システムがすでに処理できるケースしか含まれていません。どのような影響がありますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "It provides a reliable quality measure",
+        "ja": "信頼できる品質測定になる"
+      },
+      {
+        "key": "B",
+        "en": "It is fine if it is large",
+        "ja": "件数が多ければ問題ない"
+      },
+      {
+        "key": "C",
+        "en": "It overstates performance and conceals the failures that matter",
+        "ja": "性能を過大評価し、重要な失敗を隠す"
+      },
+      {
+        "key": "D",
+        "en": "It matters only in regulated contexts",
+        "ja": "規制対象の状況でだけ問題になる"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "An unrepresentative sample measures the wrong distribution, and size does not correct bias. It is not reliable (A), scale does not fix it (B), and the problem is general (D)",
+      "ja": "代表性のない標本は誤った分布を測定し、件数を増やしても偏りは直りません。信頼できる測定ではなく (A)、規模では修正できず (B)、この問題は一般的に生じます (D)。"
+    }
+  },
+  {
+    "id": "AP059",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 9,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "How should a request to log every prompt and response for audit be handled?",
+      "ja": "監査のためにすべてのプロンプトと応答を記録してほしいという依頼に、どう対応すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Implement it, since audit takes precedence",
+        "ja": "監査が優先されるので実装する"
+      },
+      {
+        "key": "B",
+        "en": "Decline, because logging creates risk",
+        "ja": "ログ記録はリスクを生むので断る"
+      },
+      {
+        "key": "C",
+        "en": "Log responses but not prompts",
+        "ja": "応答を記録し、プロンプトは記録しない"
+      },
+      {
+        "key": "D",
+        "en": "Establish what the audit requires, because prompts and responses may contain personal or confidential data",
+        "ja": "プロンプトと応答には個人データや機密データが含まれ得るため、監査に何が必要かを明らかにする"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Audit and data protection are both real, and the design must serve the audit purpose without retaining more than warranted. Blanket action (A) or refusal (B) ignores one side, and an arbitrary split (C) is unjustified",
+      "ja": "監査とデータ保護のどちらも重要であり、正当な範囲を超えて保持せずに監査目的を満たす設計が必要です。一律の実施 (A) や拒否 (B) は片方を無視し、恣意的な切り分け (C) にも根拠がありません。"
+    }
+  },
+  {
+    "id": "AP060",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 10,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "Who is accountable when an automated Claude workflow produces a harmful decision?",
+      "ja": "自動化された Claude のワークフローが有害な意思決定を行った場合、誰が説明責任を負いますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The model provider",
+        "ja": "モデルの提供者"
+      },
+      {
+        "key": "B",
+        "en": "The engineer who wrote the prompt",
+        "ja": "プロンプトを書いたエンジニア"
+      },
+      {
+        "key": "C",
+        "en": "The organization that deployed it",
+        "ja": "そのワークフローを導入した組織"
+      },
+      {
+        "key": "D",
+        "en": "No one, because the decision was automated",
+        "ja": "意思決定は自動化されているため、誰も負わない"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Deploying an automated decision means owning its outcomes. The provider (A) supplies a capability, individual authorship (B) does not transfer organizational responsibility, and automation does not remove accountability (D)",
+      "ja": "自動化された意思決定を導入することは、その結果に責任を持つことです。提供者 (A) は能力を提供しますが、個人が作成したこと (B) で組織の責任は移らず、自動化によって説明責任はなくなりません (D)。"
+    }
+  },
+  {
+    "id": "AP061",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 11,
+    "scenario_id": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "A sponsor asks for one number that shows whether the solution is working. What is the right response?",
+      "ja": "スポンサーが、ソリューションが機能しているかを示す数値を1つ求めています。適切な対応はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Give the headline accuracy figure",
+        "ja": "全体の精度の数値を示す"
+      },
+      {
+        "key": "B",
+        "en": "Give the measure tied to the decision they face, and state what it does not cover",
+        "ja": "相手が直面している判断に結びつく指標を示し、その指標が扱わない範囲を伝える"
+      },
+      {
+        "key": "C",
+        "en": "Explain that this cannot be reduced to a number",
+        "ja": "1つの数値にはできないと説明する"
+      },
+      {
+        "key": "D",
+        "en": "Give the model's benchmark score",
+        "ja": "モデルのベンチマークスコアを示す"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "A useful metric matches the decision and is honest about its limits. A bare accuracy figure (A) and a benchmark (D) can mislead, and refusing (C) fails the sponsor",
+      "ja": "役立つ指標は判断に対応し、その限界を正直に示します。精度の数値だけ (A) やベンチマーク (D) は誤解を招き得る一方、拒否するだけ (C) ではスポンサーの役に立ちません。"
+    }
+  },
+  {
+    "id": "AP062",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 12,
+    "scenario_id": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "A ten-user pilot is about to expand to two thousand users. What should the architect raise first?",
+      "ja": "10人のパイロット運用を2,000人に拡大しようとしています。アーキテクトは最初に何を取り上げるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Which assumptions held at ten users and may not hold at two thousand",
+        "ja": "10人では成り立った前提のうち、2,000人では成り立たない可能性があるもの"
+      },
+      {
+        "key": "B",
+        "en": "License cost",
+        "ja": "ライセンス費用"
+      },
+      {
+        "key": "C",
+        "en": "Whether a larger model is needed",
+        "ja": "より大きいモデルが必要かどうか"
+      },
+      {
+        "key": "D",
+        "en": "The training rollout plan",
+        "ja": "研修の展開計画"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Scale invalidates assumptions about inputs, support, and edge cases, and surfacing those is the architect's contribution. Cost (B), model size (C), and training (D) follow from knowing what breaks",
+      "ja": "規模が変わると入力、サポート、例外的なケースについての前提が崩れます。それを明らかにすることがアーキテクトの貢献です。コスト (B)、モデルの大きさ (C)、研修 (D) は、何が破綻するかを把握したあとに検討します。"
+    }
+  },
+  {
+    "id": "AP063",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 13,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "How should a model be chosen for a solution containing several distinct tasks?",
+      "ja": "異なる複数のタスクを含むソリューションでは、モデルをどのように選ぶべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Match each task to the smallest model meeting its requirement, and evaluate the choices",
+        "ja": "各タスクの要件を満たす最小のモデルを割り当て、その選択を評価する"
+      },
+      {
+        "key": "B",
+        "en": "One model everywhere, for simplicity",
+        "ja": "単純さのために、すべてで1つのモデルを使う"
+      },
+      {
+        "key": "C",
+        "en": "The largest model everywhere, for safety",
+        "ja": "安全性のために、すべてで最大のモデルを使う"
+      },
+      {
+        "key": "D",
+        "en": "The newest model everywhere",
+        "ja": "すべてで最新のモデルを使う"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Different tasks have different requirements, and matching each keeps cost proportionate on evidence. Uniform choices (B, C, D) optimise for convenience rather than fit",
+      "ja": "タスクごとに要件は異なり、それぞれに合わせることで、根拠に基づいてコストを適切に保てます。一律の選択 (B, C, D) は、適合性ではなく都合のよさを優先しています。"
+    }
+  },
+  {
+    "id": "AP064",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 14,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "How should the context window be treated in a production design?",
+      "ja": "本番の設計では、コンテキストウィンドウをどのように扱うべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "As capacity to fill as completely as possible",
+        "ja": "できる限り埋めるべき容量として扱う"
+      },
+      {
+        "key": "B",
+        "en": "As a budget allocated deliberately between instructions, retrieved material, and working state",
+        "ja": "指示、検索した資料、作業状態の間で意図的に割り当てる予算として扱う"
+      },
+      {
+        "key": "C",
+        "en": "As a concern only for long documents",
+        "ja": "長い文書だけに関わる課題として扱う"
+      },
+      {
+        "key": "D",
+        "en": "As a setting to increase whenever quality drops",
+        "ja": "品質が落ちたらいつでも増やす設定として扱う"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Context is scarce and its allocation drives quality, so it is designed. Filling it (A) dilutes, it matters beyond long documents (C), and enlarging it (D) does not fix allocation",
+      "ja": "コンテキストは限られており、その割り当てが品質を左右するため、設計が必要です。埋め尽くすと (A) 内容が薄まり、長い文書以外にも重要で (C)、拡大するだけ (D) では割り当ての問題は解決しません。"
+    }
+  },
+  {
+    "id": "AP065",
+    "exam": "ccar-p",
+    "source": "mock2",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-2.html",
+    "source_number": 15,
+    "scenario_id": null,
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "An organization wants consistent Claude Code practice across dozens of repositories. What is most durable?",
+      "ja": "ある組織が、数十のリポジトリにまたがって Claude Code の使い方を統一したいと考えています。最も長続きする方法はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "A policy document circulated once",
+        "ja": "一度だけ配布するポリシー文書"
+      },
+      {
+        "key": "B",
+        "en": "A single training session",
+        "ja": "1回の研修"
+      },
+      {
+        "key": "C",
+        "en": "Committed project memory and shared skills in each repository, reviewed like code",
+        "ja": "各リポジトリにプロジェクトメモリと共有スキルをコミットし、コードと同様にレビューする"
+      },
+      {
+        "key": "D",
+        "en": "Requiring approval for every use",
+        "ja": "使用のたびに承認を求める"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Conventions persist when they live in the repository and are reviewed with the work. Policies (A) and training (B) fade, and per-use approval (D) adds friction without conveying practice",
+      "ja": "規約はリポジトリ内に置かれ、作業とともにレビューされると定着します。ポリシー (A) や研修 (B) は薄れ、毎回の承認 (D) は実践を伝えずに手間を増やします。"
+    }
+  },
+  {
+    "id": "AP066",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 1,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A client will not accept a solution whose behavior cannot be explained to their auditor. What does this constrain?",
+      "ja": "顧客は、監査担当者に振る舞いを説明できないソリューションを受け入れません。これは何を制約しますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The model family only",
+        "ja": "モデルファミリーだけ"
+      },
+      {
+        "key": "B",
+        "en": "The cost model",
+        "ja": "コストモデル"
+      },
+      {
+        "key": "C",
+        "en": "The architecture, which must make decisions traceable and the controls inspectable",
+        "ja": "意思決定を追跡でき、制御を点検できるようにする必要があるアーキテクチャ"
+      },
+      {
+        "key": "D",
+        "en": "The deployment region",
+        "ja": "デプロイ先のリージョン"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Auditability is an architectural property covering tracing and inspectable controls. Model family (A), cost (B), and region (D) do not by themselves make behavior explicable",
+      "ja": "監査可能性は、トレースと点検可能な制御を含むアーキテクチャ上の性質です。モデルファミリー (A)、コスト (B)、リージョン (D) だけで振る舞いを説明可能にすることはできません。"
+    }
+  },
+  {
+    "id": "AP067",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 2,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "What is the main risk of building directly against a single cloud's model service with no abstraction?",
+      "ja": "抽象化を設けず、単一のクラウドのモデルサービスに直接依存して構築することの主なリスクは何ですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Moving later becomes expensive, because the coupling reaches into application code",
+        "ja": "結合がアプリケーションコードにまで及ぶため、後から移行するコストが高くなる"
+      },
+      {
+        "key": "B",
+        "en": "Higher token cost",
+        "ja": "トークンコストが高くなる"
+      },
+      {
+        "key": "C",
+        "en": "Lower accuracy",
+        "ja": "精度が低くなる"
+      },
+      {
+        "key": "D",
+        "en": "Slower responses",
+        "ja": "応答が遅くなる"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Coupling determines the cost of change, which is the architectural concern. Cost (B), accuracy (C), and latency (D) are not consequences of the coupling itself",
+      "ja": "結合は変更のコストを左右し、それがアーキテクチャ上の懸念です。コスト (B)、精度 (C)、レイテンシ (D) は、結合そのものから生じる結果ではありません。"
+    }
+  },
+  {
+    "id": "AP068",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 3,
+    "scenario_id": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A solution must serve users in two regions with different data residency rules. What follows?",
+      "ja": "ソリューションは、データの所在に関するルールが異なる2つのリージョンのユーザーに対応する必要があります。どの対応が導かれますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "One deployment in the cheaper region",
+        "ja": "安い方のリージョンに1つだけデプロイする"
+      },
+      {
+        "key": "B",
+        "en": "A single deployment with encryption in transit",
+        "ja": "通信中の暗号化を用いて1つだけデプロイする"
+      },
+      {
+        "key": "C",
+        "en": "Whichever region has the lowest latency",
+        "ja": "レイテンシが最も低いリージョンにする"
+      },
+      {
+        "key": "D",
+        "en": "Separate deployments whose data stays within each region's boundary",
+        "ja": "各リージョンの境界内にデータが留まるように、別々にデプロイする"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Residency is satisfied by keeping the data within each boundary. A single deployment (A, B) moves data across it, and latency (C) does not address the rule",
+      "ja": "データの所在に関する要件は、それぞれの境界内にデータを留めることで満たします。単一のデプロイ (A, B) は境界を越えてデータを移動させ、レイテンシ (C) ではルールに対応できません。"
+    }
+  },
+  {
+    "id": "AP069",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 4,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A requirement is stated as make it as accurate as possible. What should the architect do?",
+      "ja": "要件が「できる限り正確にする」と示されています。アーキテクトは何をすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Choose the largest model and optimise from there",
+        "ja": "最大のモデルを選び、そこから最適化する"
+      },
+      {
+        "key": "B",
+        "en": "Establish the accuracy the use case actually needs and what an error costs",
+        "ja": "ユースケースが実際に必要とする精度と、誤りに伴うコストを明らかにする"
+      },
+      {
+        "key": "C",
+        "en": "Build the most complex design the budget allows",
+        "ja": "予算が許す限り複雑な設計を構築する"
+      },
+      {
+        "key": "D",
+        "en": "Defer the question until after the pilot",
+        "ja": "パイロット運用のあとまで検討を延期する"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "An unbounded requirement cannot be designed against or verified, so it must be made concrete. Defaulting to maximum capability (A, C) spends without a target, and deferring (D) leaves the design unanchored",
+      "ja": "上限のない要件では設計も検証もできないため、具体化する必要があります。最大の能力を前提にする (A, C) と目標なく費用を使い、延期する (D) と設計の拠り所がなくなります。"
+    }
+  },
+  {
+    "id": "AP070",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 5,
+    "scenario_id": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "Two components each work correctly but the system fails intermittently at their boundary. What does this suggest?",
+      "ja": "2つの構成要素はそれぞれ正しく動作していますが、両者の境界でシステムが断続的に失敗します。何が示唆されますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "One component needs a larger model",
+        "ja": "片方の構成要素に、より大きいモデルが必要である"
+      },
+      {
+        "key": "B",
+        "en": "The contract between them is underspecified, particularly for edge and error cases",
+        "ja": "両者の間の契約、特に例外的なケースやエラー時の取り決めの定義が不十分である"
+      },
+      {
+        "key": "C",
+        "en": "The system needs more components",
+        "ja": "システムに、さらに構成要素が必要である"
+      },
+      {
+        "key": "D",
+        "en": "The failure is transient and can be retried",
+        "ja": "失敗は一時的なもので、再試行できる"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Boundary failures between correct components point at the contract. Capability (A) and more components (C) do not define the interface, and retrying (D) hides it",
+      "ja": "正しく動く構成要素間の境界での失敗は、契約の問題を示します。能力 (A) や構成要素の追加 (C) ではインターフェースは定義されず、再試行 (D) は問題を隠します。"
+    }
+  },
+  {
+    "id": "AP071",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 6,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A design proposes storing every model interaction indefinitely. What should the architect raise?",
+      "ja": "ある設計では、モデルとのすべてのやり取りを無期限に保存することが提案されています。アーキテクトは何を取り上げるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Nothing, retention is always safer",
+        "ja": "保持する方が常に安全なので、何も取り上げない"
+      },
+      {
+        "key": "B",
+        "en": "That storage is expensive",
+        "ja": "ストレージが高価であること"
+      },
+      {
+        "key": "C",
+        "en": "That it will slow the system",
+        "ja": "システムが遅くなること"
+      },
+      {
+        "key": "D",
+        "en": "Why the data is needed, for how long, and what obligations retention creates",
+        "ja": "なぜそのデータが必要で、どれだけの期間必要か、保持によってどのような義務が生じるか"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "Retention creates obligations and risk, so purpose and duration must justify it. Treating retention as free of risk (A) is the error, and cost (B) and speed (C) are minor by comparison",
+      "ja": "保持には義務とリスクが伴うため、目的と期間による正当化が必要です。保持にはリスクがないとみなすこと (A) が誤りであり、コスト (B) や速度 (C) はそれに比べて小さい問題です。"
+    }
+  },
+  {
+    "id": "AP072",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 7,
+    "scenario_id": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "How should a solution handle the case where the model is confident and wrong?",
+      "ja": "モデルが自信を持って誤るケースを、ソリューションではどのように扱うべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Design so that consequential outputs are verified against something independent of the model",
+        "ja": "重大な影響を与える出力を、モデルから独立したものに照らして検証する設計にする"
+      },
+      {
+        "key": "B",
+        "en": "Trust the confidence signal",
+        "ja": "自信のシグナルを信頼する"
+      },
+      {
+        "key": "C",
+        "en": "Ask the model to double-check",
+        "ja": "モデルに再確認を求める"
+      },
+      {
+        "key": "D",
+        "en": "Use two models and take the agreement",
+        "ja": "2つのモデルを使い、一致した結果を採用する"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Independence is what catches confident error. Confidence (B) is not evidence, self-checking (C) is not independent, and two models can agree and both be wrong (D)",
+      "ja": "自信のある誤りを見つけるには独立性が必要です。自信 (B) は証拠ではなく、自己確認 (C) は独立しておらず、2つのモデルが一致していても両方とも間違っていることがあります (D)。"
+    }
+  },
+  {
+    "id": "AP073",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 8,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "An evaluation shows 94% accuracy. What else must be known before this is actionable?",
+      "ja": "評価では精度が94%でした。この結果を判断に使うには、ほかに何を知る必要がありますか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The model version only",
+        "ja": "モデルのバージョンだけ"
+      },
+      {
+        "key": "B",
+        "en": "The token cost of the evaluation",
+        "ja": "評価に使ったトークンのコスト"
+      },
+      {
+        "key": "C",
+        "en": "What the 6% look like, and what each failure costs",
+        "ja": "残り6%がどのような失敗で、それぞれの失敗にどれだけのコストがかかるか"
+      },
+      {
+        "key": "D",
+        "en": "How long the evaluation took",
+        "ja": "評価にかかった時間"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "A headline rate is only meaningful alongside the shape and cost of the failures. Version (A), cost (B), and duration (D) do not describe the risk",
+      "ja": "全体の比率は、失敗の性質とコストを合わせて初めて意味を持ちます。バージョン (A)、コスト (B)、所要時間 (D) は、そのリスクを示しません。"
+    }
+  },
+  {
+    "id": "AP074",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 9,
+    "scenario_id": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "What should happen when a model version is updated beneath a production solution?",
+      "ja": "本番ソリューションが利用するモデルのバージョンが更新されるとき、何をすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Nothing, versions are compatible",
+        "ja": "バージョンには互換性があるので、何もしない"
+      },
+      {
+        "key": "B",
+        "en": "Increase monitoring for a week",
+        "ja": "1週間、監視を強化する"
+      },
+      {
+        "key": "C",
+        "en": "Roll back automatically if complaints rise",
+        "ja": "苦情が増えたら自動的にロールバックする"
+      },
+      {
+        "key": "D",
+        "en": "Re-run the evaluation suite before the change reaches production traffic",
+        "ja": "変更が本番トラフィックに適用される前に、評価スイートを再実行する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "A change to the thing that determines behavior invalidates prior measurement. Assuming compatibility (A) is unsafe, and monitoring (B) or reacting to complaints (C) detects after users are affected",
+      "ja": "振る舞いを決めるものが変わると、以前の測定はそのままでは有効でなくなります。互換性を仮定する (A) のは安全でなく、監視 (B) や苦情への対応 (C) はユーザーに影響したあとに検出する方法です。"
+    }
+  },
+  {
+    "id": "AP075",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 10,
+    "scenario_id": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "A stakeholder asks why the solution cannot simply be fully automated. What is the most useful answer?",
+      "ja": "ステークホルダーが、ソリューションを単純に完全自動化できない理由を尋ねています。最も役立つ答えはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "That the technology is not ready",
+        "ja": "技術がまだ準備できていないこと"
+      },
+      {
+        "key": "B",
+        "en": "That automation is always risky",
+        "ja": "自動化は常に危険であること"
+      },
+      {
+        "key": "C",
+        "en": "Which specific decisions carry accountability or are unverifiable, and what automating them would risk",
+        "ja": "どの具体的な意思決定に説明責任が伴うか、または検証できないかと、それらを自動化するリスク"
+      },
+      {
+        "key": "D",
+        "en": "That the budget does not allow it",
+        "ja": "予算では実現できないこと"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "A specific, reasoned boundary is actionable and can be revisited. Generic claims about readiness (A) or risk (B) are not, and budget (D) is not the reason",
+      "ja": "具体的で理由のある境界は、対応につなげられ、見直すこともできます。準備状況 (A) やリスク (B) についての一般論ではそうならず、予算 (D) はその理由ではありません。"
+    }
+  },
+  {
+    "id": "AP076",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 11,
+    "scenario_id": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "What should be handed over with a solution so it survives its first year?",
+      "ja": "ソリューションが最初の1年間を乗り切れるように、何を一緒に引き渡すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The source code",
+        "ja": "ソースコード"
+      },
+      {
+        "key": "B",
+        "en": "The evaluation suite, the criteria, the owner, and the routine for re-checking",
+        "ja": "評価スイート、基準、責任者、再確認の定期的な手順"
+      },
+      {
+        "key": "C",
+        "en": "A recorded demonstration",
+        "ja": "録画したデモ"
+      },
+      {
+        "key": "D",
+        "en": "A list of prompts used",
+        "ja": "使用したプロンプトの一覧"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Continuity depends on being able to measure and maintain, with someone responsible. Code (A), a demonstration (C), and prompts (D) are artefacts without the means to verify them",
+      "ja": "継続性には、責任を持つ人がいて、測定と保守をできることが必要です。コード (A)、デモ (C)、プロンプト (D) だけでは、それらを検証する手段がない成果物にとどまります。"
+    }
+  },
+  {
+    "id": "AP077",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 12,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A team reports the solution has become worse, but nothing was deployed. What is the most likely explanation?",
+      "ja": "チームから、何もデプロイしていないのにソリューションが悪化したとの報告がありました。最も可能性が高い説明はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The inputs or the surrounding usage changed",
+        "ja": "入力または周囲の利用状況が変わった"
+      },
+      {
+        "key": "B",
+        "en": "The model degraded on its own",
+        "ja": "モデルがひとりでに劣化した"
+      },
+      {
+        "key": "C",
+        "en": "The prompts wore out",
+        "ja": "プロンプトが使い古された"
+      },
+      {
+        "key": "D",
+        "en": "The evaluation was wrong originally",
+        "ja": "元の評価が間違っていた"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Behavior changes with what is fed to it, and distribution drift is the usual cause. Models do not degrade unprompted (B), prompts do not wear out (C), and the original evaluation is not the first suspect (D)",
+      "ja": "振る舞いは与えられるものに応じて変化し、通常の原因は分布のドリフトです。モデルが理由なく劣化するわけではなく (B)、プロンプトは使い古されず (C)、元の評価は最初に疑う対象ではありません (D)。"
+    }
+  },
+  {
+    "id": "AP078",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 13,
+    "scenario_id": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "How should prompts that determine production behavior be managed?",
+      "ja": "本番での振る舞いを決めるプロンプトは、どのように管理すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Versioned, owned, reviewed, and evaluated on change, like code",
+        "ja": "コードと同様に、バージョンを管理し、責任者を定め、変更時にレビューと評価を行う"
+      },
+      {
+        "key": "B",
+        "en": "Edited in place when someone notices a problem",
+        "ja": "誰かが問題に気づいたら、その場で書き換える"
+      },
+      {
+        "key": "C",
+        "en": "Kept in a shared document for easy editing",
+        "ja": "簡単に編集できるように共有文書に置く"
+      },
+      {
+        "key": "D",
+        "en": "Frozen after launch",
+        "ja": "公開後は固定する"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "Anything that determines production behavior needs the lifecycle of code. Ad hoc edits (B) and open documents (C) invite unreviewed change, and freezing (D) blocks improvement",
+      "ja": "本番の振る舞いを決めるものには、コードと同じライフサイクルが必要です。その場での編集 (B) や自由に編集できる文書 (C) はレビューされない変更を招き、固定 (D) は改善を妨げます。"
+    }
+  },
+  {
+    "id": "AP079",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 14,
+    "scenario_id": null,
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "An organization asks how to measure whether Claude Code is worth the license cost. What should be measured?",
+      "ja": "組織から、Claude Code にライセンス費用に見合う価値があるか、どう測るかを尋ねられました。何を測るべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Number of tool invocations",
+        "ja": "ツール呼び出しの回数"
+      },
+      {
+        "key": "B",
+        "en": "Change in the delivery outcomes the tooling was adopted to improve",
+        "ja": "そのツールの導入によって改善しようとした、開発・提供の成果の変化"
+      },
+      {
+        "key": "C",
+        "en": "Number of users onboarded",
+        "ja": "利用を開始したユーザーの数"
+      },
+      {
+        "key": "D",
+        "en": "Hours spent in the tool",
+        "ja": "ツール内で過ごした時間"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "Value is the outcome moved, not the activity generated. Invocations (A), onboarding (C), and time in tool (D) measure usage rather than benefit",
+      "ja": "価値は、生み出された活動量ではなく、成果の変化にあります。呼び出し (A)、利用開始 (C)、ツール内の時間 (D) は、便益ではなく利用を測っています。"
+    }
+  },
+  {
+    "id": "AP080",
+    "exam": "ccar-p",
+    "source": "mock3",
+    "source_url": "https://amey-thakur.github.io/CLAUDE-CERTIFICATIONS/architect-professional/mock-exam-3.html",
+    "source_number": 15,
+    "scenario_id": null,
+    "domain": 7,
+    "type": "single",
+    "question": {
+      "en": "What most often blocks a team from getting good results from Claude Code on an existing codebase?",
+      "ja": "既存のコードベースで Claude Code から良い結果を得るうえで、チームの妨げとなることが最も多いものはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "The size of the repository",
+        "ja": "リポジトリの大きさ"
+      },
+      {
+        "key": "B",
+        "en": "The programming language",
+        "ja": "プログラミング言語"
+      },
+      {
+        "key": "C",
+        "en": "The absence of committed context describing the conventions and structure",
+        "ja": "規約と構造を説明する、コミット済みのコンテキストがないこと"
+      },
+      {
+        "key": "D",
+        "en": "The number of contributors",
+        "ja": "貢献者の人数"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "Missing project context is the usual cause, and it is the one the team can fix. Size (A), language (B), and contributor count (D) do not by themselves prevent good results",
+      "ja": "プロジェクトのコンテキストの欠落は通常の原因であり、チームが修正できるものです。大きさ (A)、言語 (B)、貢献者数 (D) だけで良い結果が妨げられるわけではありません。"
+    }
+  },
+  {
+    "id": "AP081",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP004",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "You are an insurer's architect. Staff need cited answers from policies updated hourly and renewal letters drafted from approved fields under a quarterly template. A supplier proposes one agent that selects its own steps for both tasks. Operations needs separate release schedules and clear failure ownership. Which design best fits?",
+      "ja": "あなたは保険会社のアーキテクトです。社員は、毎時更新される規約に基づく引用付きの回答と、承認済みフィールドから四半期ごとのテンプレートに沿って作る更新通知の下書きを必要としています。取引先は、両方のタスクで自ら手順を選ぶ単一のエージェントを提案しています。運用部門は、別々のリリース日程と明確な障害責任の分担を求めています。最も適した設計はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Use retrieval for policy answers and a template workflow for letters, with separate release gates and evaluations.",
+        "ja": "検索に基づく規約の回答とテンプレートに沿う通知のワークフローを用意し、リリースの判定と評価を分ける"
+      },
+      {
+        "key": "B",
+        "en": "Use one general agent with separate task prompts, releasing both tasks together after a combined acceptance test.",
+        "ja": "タスク別のプロンプトを持つ汎用エージェントを1つ使い、まとめた受入テストのあとに両タスクを同時にリリースする"
+      },
+      {
+        "key": "C",
+        "en": "Use a specialist agent for each task and a supervisor that dynamically selects the steps of every letter draft.",
+        "ja": "タスクごとの専門エージェントと、通知の下書きごとに手順を動的に選ぶスーパーバイザーを使う"
+      },
+      {
+        "key": "D",
+        "en": "Use two template drafting workflows, each restricted to approved fields and released on its own quarterly cycle.",
+        "ja": "承認済みフィールドに限定した下書きワークフローを2つ使い、それぞれ四半期の周期でリリースする"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "(A) matches retrieval to changing policies and a fixed workflow to approved letter inputs, with independent releases and evaluation. (B) couples releases despite separate prompts. (C) adds dynamic orchestration where the letter path is already prescribed, increasing operational burden without a requirement. (D) is suitable for stable letters but does not provide current policy retrieval and cited answers.",
+      "ja": "(A) は、変化する規約には検索を、承認済み入力から作る通知には固定のワークフローを割り当て、独立したリリースと評価も実現します。(B) はプロンプトを分けてもリリースを結合しています。(C) は通知の手順が定まっているのに動的なオーケストレーションを追加し、要件上の理由なく運用負荷を増やします。(D) は安定した通知には適しますが、最新の規約の検索と引用付きの回答を提供できません。"
+    }
+  },
+  {
+    "id": "AP082",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP005",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "A grant office must check eligibility, validate documents, obtain approval, and then issue a notice in that order. Missing evidence goes to a human queue; the model may draft explanations but may not choose the next stage. The sponsor wants an agent to reduce manual work without changing these controls. Which orchestration should you recommend?",
+      "ja": "助成金の事務局は、資格確認、書類検証、承認取得、通知発行をこの順で行う必要があります。証拠の不足は人が処理するキューに送り、モデルは説明文を下書きできますが、次の段階は選べません。スポンサーは、これらの制御を変えずに手作業を減らすため、エージェントを求めています。どのオーケストレーションを勧めるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Let an agent choose stages from the approved toolset, with a detailed prompt describing the required stage order.",
+        "ja": "承認済みツール群からエージェントが段階を選び、必要な順序を詳しいプロンプトで説明する"
+      },
+      {
+        "key": "B",
+        "en": "Encode stages and exception routes in a workflow, calling the model for explanations within the defined stages.",
+        "ja": "段階と例外の経路をワークフローに実装し、定義した段階の中で説明文のためにモデルを呼び出す"
+      },
+      {
+        "key": "C",
+        "en": "Assign an agent to each stage and let a supervisor reorder stages according to the evidence in each application.",
+        "ja": "段階ごとにエージェントを割り当て、申請の証拠に応じてスーパーバイザーが段階を並べ替える"
+      },
+      {
+        "key": "D",
+        "en": "Retain the manual process for every stage and use the model to summarize completed files for a monthly review.",
+        "ja": "すべての段階を手作業のままにして、月次レビュー用に完了済みファイルをモデルで要約する"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "(B) automates the known path while code preserves ordering and human exception handling; model-generated text can still vary. (A) treats a prompt as enforcement of stage order. (C) introduces discretion that the office explicitly forbids. (D) preserves the controls but leaves automatable stages manual, missing the sponsor's objective.",
+      "ja": "(B) は、コードで順序と人による例外処理を保ちながら、既知の経路を自動化します。モデルが生成する文章まで決定的である必要はありません。(A) はプロンプトを段階の順序の強制とみなしています。(C) は事務局が明示的に禁止した裁量を持ち込みます。(D) は制御を保ちますが、自動化できる段階も手作業のままで、スポンサーの目的を満たしません。"
+    }
+  },
+  {
+    "id": "AP083",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP018",
+    "domain": 1,
+    "type": "multiple",
+    "question": {
+      "en": "You lead a treasury assistant project. Policy requires a second person's approval for every transfer and a daily account limit, including concurrent requests. A classifier catches nearly all violations, but finance requires both controls to hold before money moves, even if the model errs. Which execution-layer controls are needed? Choose two.",
+      "ja": "あなたは資金管理アシスタントの開発責任者です。ポリシーでは、すべての送金に別の担当者の承認が必要で、同時リクエストも含めた口座ごとの日次上限があります。分類器はほぼすべての違反を検出しますが、財務部門はモデルが誤っても送金前に両方の制御が成立することを求めています。実行層にはどの制御が必要ですか。2つ選べ。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Route each transfer through a second model that classifies the proposed action against the daily-limit policy.",
+        "ja": "送金案ごとに第2のモデルを通し、日次上限のポリシーに照らして実行案を分類させる"
+      },
+      {
+        "key": "B",
+        "en": "Require a verified approval bound to the exact transfer details before the payment service accepts execution.",
+        "ja": "決済サービスが実行を受け付ける前に、送金の正確な内容に結びついた検証済みの承認を要求する"
+      },
+      {
+        "key": "C",
+        "en": "Check aggregate account spending after execution and notify finance when concurrent transfers exceed the limit.",
+        "ja": "実行後に口座の合計支出を確認し、同時送金によって上限を超えた場合は財務部門に通知する"
+      },
+      {
+        "key": "D",
+        "en": "Atomically enforce the daily limit against authoritative account state before committing any proposed transfer.",
+        "ja": "正とする口座の状態で日次上限を確認してから送金を確定し、途中に別の送金が割り込めないよう一体として処理する"
+      }
+    ],
+    "answer": [
+      "B",
+      "D"
+    ],
+    "explanation": {
+      "en": "(B) makes approval an execution prerequisite tied to the action actually performed. (D) prevents concurrent requests from each passing a stale balance check and jointly exceeding the limit. (A) adds probabilistic detection rather than enforcing the required limit. (C) can support auditing but detects a breach after money has moved, contrary to the pre-execution requirement.",
+      "ja": "(B) は、実際に行う操作に結びついた承認を実行の前提条件にします。(D) は、同時リクエストがそれぞれ古い残高確認を通り、合計で上限を超えることを防ぎます。(A) は確率的な検出を追加するだけで、必須の上限を強制しません。(C) は監査には役立ちますが、送金後に違反を検出するため、実行前という要件に反します。"
+    }
+  },
+  {
+    "id": "AP084",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP070",
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "An intake service and a document extractor pass their own tests. In production, some files reach approval with missing amounts; other files are duplicated after timeouts. One team uses null for unknown amounts, while the other treats it as zero. Both teams propose changing models. Which intervention should come first?",
+      "ja": "受付サービスと文書抽出サービスは、それぞれのテストに合格しています。本番では金額が欠けたファイルが承認へ進んだり、タイムアウト後にファイルが重複したりします。一方のチームは不明な金額を null とし、もう一方はゼロとして扱っています。両チームともモデルの変更を提案しています。最初に行うべき介入はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Expand each service's isolated tests with more documents and keep the current interface until model tuning ends.",
+        "ja": "各サービスの単体テストに文書を追加し、モデル調整が終わるまでは現在のインターフェースを保つ"
+      },
+      {
+        "key": "B",
+        "en": "Increase extraction capability and request more detailed model reasoning before the intake service accepts files.",
+        "ja": "抽出の能力を高め、受付サービスがファイルを受け付ける前にモデルへ詳しい推論を求める"
+      },
+      {
+        "key": "C",
+        "en": "Agree on missing-value and retry semantics, then verify both services against the same boundary-case contract.",
+        "ja": "欠損値と再試行の意味を合意し、共通の境界ケースの契約に対して両サービスを検証する"
+      },
+      {
+        "key": "D",
+        "en": "Add a coordination agent to infer whether null means unknown and whether a timed-out file needs resubmission.",
+        "ja": "調整用エージェントを追加し、null が不明を意味するか、タイムアウトしたファイルを再送すべきかを推論させる"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "(C) addresses the undefined contract: null must not silently become zero, and retry behavior must account for whether work already succeeded. (A) improves isolated coverage but postpones the shared semantics causing the failure. (B) cannot resolve conflicting interpretations or duplicate submissions. (D) replaces an explicit interface with another probabilistic decision, leaving ownership and guarantees unclear.",
+      "ja": "(C) は未定義の契約に対処します。null を黙ってゼロにしてはならず、再試行では処理がすでに成功したかを考慮する必要があります。(A) は個別のテスト範囲を広げますが、失敗の原因である共有の意味の定義を先延ばしにします。(B) では解釈の食い違いや重複送信を解決できません。(D) は明示的なインターフェースを別の確率的な判断に置き換え、責任と保証を不明確なままにします。"
+    }
+  },
+  {
+    "id": "AP085",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP030",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "You select models for a two-stage case assistant. Tests show S meets routing quality but fails drafting quality; L meets both. Per case, routing costs S=1 or L=4 units and drafting costs S=2 or L=8 units. Each stage meets its latency limit on either model. The approved total budget is 10 units per case. Which assignment is justified?",
+      "ja": "あなたは2段階の案件アシスタントのモデルを選定しています。テストでは、Sは振り分けの品質基準を満たしますが、下書きの品質基準を満たさず、Lは両方を満たします。案件ごとの費用は、振り分けがSで1単位、Lで4単位、下書きがSで2単位、Lで8単位です。どちらのモデルでも各段階の遅延上限を満たします。承認済みの合計予算は1案件10単位です。根拠のある割り当てはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Use S for both stages, spending 3 units per case and treating the drafting shortfall as a future tuning task.",
+        "ja": "両段階でSを使って1案件3単位とし、下書きの品質不足は将来の調整課題として扱う"
+      },
+      {
+        "key": "B",
+        "en": "Use L for both stages, spending 12 units per case and treating uniform configuration as worth the extra cost.",
+        "ja": "両段階でLを使って1案件12単位とし、設定の統一には追加費用に見合う価値があると考える"
+      },
+      {
+        "key": "C",
+        "en": "Use L for routing and S for drafting, spending 6 units per case and prioritizing quality at the first stage.",
+        "ja": "振り分けにL、下書きにSを使って1案件6単位とし、最初の段階の品質を優先する"
+      },
+      {
+        "key": "D",
+        "en": "Use S for routing and L for drafting, spending 9 units per case while meeting both tested quality thresholds.",
+        "ja": "振り分けにS、下書きにLを使って1案件9単位とし、検証済みの両方の品質基準を満たす"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "(D) costs 1+8=9 units, meets both quality thresholds, and respects the stated latency and budget limits. (A) costs less but fails drafting quality. (B) meets quality but exceeds the approved budget at 12 units. (C) spends more on routing without fixing the drafting shortfall.",
+      "ja": "(D) は1+8=9単位で、両方の品質基準を満たし、提示された遅延と予算の上限も守ります。(A) は安価ですが下書きの品質を満たしません。(B) は品質を満たすものの12単位となり、承認済み予算を超えます。(C) は振り分けに費用を追加しても下書きの品質不足を解消しません。"
+    }
+  },
+  {
+    "id": "AP086",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP031",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A procurement assistant loses current approval conditions late in long investigations. Its prompt contains entire supplier archives and repeated tool logs, though each decision concerns one supplier. The window is not full. Operations needs accurate decisions without raising latency. Which context strategy best addresses the problem?",
+      "ja": "調達アシスタントが、長い調査の終盤で現在の承認条件を見失います。各判断が1社の仕入先だけに関するものなのに、プロンプトには仕入先の全アーカイブと繰り返しのツールログが含まれています。コンテキストウィンドウは埋まっていません。運用部門は、遅延を増やさず正確に判断したいと考えています。最も適したコンテキスト戦略はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Reserve space for current constraints and state, retrieve relevant evidence, and bound repetitive tool output.",
+        "ja": "現在の制約と状態の領域を確保し、関連する根拠を検索して、繰り返しのツール出力に上限を設ける"
+      },
+      {
+        "key": "B",
+        "en": "Move to a larger context window and keep the full archives and logs so no potentially useful detail is removed.",
+        "ja": "より大きいコンテキストウィンドウに移し、役立つかもしれない詳細を除かないよう全アーカイブとログを保つ"
+      },
+      {
+        "key": "C",
+        "en": "Keep the existing context but request a more detailed explanation so reviewers can identify missed conditions.",
+        "ja": "現在のコンテキストを保ちつつ、レビュー担当者が条件の見落としを見つけられるよう詳しい説明を求める"
+      },
+      {
+        "key": "D",
+        "en": "Fill the unused space with additional approval examples and supplier documents to improve coverage of edge cases.",
+        "ja": "未使用の領域を承認例と仕入先文書の追加で埋め、例外的なケースの網羅性を高める"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "(A) deliberately allocates context to instructions, relevant evidence, and working state while reducing low-value repetition. (B) increases capacity without addressing attention dilution and can add latency. (C) may aid review but leaves the cause of missed conditions intact. (D) can help when examples are missing, but here it adds competing material to an already noisy context.",
+      "ja": "(A) は、指示、関連する根拠、作業状態にコンテキストを意図的に割り当て、価値の低い繰り返しを減らします。(B) は注意の分散に対処せず容量を増やすだけで、遅延も増やし得ます。(C) はレビューに役立つ場合がありますが、条件を見失う原因を残します。(D) は例が不足する場合には有効でも、ここではすでに雑多なコンテキストへ競合する資料を追加してしまいます。"
+    }
+  },
+  {
+    "id": "AP087",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP046",
+    "domain": 2,
+    "type": "multiple",
+    "question": {
+      "en": "You operate a Claude API assistant with a long shared policy. Cache misses persist because a unique timestamp and case note precede the policy. Requests meet the caching minimum and arrive within its lifetime. Access checks already run outside the model. Which two prompt changes enable reuse without mixing case data? Choose two.",
+      "ja": "あなたは長い共通ポリシーを使うClaude APIのアシスタントを運用しています。毎回異なるタイムスタンプと案件メモがポリシーの前にあるため、キャッシュミスが続いています。リクエストはキャッシュの最小量を満たし、有効期間内に到着しています。アクセス権の確認はすでにモデルの外で実行しています。案件データを混ぜずに再利用を可能にするプロンプトの変更はどれですか。2つ選べ。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Keep the timestamp at the start and extend cache lifetime so requests can reuse a prefix despite changing text.",
+        "ja": "タイムスタンプを先頭に残し、キャッシュの有効期間を延ばして、テキストが変わってもプレフィックスを再利用できるようにする"
+      },
+      {
+        "key": "B",
+        "en": "Move the shared policy before the timestamp and case note, preserving identical content across repeated requests.",
+        "ja": "共通ポリシーをタイムスタンプと案件メモの前へ移し、繰り返しのリクエストで同一の内容を保つ"
+      },
+      {
+        "key": "C",
+        "en": "Place an explicit cache breakpoint at the end of the stable policy, before the variable request-specific suffix.",
+        "ja": "安定したポリシーの末尾で、リクエスト固有の可変部分より前に、明示的なキャッシュのブレークポイントを置く"
+      },
+      {
+        "key": "D",
+        "en": "Replace each case note with the previous case's note so the full prompt matches, then filter the generated answer.",
+        "ja": "プロンプト全体を一致させるため案件メモを前の案件のメモに置き換え、生成した回答をあとからフィルタリングする"
+      }
+    ],
+    "answer": [
+      "B",
+      "C"
+    ],
+    "explanation": {
+      "en": "(B) creates a stable prefix while keeping each case's actual data in a varying suffix. (C) caches that identical prefix rather than marking a changing block. (A) does not fix exact-match failure: longer lifetime cannot make different prefixes identical. (D) contaminates the request with another case's data; output filtering does not restore the correct input. Caching does not replace the existing access checks.",
+      "ja": "(B) は、各案件の実際のデータを可変の後続部分に保ちながら、安定したプレフィックスを作ります。(C) は、変化するブロックではなく、その同一のプレフィックスをキャッシュします。(A) では完全一致の失敗を直せません。有効期間を延ばしても異なるプレフィックスは同一になりません。(D) は別案件のデータをリクエストへ混入させ、出力のフィルタリングでも正しい入力には戻せません。キャッシュは既存のアクセス権の確認を代替しません。"
+    }
+  },
+  {
+    "id": "AP088",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP077",
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A claims assistant's acceptance rate falls after a new branch joins. The model snapshot, prompts, tools, and index are unchanged, and old test cases still pass. The branch submits scanned forms in a different language, unlike the original typed forms. Before approving a model upgrade, what evidence should the architect request first?",
+      "ja": "新しい支店の参加後、保険金請求アシスタントの回答の受入率が下がりました。モデルのスナップショット、プロンプト、ツール、インデックスは変わらず、従来のテストケースは今も通ります。支店は従来の入力済みフォームとは異なり、別言語のスキャン済みフォームを提出しています。モデル更新を承認する前に、アーキテクトが最初に求めるべき証拠はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Repeat the original typed-form benchmark with more runs to estimate whether its existing average is stable.",
+        "ja": "従来の入力済みフォームのベンチマークを何度も繰り返し、既存の平均が安定しているかを推定する"
+      },
+      {
+        "key": "B",
+        "en": "Compare model-family benchmark scores to estimate whether a larger model would improve the combined average.",
+        "ja": "モデルファミリーのベンチマークスコアを比較し、大きいモデルが全体の平均を改善するかを推定する"
+      },
+      {
+        "key": "C",
+        "en": "Compare infrastructure utilization before and after onboarding to determine whether additional capacity is needed.",
+        "ja": "利用開始の前後でインフラの使用率を比較し、追加の処理能力が必要かを判断する"
+      },
+      {
+        "key": "D",
+        "en": "Compare input mix and failures by branch, language, and scan quality against the population used for evaluation.",
+        "ja": "支店、言語、スキャン品質ごとの入力構成と失敗を、評価に使った対象集団と比較する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "(D) tests the changed-input hypothesis and identifies which new conditions the original evaluation missed. (A) measures the old population again without investigating the new one. (B) may inform later selection but provides no task-specific diagnosis of this change. (C) is useful when failures track load or latency, but the stated evidence points first to language and document-format differences.",
+      "ja": "(D) は入力が変わったという仮説を検証し、元の評価が捉えなかった新しい条件を特定します。(A) は新しい対象集団を調べず、以前の対象を再測定するだけです。(B) は後の選定には役立ち得ますが、この変化についてタスク固有の原因を示しません。(C) は失敗が負荷や遅延と連動する場合に有効ですが、提示された証拠では、まず言語と文書形式の違いを調べるべきです。"
+    }
+  },
+  {
+    "id": "AP089",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP002",
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "You own a maintenance RAG assistant. After a nightly refresh changes the embedding configuration, retrieved passages concern the wrong equipment even before generation starts. Prompts and the generator are unchanged. Operations needs a safe restoration path, not better wording for unsupported answers. What should you do first?",
+      "ja": "あなたは保守作業用のRAGアシスタントの責任者です。夜間更新で埋め込み設定が変わったあと、生成が始まる前の検索結果の時点で、別の設備に関する文章が返るようになりました。プロンプトと生成モデルは変わっていません。運用部門が求めるのは、裏付けのない回答の言い回しの改善ではなく、安全な復旧経路です。最初に何をすべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Retune the generation prompt to reject unrelated passages, then resume service using the current refreshed index.",
+        "ja": "無関係な文章を拒否するよう生成プロンプトを調整し、現在の更新済みインデックスでサービスを再開する"
+      },
+      {
+        "key": "B",
+        "en": "Check query and index embedding compatibility and chunk metadata, then validate a consistent restored index.",
+        "ja": "クエリとインデックスの埋め込みの互換性、およびチャンクのメタデータを確認し、整合した復旧版インデックスを検証する"
+      },
+      {
+        "key": "C",
+        "en": "Increase the retrieved passage count to compensate for wrong equipment matches, keeping the refresh settings intact.",
+        "ja": "更新設定は保ったまま取得する文章数を増やし、設備の取り違えを補う"
+      },
+      {
+        "key": "D",
+        "en": "Upgrade the generation model and compare answer fluency before deciding whether the refreshed index needs rebuilding.",
+        "ja": "生成モデルを更新し、回答の流暢さを比較してから、更新済みインデックスを再構築する必要があるかを判断する"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "(B) investigates the layer that changed and verifies retrieval consistency before restoration, using a known-good rollback or consistent rebuild as appropriate. (A) may reduce unsupported answers but leaves wrong retrieval in place. (C) can add more irrelevant material without fixing incompatible embeddings or metadata. (D) changes an unchanged component and measures fluency rather than whether the right equipment evidence is retrieved.",
+      "ja": "(B) は変わった層を調べ、必要に応じて既知の正常版への復元や整合した再構築を使い、復旧前に検索の一貫性を検証します。(A) は裏付けのない回答を減らせても、誤った検索を残します。(C) は埋め込みやメタデータの不整合を直さず、無関係な資料を増やす可能性があります。(D) は変わっていない構成要素を変更し、正しい設備の根拠を取得できるかではなく流暢さを測っています。"
+    }
+  },
+  {
+    "id": "AP090",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP014",
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "A legacy claims client can send synchronous HTTP requests and poll a status URL, but closes every connection after two seconds and cannot accept callbacks. A validated Claude analysis takes twenty seconds; shortening it fails quality tests. The client must distinguish pending work from completed results. Which integration fits?",
+      "ja": "既存の保険金請求クライアントは、同期HTTPリクエストの送信とステータスURLの定期的な確認ができますが、接続は2秒で閉じ、コールバックも受け付けられません。検証済みのClaudeによる分析には20秒かかり、短縮すると品質テストに失敗します。クライアントは処理中の作業と完了結果を区別する必要があります。適した連携はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Stream partial analysis over the original request and keep the connection open until a complete result is ready.",
+        "ja": "元のリクエストで分析の途中結果をストリーミングし、完全な結果ができるまで接続を維持する"
+      },
+      {
+        "key": "B",
+        "en": "Start the analysis in a worker and deliver its final result through a callback to the existing claims client.",
+        "ja": "ワーカーで分析を開始し、既存の請求クライアントへのコールバックで最終結果を届ける"
+      },
+      {
+        "key": "C",
+        "en": "Return a job ID promptly, process in a worker, and expose pending, failed, and completed states for polling.",
+        "ja": "ジョブIDを速やかに返し、ワーカーで処理して、処理中・失敗・完了の状態を定期確認できるよう公開する"
+      },
+      {
+        "key": "D",
+        "en": "Return a shortened final answer within two seconds and schedule a fuller analysis for later quality inspection.",
+        "ja": "2秒以内に短縮した最終回答を返し、詳しい分析は後から品質点検するよう予定する"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "(C) separates prompt acceptance from long-running completion and gives the polling client explicit states, without shortening the validated analysis. (A) still requires a connection longer than the fixed timeout. (B) is a useful asynchronous pattern but this client cannot accept callbacks. (D) meets the response deadline by returning an answer that fails the required quality; acceptance of a job must not be presented as its final result.",
+      "ja": "(C) は速やかな受付と長時間処理の完了を分離し、検証済みの分析を短縮せず、定期確認するクライアントに明示的な状態を返します。(A) は固定のタイムアウトより長い接続を依然として必要とします。(B) は有用な非同期パターンですが、このクライアントはコールバックを受け付けられません。(D) は必要な品質を満たさない回答を返して期限に合わせています。ジョブの受付を最終結果として示してはなりません。"
+    }
+  },
+  {
+    "id": "AP091",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP050",
+    "domain": 3,
+    "type": "multiple",
+    "question": {
+      "en": "You design a records assistant for analysts who may read and draft, and supervisors who may approve updates. It currently uses one credential with read, update, and delete access; a confirmation dialog appears before writes. Policy forbids deletion through this assistant and requires supervisor approval of exact changes. Which controls are needed? Choose two.",
+      "ja": "あなたは、閲覧と下書きができる分析担当者と、更新を承認できる監督者のために記録アシスタントを設計しています。現在は閲覧・更新・削除の権限を持つ1つの認証情報を使い、書き込みの前に確認画面を表示しています。ポリシーでは、このアシスタントによる削除を禁止し、変更の正確な内容について監督者の承認を求めています。必要な制御はどれですか。2つ選べ。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Keep the shared credential and log confirmed writes with user identity so supervisors can review changes later.",
+        "ja": "共通の認証情報を保ち、確認された書き込みを利用者IDとともに記録して、監督者があとから変更を確認できるようにする"
+      },
+      {
+        "key": "B",
+        "en": "Keep all tool permissions and replace the confirmation dialog with a prompt asking the agent to enforce roles.",
+        "ja": "すべてのツール権限を保ち、確認画面を役割の制限を守るようエージェントに求めるプロンプトに置き換える"
+      },
+      {
+        "key": "C",
+        "en": "Remove delete access and separate read-only analyst access from the narrowly authorized update execution path.",
+        "ja": "削除権限を取り除き、分析担当者の読取専用アクセスと、限定して認可された更新実行経路を分ける"
+      },
+      {
+        "key": "D",
+        "en": "Require verified supervisor approval of the exact proposed change at the update service before it executes.",
+        "ja": "更新サービスが実行する前に、提案された変更の正確な内容について、検証済みの監督者の承認を要求する"
+      }
+    ],
+    "answer": [
+      "C",
+      "D"
+    ],
+    "explanation": {
+      "en": "(C) removes the forbidden capability and prevents analyst access from inheriting write authority. (D) enforces approval by the required role for the action actually executed. (A) supports auditing but neither removes deletion nor ensures approval before execution. (B) leaves authority in a broadly privileged credential and relies on model behavior instead of service-side authorization. A generic confirmation is not proof of a supervisor's approval.",
+      "ja": "(C) は禁止された機能を取り除き、分析担当者のアクセスに書き込み権限が伴わないようにします。(D) は、実際に行う操作について必要な役割の承認を強制します。(A) は監査に役立ちますが、削除を排除せず、実行前の承認も保証しません。(B) は広い権限を持つ認証情報を残し、サービス側の認可ではなくモデルの振る舞いに依存します。一般的な確認操作だけでは監督者の承認の証明になりません。"
+    }
+  },
+  {
+    "id": "AP092",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP006",
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "A contract-summary pilot receives conflicting scores from counsel: one values brevity, another checks exceptions and obligations. Several differently worded summaries are equally valid, but omitted termination conditions are unacceptable. The team wants scalable grading without losing legal reviewers' judgment. What should the architect establish?",
+      "ja": "契約書要約のパイロット運用で、弁護士による採点が食い違っています。一方は簡潔さを重視し、他方は例外と義務を確認しています。表現が異なっても同じように有効な要約はありますが、解除条件の省略は許容されません。チームは、法務レビュー担当者の判断を保ちながら採点を拡大したいと考えています。アーキテクトは何を整えるべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Use exact matches to one approved summary per clause, reporting a single agreement score across the entire set.",
+        "ja": "条項ごとに1つの承認済み要約との完全一致を使い、セット全体の一致率を1つ報告する"
+      },
+      {
+        "key": "B",
+        "en": "Agree on error-based rubrics and examples with counsel, then calibrate automated grading with human reviews.",
+        "ja": "弁護士と誤りに基づくルーブリックおよび例を合意し、人のレビューで自動採点を調整する"
+      },
+      {
+        "key": "C",
+        "en": "Average the reviewers' current scores over more summaries, allowing their different priorities to balance out.",
+        "ja": "より多くの要約について現在のレビュー得点を平均し、異なる優先順位が相殺されるようにする"
+      },
+      {
+        "key": "D",
+        "en": "Ask a separate model to rate overall professionalism, using the same broad quality question for every summary.",
+        "ja": "別のモデルに全体の専門的な出来を採点させ、すべての要約に同じ大まかな品質の質問を使う"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "(B) makes unacceptable omissions and valid variation explicit, aligns reviewers on examples, and keeps scalable grading anchored to expert judgment. (A) rejects valid paraphrases rather than measuring the required content. (C) reduces sampling noise without resolving inconsistent standards. (D) automates an undefined notion of quality and can reward polished prose that omits termination conditions.",
+      "ja": "(B) は、許容できない省略と有効な表現の違いを明確にし、例によってレビュー担当者の基準をそろえ、拡大可能な採点を専門家の判断に結びつけます。(A) は必要な内容を測らず、有効な言い換えを不正解にします。(C) は標本によるばらつきを減らしても、基準の不一致を解消しません。(D) は未定義の品質を自動採点し、解除条件が欠けていても洗練された文章を高く評価するおそれがあります。"
+    }
+  },
+  {
+    "id": "AP093",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP007",
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "You review a prompt revision that improves invoice extraction in demos. It may increase false approvals on unusual invoices, and the current service is already live. Finance requires no material safety regression and operations has a latency ceiling. Which release approach gives evidence before exposing all users?",
+      "ja": "あなたは、デモで請求書の抽出が改善したプロンプト改訂をレビューしています。特殊な請求書では誤承認が増える可能性があり、現在のサービスはすでに稼働しています。財務部門は安全性の重大な後退を認めず、運用部門には遅延の上限があります。全利用者に適用する前に根拠を得られるリリース方法はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Release to everyone after the demo, collecting safety and latency metrics to decide whether rollback is needed.",
+        "ja": "デモのあと全員にリリースし、安全性と遅延の指標を収集してロールバックが必要かを判断する"
+      },
+      {
+        "key": "B",
+        "en": "Run a limited live comparison first, choosing acceptance thresholds after the new prompt's results are visible.",
+        "ja": "まず限定した本番比較を行い、新しいプロンプトの結果が見えてから受入基準を決める"
+      },
+      {
+        "key": "C",
+        "en": "Repeat the successful demo with more typical invoices, then replace the live prompt once extraction improves.",
+        "ja": "成功したデモを典型的な請求書を増やして繰り返し、抽出が改善したら本番のプロンプトを置き換える"
+      },
+      {
+        "key": "D",
+        "en": "Set quality, safety, and latency gates; pass regressions, then run a guarded A/B test before wider rollout.",
+        "ja": "品質・安全性・遅延の合否基準を定め、回帰テストを通したあと、制限付きのA/Bテストを経て展開を広げる"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "(D) defines success before observing results, checks unusual cases offline, and limits exposure while comparing with the current version. Live testing still needs safeguards for consequential approvals. (A) exposes every user before collecting evidence. (B) makes success criteria depend on observed results and exposes live decisions before offline regression checks. (C) concentrates on typical extraction improvements without checking false approvals or latency.",
+      "ja": "(D) は結果を見る前に成功を定義し、特殊なケースをオフラインで確認したうえで、影響範囲を限定して現行版と比較します。本番テストにも、重大な承認への保護策が必要です。(A) は根拠を集める前に全利用者を影響にさらします。(B) は観測結果に応じて成功基準を決め、オフラインでの回帰確認より前に本番の判断へ影響を与えます。(C) は典型例での抽出改善に集中し、誤承認や遅延を確認しません。"
+    }
+  },
+  {
+    "id": "AP094",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP048",
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "A support agent sometimes takes forty seconds and cites an obsolete procedure. Aggregate latency charts and final-answer logs cannot show whether retrieval, a tool retry, or generation caused a particular incident. Raw customer text may not be retained. What observability design best supports diagnosis within that restriction?",
+      "ja": "サポート用エージェントが、ときどき40秒かかり、古い手順を引用します。遅延の集計グラフと最終回答のログだけでは、個別の障害が検索・ツールの再試行・生成のどこで起きたか分かりません。顧客の生の文章は保持できません。この制約の下で原因調査に最も役立つ可観測性の設計はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Link step timings, retries, source versions, and outcomes in a trace, with approved redacted context references.",
+        "ja": "各段階の時間、再試行、出典の版、結果をトレースで結びつけ、承認された秘匿処理済みのコンテキスト参照を付ける"
+      },
+      {
+        "key": "B",
+        "en": "Retain complete prompts and tool responses for each incident, using restricted dashboard access to protect them.",
+        "ja": "障害ごとにプロンプトとツール応答を完全に保持し、ダッシュボードの閲覧制限で保護する"
+      },
+      {
+        "key": "C",
+        "en": "Increase the resolution of aggregate latency charts and record the model's total token use for every response.",
+        "ja": "遅延の集計グラフを細かくし、応答ごとにモデルの合計トークン使用量を記録する"
+      },
+      {
+        "key": "D",
+        "en": "Collect separate tool and model logs with local timestamps, omitting shared identifiers to reduce retained data.",
+        "ja": "ツールとモデルのログをローカル時刻で別々に集め、保持データを減らすため共通の識別子を省く"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "(A) connects a request's steps and evidence versions without requiring prohibited raw text. References and redaction must themselves satisfy retention policy. (B) restricts readers but still retains the forbidden content. (C) helps trend analysis but cannot attribute one incident to a retrieval result or retry. (D) records local events but makes reliable cross-service correlation difficult by removing the linking identifiers.",
+      "ja": "(A) は、禁止された生の文章を必要とせず、リクエストの各段階と根拠の版を結びつけます。参照情報や秘匿処理も、保持ポリシーを満たす必要があります。(B) は閲覧者を制限しても、禁止された内容を保持してしまいます。(C) は傾向の分析に役立ちますが、個別の障害を検索結果や再試行に結びつけられません。(D) は個々の出来事を残しますが、関連づける識別子を除くため、サービスをまたぐ確実な対応づけが難しくなります。"
+    }
+  },
+  {
+    "id": "AP095",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP008",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "You architect a clinic's scheduling assistant. Internal policy forbids patient identifiers from reaching the external model, including in free-text notes. Staff must see names in the final local interface. Some notes contain unfamiliar identifier formats. Which boundary design best satisfies the policy without relying on the model to remove identifiers?",
+      "ja": "あなたは診療所の予約調整アシスタントを設計しています。社内ポリシーでは、自由記述メモも含め、患者の識別情報を外部モデルへ送ることを禁止しています。職員は最終的な院内画面で氏名を見る必要があります。一部のメモには見慣れない形式の識別情報があります。モデル自身による識別情報の除去に頼らず、ポリシーを最もよく満たす境界の設計はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Send encrypted transport requests with full notes, asking the model to replace patient names before reasoning.",
+        "ja": "通信を暗号化してメモ全体を送り、推論の前に患者名を置き換えるようモデルに求める"
+      },
+      {
+        "key": "B",
+        "en": "Validate de-identified inputs locally, hold uncertain notes, and re-associate tokens through a local mapping.",
+        "ja": "非識別化した入力を院内で検証し、不確かなメモは保留して、院内の対応表でトークンを本人に結び直す"
+      },
+      {
+        "key": "C",
+        "en": "Replace names with stable patient numbers but send the remaining notes so the model retains clinical context.",
+        "ja": "氏名を固定の患者番号に置き換えつつ、モデルが診療上の文脈を保てるよう残りのメモは送る"
+      },
+      {
+        "key": "D",
+        "en": "Keep full notes in model requests but remove identifiers from responses before showing them to clinic staff.",
+        "ja": "モデルへのリクエストにはメモ全体を残し、職員に表示する前に応答から識別情報を除く"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "(B) performs transformation and validation before the external call, holds cases that cannot be safely validated, and keeps re-association local. It requires tested handling of indirect identifiers as well as names; an automatic detector alone is not a guarantee. (A) protects transit but exposes the identifiers to the destination model. (C) retains identifying patient numbers and unchecked note content. (D) removes data only after the prohibited disclosure has happened.",
+      "ja": "(B) は外部呼び出しの前に変換と検証を行い、安全を確認できないケースを保留し、本人との対応づけを院内に留めます。氏名だけでなく間接的な識別情報についても検証済みの処理が必要で、自動検出器だけで保証できるわけではありません。(A) は通信経路を保護しても、宛先のモデルへ識別情報を渡します。(C) は本人を識別できる患者番号と未確認のメモを残します。(D) は禁止された開示が起きたあとにデータを除去しています。"
+    }
+  },
+  {
+    "id": "AP096",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP025",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A procurement assistant retrieves supplier pages and drafts comparison reports. One page says a compliance check requires uploading the internal bid file to a supplier URL. The page is relevant evidence about products, but the user requested no upload and policy forbids sending bid files outside the company. Which treatment is appropriate?",
+      "ja": "調達アシスタントが仕入先のページを検索し、比較報告書を下書きします。あるページには、コンプライアンス確認のため社内の入札ファイルを仕入先のURLへアップロードする必要があると書かれています。そのページは製品に関する有用な根拠ですが、利用者はアップロードを依頼しておらず、ポリシーも入札ファイルの社外送信を禁止しています。適切な扱いはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Promote the page's compliance instruction into the system prompt after confirming the supplier site's identity.",
+        "ja": "仕入先サイトの身元を確認したあと、そのページのコンプライアンス指示をシステムプロンプトに昇格させる"
+      },
+      {
+        "key": "B",
+        "en": "Let the model decide whether the upload helps the report, requiring it to explain any external transmission.",
+        "ja": "外部送信の説明を求めたうえで、アップロードが報告書に役立つかをモデルに判断させる"
+      },
+      {
+        "key": "C",
+        "en": "Treat the page as untrusted evidence and enforce the no-upload boundary with application tool permissions.",
+        "ja": "ページを信頼できない根拠データとして扱い、アプリケーションのツール権限でアップロード禁止の境界を強制する"
+      },
+      {
+        "key": "D",
+        "en": "Show a general confirmation dialog before the upload, retaining the existing permissions for supplier websites.",
+        "ja": "仕入先サイトに対する既存の権限を保ち、アップロードの前に一般的な確認画面を表示する"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "(C) allows product facts to inform the report without letting retrieved content grant authority to transmit a bid file. (A) mistakes a source's identity for permission to override internal policy. (B) makes a prohibited action depend on model judgment; explaining it does not authorize it. (D) may reduce accidental uploads but a generic confirmation cannot override the stated no-external-transfer policy.",
+      "ja": "(C) は、製品の事実を報告書に使いつつ、検索した内容に入札ファイルを送る権限を与えません。(A) は、出典の身元が分かることを社内ポリシーを上書きする許可と取り違えています。(B) は禁止された操作をモデルの判断に委ねています。説明しても認可にはなりません。(D) は誤操作を減らせても、一般的な確認で明示された社外送信禁止のポリシーを上書きすることはできません。"
+    }
+  },
+  {
+    "id": "AP097",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP072",
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "You lead a warranty-credit project. The assistant confidently proposes a credit amount, and a second model agrees after reading its explanation. A mistaken credit can materially harm customers, and the authoritative purchase and warranty records are available through a separate service. What should determine whether the proposed amount proceeds?",
+      "ja": "あなたは保証に基づく返金額の算定プロジェクトを率いています。アシスタントは自信を持って金額を提案し、その説明を読んだ第2のモデルも同意しています。金額を誤ると顧客に重大な不利益が生じ得ますが、正とする購入記録と保証記録は別のサービスで取得できます。提案額で処理を進めてよいかは、何に基づいて判断すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Require the proposing model to restate its calculation and proceed when its second answer matches the first.",
+        "ja": "提案したモデルに計算を述べ直させ、2度目の回答が最初と一致すれば処理を進める"
+      },
+      {
+        "key": "B",
+        "en": "Use the two models' agreement as the approval criterion and inspect a sample of completed credits each week.",
+        "ja": "2つのモデルの一致を承認基準とし、完了した返金の一部を毎週点検する"
+      },
+      {
+        "key": "C",
+        "en": "Increase the confidence threshold for automatic approval and retain detailed explanations for later complaints.",
+        "ja": "自動承認の確信度のしきい値を上げ、あとからの苦情に備えて詳しい説明を保存する"
+      },
+      {
+        "key": "D",
+        "en": "Check the amount against authoritative records and rules, escalating discrepancies before releasing the credit.",
+        "ja": "正とする記録とルールに金額を照合し、不一致は返金の実行前にエスカレーションする"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "(D) adds a verification basis independent of the generated explanation and handles disagreement before customers are affected. (A) can reproduce the same unsupported calculation. (B) can reflect correlated error, especially when the second model sees the first explanation; later sampling does not protect each consequential credit. (C) substitutes confidence for evidence and detects problems only when complaints arrive.",
+      "ja": "(D) は生成された説明から独立した検証の根拠を加え、顧客に影響する前に不一致を扱います。(A) は同じ裏付けのない計算を繰り返す可能性があります。(B) は、特に第2のモデルが最初の説明を見る場合、共通する誤りへの同意かもしれません。あとからの抜き取り点検では重大な返金の一つひとつを守れません。(C) は証拠を確信度で代用し、苦情が届いて初めて問題を検出します。"
+    }
+  },
+  {
+    "id": "AP098",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP009",
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "A sponsor demands 99.9% fully automatic resolution. Representative tests show 94%, while a reviewed workflow reduces harmful errors at a measurable staffing and delay cost. Human review is not perfect either. Funding depends on a credible business outcome, not a demo. What should the architect bring to the acceptance discussion?",
+      "ja": "スポンサーは99.9%の完全自動解決を求めています。代表性のあるテストでは94%で、人の確認を含むワークフローは有害な誤りを減らす一方、人員と待ち時間のコストが測定されています。人の確認も完全ではありません。資金提供には、デモではなく信頼できる業務上の成果が必要です。アーキテクトは受入条件の話し合いに何を持ち込むべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Present measured end-to-end errors, review costs, and delays, then agree achievable outcome-based criteria.",
+        "ja": "工程全体で測定した誤り、確認コスト、遅延を示し、達成可能な成果に基づく基準を合意する"
+      },
+      {
+        "key": "B",
+        "en": "Report accuracy on cases selected for automation, using that narrower figure as the original resolution target.",
+        "ja": "自動化対象に選ばれたケースの精度を報告し、その狭い範囲の数値を元の解決率の目標として扱う"
+      },
+      {
+        "key": "C",
+        "en": "Commit to the requested automatic rate and reserve additional review staff until a future model closes the gap.",
+        "ja": "求められた自動処理率を約束し、将来のモデルが差を埋めるまで追加の確認担当者を確保する"
+      },
+      {
+        "key": "D",
+        "en": "Demonstrate the most successful cases and defer the staffing and delay discussion until after funding approval.",
+        "ja": "最も成功したケースを実演し、人員と遅延の話し合いは資金の承認後まで延期する"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "(A) makes the achievable business outcome and its costs explicit without implying that humans remove all errors. The sponsor must agree any change to the original target. (B) silently changes the denominator and conceals unresolved cases. (C) promises an unmeasured improvement and calls a reviewed process fully automatic. (D) withholds decision-relevant costs and substitutes selected demonstrations for representative evidence.",
+      "ja": "(A) は、人ならすべての誤りを除けると示唆せず、達成可能な業務成果とその費用を明示します。元の目標を変える場合は、スポンサーとの合意が必要です。(B) は分母を黙って変え、未解決のケースを隠します。(C) は未測定の改善を約束し、人の確認を含む処理を完全自動と呼んでいます。(D) は判断に必要な費用を示さず、代表性のある証拠を選び抜いたデモで代用しています。"
+    }
+  },
+  {
+    "id": "AP099",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP028",
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "You prepare a ten-user pilot for a rollout to two thousand staff across new departments. Pilot users had clean documents and direct access to the engineering team; new users will bring varied files and rely on a help desk. The sponsor proposes buying licenses and launching on Monday. What should you raise first?",
+      "ja": "あなたは10人でのパイロット運用を、新しい部門を含む2,000人の職員へ展開する準備をしています。パイロットの利用者は整った文書を使い、開発チームへ直接相談できましたが、新しい利用者はさまざまなファイルを持ち込み、ヘルプデスクに頼ります。スポンサーはライセンスを購入して月曜日に開始することを提案しています。最初に何を提起すべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Choose the bulk license package first, using the successful pilot as the evidence that service readiness holds.",
+        "ja": "成功したパイロットをサービスの準備完了の証拠として使い、まず一括ライセンスのプランを選ぶ"
+      },
+      {
+        "key": "B",
+        "en": "Revalidate input, capacity, and support assumptions, and agree evidence gates for a staged departmental rollout.",
+        "ja": "入力、処理能力、支援体制の前提を再検証し、部門ごとに段階展開するための根拠に基づく条件を合意する"
+      },
+      {
+        "key": "C",
+        "en": "Upgrade to a larger model for every department first, treating additional capability as sufficient scale readiness.",
+        "ja": "まず全部門で大きいモデルへ更新し、能力の追加を規模拡大の準備として十分だとみなす"
+      },
+      {
+        "key": "D",
+        "en": "Schedule one training session for all users, retaining the pilot's existing input and support assumptions unchanged.",
+        "ja": "全利用者向けの研修を1回予定し、パイロットの入力と支援体制の前提は変えずに保つ"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "(B) surfaces the assumptions that the pilot did not test and makes rollout conditional on representative evidence, support ownership, and capacity. (A) is a procurement task, not evidence that new usage is supported. (C) cannot establish help-desk readiness or document coverage and can increase cost. (D) can aid adoption but does not validate the changed operating conditions.",
+      "ja": "(B) は、パイロットで検証できなかった前提を明らかにし、代表性のある証拠、支援の責任分担、処理能力を展開の条件にします。(A) は調達の作業であり、新しい利用に対応できる証拠ではありません。(C) はヘルプデスクの準備や文書の網羅性を確かめられず、費用を増やす可能性があります。(D) は導入支援になりますが、変わった運用条件を検証しません。"
+    }
+  },
+  {
+    "id": "AP100",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": "AP047",
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "An architecture board chooses a company-controlled deployment over a cheaper external service because internal policy prohibits sending raw case files outside its boundary. Both options passed quality tests; the chosen option costs more to operate. A new team will maintain the system. What decision record best supports future review?",
+      "ja": "アーキテクチャ審査委員会は、社内ポリシーが未加工の案件ファイルを会社の管理境界の外へ送ることを禁止しているため、安価な外部サービスではなく会社が管理する配置を選びました。どちらも品質テストには合格していますが、選ばれた案は運用費用が高くなります。新しいチームが保守を担当します。将来の見直しに最も役立つ決定記録はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Record the selected deployment and implementation milestones, linking the final infrastructure diagram for details.",
+        "ja": "選ばれた配置と実装のマイルストーンを記録し、詳細について最終的なインフラ図へのリンクを付ける"
+      },
+      {
+        "key": "B",
+        "en": "Record the selected provider as technically superior, omitting the cheaper option to avoid reopening settled debate.",
+        "ja": "選ばれた提供元が技術的に優れていると記録し、決着した議論を蒸し返さないよう安価な案は省く"
+      },
+      {
+        "key": "C",
+        "en": "Record the options, policy boundary, quality evidence, and operating-cost tradeoff that justify the chosen design.",
+        "ja": "選択肢、ポリシーの境界、品質の証拠、運用費用のトレードオフを記録し、選んだ設計の理由を示す"
+      },
+      {
+        "key": "D",
+        "en": "Record the board members and approval date, leaving the constraints and rejected alternatives in private meeting notes.",
+        "ja": "委員と承認日を記録し、制約と却下した代替案は非公開の議事メモに残す"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "(C) preserves why the choice was made and what was traded away, enabling a later team to assess whether the constraint still applies. (A) describes the result and schedule without the rationale. (B) misrepresents a policy-driven choice as technical superiority and hides a real alternative. (D) records authority but leaves future maintainers without the context needed to understand or reconsider the design.",
+      "ja": "(C) は、選択の理由と引き換えにしたものを残し、後任チームが制約が今も有効かを判断できるようにします。(A) は結果と日程を示しますが、理由がありません。(B) はポリシーによる選択を技術的な優位性と偽り、実際にあった代替案を隠します。(D) は承認者を残しても、後任の保守担当者が設計を理解し見直すために必要な文脈を残しません。"
+    }
+  },
+  {
+    "id": "AP101",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 1,
+    "type": "multiple",
+    "question": {
+      "en": "You design an acquisition research system. Four independent source collections must be reviewed within a fixed deadline, and capacity permits four concurrent workers. The final report must retain evidence and unresolved contradictions rather than count agreement as truth. Which orchestration choices best fit? Choose two.",
+      "ja": "あなたは買収前の調査システムを設計しています。独立した4つの資料群を期限内に調査する必要があり、処理能力は4つのワーカーの同時実行に対応しています。最終報告では、意見の一致を真実とみなさず、根拠と未解消の矛盾を残す必要があります。最も適したオーケストレーションの選択はどれですか。2つ選べ。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Assign independent collections to parallel workers with distinct scope and a common evidence-return contract.",
+        "ja": "独立した資料群を、範囲が分かれ、共通の形式で根拠を返す並列ワーカーへ割り当てる"
+      },
+      {
+        "key": "B",
+        "en": "Have each worker rewrite the previous worker's conclusion before consulting its own independent collection.",
+        "ja": "各ワーカーに、自分の独立した資料群を調べる前に、前のワーカーの結論を書き直させる"
+      },
+      {
+        "key": "C",
+        "en": "Merge attributed claims and source references, marking conflicting findings for explicit resolution or review.",
+        "ja": "出所が分かる主張と出典の参照を統合し、矛盾する発見事項を明示的な解消またはレビューの対象として示す"
+      },
+      {
+        "key": "D",
+        "en": "Merge findings by majority vote and omit minority claims so the report reaches one consistent recommendation.",
+        "ja": "多数決で発見事項を統合し、報告が1つの一貫した提案となるよう少数意見の主張を省く"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": {
+      "en": "(A) uses the stated independence and available capacity without creating unnecessary serial dependencies. (C) preserves traceable evidence and treats contradictions as information to resolve, not votes to discard. (B) serializes independent work and anchors later workers on earlier conclusions. (D) violates the requirement to retain unresolved contradictions; agreement among workers does not establish which source is reliable.",
+      "ja": "(A) は、不要な直列の依存関係を作らず、提示された独立性と処理能力を活用します。(C) は追跡可能な根拠を残し、矛盾を捨てる票ではなく解消すべき情報として扱います。(B) は独立した作業を直列化し、後のワーカーを前の結論に引きずらせます。(D) は未解消の矛盾を残す要件に反します。ワーカー間の一致では、どの出典が信頼できるかは確定しません。"
+    }
+  },
+  {
+    "id": "AP102",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "An equipment assistant answers manual questions and reserves spare parts. The inventory service is failing repeatedly, but the manual store is healthy. Operations requires manual answers to remain available and forbids reservations without a current stock check. Repeated inventory calls are exhausting shared workers. Which degraded design fits?",
+      "ja": "設備アシスタントは、マニュアルについて回答し、交換部品を予約します。在庫サービスは繰り返し失敗していますが、マニュアルの保管先は正常です。運用部門は、マニュアルの回答を継続し、最新の在庫確認がない予約を禁止しています。在庫への繰り返しの呼び出しが共通のワーカーを使い切りつつあります。適した障害時の設計はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Keep both paths running and increase inventory retries so each reservation has more chances to obtain a stock check.",
+        "ja": "両方の経路を動かし続け、各予約が在庫確認に成功する機会を増やすため在庫への再試行を増やす"
+      },
+      {
+        "key": "B",
+        "en": "Disable the entire assistant until inventory recovers, treating all capabilities as one indivisible service.",
+        "ja": "すべての機能を分割できない1つのサービスとみなし、在庫が復旧するまでアシスタント全体を停止する"
+      },
+      {
+        "key": "C",
+        "en": "Serve manual answers and confirm reservations from yesterday's stock snapshot, marking the data as potentially stale.",
+        "ja": "マニュアルの回答を続け、昨日の在庫情報から予約を確定し、情報が古い可能性を表示する"
+      },
+      {
+        "key": "D",
+        "en": "Isolate failing inventory calls, keep manual answers available, and hold reservations until stock checks recover.",
+        "ja": "失敗する在庫呼び出しを隔離し、マニュアルの回答を継続して、在庫確認が復旧するまで予約を保留する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "(D) prevents repeated dependency failures from consuming the healthy path while preserving the reservation safety condition. The unavailable reservation function should be reported explicitly. (A) increases pressure on the failing dependency and shared workers. (B) protects reservation correctness but unnecessarily removes required manual access. (C) keeps service available by violating the explicit requirement for current stock before confirmation; a warning does not satisfy that requirement.",
+      "ja": "(D) は、予約の安全条件を保ちながら、依存先の失敗の繰り返しが正常な経路の資源を使い切ることを防ぎます。予約機能が利用できないことは明示する必要があります。(A) は、失敗中の依存先と共通のワーカーへの負荷を増やします。(B) は予約の正しさを守りますが、必要なマニュアルの利用まで不必要に止めます。(C) は、確定前に最新の在庫を確認するという明示的な要件に反して可用性を保っています。注意表示でその要件を満たすことはできません。"
+    }
+  },
+  {
+    "id": "AP103",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 1,
+    "type": "single",
+    "question": {
+      "en": "You architect a sales assistant with a three-second deadline for a binding price quote. The approved pricing service responds in 0.2 seconds. Optional product research takes twelve seconds and cannot change the quote. Users accept a separately labeled recommendation later. Which decomposition best aligns the response path with business value?",
+      "ja": "あなたは、確定価格を3秒以内に提示する営業アシスタントを設計しています。承認済みの価格計算サービスは0.2秒で応答します。任意の製品調査には12秒かかりますが、提示価格は変更できません。利用者は、区別して表示された推奨があとから届くことを受け入れています。応答の経路を業務上の価値に最もよく合わせる処理の分け方はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Return the approved quote on the critical path and run optional research separately for a later recommendation.",
+        "ja": "期限内に必要な経路で承認済みの価格を返し、任意の調査は後続の推奨のために別途実行する"
+      },
+      {
+        "key": "B",
+        "en": "Queue the complete quote-and-research task and return a receipt, displaying both results after research finishes.",
+        "ja": "価格提示と調査のタスク全体をキューに入れ、受付を返して、調査の終了後に両方の結果を表示する"
+      },
+      {
+        "key": "C",
+        "en": "Run pricing and research in parallel but hold the quote until both finish, keeping one complete response per request.",
+        "ja": "価格計算と調査を並列実行するものの両方が終わるまで価格を保留し、1リクエストにつき完全な応答を1つ返す"
+      },
+      {
+        "key": "D",
+        "en": "Return an estimated quote before pricing validation and replace it with the binding quote when research completes.",
+        "ja": "価格の検証前に推定価格を返し、調査が終わったときに確定価格に置き換える"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "(A) gives the deadline to the required business result and keeps slower optional work outside its critical path. (B) returns acceptance rather than the binding quote required within three seconds. (C) makes the twelve-second research task determine quote latency despite parallel execution. (D) returns an unvalidated estimate in place of the approved quote and delays the valid result for work that cannot affect it.",
+      "ja": "(A) は、必要な業務成果に応答期限を割り当て、遅い任意の作業をその経路から外します。(B) は、3秒以内に必要な確定価格ではなく受付を返しています。(C) は並列実行していても、12秒の調査が価格提示の遅延を決めます。(D) は承認済みの価格の代わりに未検証の推定を返し、価格に影響しない作業のために正しい結果を遅らせます。"
+    }
+  },
+  {
+    "id": "AP104",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "A support drafting assistant must retain a standard uncertainty note when evidence is incomplete. Users may change tone and length, but cannot waive that note. The current prompt says to follow the user's preferred style, and a legitimate user asks to omit the note to shorten a reply. Which prompt revision best resolves the conflicting instructions?",
+      "ja": "サポートの下書きアシスタントは、根拠が不足しているとき、所定の不確実性に関する注記を残す必要があります。利用者は語調と長さを変えられますが、注記を免除できません。現在のプロンプトは利用者の好む文体に従うよう求めており、正当な利用者が返信を短くするため注記の省略を依頼しました。指示の矛盾を最もよく解消するプロンプトの改訂はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Put the latest user preference after the template rules and ask Claude to prioritize the most recent instruction.",
+        "ja": "テンプレートのルールのあとに最新の利用者の好みを置き、最も新しい指示を優先するようClaudeに求める"
+      },
+      {
+        "key": "B",
+        "en": "State mandatory note rules in system instructions and limit style changes to wording that preserves those rules.",
+        "ja": "システムの指示に必須の注記のルールを書き、文体の変更をそのルールを守る表現の範囲に限定する"
+      },
+      {
+        "key": "C",
+        "en": "Keep the broad style instruction and add more examples of concise replies without specifying how conflicts resolve.",
+        "ja": "文体についての大まかな指示を保ち、矛盾の解消方法を定めずに簡潔な返信の例を増やす"
+      },
+      {
+        "key": "D",
+        "en": "Treat authenticated user edits as template updates and replace the note requirement whenever a shorter reply is requested.",
+        "ja": "認証済み利用者の編集をテンプレートの更新とみなし、短い返信を求められたら注記の要件を置き換える"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "(B) explicitly distinguishes non-waivable policy from permitted stylistic variation instead of leaving the model two incompatible goals. Conflict cases should be evaluated; a prompt alone is not a hard enforcement guarantee. (A) lets recency override the stated policy. (C) adds examples without defining precedence. (D) confuses authentication with authority to change the template, which the user explicitly lacks.",
+      "ja": "(B) は、モデルに両立しない目標を残さず、免除できない方針と許可された文体の変更を明確に分けます。矛盾する依頼のケースを評価する必要があり、プロンプトだけで強制を保証するものではありません。(A) は新しさによって明示された方針を上書きします。(C) は優先順位を定義せずに例を追加しています。(D) は認証済みであることを、利用者が明示的に持たないテンプレートの変更権限と取り違えています。"
+    }
+  },
+  {
+    "id": "AP105",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "You tune a ticket classifier whose few-shot examples all label messages containing 'urgent' as high severity. In practice, polite outage reports need escalation while urgent requests for cosmetic changes do not. The severity policy is unchanged and the model can follow it on isolated tests. Which example strategy best targets the unintended shortcut?",
+      "ja": "あなたは、Few-shotの例ではすべて「urgent」を含むメッセージが重大と分類されるチケット分類器を調整しています。実際には、丁寧な障害報告はエスカレーションが必要で、見た目の変更を急いで求める依頼は不要です。重大度の方針は変わらず、モデルは個別のテストではその方針に従えます。意図しない判断の近道に最も直接対処する例の構成はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Add more high-severity examples containing urgent language so the classifier has a stronger pattern to learn.",
+        "ja": "急を要する表現を含む重大ケースの例をさらに加え、分類器がより強いパターンを学べるようにする"
+      },
+      {
+        "key": "B",
+        "en": "Remove the few-shot examples and increase the output length so the model can explain each severity assignment.",
+        "ja": "Few-shotの例を取り除き、各重大度の割り当てをモデルが説明できるよう出力を長くする"
+      },
+      {
+        "key": "C",
+        "en": "Duplicate the current examples with different customer names, preserving their wording and existing severity labels.",
+        "ja": "表現と既存の重大度ラベルを保ったまま顧客名を変え、現在の例を複製する"
+      },
+      {
+        "key": "D",
+        "en": "Use representative and boundary examples across labels, separating business impact from urgency of wording.",
+        "ja": "ラベルをまたいで代表例と境界例を用意し、業務上の影響と表現上の急ぎ具合を分ける"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "(D) demonstrates the intended distinction with both polite high-impact reports and urgent low-impact requests. It should then be tested on separate cases. (A) reinforces the same lexical shortcut. (B) removes demonstrations rather than fixing their bias, and longer explanations do not establish better classification. (C) adds superficial variety while preserving the misleading association between urgency words and severity.",
+      "ja": "(D) は、丁寧でも影響の大きい報告と、急いでいても影響の小さい依頼の両方で、意図した区別を示します。その後、別のケースで検証する必要があります。(A) は同じ単語による近道を強化します。(B) は例の偏りを直さずに実例を除き、説明を長くしても分類の改善は確かめられません。(C) は表面的な違いを加えるだけで、急ぐ単語と重大度の誤った結びつきを保ちます。"
+    }
+  },
+  {
+    "id": "AP106",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "An order extractor returns JSON that passes its schema: item amounts and total are numbers, and dates are strings. Some outputs nevertheless total 120 when the listed items sum to 100, or place delivery before order creation. The system must not submit inconsistent orders. What additional layer is most appropriate?",
+      "ja": "注文抽出器は、明細額と合計が数値、日付が文字列というスキーマを通るJSONを返します。それでも、明細の合計が100なのに合計を120としたり、注文作成より前を納品日にしたりする出力があります。システムは矛盾した注文を送信してはなりません。最も適した追加の層はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Require a longer JSON response that includes the model's explanation of each amount and date before submission.",
+        "ja": "送信前に各金額と日付についてのモデルの説明を含む、より長いJSON応答を要求する"
+      },
+      {
+        "key": "B",
+        "en": "Keep type validation and repair inconsistent fields using whatever values make the order pass the submission checks.",
+        "ja": "型の検証を保ち、送信時の検査に通る値を使って矛盾するフィールドを修正する"
+      },
+      {
+        "key": "C",
+        "en": "Validate cross-field business rules in code and hold conflicting results for correction before submitting orders.",
+        "ja": "コードでフィールド間の業務ルールを検証し、矛盾する結果を送信前の修正のため保留する"
+      },
+      {
+        "key": "D",
+        "en": "Strengthen the schema's number and string declarations, accepting each response once its declared types validate.",
+        "ja": "スキーマの数値と文字列の宣言を強化し、宣言された型が正しい応答はすべて受け入れる"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "(C) checks semantics that the stated type-only schema does not express, such as arithmetic consistency and date ordering, and prevents unsafe submission. (A) adds an explanation without validating it. (B) can invent amounts or dates merely to pass checks instead of preserving source truth. (D) validates representation again without checking relations between fields. Schema conformance is not evidence that extracted business facts are correct.",
+      "ja": "(C) は、計算の整合性や日付の順序など、提示された型だけのスキーマでは表せない意味を検査し、不適切な送信を防ぎます。(A) は説明を加えるだけで検証しません。(B) は元の事実を保つのではなく、検査を通るためだけに金額や日付を作りかねません。(D) は表現を再び検証するだけで、フィールド間の関係を検査しません。スキーマへの適合は、抽出した業務上の事実が正しい証拠にはなりません。"
+    }
+  },
+  {
+    "id": "AP107",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 2,
+    "type": "single",
+    "question": {
+      "en": "You compact a long sourcing investigation. An early budget of 400 was superseded by an approved 600; one supplier is verified, another is only a hypothesis, and a compliance question remains open. A short narrative summary merges these states and drops source IDs. Which compaction contract best protects continuity?",
+      "ja": "あなたは長い仕入先調査のコンテキストを圧縮しています。当初の予算400は承認済みの600に置き換わり、ある仕入先は検証済み、別の仕入先は仮説にすぎず、コンプライアンス上の確認事項が未解決です。短い文章の要約はこれらの状態を混ぜ、出典IDを落としてしまいました。継続性を最もよく守る圧縮の取り決めはどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Preserve current decisions, evidence IDs, uncertainty, and open tasks separately, checking them against the trace.",
+        "ja": "現在の決定、根拠のID、不確実な点、未完了の作業を分けて保持し、元のトレースと照合する"
+      },
+      {
+        "key": "B",
+        "en": "Keep the last few messages verbatim and discard earlier decisions so the remaining context is entirely recent.",
+        "ja": "最後の数メッセージをそのまま残し、残るコンテキストがすべて最近のものになるよう以前の決定を捨てる"
+      },
+      {
+        "key": "C",
+        "en": "Compress all findings into one confident recommendation, omitting uncertainty and source IDs to save more tokens.",
+        "ja": "トークンをさらに節約するため不確実性と出典IDを省き、すべての発見事項を1つの確信に満ちた提案へ圧縮する"
+      },
+      {
+        "key": "D",
+        "en": "Retain every historical budget and supplier claim without status labels so no detail is lost during compression.",
+        "ja": "圧縮中に詳細を失わないよう、過去の予算と仕入先についての主張を、状態のラベルなしですべて残す"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "(A) keeps the active budget distinct from superseded values and verified findings distinct from hypotheses, preserving references and unfinished work. Fidelity must be checked rather than assumed from brevity. (B) can discard still-binding decisions made earlier. (C) turns uncertainty into apparent fact and loses provenance. (D) retains words but not their meaning over time, leaving obsolete and current values indistinguishable.",
+      "ja": "(A) は、有効な予算と置き換えられた値、検証済みの発見と仮説を区別し、参照先と未完了の作業を残します。短さから忠実性を推測せず、照合する必要があります。(B) は以前に決まり、今も有効な事項を捨てかねません。(C) は不確実性を見かけ上の事実に変え、出所を失います。(D) は言葉を保っても時間による意味の違いを保たず、古い値と現在の値を区別できなくします。"
+    }
+  },
+  {
+    "id": "AP108",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 3,
+    "type": "multiple",
+    "question": {
+      "en": "A shared RAG service indexes several subsidiaries' documents. Users authenticate, but the model supplies a subsidiary ID to an unrestricted search tool. Policy forbids unauthorized document text from reaching even the generation prompt. Which controls establish an enforceable retrieval boundary rather than relying on answer filtering? Choose two.",
+      "ja": "共有RAGサービスは複数の子会社の文書をインデックス化しています。利用者は認証されますが、制限のない検索ツールに子会社IDを渡すのはモデルです。ポリシーでは、権限のない文書の本文が生成用プロンプトに入ることさえ禁止しています。回答のフィルタリングに頼らず、強制できる検索の境界を作る制御はどれですか。2つ選べ。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Derive user and subsidiary scope from validated server-side identity, not from model-supplied search arguments.",
+        "ja": "モデルが渡す検索引数ではなく、サーバー側で検証した利用者の身元から利用者と子会社の範囲を決める"
+      },
+      {
+        "key": "B",
+        "en": "Retrieve across subsidiaries and ask the model to remove unauthorized quotations before returning its final answer.",
+        "ja": "子会社をまたいで検索し、最終回答を返す前に権限のない引用を除くようモデルに求める"
+      },
+      {
+        "key": "C",
+        "en": "Display a subsidiary selector and trust its submitted value as the permission scope for the shared search service.",
+        "ja": "子会社の選択欄を表示し、送信された値を共有検索サービスの権限範囲として信頼する"
+      },
+      {
+        "key": "D",
+        "en": "Enforce document permissions during retrieval and preserve the same access scope when reusing cached results.",
+        "ja": "検索時に文書のアクセス権を強制し、キャッシュ済みの結果を再利用するときも同じ権限範囲を守る"
+      }
+    ],
+    "answer": [
+      "A",
+      "D"
+    ],
+    "explanation": {
+      "en": "(A) makes scope a trusted authorization input rather than a model-selected parameter. (D) prevents unauthorized text from entering the generation context, including through cached search results. (B) acts after the prohibited exposure has occurred. (C) treats client input as authorization; a selector may express intent but cannot prove access rights. Authentication alone does not grant access to every indexed document.",
+      "ja": "(A) は範囲をモデルが選ぶパラメータではなく、信頼できる認可の入力にします。(D) は、キャッシュ済みの検索結果も含めて、権限のない本文が生成コンテキストへ入ることを防ぎます。(B) は禁止された露出のあとに対処しています。(C) はクライアントの入力を認可とみなしています。選択欄は意図を示せても、アクセス権の証明にはなりません。認証だけで、インデックス内のすべての文書へのアクセスが許されるわけではありません。"
+    }
+  },
+  {
+    "id": "AP109",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "You design retrieval for a maintenance catalog. Technicians search by exact part IDs such as ZX-410 and by descriptions such as 'seal leaking under pressure.' Dense retrieval finds related parts but sometimes misses the exact ID; keyword search handles IDs but misses paraphrases. Which strategy best fits both query patterns?",
+      "ja": "あなたは保守カタログの検索を設計しています。技術者はZX-410のような正確な部品IDでも、「加圧時にシールから漏れる」のような説明でも検索します。埋め込みによる検索は関連部品を見つけますが、正確なIDを見落とす場合があり、キーワード検索はIDに強い一方、言い換えを逃します。両方の検索パターンに最も適した戦略はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Use dense retrieval for every query and increase the candidate count until enough related part descriptions appear.",
+        "ja": "すべてのクエリに埋め込みによる検索を使い、関連する部品説明が十分出るまで候補数を増やす"
+      },
+      {
+        "key": "B",
+        "en": "Use exact keyword matching for every query and require technicians to rewrite all symptoms using catalog terms.",
+        "ja": "すべてのクエリにキーワードの完全一致を使い、技術者にすべての症状をカタログの用語で書き直させる"
+      },
+      {
+        "key": "C",
+        "en": "Combine lexical ID matching with semantic retrieval, merging and evaluating results on both query categories.",
+        "ja": "IDのキーワード一致と意味に基づく検索を組み合わせ、両方のクエリ種別で結果を統合して評価する"
+      },
+      {
+        "key": "D",
+        "en": "Replace rare part IDs with common product names before indexing so similar descriptions share embedding context.",
+        "ja": "似た説明が埋め込みの文脈を共有するよう、インデックス化の前に珍しい部品IDを一般的な製品名へ置き換える"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "(C) matches retrieval methods to the distinct needs for precise identifiers and semantic descriptions, with evidence from both query groups. (A) may add related material without reliably preserving exact-ID precision. (B) gives up the required natural-language access rather than supporting it. (D) removes identifiers that distinguish otherwise similar parts, destroying information needed for exact lookup. The combination still requires task-specific evaluation.",
+      "ja": "(C) は、正確な識別子と意味による説明という異なる必要性に検索方式を合わせ、両方のクエリ群の証拠で確かめます。(A) は、正確なIDの精密な検索を確保せず、関連資料を増やすだけになり得ます。(B) は、必要な自然文での利用を支える代わりに放棄しています。(D) は、ほかの点では似た部品を区別する識別子を取り除き、正確な検索に必要な情報を壊します。組み合わせた場合も、実タスクでの評価が必要です。"
+    }
+  },
+  {
+    "id": "AP110",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 3,
+    "type": "single",
+    "question": {
+      "en": "Three MCP-capable assistants need the same inventory tools. An existing internal API already enforces stock rules and user authorization; replacing it would disrupt non-AI clients. Teams want consistent tool discovery without duplicating business rules in each assistant. Which integration boundary best meets these constraints?",
+      "ja": "MCPに対応した3つのアシスタントが、同じ在庫ツールを必要としています。既存の社内APIは在庫ルールと利用者の認可をすでに強制しており、置き換えるとAI以外のクライアントに支障が出ます。チームは、アシスタントごとに業務ルールを複製せず、一貫したツールの発見を求めています。これらの制約を最もよく満たす連携の境界はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Give each assistant a custom API wrapper containing its own copies of stock validation and authorization rules.",
+        "ja": "在庫の検証と認可のルールをそれぞれ複製した独自のAPIラッパーを、各アシスタントに用意する"
+      },
+      {
+        "key": "B",
+        "en": "Expose MCP tools through an adapter to the existing API, retaining its business rules and authorization checks.",
+        "ja": "既存APIへのアダプターを通じてMCPツールを公開し、その業務ルールと認可の検査を維持する"
+      },
+      {
+        "key": "C",
+        "en": "Replace the internal API with an MCP-only service and migrate non-AI clients before allowing assistant access.",
+        "ja": "社内APIをMCP専用サービスに置き換え、アシスタントにアクセスを許す前にAI以外のクライアントを移行する"
+      },
+      {
+        "key": "D",
+        "en": "Expose inventory tables directly as tools and move stock validation into shared system prompts for consistency.",
+        "ja": "在庫テーブルを直接ツールとして公開し、一貫性のため在庫の検証を共通のシステムプロンプトへ移す"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "(B) uses MCP as the shared AI-facing interface while the existing API remains responsible for business invariants and authorization. The adapter must carry a verified identity; the protocol does not grant user rights by itself. (A) duplicates enforcement and invites drift. (C) disrupts existing clients without a requirement to replace the API. (D) bypasses the established service boundary and substitutes prompts for enforced business rules.",
+      "ja": "(B) はMCPを共通のAI向けインターフェースに使い、既存APIが業務ルールと認可の責任を保つ設計です。アダプターは検証済みの利用者の身元を伝える必要があり、プロトコル自体が利用者の権限を与えるわけではありません。(A) は強制処理を複製し、ずれを招きます。(C) はAPIを置き換える要件がないのに既存クライアントを混乱させます。(D) は確立したサービスの境界を迂回し、強制された業務ルールをプロンプトで代用しています。"
+    }
+  },
+  {
+    "id": "AP111",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "You review a classifier tuned through fifty prompt revisions against the same 500 cases. Its score keeps rising, but the team inspected every failure and copied several cases into the prompt. A sponsor wants that score used as independent launch evidence. Which evaluation arrangement best supports a credible final judgment?",
+      "ja": "あなたは、同じ500件に対して50回プロンプトを改訂した分類器をレビューしています。得点は上がっていますが、チームはすべての失敗を調べ、いくつかのケースをプロンプトへコピーしました。スポンサーは、その得点を独立した公開判断の証拠にしたいと考えています。信頼できる最終判断に最も役立つ評価の構成はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Keep tuning cases separate from an untouched representative test set, and freeze the candidate before final testing.",
+        "ja": "調整用ケースと未使用の代表性のあるテストセットを分け、最終テスト前に候補を固定する"
+      },
+      {
+        "key": "B",
+        "en": "Shuffle the same 500 cases before each final run so their new ordering makes the resulting score independent.",
+        "ja": "最終実行の前に同じ500件を並べ替え、新しい順序によって得点を独立したものにする"
+      },
+      {
+        "key": "C",
+        "en": "Increase repeated runs on the same cases and report the highest score to reduce the impact of random failures.",
+        "ja": "同じケースでの繰り返しを増やし、偶然の失敗の影響を減らすため最高得点を報告する"
+      },
+      {
+        "key": "D",
+        "en": "Ask another team to grade the same exposed cases, treating the change of grader as a fresh generalization test.",
+        "ja": "別のチームに同じ既知のケースを採点させ、採点者の変更を新しい汎化性能のテストとみなす"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "(A) separates iterative development from evidence not used to choose or tune the candidate. The final set must remain representative and unused for subsequent tuning if it is to retain that role. (B) changes order, not exposure to case content. (C) selects favorable noise and preserves overfitting risk. (D) can check grading consistency but cannot make previously studied cases unseen by the development process.",
+      "ja": "(A) は、反復開発と、候補の選定や調整に使っていない証拠を分けます。最終セットをその目的で使い続けるには、代表性を保ち、その後の調整にも流用しないことが必要です。(B) は順序を変えるだけで、ケース内容を見ている事実は変えません。(C) は好都合なばらつきを選び、過適合のリスクを残します。(D) は採点の一貫性を確認できても、開発時に調べたケースを未見には戻せません。"
+    }
+  },
+  {
+    "id": "AP112",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "Two assistant designs have equal answer quality and similar mean latency. Operations suspects one has slow long-document requests, while finance sees high bills from a small task category. The benchmark mixed tasks differently from production. What comparison is most useful before selecting a design?",
+      "ja": "2つのアシスタント設計は回答品質が同等で、平均遅延も似ています。運用部門は一方で長文リクエストが遅いと疑い、財務部門は少数のタスク種別が高額な費用を生んでいると見ています。ベンチマークのタスク構成は本番と異なっていました。設計の選定前に最も役立つ比較はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Compare overall means on the existing mixed benchmark and select the design with the lowest average response time.",
+        "ja": "既存の混合ベンチマークで全体の平均を比べ、平均応答時間が最短の設計を選ぶ"
+      },
+      {
+        "key": "B",
+        "en": "Compare token prices alone, assuming equal answer quality makes task mix and latency distribution irrelevant.",
+        "ja": "回答品質が同じならタスク構成と遅延の分布は関係ないと仮定し、トークンの単価だけを比較する"
+      },
+      {
+        "key": "C",
+        "en": "Compare the fastest requests in each design, using best-case latency as the indicator of production responsiveness.",
+        "ja": "各設計で最も速いリクエストを比べ、最良条件の遅延を本番での応答性の指標にする"
+      },
+      {
+        "key": "D",
+        "en": "Compare latency percentiles and per-task costs under representative workload mixes, including costly and slow cases.",
+        "ja": "高額・低速のケースも含む代表性のある負荷構成で、遅延のパーセンタイルとタスク別費用を比較する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "(D) reveals slow tails and expensive task groups that similar averages can hide, using a workload relevant to the actual choice. (A) repeats a mismatched mix and conceals distribution differences. (B) ignores token volume, retries, and the required responsiveness. (C) measures an optimistic extreme rather than typical and slow user experiences. Quality equivalence does not establish operational equivalence.",
+      "ja": "(D) は、実際の選択に合う負荷を使い、似た平均に隠れる遅い側の分布と高額なタスク群を明らかにします。(A) は不適切な構成を繰り返し、分布の違いを隠します。(B) はトークン量、再試行、必要な応答性を無視します。(C) は通常や遅い場合の利用体験ではなく、楽観的な極端値を測っています。品質が同等でも、運用上も同等とは限りません。"
+    }
+  },
+  {
+    "id": "AP113",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 4,
+    "type": "single",
+    "question": {
+      "en": "You evaluate a policy RAG assistant with many wrong answers. In some cases the needed clause is absent from retrieved results; in others it is present but the answer contradicts it. No recent deployment explains the failures. The team must decide where to invest effort. Which evaluation design best separates the causes?",
+      "ja": "あなたは、誤答の多い規約RAGアシスタントを評価しています。必要な条項が検索結果にないケースも、条項はあるのに回答がそれに反するケースもあります。最近のデプロイでは失敗を説明できません。チームはどこへ改善の労力を振り向けるかを決める必要があります。原因を最もよく分けられる評価の設計はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Score final answers alone and assign every failure to the generation model because it produces the visible output.",
+        "ja": "最終回答だけを採点し、目に見える出力を作る生成モデルにすべての失敗を割り当てる"
+      },
+      {
+        "key": "B",
+        "en": "Measure evidence retrieval separately and test generation with verified context as well as retrieved context.",
+        "ja": "根拠の検索を別に測定し、検証済みのコンテキストと実際の検索結果の両方で生成をテストする"
+      },
+      {
+        "key": "C",
+        "en": "Increase retrieval count and model size together, attributing improvement to whichever component costs more.",
+        "ja": "取得件数とモデルの大きさを同時に増やし、費用が高い方の構成要素へ改善を帰属させる"
+      },
+      {
+        "key": "D",
+        "en": "Measure retrieval latency as the proxy for evidence quality and use answer length as the proxy for faithfulness.",
+        "ja": "根拠の品質を検索遅延で代用し、根拠への忠実性を回答の長さで代用して測る"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "(B) distinguishes missing evidence from failure to use available evidence, including a controlled generation test where the needed context is known to be present. (A) conflates retrieval and generation errors. (C) changes two factors and supplies no basis for causal attribution. (D) substitutes speed and length for the content properties under investigation. Component scores complement, rather than replace, end-to-end evaluation.",
+      "ja": "(B) は、必要なコンテキストが確実にある条件での生成テストも含め、根拠の不足と、ある根拠を使えない失敗を分けます。(A) は検索と生成の誤りを混同します。(C) は2要因を変え、原因への帰属の根拠を示しません。(D) は調査すべき内容の性質を速度と長さで代用します。構成要素の得点は、工程全体の評価を置き換えるのではなく補います。"
+    }
+  },
+  {
+    "id": "AP114",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A service assistant meets its overall quality target, but a reviewed sample suggests more harmful routing errors for users of one dialect. That group is small in the original test set. The service owner must assess fairness before expanding automation. Which response best addresses the potential harm without assuming the cause is already proven?",
+      "ja": "サービス用アシスタントは全体の品質目標を満たしますが、レビューした標本では、ある方言の利用者で有害な振り分けミスが多い可能性が示されました。その集団は元のテストセットに少数しかいません。サービス責任者は、自動化の拡大前に公平性を評価する必要があります。原因がすでに証明されたと決めつけず、考えられる不利益に最もよく対処する対応はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Proceed on the overall score and collect more general feedback, keeping the small group's cases pooled with all others.",
+        "ja": "全体の得点で進め、少数集団のケースをほかの全ケースと混ぜたまま、一般的な意見をさらに集める"
+      },
+      {
+        "key": "B",
+        "en": "Remove dialect labels from the report and treat lack of explicit group information as evidence that the system is fair.",
+        "ja": "報告から方言のラベルを除き、集団情報が明示されていないことをシステムが公平である証拠とみなす"
+      },
+      {
+        "key": "C",
+        "en": "Assess harms by subgroup with adequate data, investigate causes, and validate mitigations with accountable review.",
+        "ja": "十分なデータで集団別の不利益を評価し、原因を調べ、責任者のレビューを伴って軽減策を検証する"
+      },
+      {
+        "key": "D",
+        "en": "Declare the model discriminatory from the initial sample and replace it before measuring the new model on that group.",
+        "ja": "最初の標本だけでモデルを差別的と断定し、新しいモデルでその集団を測定する前に置き換える"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "(C) investigates a potentially important disparity while accounting for coverage and uncertainty, then measures whether mitigation actually reduces harm. (A) can conceal subgroup failures in the aggregate. (B) removes visibility, not the underlying effect; other features may still act as proxies. (D) overstates what a small sample proves and assumes a replacement fixes an unmeasured problem. Appropriate safeguards can limit exposure during investigation.",
+      "ja": "(C) は、対象の網羅性と不確実性に配慮して重要かもしれない格差を調べ、軽減策が本当に不利益を減らすかを測ります。(A) は集計値に集団別の失敗を隠し得ます。(B) は見える情報を除くのであって、影響そのものを除きません。別の特徴が代理になり得ます。(D) は小標本から分かることを過大に述べ、未測定の問題を置き換えで直せると仮定しています。調査中は適切な保護策で影響範囲を制限できます。"
+    }
+  },
+  {
+    "id": "AP115",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 5,
+    "type": "multiple",
+    "question": {
+      "en": "You own an agent's production integration. A tool credential appears in a public build log and may already have been copied. Removing the log will not invalidate the credential. Policy requires incident containment and traceable investigation, with recovery coordinated by an incident owner. Which immediate actions fit? Choose two.",
+      "ja": "あなたはエージェントの本番連携の責任者です。ツールの認証情報が公開ビルドログに現れ、すでにコピーされた可能性があります。ログを消しても認証情報は無効になりません。ポリシーでは、封じ込めと追跡可能な調査を行い、インシデント責任者が復旧を調整することを求めています。適した初動はどれですか。2つ選べ。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Revoke the exposed credential and isolate the affected integration until controlled recovery is authorized.",
+        "ja": "露出した認証情報を失効させ、管理された復旧が認められるまで影響を受けた連携を隔離する"
+      },
+      {
+        "key": "B",
+        "en": "Delete the visible log entry and continue operating with the same credential while checking for customer complaints.",
+        "ja": "見えるログ項目を削除し、顧客の苦情を確認しながら同じ認証情報で運用を続ける"
+      },
+      {
+        "key": "C",
+        "en": "Preserve protected incident evidence and notify the incident owner to assess access and coordinate recovery.",
+        "ja": "保護された形でインシデントの証拠を保全し、アクセスの評価と復旧の調整のため責任者に知らせる"
+      },
+      {
+        "key": "D",
+        "en": "Issue a replacement credential but leave the exposed one active so running jobs can finish without interruption.",
+        "ja": "代わりの認証情報を発行するが、実行中のジョブが中断せず終わるよう露出したものも有効に残す"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": {
+      "en": "(A) removes the exposed credential's authority and contains the integration rather than relying on deleting a copy. (C) preserves the basis for investigation under restricted access and establishes accountable recovery. Evidence handling must not further expose the secret. (B) leaves copied credentials usable and waits for impact. (D) creates a new credential without revoking the compromised one, preserving the attacker's access path.",
+      "ja": "(A) は、コピーの削除に頼らず、露出した認証情報の権限を取り除いて連携を封じ込めます。(C) は、アクセスを制限して調査の根拠を残し、責任のある復旧につなげます。証拠の扱いで秘密をさらに露出させてはなりません。(B) はコピーされた認証情報を利用可能にしたまま影響を待ちます。(D) は新しい認証情報を作っても漏えいしたものを失効させず、攻撃者のアクセス経路を残します。"
+    }
+  },
+  {
+    "id": "AP116",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 5,
+    "type": "single",
+    "question": {
+      "en": "A support assistant's conversations were approved for resolving customer cases only. Marketing now wants to reuse them to build sales profiles. The data is still within its approved retention period, but internal policy requires review of any new purpose. Which response best handles the proposal before data is transferred?",
+      "ja": "サポートアシスタントの会話は、顧客案件の解決にだけ使うことが承認されています。マーケティング部門は、営業用プロフィールの作成に再利用したいと考えています。データは承認済みの保持期間内ですが、社内ポリシーは新たな目的のレビューを求めています。転送前に、この提案を最も適切に扱う対応はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Approve the transfer because the data is still within retention limits and both teams belong to the same company.",
+        "ja": "保持期限内で、両チームは同じ会社に属するため、転送を承認する"
+      },
+      {
+        "key": "B",
+        "en": "Remove customer names and begin profiling, treating de-identification as sufficient approval of the new purpose.",
+        "ja": "顧客名を除いてプロフィール作成を始め、非識別化を新たな目的への十分な承認とみなす"
+      },
+      {
+        "key": "C",
+        "en": "Copy the data into a new workspace and apply the old support permissions to preserve the existing governance model.",
+        "ja": "データを新しいワークスペースへコピーし、従来の統制を保つため以前のサポート権限を適用する"
+      },
+      {
+        "key": "D",
+        "en": "Review purpose, permissions, and safeguards with the responsible owners, requiring approval before secondary use.",
+        "ja": "責任を持つ担当者と目的、許可、保護策を確認し、二次利用の前に承認を求める"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "(D) applies the stated purpose-change process before reuse and allows the owners to decide whether the proposal is permissible. (A) confuses how long data may be kept with what it may be used for. (B) may reduce some identification risk but neither authorizes the new purpose nor guarantees anonymity. (C) relocates data and permissions without evaluating the change in use.",
+      "ja": "(D) は、再利用前に定められた目的変更の手順を適用し、責任者が提案の可否を判断できるようにします。(A) は、保持できる期間と利用できる目的を混同します。(B) は識別のリスクを一部減らせても、新しい目的を認めるものでも匿名性の保証でもありません。(C) は利用の変更を評価せず、データと権限を移すだけです。"
+    }
+  },
+  {
+    "id": "AP117",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "You lead discovery for a claims assistant. Sales wants immediate final decisions; audit requires a reviewer, but reviewers are available only the next business day. Both sponsors call their demand mandatory, and engineering is asked to start building. What is the most useful next step before choosing an architecture?",
+      "ja": "あなたは保険金請求アシスタントの要件探索を率いています。営業は即時の最終判断を求め、監査はレビュー担当者を必須としていますが、担当者が対応できるのは翌営業日です。両スポンサーは自分の要求を必須とし、開発部門は構築開始を求められています。アーキテクチャを選ぶ前に最も有用な次の行動はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Build the immediate-decision path first and let audit decide whether its reviewer requirement can change after the demo.",
+        "ja": "即時判断の経路を先に作り、デモ後にレビュー要件を変えられるか監査部門に判断してもらう"
+      },
+      {
+        "key": "B",
+        "en": "Bring decision owners together to clarify non-negotiable constraints and agree acceptable interim and final outcomes.",
+        "ja": "判断責任者を集め、譲れない制約を明らかにして、許容できる途中経過と最終結果を合意する"
+      },
+      {
+        "key": "C",
+        "en": "Use the most recent sponsor request as the requirement baseline and record the other demand as a future enhancement.",
+        "ja": "最も新しいスポンサーの依頼を要件の基準とし、もう一方の要求は将来の機能改善として記録する"
+      },
+      {
+        "key": "D",
+        "en": "Ask engineers to choose the cheaper architecture and present the resulting behavior as the compromise between sponsors.",
+        "ja": "開発者に安価なアーキテクチャを選ばせ、その振る舞いをスポンサー間の妥協案として示す"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": {
+      "en": "(B) makes the conflict explicit and puts acceptance decisions with the people who own the constraints; an immediate receipt and later reviewed decision might be explored but must be agreed. (A) assumes audit can waive its constraint after implementation. (C) substitutes recency for authority. (D) treats cost optimization as permission to settle incompatible business requirements. Technical design cannot silently redefine what counts as a final decision.",
+      "ja": "(B) は矛盾を明らかにし、制約の責任者へ受入条件の判断を戻します。即時の受付と後日のレビュー済み判断も検討できますが、合意が必要です。(A) は実装後に監査が制約を免除できると仮定しています。(C) は権限を新しさで代用します。(D) は費用の最適化を、両立しない業務要件を決着させる許可とみなしています。技術設計によって最終判断の意味を黙って変えることはできません。"
+    }
+  },
+  {
+    "id": "AP118",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "A sponsor adds three languages to a signed-off assistant rollout while keeping the launch date and budget unchanged. The existing evaluations and support team cover one language. The model advertises multilingual ability, but no project evidence covers the new languages. How should the architect handle the scope change?",
+      "ja": "スポンサーが、合意済みのアシスタント展開に3言語を追加し、公開日と予算は変えないとしています。既存の評価と支援チームは1言語だけに対応しています。モデルは多言語対応をうたっていますが、追加言語に関するプロジェクトの証拠はありません。アーキテクトはこの範囲変更をどう扱うべきですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Assess evaluation and support impacts, then agree scope, owners, acceptance criteria, and schedule or budget tradeoffs.",
+        "ja": "評価と支援への影響を調べ、範囲、責任者、受入基準、および日程か予算のトレードオフを合意する"
+      },
+      {
+        "key": "B",
+        "en": "Accept the added languages under the original plan because advertised model capability proves deployment readiness.",
+        "ja": "モデルがうたう能力で導入準備が証明されるため、元の計画のまま言語の追加を受け入れる"
+      },
+      {
+        "key": "C",
+        "en": "Add translated prompts immediately and count any failures in the new languages as outside the original quality metric.",
+        "ja": "翻訳したプロンプトをすぐに追加し、新言語での失敗は元の品質指標の対象外として数える"
+      },
+      {
+        "key": "D",
+        "en": "Reject every post-approval request permanently, using the signed-off plan to avoid further stakeholder discussion.",
+        "ja": "合意済みの計画を理由に関係者との再協議を避け、承認後の依頼を永久にすべて拒否する"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": {
+      "en": "(A) turns a request into a reviewable change with explicit delivery and acceptance consequences before commitment. (B) mistakes general capability for evidence about this workflow, data, and support process. (C) expands exposure while hiding failures through a changed metric boundary. (D) blocks legitimate iteration instead of using change control. The architect should expose tradeoffs rather than promise unchanged scope, cost, date, and quality without evidence.",
+      "ja": "(A) は、約束する前に、提供と受入への影響を明示した検討可能な変更案にします。(B) は一般的な能力を、このワークフロー、データ、支援手順の証拠と取り違えます。(C) は指標の境界を変えて失敗を隠しつつ、影響範囲を広げます。(D) は変更管理を使わず、正当な改善を妨げます。アーキテクトは、証拠なく範囲・費用・期日・品質をすべて維持すると約束するのではなく、トレードオフを示すべきです。"
+    }
+  },
+  {
+    "id": "AP119",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "You maintain an assistant whose connector will be retired in ninety days. A replacement is approved but changes result fields and needs evaluation. Several departments own dependent workflows, and rollback to the old connector will be impossible after retirement. What lifecycle plan best supports continuity?",
+      "ja": "あなたが保守するアシスタントの連携先が90日後に廃止されます。代替先は承認されていますが、結果のフィールドが変わるため評価が必要です。依存するワークフローの責任は複数の部門が持ち、廃止後は旧連携先へ戻せません。継続性に最も役立つライフサイクルの計画はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Wait until the last week to change the endpoint, relying on the old connector as rollback if users report problems.",
+        "ja": "最後の週まで待って接続先を変え、問題の報告があれば旧連携先へのロールバックに頼る"
+      },
+      {
+        "key": "B",
+        "en": "Notify users of the retirement date and leave each department to discover incompatible fields after the switch.",
+        "ja": "利用者に廃止日を通知し、切り替え後のフィールドの非互換性の発見は各部門に任せる"
+      },
+      {
+        "key": "C",
+        "en": "Assign migration owners, test dependent workflows, stage cutover, and agree fallback and exit criteria before retirement.",
+        "ja": "移行の責任者を定め、依存ワークフローをテストし、段階的に切り替えて、廃止前に代替手順と移行完了条件を合意する"
+      },
+      {
+        "key": "D",
+        "en": "Switch every department immediately because provider approval makes the replacement equivalent for existing workflows.",
+        "ja": "提供元の承認で既存ワークフローにとっても同等だとみなし、全部門をすぐに切り替える"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": {
+      "en": "(C) covers ownership, compatibility evidence, user transition, and an achievable contingency while the old dependency still exists. A post-retirement fallback must not depend on that retired service. (A) delays discovery and assumes an impossible later rollback. (B) communicates a date but omits validation and coordinated migration. (D) equates approval with tested compatibility and exposes all departments before evidence is available.",
+      "ja": "(C) は、旧依存先がまだある間に、責任分担、互換性の証拠、利用者の移行、実行可能な代替手順を整えます。廃止後の代替手順は、廃止済みのサービスに依存してはなりません。(A) は問題の発見を遅らせ、不可能な将来のロールバックを仮定しています。(B) は日程を伝えるだけで、検証と連携した移行を欠きます。(D) は承認を検証済みの互換性と同一視し、証拠がそろう前に全部門を影響にさらします。"
+    }
+  },
+  {
+    "id": "AP120",
+    "exam": "ccar-p",
+    "source": "original",
+    "source_url": null,
+    "source_number": null,
+    "scenario_id": null,
+    "based_on": null,
+    "domain": 6,
+    "type": "single",
+    "question": {
+      "en": "A business owner requests that 95% of assistant requests finish within three seconds. A supplier quotes a 0.5-second mean model latency, excluding retrieval, queues, and retries. You must agree a measurable service commitment across teams before launch. Which agreement makes the promise meaningful?",
+      "ja": "業務責任者は、アシスタントのリクエストの95%を3秒以内に完了することを求めています。提供元は、検索、キュー待ち、再試行を除くモデルの平均遅延を0.5秒と示しています。あなたは公開前に、チームをまたぐ測定可能なサービス上の約束を合意する必要があります。約束を意味のあるものにする合意はどれですか。"
+    },
+    "choices": [
+      {
+        "key": "A",
+        "en": "Use the supplier's mean model latency as the service metric and exclude queueing because another team operates it.",
+        "ja": "提供元のモデル平均遅延をサービス指標に使い、別チームが運用するキュー待ちは除く"
+      },
+      {
+        "key": "B",
+        "en": "Measure the average of successful calls only and omit timeouts so the report reflects completed work consistently.",
+        "ja": "成功した呼び出しの平均だけを測り、完了した作業で報告をそろえるためタイムアウトを除く"
+      },
+      {
+        "key": "C",
+        "en": "Let each team choose its own timing boundaries and combine their monthly averages to represent user experience.",
+        "ja": "各チームが測定の開始と終了を選び、それぞれの月次平均を組み合わせて利用体験を表す"
+      },
+      {
+        "key": "D",
+        "en": "Define end-to-end timing, the 95% target, failure accounting, and dependency owners over an agreed measurement window.",
+        "ja": "合意した測定期間について、工程全体の計時、95%の目標、失敗の数え方、依存先の責任者を定義する"
+      }
+    ],
+    "answer": [
+      "D"
+    ],
+    "explanation": {
+      "en": "(D) translates the business request into a shared measurable definition, including operations outside model inference and explicit treatment of failures. It does not claim that the current system already meets the target. (A) omits latency the user still experiences. (B) replaces a percentile-based request with a favorable successful-call mean and hides timeouts. (C) combines incompatible measurements; averages alone cannot establish that 95% finish within three seconds.",
+      "ja": "(D) は、モデルの推論以外の処理や失敗の明示的な扱いも含め、業務上の要求を共通の測定可能な定義にします。現行システムがすでに目標を満たすと主張するものではありません。(A) は利用者が実際に経験する遅延を除きます。(B) はパーセンタイルに基づく要求を、好都合な成功時の平均で置き換え、タイムアウトを隠します。(C) は互換性のない測定を組み合わせています。平均だけでは、95%が3秒以内に終わることを確かめられません。"
+    }
   }
 ]

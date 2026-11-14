@@ -3,12 +3,12 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { EXAMS } from "../src/exams.js";
+import { EXAMS, scenarioFile } from "../src/exams.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 const LANGS = ["en", "ja"];
-const FIELDS = ["id", "exam", "source", "source_url", "source_number", "domain", "type", "question", "choices", "answer", "explanation"];
+const FIELDS = ["id", "exam", "source", "source_url", "source_number", "scenario_id", "domain", "type", "question", "choices", "answer", "explanation"];
 // 解説中の選択肢記号：(B) / (B, C) / **B**
 const REF = /\(([A-D](?:, [A-D])*)\)|\*\*([A-D])\*\*/g;
 
@@ -135,8 +135,41 @@ export function checkOriginalRules(questions, exam) {
   return { warnings, stats: { baseAvg, count: originals.length, correctLongest, positions } };
 }
 
-/** 1つの試験の問題を検証して { errors, warnings, originalStats, total, bySource, byDomain, byType } を返す */
-export function validate(questions, exam) {
+/** 同じ試験のシナリオだけを参照でき、全シナリオが使われていることを確かめる */
+export function checkScenarios(questions, scenarios, exam) {
+  const errors = [];
+  if (!Array.isArray(scenarios)) return [["-", "シナリオが配列でない"]];
+  const ids = new Set();
+  for (const s of scenarios) {
+    if (!s || typeof s !== "object") {
+      errors.push(["?", "シナリオがオブジェクトでない"]);
+      continue;
+    }
+    const id = s.id ?? "?";
+    if (blank(s.id)) errors.push([id, "シナリオの id が空"]);
+    else {
+      if (ids.has(s.id)) errors.push([id, "シナリオの ID が重複"]);
+      ids.add(s.id);
+    }
+    for (const field of ["title", "body"]) {
+      for (const lang of LANGS) if (blank(s[field]?.[lang])) errors.push([id, `シナリオの ${field}.${lang} が空`]);
+    }
+    if (s.source !== "guide" && !(s.source in EXAMS[exam].expectedSources)) errors.push([id, "シナリオの source が不正"]);
+    for (const field of ["source_url", "source_note"]) if (blank(s[field])) errors.push([id, `シナリオの ${field} が空`]);
+  }
+  const used = new Set();
+  for (const q of questions) {
+    if (!("scenario_id" in q) || q.scenario_id === null) continue;
+    if (blank(q.scenario_id)) errors.push([q.id, "scenario_id が null または空でない文字列でない"]);
+    else if (!ids.has(q.scenario_id)) errors.push([q.id, `scenario_id の参照先がこの試験にない: ${q.scenario_id}`]);
+    else used.add(q.scenario_id);
+  }
+  for (const id of ids) if (!used.has(id)) errors.push([id, "使われていないシナリオ"]);
+  return errors;
+}
+
+/** 問題と同じ試験のシナリオを検証する */
+export function validate(questions, exam, scenarios = []) {
   const { expectedSources } = EXAMS[exam];
   const errors = [];
   const total = questions.length;
@@ -154,6 +187,7 @@ export function validate(questions, exam) {
     if ((bySource[src] ?? 0) !== expected) errors.push(["-", `${src} が ${expected} 問でない: ${bySource[src] ?? 0}`]);
   }
   errors.push(...checkBasedOn(questions, exam));
+  errors.push(...checkScenarios(questions, scenarios, exam));
   const original = checkOriginalRules(questions, exam);
   return {
     errors,
@@ -214,7 +248,8 @@ function main() {
   );
   let errorCount = 0;
   for (const [exam, questions] of Object.entries(byExam)) {
-    const result = validate(questions, exam);
+    const scenarios = JSON.parse(readFileSync(join(ROOT, "public", scenarioFile(exam)), "utf-8"));
+    const result = validate(questions, exam, scenarios);
     report(exam, result);
     errorCount += result.errors.length;
   }

@@ -1,14 +1,16 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, test } from "vitest";
-import { crossExamDuplicates, validate } from "../scripts/validate-questions.mjs";
+import { checkScenarios, crossExamDuplicates, validate } from "../scripts/validate-questions.mjs";
+import { EXAM_IDS, scenarioFile } from "../src/exams.js";
 
 const load = (exam = "ccao-f") => JSON.parse(readFileSync(`public/questions/${exam}.json`, "utf-8"));
+const scenarios = (exam) => JSON.parse(readFileSync(`public/${scenarioFile(exam)}`, "utf-8"));
 const byId = (d, id) => d.find((q) => q.id === id);
 const messagesOf = (list) => list.map(([id, msg]) => `${id}: ${msg}`);
 
 describe("問題データの検証", () => {
-  test.each(["ccao-f", "ccdv-f"])("現在の問題データはエラーなし（%s）", (exam) => {
-    expect(validate(load(exam), exam).errors).toEqual([]);
+  test.each(EXAM_IDS)("現在の問題データはエラーなし（%s）", (exam) => {
+    expect(validate(load(exam), exam, scenarios(exam)).errors).toEqual([]);
   });
 
   test("壊れたデータのエラーを検出する", () => {
@@ -74,8 +76,8 @@ describe("based_on の検証", () => {
 });
 
 describe("オリジナル問題の作成ルール（警告）", () => {
-  test("現在の CCDV-F のオリジナル問題は警告なし", () => {
-    const r = validate(load("ccdv-f"), "ccdv-f");
+  test.each(["ccdv-f", "ccar-f", "ccar-p"])("現在の %s のオリジナル問題は警告なし", (exam) => {
+    const r = validate(load(exam), exam, scenarios(exam));
     expect(r.warnings).toEqual([]);
     expect(r.originalStats.count).toBe(40);
   });
@@ -105,12 +107,51 @@ describe("オリジナル問題の作成ルール（警告）", () => {
 
 describe("試験をまたいだ検証", () => {
   test("現在のデータでは ID が試験をまたいで重複しない", () => {
-    expect(crossExamDuplicates({ "ccao-f": load(), "ccdv-f": load("ccdv-f") })).toEqual([]);
+    expect(crossExamDuplicates(Object.fromEntries(EXAM_IDS.map((exam) => [exam, load(exam)])))).toEqual([]);
   });
 
   test("同じ ID が別の試験にあれば検出する", () => {
     const dv = load("ccdv-f");
     dv[0].id = "Q001";
     expect(messagesOf(crossExamDuplicates({ "ccao-f": load(), "ccdv-f": dv }))).toEqual(["Q001: ID が ccao-f と ccdv-f で重複"]);
+  });
+});
+
+describe("シナリオの検証", () => {
+  test("別の試験のシナリオには紐づけられない", () => {
+    const qs = load("ccar-p");
+    qs[0].scenario_id = scenarios("ccar-f")[0].id;
+    expect(messagesOf(validate(qs, "ccar-p", []).errors)).toContain("AP001: scenario_id の参照先がこの試験にない: AFS01");
+  });
+
+  test("重複ID、未使用、日英と出典の欠落を検出する", () => {
+    const ss = scenarios("ccar-f");
+    ss.push(structuredClone(ss[0]));
+    ss.push({ ...structuredClone(ss[0]), id: "AFS-unused" });
+    ss[1].title.ja = "";
+    ss[2].body.en = "";
+    ss[3].source_url = "";
+    ss[4].source_note = "";
+    expect(messagesOf(checkScenarios(load("ccar-f"), ss, "ccar-f"))).toEqual(expect.arrayContaining([
+      "AFS01: シナリオの ID が重複",
+      "AFS-unused: 使われていないシナリオ",
+      "AFS02: シナリオの title.ja が空",
+      "AFS03: シナリオの body.en が空",
+      "AFS04: シナリオの source_url が空",
+      "AFS05: シナリオの source_note が空",
+    ]));
+  });
+
+  test("参照の欠落・不正な形を検出し、null は許可する", () => {
+    const qs = load("ccar-p");
+    delete qs[0].scenario_id;
+    qs[1].scenario_id = 1;
+    qs[2].scenario_id = "";
+    const errors = messagesOf(validate(qs, "ccar-p", []).errors);
+    expect(errors).toContain("AP001: scenario_id がない");
+    expect(errors).toContain("AP002: scenario_id が null または空でない文字列でない");
+    expect(errors).toContain("AP003: scenario_id が null または空でない文字列でない");
+    expect(errors).toHaveLength(3);
+    expect(checkScenarios([], {}, "ccar-p")).toEqual([["-", "シナリオが配列でない"]]);
   });
 });

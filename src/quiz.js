@@ -11,7 +11,7 @@ const REF = /\(([A-D](?:, [A-D])*)\)|\*\*([A-D])\*\*/g;
 
 /**
  * 出典の絞り込み用のグループを返す。mock1〜3 はまとめて "mock"。
- * based_on を持つ original（CCDV-F）は、難化版を "original_hard"、新規を "original_new" に分ける
+ * based_on を持つ original は、難化版を "original_hard"、新規を "original_new" に分ける
  */
 export function sourceGroup(question) {
   if (question.source.startsWith("mock")) return "mock";

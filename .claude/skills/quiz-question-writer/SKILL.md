@@ -9,7 +9,8 @@ description: Claude 認定試験（CCAO-F / CCDV-F など）の練習問題を�
 ### スキーマ
 - `data/questions/<試験>/` の出典別JSON（新しい独自問題は original.json）に追加し、スキーマは README の「問題の追加方法」に従う
 - source は original、source_url と source_number は null。exam は書かない（merge がフォルダ名から付ける）
-- ID は試験をまたいで重複させない（CCAO-F は Q、CCDV-F は DV で始める）
+- ID は試験をまたいで重複させない（CCAO-F は Q、CCDV-F は DV、CCAR-F は AF、CCAR-P は AP で始める）
+- scenario_id は同じ試験の scenarios.json のID、シナリオがなければ null。シナリオを追加するときは日英の title/body と source/source_url/source_note をそろえる
 - question / choices / explanation は必ず en と ja の両方を持つ
 - 試験のドメイン・配点・出典別件数は [src/exams.js](../../../src/exams.js) が正。ここに書かれた数値と食い違ったら exams.js に従う
 
@@ -36,9 +37,15 @@ description: Claude 認定試験（CCAO-F / CCDV-F など）の練習問題を�
 - 参考資料：公式試験ガイド（出典リポジトリの developer-foundations/exam-guide.pdf）、Claude Code のドキュメント（https://code.claude.com/docs/ja/overview）、Claude API のドキュメント（https://platform.claude.com/docs 。docs.claude.com から転送される）
 - 取得できないページや PDF は推測で埋めず、ユーザーに知らせる
 
-## CCDV-F のオリジナル問題の共通ルール
+## Architect の範囲と作成方針
+- CCAR-F：5ドメイン、120問。practice 35、mock1〜3 各15、難化版20、新規20。公開6シナリオに紐づく新規問題を偏りなく作る。シナリオの同一性はIDで管理し、別出典の類似シナリオは別登録して重複の可能性を報告する
+- CCAR-P：7ドメイン、120問。内訳はCCAR-Fと同じ。精度・遅延・費用・安全性・運用負荷のトレードオフ、組織の制約、ステークホルダーへの説明を状況に含める。規制の条文の細部を正解の根拠にしない
+- ドメイン名・配点は src/exams.js を正とする。詳細な手順は docs/architect-plan.md、CCAR-P の承認済み論点は docs/ccar-p-original-plan.md、作成済みの範囲は PROGRESS.md を確認する
+- 根拠は各試験の公式ガイドと、作成時点の公式ドキュメントで確認する。出典リポジトリの要約だけを製品仕様の根拠にしない
+
+## CCDV-F・CCAR-F・CCAR-P のオリジナル問題の共通ルール
 ### 文章量
-- 問題文は mock1〜3 の問題文の平均（英語 97.7 文字）の 1.7〜5.0 倍（目標は 2.5〜4 倍）。npm run validate が基準外を警告する
+- 問題文はその試験の mock1〜3 の英語問題文の平均の 1.7〜5.0 倍（目標は 2.5〜4 倍）。シナリオ本文は含めない。平均は固定せず実データから計算し、npm run validate が基準外を警告する
 - 長くするのは状況設定（チームの構成、使っているモデルや機能、制約、試したこと、起きた症状）を具体的にするため。論点と関係のない水増しはしない
 - 約半数は「あなたは〜です。」（例：CCDV-F の資格を持つ開発リード、AI エンジニア）のように回答者の立場を設定する
 
@@ -54,7 +61,7 @@ description: Claude 認定試験（CCAO-F / CCDV-F など）の練習問題を�
 ### 論点と根拠
 - 1問で問う論点は1つ。文章を長くしても論点をぶらさない
 - 正解の根拠にした公式ドキュメントのページを、問題ごとに PROGRESS.md に記録する
-- 仕様の更新が多い領域（モデル、思考、ベータ機能）は作成時に最新のページで確認する。例：拡張思考（budget_tokens）はレガシー機能で 4.7 以降のモデルでは使えない、新しいモデルでは <thinking> タグで推論を書かせる指示が断られる場合がある
+- 仕様の更新が多い領域（モデル、思考、ベータ機能）は作成時に最新の公式ページで確認する。モデル名・料金・制限値・必須パラメータは過去の記録だけから推測しない
 
 ### 解説
 - 正解の理由と、各誤答がなぜこの状況では誤りか（問題文のどの条件に合わないか）を日英の両方で書く
